@@ -1,0 +1,6 @@
+syntax: glob
+.vs
+*.csproj
+Library
+Logs
+*.cache
