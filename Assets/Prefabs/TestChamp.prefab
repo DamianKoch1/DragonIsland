@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.4260218, y: -0, z: -0, w: 0.9047129}
-  m_LocalPosition: {x: 0, y: 14.88, z: -11.87}
+  m_LocalRotation: {x: 0.46855837, y: -0, z: -0, w: 0.88343257}
+  m_LocalPosition: {x: 0, y: 14.88, z: -9.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1557736172510688259}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50.431004, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 55.881004, y: 0, z: 0}
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -253,6 +253,8 @@ MonoBehaviour:
   magicResPerLvl: 2
   baseAtkDmg: 65
   atkDmgPerLvl: 3
+  baseAtkSpeed: 0
+  atkSpeedPerLvl: 0
   atkRange: 10
   moveSpeed: 5
   amplifiers:
@@ -263,18 +265,23 @@ MonoBehaviour:
     resource: 0
     resourceReg: 0
     dealtDmg: 0
-    atkDmgAmplifier: 0
-    atkRangeAmplifier: 0
-    critDamageAmplifier: 0
-    armorAmplifier: 0
-    magicResAmplifier: 0
-    moveSpeedAmplifier: 0
+    atkDmg: 0
+    atkSpeed: 0
+    atkRange: 0
+    critDamage: 0
+    armor: 0
+    magicRes: 0
+    moveSpeed: 0
     slow: 0
     disables: 0
   canMove: 1
   targetable: 1
   damageable: 1
+  canAttack: 1
+  movement: {fileID: 430783425}
   cam: {fileID: 7338143702491796175}
+  clickVfx: {fileID: 2216396579906894077, guid: bff06226884c3b0488888ccce39bdc96,
+    type: 3}
 --- !u!114 &430783425
 MonoBehaviour:
   m_ObjectHideFlags: 0

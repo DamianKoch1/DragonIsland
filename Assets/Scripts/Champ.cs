@@ -13,17 +13,36 @@ namespace MOBA
         [SerializeField]
         private ChampCamera cam;
 
+        [SerializeField]
+        private GameObject clickVfx;
+
         protected override void Update()
         {
             base.Update();
-
-            if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1))
+            Vector3 mousePos;
+            if (Input.GetMouseButtonDown(1))
             {
-                if (cam.GetCursorToWorldPoint(out var pos))
+                if (MoveToCursor(out var targetPos))
                 {
-                    movement.SetDestination(pos);
+                    Instantiate(clickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
                 }
             }
+            else if (Input.GetMouseButton(1))
+            {
+                MoveToCursor(out var _);
+            }
+        }
+
+        private bool MoveToCursor(out Vector3 targetPos)
+        {
+            if (cam.GetCursorToWorldPoint(out var mousePos))
+            {
+                movement.SetDestination(mousePos);
+                targetPos = mousePos;
+                return true;
+            }
+            targetPos = Vector3.zero;
+            return false;
         }
     }
 }

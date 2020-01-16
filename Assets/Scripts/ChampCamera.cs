@@ -9,19 +9,19 @@ namespace MOBA
         [SerializeField]
         private Champ target;
         private Vector3 offset;
-        Quaternion rotation;
+        private Quaternion startRotation;
 
         void Start()
         {
             offset = transform.position - target.transform.position;
-            rotation = transform.rotation;
+            startRotation = transform.rotation;
         }
 
         // Update is called once per frame
         void LateUpdate()
         {
             transform.position = target.transform.position + offset;
-            transform.rotation = rotation;
+            transform.rotation = startRotation;
         }
 
         public bool GetCursorToWorldPoint(out Vector3 result)

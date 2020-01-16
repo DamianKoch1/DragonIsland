@@ -4,3 +4,4 @@ syntax: glob
 Library
 Logs
 *.cache
+Temp

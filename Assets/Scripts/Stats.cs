@@ -25,14 +25,15 @@ namespace MOBA
 
         public float dealtDmg;
 
-        public float atkDmgAmplifier;
-        public float atkRangeAmplifier;
-        public float critDamageAmplifier;
+        public float atkDmg;
+        public float atkSpeed;
+        public float atkRange;
+        public float critDamage;
 
-        public float armorAmplifier;
-        public float magicResAmplifier;
+        public float armor;
+        public float magicRes;
 
-        public float moveSpeedAmplifier;
+        public float moveSpeed;
 
         [Range(0, 1)]
         public float slow;
@@ -48,12 +49,13 @@ namespace MOBA
             resource = 1;
             resourceReg = 1;
             dealtDmg = 1;
-            atkDmgAmplifier = 1;
-            atkRangeAmplifier = 1;
-            critDamageAmplifier = 2;
-            armorAmplifier = 1;
-            magicResAmplifier = 1;
-            moveSpeedAmplifier = 1;
+            atkDmg = 1;
+            atkSpeed = 1;
+            atkRange = 1;
+            critDamage = 2;
+            armor = 1;
+            magicRes = 1;
+            moveSpeed = 1;
             slow = 0;
             disables = 0;
         }

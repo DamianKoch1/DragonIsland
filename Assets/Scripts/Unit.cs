@@ -64,11 +64,10 @@ namespace MOBA
             }
             get
             {
-                return xp;
+                return hp;
             }
         }
         public Action<float> OnHPChanged;
-        public Action<float, Unit> OnDamaged;
 
 
         [SerializeField]
@@ -102,7 +101,7 @@ namespace MOBA
             }
             get
             {
-                return xp;
+                return resource;
             }
         }
         public Action<float> OnResourceChanged;
@@ -153,6 +152,18 @@ namespace MOBA
         [SerializeField]
         protected float atkDmgPerLvl;
 
+
+        [SerializeField]
+        protected float baseAtkSpeed;
+        public float AtkSpeed
+        {
+            protected set;
+            get;
+        }
+        [SerializeField]
+        protected float atkSpeedPerLvl;
+
+
         protected float critChance;
 
         protected float lifesteal;
@@ -199,18 +210,18 @@ namespace MOBA
         public Amplifiers amplifiers;
 
 
-        [SerializeField]
-        protected bool canMove = true;
+        public bool canMove = true;
 
-        [SerializeField]
-        protected bool targetable = true;
+        public bool targetable = true;
 
-        [SerializeField]
-        protected bool damageable = true;
+        public bool damageable = true;
+
+        public bool canAttack = true;
 
 
         protected float timeSinceLastRegTick = 0;
 
+        [SerializeField]
         protected Movement movement;
 
 
@@ -254,12 +265,12 @@ namespace MOBA
         {
             OnReceiveDamage?.Invoke(instigator, amount, type);
             HP -= amount;
-            instigator.OnDealDamage.Invoke(this, amount);
+            instigator.OnDealDamage.Invoke(this, amount, type);
         }
 
         public Action<Unit, float, DamageType> OnReceiveDamage;
 
-        public Action<Unit, float> OnDealDamage;
+        public Action<Unit, float, DamageType> OnDealDamage;
 
 
         protected virtual void Start()
@@ -290,12 +301,13 @@ namespace MOBA
             amplifiers = new Amplifiers();
             amplifiers.Initialize();
 
-            if (canMove)
-            {
-                movement = GetComponent<Movement>();
-                movement.Initialize(moveSpeed);
-            }
-            
+            movement?.Initialize(moveSpeed);
+
+            OnReceiveDamage += (Unit a, float b, DamageType type) => print(b + " " + type + " dmg from " + a.gameObject.name);
+            OnDealDamage += (Unit a, float b, DamageType type) => print(b + " " + type + " dmg to " + a.gameObject.name);
+            OnLevelUp += (int a) => print("reached lvl " + a);
+            OnHPChanged += (float a) => print("hp changed to " + a);
+            OnResourceChanged += (float a) => print("resource changed to " + a);
         }
 
 
