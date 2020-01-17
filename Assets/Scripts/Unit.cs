@@ -22,6 +22,8 @@ namespace MOBA
         [SerializeField]
         protected TeamID teamID = TeamID.invalid;
 
+        public TeamID TeamID => teamID;
+
         [SerializeField]
         protected int maxLvl = 18;
         protected int lvl = 0;
@@ -60,14 +62,14 @@ namespace MOBA
             protected set
             {
                 hp = Mathf.Max(0, value);
-                OnHPChanged?.Invoke(hp);
+                OnHPChanged?.Invoke(hp, MaxHP);
             }
             get
             {
                 return hp;
             }
         }
-        public Action<float> OnHPChanged;
+        public Action<float, float> OnHPChanged;
 
 
         [SerializeField]
@@ -97,14 +99,14 @@ namespace MOBA
             protected set
             {
                 resource = value;
-                OnResourceChanged?.Invoke(Resource);
+                OnResourceChanged?.Invoke(Resource, MaxResource);
             }
             get
             {
                 return resource;
             }
         }
-        public Action<float> OnResourceChanged;
+        public Action<float, float> OnResourceChanged;
 
         [SerializeField]
         protected float ResourcePerLvl;
@@ -183,6 +185,7 @@ namespace MOBA
         [SerializeField]
         protected float atkRange;
 
+        public float AtkRange => atkRange;
 
         public float MagicDmg
         {
@@ -266,9 +269,33 @@ namespace MOBA
             OnReceiveDamage?.Invoke(instigator, amount, type);
             HP -= amount;
             instigator.OnDealDamage.Invoke(this, amount, type);
+            if (instigator is Champ)
+            {
+                OnAttackedByChamp?.Invoke((Champ)instigator);
+            }
+            if (HP == 0)
+            {
+                Die(instigator);
+            }
         }
 
         public Action<Unit, float, DamageType> OnReceiveDamage;
+
+        public Action<Champ> OnAttackedByChamp;
+
+        protected void Die(Unit killer)
+        {
+            var champ = killer.GetComponent<Champ>();
+            if (champ)
+            {
+                champ.XP += GetXPReward();
+                champ.AddGold(GetGoldReward());
+            }
+            OnDeath?.Invoke();
+            Destroy(gameObject);
+        }
+
+        public Action OnDeath;
 
         public Action<Unit, float, DamageType> OnDealDamage;
 
@@ -306,11 +333,16 @@ namespace MOBA
             OnReceiveDamage += (Unit a, float b, DamageType type) => print(b + " " + type + " dmg from " + a.gameObject.name);
             OnDealDamage += (Unit a, float b, DamageType type) => print(b + " " + type + " dmg to " + a.gameObject.name);
             OnLevelUp += (int a) => print("reached lvl " + a);
-            OnHPChanged += (float a) => print("hp changed to " + a);
-            OnResourceChanged += (float a) => print("resource changed to " + a);
+            OnHPChanged += (float a, float b) => print("hp changed to " + a + " / " + b);
+            OnResourceChanged += (float a, float b) => print("resource changed to " + a + " / " + b);
         }
 
-
+        public void MoveTo(Vector3 destination)
+        {
+            if (!canMove) return;
+            if (!movement) return;
+            movement.MoveTo(destination);
+        }
         protected virtual void Update()
         {
             while (timeSinceLastRegTick >= 0.5f)
@@ -337,6 +369,17 @@ namespace MOBA
         {
             if (Resource >= MaxResource) return;
             Resource = Mathf.Min(MaxResource, Resource + ResourceReg);
+        }
+
+
+        public virtual float GetXPReward()
+        {
+            return 10;
+        }
+
+        public virtual int GetGoldReward()
+        {
+            return 25;
         }
 
         protected virtual void OnDrawGizmosSelected()

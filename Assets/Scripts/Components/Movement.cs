@@ -2,65 +2,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace MOBA
+public abstract class Movement : MonoBehaviour
 {
-
-    [RequireComponent(typeof(NavMeshAgent))]
-    public class Movement : MonoBehaviour
+    public float lastVelocity
     {
-        private NavMeshAgent agent;
+        get;
+        protected set;
+    }
 
-        private float velocity;
+    [SerializeField]
+    protected float speed;
 
-        // Start is called before the first frame update
-        public void Initialize(float moveSpeed)
+    public abstract void MoveTo(Vector3 destination);
+
+    public abstract void SetSpeed(float newSpeed);
+
+    public abstract void Stop();
+
+    public abstract float GetVelocity();
+
+    public Action OnBeginMoving;
+    public Action OnStopMoving;
+
+
+    public virtual void Initialize(float moveSpeed)
+    {
+        SetSpeed(moveSpeed);
+    }
+
+
+    protected virtual void Update()
+    {
+        if (lastVelocity <= 0)
         {
-            agent = GetComponent<NavMeshAgent>();
-            SetSpeed(moveSpeed);
-        }
-
-        public void SetDestination(Vector3 destination)
-        {
-            agent.SetDestination(destination);
-        }
-
-        public void SetSpeed(float newSpeed)
-        {
-            agent.speed = newSpeed;
-        }
-
-        private void Start()
-        {
-            OnBeginMoving += () => print("begin moving");
-            OnStopMoving += () => print("stop moving");
-        }
-
-        private void Update()
-        {
-            if (velocity <= 0)
+            if (GetVelocity() > 0)
             {
-                if (agent.velocity.magnitude > 0)
-                {
-                    OnBeginMoving?.Invoke();
-                }
+                OnBeginMoving?.Invoke();
             }
-            else if (agent.velocity.magnitude <= 0)
-            {
-                OnStopMoving?.Invoke();
-            }
-            velocity = agent.velocity.magnitude;
         }
-
-        public Action OnBeginMoving;
-        public Action OnStopMoving;
-
-        public void Stop()
+        else if (GetVelocity() <= 0)
         {
-            agent.SetDestination(transform.position);
+            OnStopMoving?.Invoke();
         }
-
-        public float GetVelocity() => velocity;
+        lastVelocity = GetVelocity();
     }
 }

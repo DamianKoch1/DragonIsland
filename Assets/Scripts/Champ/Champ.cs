@@ -5,10 +5,12 @@ using UnityEngine;
 
 namespace MOBA
 {
-    [RequireComponent(typeof(Movement))]
+    [RequireComponent(typeof(MovementChamp))]
     public class Champ : Unit
     {
         protected int currGold;
+
+        protected List<Tower> nearbyTowers;
 
         [SerializeField]
         private ChampCamera cam;
@@ -19,7 +21,6 @@ namespace MOBA
         protected override void Update()
         {
             base.Update();
-            Vector3 mousePos;
             if (Input.GetMouseButtonDown(1))
             {
                 if (MoveToCursor(out var targetPos))
@@ -37,12 +38,31 @@ namespace MOBA
         {
             if (cam.GetCursorToWorldPoint(out var mousePos))
             {
-                movement.SetDestination(mousePos);
+                movement.MoveTo(mousePos);
                 targetPos = mousePos;
                 return true;
             }
             targetPos = Vector3.zero;
             return false;
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            OnAttackedByChamp += RequestTowerAssist;
+        }
+
+        protected void RequestTowerAssist(Champ attacker)
+        {
+            foreach (var tower in nearbyTowers)
+            {
+                tower.TryAttack(attacker);
+            }
+        }
+
+        public void AddGold(int amount)
+        {
+            currGold += amount;
         }
     }
 }

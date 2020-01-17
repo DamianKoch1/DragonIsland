@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5881307046116649611}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.5, z: 0}
-  m_LocalScale: {x: 2, y: 7, z: 2}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 2, y: 5, z: 2}
   m_Children: []
   m_Father: {fileID: 5881307046895623441}
   m_RootOrder: 0
@@ -119,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5881307046831320303}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 5881307046895623441}
@@ -226,6 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5881307047872224552}
   - component: {fileID: 5881307047872224559}
+  - component: {fileID: 8109459138435389817}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -260,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1a7dcaa6caa5547a73e922ebeea524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: -1
+  teamID: 1
   maxLvl: 1
   baseHP: 2000
   HPPerLvl: 0
@@ -278,7 +279,7 @@ MonoBehaviour:
   atkDmgPerLvl: 0
   baseAtkSpeed: 0.8
   atkSpeedPerLvl: 0
-  atkRange: 10
+  atkRange: 15
   moveSpeed: 0
   amplifiers:
     hp: 0
@@ -302,3 +303,18 @@ MonoBehaviour:
   damageable: 1
   canAttack: 1
   movement: {fileID: 0}
+  attacking: {fileID: 8109459138435389817}
+--- !u!114 &8109459138435389817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881307047872224553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  projectile: {fileID: 0}
