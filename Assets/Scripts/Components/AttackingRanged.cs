@@ -8,7 +8,7 @@ namespace MOBA
     {
 
         [SerializeField]
-        protected ProjectileBase projectile;
+        protected Projectile projectile;
 
         public override void Attack(Unit target)
         {

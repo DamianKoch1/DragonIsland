@@ -8,12 +8,9 @@ namespace MOBA
 {
 
     [RequireComponent(typeof(NavMeshAgent))]
-    public class MovementChamp : Movement
+    public class NavMovement : Movement
     {
         private NavMeshAgent agent;
-
-        private new float speed;
-
 
         public override void Initialize(float moveSpeed)
         {

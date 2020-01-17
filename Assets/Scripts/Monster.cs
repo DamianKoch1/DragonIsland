@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MOBA
 {
 
-    public class Monster : MonoBehaviour
+    public class Monster : Unit
     {
         // Start is called before the first frame update
         void Start()

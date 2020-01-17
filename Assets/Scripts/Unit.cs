@@ -134,7 +134,7 @@ namespace MOBA
 
 
         [SerializeField]
-        protected float magicRes;
+        protected float baseMagicRes;
         public float MagicRes
         {
             protected set;
@@ -256,7 +256,7 @@ namespace MOBA
             baseAtkDmg += atkDmgPerLvl;
 
             baseArmor += armorPerLvl;
-            magicRes += magicResPerLvl;
+            baseMagicRes += magicResPerLvl;
         }
 
         public void UpdateStats()
@@ -266,6 +266,7 @@ namespace MOBA
 
         public void ReceiveDamage(Unit instigator, float amount, DamageType type)
         {
+            if (!damageable) return;
             OnReceiveDamage?.Invoke(instigator, amount, type);
             HP -= amount;
             instigator.OnDealDamage.Invoke(this, amount, type);
@@ -316,6 +317,11 @@ namespace MOBA
 
             Resource = baseResource;
             MaxResource = baseResource;
+
+            AtkDmg = baseAtkDmg;
+            AtkSpeed = baseAtkSpeed;
+            Armor = baseArmor;
+            MagicRes = baseMagicRes;
 
             FlatArmorPen = 0;
             PercentArmorPen = 0;
@@ -386,6 +392,44 @@ namespace MOBA
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, atkRange);
+        }
+
+        public bool IsEnemy(Unit other)
+        {
+            if (teamID == TeamID.blue)
+            {
+                if (other.teamID == TeamID.red)
+                {
+                    return true;
+                }
+            }
+            if (teamID == TeamID.red)
+            {
+                if (other.teamID == TeamID.blue)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsAlly(Unit other)
+        {
+            if (teamID == TeamID.blue)
+            {
+                if (other.teamID == TeamID.blue)
+                {
+                    return true;
+                }
+            }
+            if (teamID == TeamID.red)
+            {
+                if (other.teamID == TeamID.red)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

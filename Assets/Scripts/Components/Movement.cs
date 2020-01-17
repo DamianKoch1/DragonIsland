@@ -11,7 +11,6 @@ public abstract class Movement : MonoBehaviour
         protected set;
     }
 
-    [SerializeField]
     protected float speed;
 
     public abstract void MoveTo(Vector3 destination);

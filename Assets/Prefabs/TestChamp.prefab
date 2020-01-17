@@ -414,7 +414,6 @@ GameObject:
   - component: {fileID: 985649741}
   - component: {fileID: 985649744}
   - component: {fileID: 985649743}
-  - component: {fileID: 985649742}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -482,20 +481,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &985649742
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 985649740}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1027430977
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,6 +979,7 @@ GameObject:
   - component: {fileID: 1557736172510688256}
   - component: {fileID: 430783425}
   - component: {fileID: 430783426}
+  - component: {fileID: 3086226494834410964}
   m_Layer: 0
   m_Name: TestChamp
   m_TagString: Untagged
@@ -1087,6 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b557431d7b3cbb244a8184436f35e2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
 --- !u!195 &430783426
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1109,3 +1096,17 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &3086226494834410964
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557736172510688257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

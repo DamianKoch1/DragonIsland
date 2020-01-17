@@ -6,37 +6,44 @@ namespace MOBA
 {
     public abstract class Attacking : MonoBehaviour
     {
-        [HideInInspector]
-        public Unit target;
+        
+        public Unit target
+        {
+            get;
+            protected set;
+        }
 
         protected Unit owner;
 
         protected Coroutine attacking;
 
-        public void StartAttacking(Unit target)
+        public void StartAttacking(Unit _target)
         {
             if (attacking != null)
             {
                 StopCoroutine(attacking);
             }
-            attacking = StartCoroutine(Attack());
+            target = _target;
+            attacking = StartCoroutine(ChaseAndAttack());
         }
 
-        protected IEnumerator Attack()
+        protected IEnumerator ChaseAndAttack()
         {
             float time = 0;
             while (true)
             {
                 if (!target) break;
-                if (!owner.canAttack) continue;
+                if (!owner.canAttack) yield return null;
                 if (Vector3.Distance(owner.transform.position, target.transform.position) > owner.AtkRange)
                 {
                     owner.MoveTo(target.transform.position);
-                    continue;
+                    time += Time.deltaTime;
+                    yield return null;
                 }
                 if (time >= 1 / owner.AtkSpeed)
                 {
                     Attack(target);
+                    time = 0;
                 }
                 time += Time.deltaTime;
                 yield return null;

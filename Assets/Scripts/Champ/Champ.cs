@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MOBA
 {
-    [RequireComponent(typeof(MovementChamp))]
+    [RequireComponent(typeof(NavMovement))]
     public class Champ : Unit
     {
         protected int currGold;

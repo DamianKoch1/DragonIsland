@@ -6,11 +6,13 @@ using UnityEngine;
 
 namespace MOBA
 {
-    public class Tower : Unit
+    public class Tower : Structure
     {
         protected List<Minion> enemyMinionsInRange;
         protected List<Champ> enemyChampsInRange;
 
+        [SerializeField]
+        protected Transform projectileSpawnpoint;
         protected Unit CurrentTarget
         {
             set
@@ -19,7 +21,6 @@ namespace MOBA
                 {
                     attacking.StartAttacking(value);
                 }
-                attacking.target = value;
             }
             get => attacking.target;
         }
@@ -29,23 +30,33 @@ namespace MOBA
 
         private void OnTriggerEnter(Collider other)
         {
-            var minion = other.GetComponent<Minion>();
-            if (minion)
+            var unit = other.GetComponent<Unit>();
+            if (!IsEnemy(unit)) return;
+            if (unit is Minion)
             {
-                OnMinionEnteredRange(minion);
+                OnMinionEnteredRange((Minion)unit);
                 return;
             }
-            var champ = other.GetComponent<Champ>();
-            if (champ)
+            if (unit is Champ)
             {
-                OnChampEnteredRange(champ);
+                OnChampEnteredRange((Champ)unit);
                 return;
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            
+            var unit = other.GetComponent<Unit>();
+            if (unit is Minion)
+            {
+                OnMinionExitedRange((Minion)unit);
+                return;
+            }
+            if (unit is Champ)
+            {
+                OnChampExitedRange((Champ)unit);
+                return;
+            }
         }
 
         protected void OnMinionEnteredRange(Minion minion)
@@ -82,6 +93,10 @@ namespace MOBA
                 if (!enemyChampsInRange.Contains(champ))
                 {
                     enemyChampsInRange.Add(champ);
+                    if (!CurrentTarget)
+                    {
+                        CurrentTarget = champ;
+                    }
                 }
             }
         }
@@ -119,6 +134,11 @@ namespace MOBA
             base.Update();
 
             CheckForNewTarget();
+
+            if (CurrentTarget)
+            {
+                Debug.DrawLine(projectileSpawnpoint.position, CurrentTarget.transform.position, Color.red);
+            }
         }
 
         protected override void Initialize()
@@ -145,8 +165,10 @@ namespace MOBA
 
         public void TryAttack(Champ target)
         {
+            if (!IsEnemy(target)) return;
             if (CurrentTarget?.GetComponent<Champ>()) return;
             if (!enemyChampsInRange.Contains(target)) return;
+            CurrentTarget = target;
         }
     }
 }
