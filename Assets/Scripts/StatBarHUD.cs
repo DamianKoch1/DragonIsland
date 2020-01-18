@@ -22,7 +22,7 @@ namespace MOBA
         [SerializeField]
         private Transform HUD;
 
-       
+
 
 
         private Coroutine HPShadowAnim;
@@ -69,12 +69,24 @@ namespace MOBA
             ResourceBar.fillAmount = 1;
             target.OnHPChanged += SetHP;
             target.OnResourceChanged += SetResource;
+            target.OnBecomeTargetable += () => Toggle(true);
+            target.OnBecomeUntargetable += () => Toggle(false);
+            if (!target.Targetable)
+            {
+                Toggle(false);
+            }
+        }
 
+        protected void Toggle(bool show)
+        {
+            HUD.gameObject.SetActive(show);
         }
 
         private void LateUpdate()
         {
-            HUD.position = Camera.main.WorldToScreenPoint(target.transform.position);
+            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
+            targetPos.z = 0;
+            HUD.position = targetPos;
         }
     }
 }

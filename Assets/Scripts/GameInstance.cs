@@ -21,8 +21,10 @@ public class GameInstance : MonoBehaviour
         }
     }
 
+    public Shader outline;
+
     private void Start()
     {
-        if (Instance) Destroy(gameObject);
+        if (Instance && Instance != this) Destroy(gameObject);
     }
 }

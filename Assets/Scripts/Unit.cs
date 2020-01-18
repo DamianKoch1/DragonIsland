@@ -29,6 +29,12 @@ namespace MOBA
 
         protected float xp = 0;
 
+        [SerializeField]
+        protected GameObject mesh;
+
+        protected Material defaultMaterial;
+        protected Material outlineMaterial;
+
         public float XP
         {
             set
@@ -220,25 +226,52 @@ namespace MOBA
             set
             {
                 if (!movement) return;
-                if (!value && canMove)
+                if (canMove != value)
                 {
-                    movement.Disable();
-                }
-                else if (!canMove)
-                {
-                    movement.Enable();
+                    if (value)
+                    {
+                        movement.Enable();
+                    }
+                    else
+                    {
+                        movement.Disable();
+                    }
                 }
                 canMove = value;
             }
             get => canMove;
         }
 
+        [SerializeField]
+        protected bool targetable = true;
 
-        public bool targetable = true;
+        public bool Targetable
+        {
+            set
+            {
+                if (targetable != value)
+                {
+                    if (value)
+                    {
+                        OnBecomeTargetable?.Invoke();
+                    }
+                    else
+                    {
+                        OnBecomeUntargetable?.Invoke();
+                    }
+                }
+                targetable = value;
+            }
+            get => targetable;
+        }
+
+        public Action OnBecomeUntargetable;
+        public Action OnBecomeTargetable;
 
         public bool damageable = true;
 
         public bool canAttack = true;
+
 
 
         protected float timeSinceLastRegTick = 0;
@@ -283,14 +316,14 @@ namespace MOBA
             //items + buffs + base
         }
 
-        protected void ValidateUnitList<T>(List<T> fromList) where T : Unit
+        protected void ValidateUnitList<T>(List<T> list) where T : Unit
         {
             int n = 0;
-            while (n < fromList.Count)
+            while (n < list.Count)
             {
-                if (!fromList[n])
+                if (!list[n])
                 {
-                    fromList.RemoveAt(n);
+                    list.RemoveAt(n);
                 }
                 else n++;
             }
@@ -391,11 +424,38 @@ namespace MOBA
             OnLevelUp += (int a) => print(gameObject.name + " reached lvl " + a);
 
             OnDeath += () => print(gameObject.name + " died.");
+
+            SetupMaterials();
+        }
+
+        protected void SetupMaterials()
+        {
+            var r = mesh.GetComponentInChildren<Renderer>();
+            defaultMaterial = new Material(r.material);
+            outlineMaterial = new Material(r.material);
+            outlineMaterial.shader = GameInstance.Instance.outline;
+            outlineMaterial.SetColor("Outline Color", Color.white);
+            outlineMaterial.SetFloat("Outline width", 0.5f);
+        }
+
+        private void OnMouseEnter()
+        {
+            if (!Targetable) return;
+            var r = mesh.GetComponentInChildren<Renderer>();
+            print(outlineMaterial.GetColor("Outline Color"));
+            r.material = outlineMaterial;
+        }
+
+        private void OnMouseExit()
+        {
+            if (!Targetable) return;
+            var r = mesh.GetComponentInChildren<Renderer>();
+            r.material = defaultMaterial;
         }
 
         public void MoveTo(Vector3 destination)
         {
-            if (!canMove) return;
+            if (!CanMove) return;
             if (!movement) return;
             movement.MoveTo(destination);
         }

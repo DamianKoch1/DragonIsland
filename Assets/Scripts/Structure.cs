@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MOBA
 {
 
-    public enum TargetableUntilMode
+    public enum UntargetableUntilMode
     {
         invalid = -1,
         allDestroyed = 0,
@@ -18,7 +18,7 @@ namespace MOBA
         protected List<Structure> isUntargetableUntilDestroyed;
 
         [SerializeField]
-        private TargetableUntilMode targetableUntilMode;
+        private UntargetableUntilMode targetableUntilMode;
 
         protected bool isDestroyed;
 
@@ -26,13 +26,13 @@ namespace MOBA
         {
             base.Initialize();
             isDestroyed = false;
+            ValidateUnitList(isUntargetableUntilDestroyed);
             if (isUntargetableUntilDestroyed.Count > 0)
             {
-                targetable = false;
+                Targetable = false;
                 damageable = false;
                 foreach (var structure in isUntargetableUntilDestroyed)
                 {
-                    if (!structure) continue;
                     structure.OnDeath += () => CheckTargetableRequirements(structure);
                 }
             }
@@ -44,23 +44,23 @@ namespace MOBA
         {
             switch (targetableUntilMode)
             {
-                case TargetableUntilMode.allDestroyed:
+                case UntargetableUntilMode.allDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
                         if (!structure.isDestroyed)
                         {
                             return;
                         }
-                        targetable = true;
+                        Targetable = true;
                         damageable = true;
                     }
                     break;
-                case TargetableUntilMode.anyDestroyed:
+                case UntargetableUntilMode.anyDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
                         if (structure.isDestroyed)
                         {
-                            targetable = true;
+                            Targetable = true;
                             damageable = true;
                             return;
                         }

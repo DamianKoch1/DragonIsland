@@ -8,18 +8,23 @@ namespace MOBA
 {
 
     [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(NavMeshObstacle))]
     public class NavMovement : Movement
     {
         private NavMeshAgent agent;
 
+        private NavMeshObstacle obstacle;
+
         public override void Initialize(float moveSpeed)
         {
             agent = GetComponent<NavMeshAgent>();
+            obstacle = GetComponent<NavMeshObstacle>();
             base.Initialize(moveSpeed);
         }
 
         public override void MoveTo(Vector3 destination)
         {
+            if (!agent.enabled) return;
             agent.SetDestination(destination);
         }
 
@@ -36,6 +41,7 @@ namespace MOBA
         public override void Disable()
         {
             agent.enabled = false;
+            obstacle.enabled = true;
         }
 
         public override float GetVelocity()
@@ -45,6 +51,7 @@ namespace MOBA
 
         public override void Enable()
         {
+            obstacle.enabled = false;
             agent.enabled = true;
         }
     }

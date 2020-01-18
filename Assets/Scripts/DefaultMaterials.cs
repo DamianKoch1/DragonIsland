@@ -2,23 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Default", menuName = "ScriptableObjects/DefaultMaterialsScriptableObject", order = 1)]
 public class DefaultMaterials : ScriptableObject
 {
-    [SerializeField]
-    private Material minionBlue;
-
-    [SerializeField]
-    private Material minionRed;
-
-    [SerializeField]
-    private Material towerBlue;
-
-    [SerializeField]
-    private Material towerRed;
-
-    [SerializeField]
-    private Material champBlue;
-
-    [SerializeField]
-    private Material champRed;
+    public Material minionBlue;
+    
+    public Material minionRed;
+    
+    public Material towerBlue;
+    
+    public Material towerRed;
+    
+    public Material champBlue;
+    
+    public Material champRed;
 }

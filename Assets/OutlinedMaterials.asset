@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96869ba379a784a41869f614bbc9ac92, type: 3}
+  m_Name: OutlinedMaterials
+  m_EditorClassIdentifier: 
+  minionBlue: {fileID: 2100000, guid: 7a440c399684d0544a3658e08e22f11f, type: 2}
+  minionRed: {fileID: 2100000, guid: 00bdaebe70e4444468b2f3047588344a, type: 2}
+  towerBlue: {fileID: 2100000, guid: 7a440c399684d0544a3658e08e22f11f, type: 2}
+  towerRed: {fileID: 2100000, guid: 00bdaebe70e4444468b2f3047588344a, type: 2}
+  champBlue: {fileID: 2100000, guid: 7a440c399684d0544a3658e08e22f11f, type: 2}
+  champRed: {fileID: 2100000, guid: 00bdaebe70e4444468b2f3047588344a, type: 2}
