@@ -1,33 +1,28 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace MOBA
 {
-    public class ChampUI : MonoBehaviour
+    public class StatBarHUD : MonoBehaviour
     {
         [SerializeField]
-        private Champ target;
+        protected Unit target;
 
         [SerializeField]
-        private Image HPBar;
+        protected Image HPBar;
 
         [SerializeField]
-        private Image HPShadowBar;
+        protected Image HPShadowBar;
 
         [SerializeField]
-        private Image ResourceBar;
-
-        [SerializeField]
-        private Image XPBar;
-
-        [SerializeField]
-        private Text LevelText;
+        protected Image ResourceBar;
 
         [SerializeField]
         private Transform HUD;
+
+       
 
 
         private Coroutine HPShadowAnim;
@@ -35,14 +30,19 @@ namespace MOBA
         [SerializeField]
         private AnimationCurve HPShadowAnimCurve;
 
-        public void SetHP(float newAmount, float maxHP)
+        public void SetHP(float newAmount, float max)
         {
-            HPBar.fillAmount = newAmount / maxHP;
+            HPBar.fillAmount = newAmount / max;
             if (HPShadowAnim != null)
             {
                 StopCoroutine(HPShadowAnim);
             }
             HPShadowAnim = StartCoroutine(ShowHPShadow(HPShadowBar.fillAmount, HPBar.fillAmount));
+        }
+
+        public void SetResource(float newAmount, float max)
+        {
+            ResourceBar.fillAmount = newAmount / max;
         }
 
         private IEnumerator ShowHPShadow(float from, float to)
@@ -57,23 +57,24 @@ namespace MOBA
             HPShadowBar.fillAmount = HPBar.fillAmount;
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             Initialize();
         }
 
-        private void Initialize()
+        protected virtual void Initialize()
         {
             HPBar.fillAmount = 1;
             HPShadowBar.fillAmount = 1;
             ResourceBar.fillAmount = 1;
-            XPBar.fillAmount = 0;
-            LevelText.text = "1";
             target.OnHPChanged += SetHP;
+            target.OnResourceChanged += SetResource;
+
         }
 
         private void LateUpdate()
         {
+            HUD.position = Camera.main.WorldToScreenPoint(target.transform.position);
         }
     }
 }

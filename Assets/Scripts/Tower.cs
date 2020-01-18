@@ -8,8 +8,8 @@ namespace MOBA
 {
     public class Tower : Structure
     {
-        protected List<Minion> enemyMinionsInRange;
-        protected List<Champ> enemyChampsInRange;
+        public List<Minion> enemyMinionsInRange;
+        public List<Champ> enemyChampsInRange;
 
 
         [SerializeField]
@@ -18,128 +18,115 @@ namespace MOBA
         [SerializeField]
         protected Transform rangeIndicator;
 
-        protected Unit CurrentTarget
-        {
-            set
-            {
-                if (!attacking.target && value)
-                {
-                    attacking.StartAttacking(value);
-                }
-                else if (attacking.target && !value)
-                {
-                    attacking.StopAttacking();
-                }
-            }
-            get => attacking.target;
-        }
 
         [SerializeField]
         private Attacking attacking;
 
         private void OnTriggerEnter(Collider other)
         {
+            if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
-            if (IsAlly(unit)) return;
-            if (unit is Minion)
-            {
-                OnMinionEnteredRange((Minion)unit);
-                return;
-            }
+            if (!unit) return;
             if (unit is Champ)
             {
                 OnChampEnteredRange((Champ)unit);
+                return;
+            }
+            if (IsAlly(unit)) return;
+            if (unit is Minion)
+            {
+                OnEnemyMinionEnteredRange((Minion)unit);
                 return;
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
+            if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
-            if (IsAlly(unit)) return;
-            if (unit is Minion)
-            {
-                OnMinionExitedRange((Minion)unit);
-                return;
-            }
+            if (!unit) return;
             if (unit is Champ)
             {
                 OnChampExitedRange((Champ)unit);
                 return;
             }
+            if (IsAlly(unit)) return;
+            if (unit is Minion)
+            {
+                OnEnemyMinionExitedRange((Minion)unit);
+                return;
+            }
         }
 
-        protected void OnMinionEnteredRange(Minion minion)
+        protected void OnEnemyMinionEnteredRange(Minion minion)
         {
             if (!enemyMinionsInRange.Contains(minion))
             {
                 enemyMinionsInRange.Add(minion);
-                if (!CurrentTarget)
+                if (!attacking.IsAttacking())
                 {
-                    CurrentTarget = minion;
+                    attacking.StartAttacking(minion);
                 }
             }
         }
 
-        protected void OnMinionExitedRange(Minion minion)
+        protected void OnEnemyMinionExitedRange(Minion minion)
         {
             if (enemyMinionsInRange.Contains(minion))
             {
                 enemyMinionsInRange.Remove(minion);
-                if (minion == CurrentTarget)
+                if (minion == attacking.CurrentTarget)
                 {
-                    CurrentTarget = null;
+                    CheckForNewTarget();
                 }
             }
         }
 
         protected void OnChampEnteredRange(Champ champ)
         {
+            if (IsAlly(champ))
+            {
+                champ.AddNearbyAlliedTower(this);
+                return;
+            }
             if (!enemyChampsInRange.Contains(champ))
             {
                 enemyChampsInRange.Add(champ);
-                if (!CurrentTarget)
+                if (!attacking.IsAttacking())
                 {
-                    CurrentTarget = champ;
+                    attacking.StartAttacking(champ);
                 }
             }
         }
 
         protected void OnChampExitedRange(Champ champ)
         {
+            if (IsAlly(champ))
+            {
+                champ.RemoveNearbyTower(this);
+            }
             if (enemyChampsInRange.Contains(champ))
             {
                 enemyChampsInRange.Remove(champ);
-                if (champ == CurrentTarget)
+                if (champ == attacking.CurrentTarget)
                 {
-                    CurrentTarget = null;
+                    CheckForNewTarget();
                 }
             }
         }
 
-        protected Unit GetClosestUnit(List<Unit> fromList)
-        {
-            float lowestDistance = Mathf.Infinity;
-            Unit closestUnit = null;
-            foreach (var unit in fromList)
-            {
-                float distance = Vector3.Distance(transform.position, unit.transform.position);
-                if (distance < lowestDistance)
-                {
-                    lowestDistance = distance;
-                    closestUnit = unit;
-                }
-            }
-            return closestUnit;
-        }
+       
+
+        
 
         protected override void Update()
         {
             base.Update();
 
-            CheckForNewTarget();
-
-
+            if (!attacking.IsAttacking())
+            {
+                CheckForNewTarget();
+            }
         }
 
         protected override void Initialize()
@@ -153,23 +140,23 @@ namespace MOBA
 
         protected void CheckForNewTarget()
         {
-            if (CurrentTarget) return;
             if (enemyMinionsInRange.Count > 0)
             {
-                CurrentTarget = GetClosestUnit(enemyMinionsInRange.Cast<Unit>().ToList());
+                attacking.StartAttacking(GetClosestUnit(enemyMinionsInRange));
             }
             else if (enemyChampsInRange.Count > 0)
             {
-                CurrentTarget = GetClosestUnit(enemyChampsInRange.Cast<Unit>().ToList());
+                attacking.StartAttacking(GetClosestUnit(enemyChampsInRange));
             }
+            else if (attacking.IsAttacking()) attacking.Stop();
         }
 
         public void TryAttack(Champ target)
         {
             if (!IsEnemy(target)) return;
-            if (CurrentTarget?.GetComponent<Champ>()) return;
+            if (attacking.CurrentTarget?.GetComponent<Champ>()) return;
             if (!enemyChampsInRange.Contains(target)) return;
-            CurrentTarget = target;
+            attacking.StartAttacking(target);
         }
 
         private void OnValidate()

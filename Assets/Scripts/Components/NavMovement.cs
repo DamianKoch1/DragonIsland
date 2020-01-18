@@ -31,18 +31,21 @@ namespace MOBA
 
         private void Start()
         {
-            OnBeginMoving += () => print("begin moving");
-            OnStopMoving += () => print("stop moving");
         }
 
-        public override void Stop()
+        public override void Disable()
         {
-            agent.SetDestination(transform.position);
+            agent.enabled = false;
         }
 
         public override float GetVelocity()
         {
             return agent.velocity.magnitude;
+        }
+
+        public override void Enable()
+        {
+            agent.enabled = true;
         }
     }
 }

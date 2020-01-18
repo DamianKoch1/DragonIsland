@@ -17,7 +17,9 @@ public abstract class Movement : MonoBehaviour
 
     public abstract void SetSpeed(float newSpeed);
 
-    public abstract void Stop();
+    public abstract void Disable();
+
+    public abstract void Enable();
 
     public abstract float GetVelocity();
 

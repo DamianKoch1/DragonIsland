@@ -13,7 +13,6 @@ namespace MOBA
         red = 1,
         neutral = 2,
         passive = 3,
-        TeamIDCount = 4
     }
 
     public abstract class Unit : MonoBehaviour
@@ -213,7 +212,27 @@ namespace MOBA
         public Amplifiers amplifiers;
 
 
-        public bool canMove = true;
+        [SerializeField]
+        protected bool canMove = true;
+
+        public bool CanMove
+        {
+            set
+            {
+                if (!movement) return;
+                if (!value && canMove)
+                {
+                    movement.Disable();
+                }
+                else if (!canMove)
+                {
+                    movement.Enable();
+                }
+                canMove = value;
+            }
+            get => canMove;
+        }
+
 
         public bool targetable = true;
 
@@ -264,12 +283,43 @@ namespace MOBA
             //items + buffs + base
         }
 
+        protected void ValidateUnitList<T>(List<T> fromList) where T : Unit
+        {
+            int n = 0;
+            while (n < fromList.Count)
+            {
+                if (!fromList[n])
+                {
+                    fromList.RemoveAt(n);
+                }
+                else n++;
+            }
+        }
+
+        protected Unit GetClosestUnit<T>(List<T> fromList) where T : Unit
+        {
+            ValidateUnitList(fromList);
+            if (fromList.Count == 0) return null;
+            float lowestDistance = Mathf.Infinity;
+            Unit closestUnit = null;
+            foreach (var unit in fromList)
+            {
+                float distance = Vector3.Distance(transform.position, unit.transform.position);
+                if (distance < lowestDistance)
+                {
+                    lowestDistance = distance;
+                    closestUnit = unit;
+                }
+            }
+            return closestUnit;
+        }
+
         public void ReceiveDamage(Unit instigator, float amount, DamageType type)
         {
             if (!damageable) return;
             OnReceiveDamage?.Invoke(instigator, amount, type);
             HP -= amount;
-            instigator.OnDealDamage.Invoke(this, amount, type);
+            instigator.OnDealDamage?.Invoke(this, amount, type);
             if (instigator is Champ)
             {
                 OnAttackedByChamp?.Invoke((Champ)instigator);
@@ -286,15 +336,15 @@ namespace MOBA
 
         protected void Die(Unit killer)
         {
-            var champ = killer.GetComponent<Champ>();
-            if (champ)
+            if (killer is Champ)
             {
+                var champ = (Champ)killer;
                 champ.XP += GetXPReward();
                 champ.AddGold(GetGoldReward());
             }
             OnDeath?.Invoke();
-            Destroy(gameObject);
         }
+
 
         public Action OnDeath;
 
@@ -338,11 +388,9 @@ namespace MOBA
 
             movement?.Initialize(moveSpeed);
 
-            OnReceiveDamage += (Unit a, float b, DamageType type) => print(b + " " + type + " dmg from " + a.gameObject.name);
-            OnDealDamage += (Unit a, float b, DamageType type) => print(b + " " + type + " dmg to " + a.gameObject.name);
-            OnLevelUp += (int a) => print("reached lvl " + a);
-            OnHPChanged += (float a, float b) => print("hp changed to " + a + " / " + b);
-            OnResourceChanged += (float a, float b) => print("resource changed to " + a + " / " + b);
+            OnLevelUp += (int a) => print(gameObject.name + " reached lvl " + a);
+
+            OnDeath += () => print(gameObject.name + " died.");
         }
 
         public void MoveTo(Vector3 destination)

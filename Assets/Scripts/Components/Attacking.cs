@@ -6,7 +6,7 @@ namespace MOBA
 {
     public abstract class Attacking : MonoBehaviour
     {
-        
+
         public Unit target
         {
             get;
@@ -15,18 +15,41 @@ namespace MOBA
 
         protected Unit owner;
 
-        protected Coroutine attacking;
+        protected Animator animator;
+
+        protected Coroutine chaseAndAttack;
+        public bool IsAttacking()
+        {
+            if (!target) return false;
+            return chaseAndAttack != null;
+        }
 
         protected float timeSinceAttack;
 
+        public Unit CurrentTarget
+        {
+            protected set
+            {
+                target = value;
+            }
+            get => target;
+        }
+
+
         public void StartAttacking(Unit _target)
         {
-            if (attacking != null)
+            if (!_target)
             {
-                StopCoroutine(attacking);
+                Stop();
+                return;
+            }
+            if (chaseAndAttack != null)
+            {
+                StopCoroutine(chaseAndAttack);
             }
             target = _target;
-            attacking = StartCoroutine(ChaseAndAttack());
+            owner.CanMove = false;
+            chaseAndAttack = StartCoroutine(ChaseAndAttack());
         }
 
         protected IEnumerator ChaseAndAttack()
@@ -37,25 +60,30 @@ namespace MOBA
                 if (!owner.canAttack) yield return null;
                 if (Vector3.Distance(owner.transform.position, target.transform.position) > owner.AtkRange)
                 {
+                    owner.CanMove = true;
                     owner.MoveTo(target.transform.position);
                     yield return null;
                 }
+                else owner.CanMove = false;
                 if (timeSinceAttack >= 1 / owner.AtkSpeed)
                 {
                     Attack(target);
+                    owner.CanMove = false;
                     timeSinceAttack = 0;
                 }
                 yield return null;
             }
         }
 
-        public void StopAttacking()
+        public void Stop()
         {
-            if (attacking != null)
+            if (chaseAndAttack != null)
             {
-                StopCoroutine(attacking);
+                StopCoroutine(chaseAndAttack);
+                chaseAndAttack = null;
             }
             target = null;
+            owner.CanMove = true;
         }
 
         public abstract void Attack(Unit target);
@@ -63,7 +91,12 @@ namespace MOBA
         public virtual void Initialize(Unit _owner)
         {
             owner = _owner;
-            timeSinceAttack = 100;
+            timeSinceAttack = 1 / owner.AtkSpeed;
+            animator = GetComponent<Animator>();
+        }
+
+        protected void AttackAnimFinished()
+        {
         }
 
         private void Update()

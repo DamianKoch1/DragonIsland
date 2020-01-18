@@ -18,7 +18,7 @@ namespace MOBA
         }
 
         // Update is called once per frame
-        void LateUpdate()
+        void Update()
         {
             transform.position = target.transform.position + offset;
             transform.rotation = startRotation;

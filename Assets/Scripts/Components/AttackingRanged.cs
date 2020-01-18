@@ -18,9 +18,14 @@ namespace MOBA
 
         public override void Attack(Unit target)
         {
-            projectile.SpawnHoming(target, projectileSpawnpoint.position, owner, owner.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical);
+            if (animator)
+            {
+                animator.SetTrigger("attack");
+            }
+            projectile.SpawnHoming(target, projectileSpawnpoint.position, owner, owner.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
+            AttackAnimFinished();
         }
 
-       
+
     }
 }

@@ -10,6 +10,11 @@ namespace MOBA
 
         protected Vector3 lastPos;
 
+        public override void Enable()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override float GetVelocity()
         {
             return Vector3.Distance(transform.position, lastPos) / Time.deltaTime;
@@ -27,7 +32,7 @@ namespace MOBA
             speed = newSpeed;
         }
 
-        public override void Stop()
+        public override void Disable()
         {
             stopped = true;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MOBA
@@ -10,7 +11,7 @@ namespace MOBA
     {
         protected int currGold;
 
-        protected List<Tower> nearbyTowers;
+        protected List<Tower> nearbyAlliedTowers;
 
         [SerializeField]
         private ChampCamera cam;
@@ -50,11 +51,13 @@ namespace MOBA
         {
             base.Initialize();
             OnAttackedByChamp += RequestTowerAssist;
+            nearbyAlliedTowers = new List<Tower>();
         }
 
         protected void RequestTowerAssist(Champ attacker)
         {
-            foreach (var tower in nearbyTowers)
+            ValidateUnitList(nearbyAlliedTowers.Cast<Unit>().ToList());
+            foreach (var tower in nearbyAlliedTowers)
             {
                 tower.TryAttack(attacker);
             }
@@ -64,5 +67,22 @@ namespace MOBA
         {
             currGold += amount;
         }
+
+        public void AddNearbyAlliedTower(Tower tower)
+        {
+            if (!nearbyAlliedTowers.Contains(tower))
+            {
+                nearbyAlliedTowers.Add(tower);
+            }
+        }
+
+        public void RemoveNearbyTower(Tower tower)
+        {
+            if (nearbyAlliedTowers.Contains(tower))
+            {
+                nearbyAlliedTowers.Remove(tower);
+            }
+        }
+
     }
 }

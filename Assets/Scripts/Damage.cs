@@ -10,7 +10,6 @@ namespace MOBA
         physical = 0,
         magical = 1,
         piercing = 2,
-        DamageTypeCount = 3
     }
 
     public class Damage
@@ -21,7 +20,7 @@ namespace MOBA
 
         private Unit instigator;
 
-        private Unit[] targets;
+        private List<Unit> targets;
 
         private float GetDamageTo(Unit target)
         {
@@ -62,12 +61,20 @@ namespace MOBA
             target.ReceiveDamage(instigator, GetDamageTo(target), dmgType);
         }
 
-        public Damage(float _baseDmg, DamageType _dmgType, Unit _instigator, Unit[] _targets)
+        public Damage(float _baseDmg, DamageType _dmgType, Unit _instigator, List<Unit> _targets)
         {
             baseDmg = _baseDmg;
             dmgType = _dmgType;
             instigator = _instigator;
             targets = _targets;
+        }
+
+        public Damage(float _baseDmg, DamageType _dmgType, Unit _instigator, Unit _target)
+        {
+            baseDmg = _baseDmg;
+            dmgType = _dmgType;
+            instigator = _instigator;
+            targets = new List<Unit> { _target };
         }
 
     }

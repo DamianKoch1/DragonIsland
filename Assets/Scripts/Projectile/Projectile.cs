@@ -52,6 +52,7 @@ namespace MOBA
 
         private void OnTriggerEnter(Collider other)
         {
+            if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
 
@@ -126,7 +127,8 @@ namespace MOBA
 
         protected virtual void OnHit(Unit unit)
         {
-            unit.ReceiveDamage(owner, damage, dmgType);
+            var dmg = new Damage(damage, dmgType, owner, unit);
+            dmg.Inflict();
 
             if (unit == target)
             {
@@ -140,7 +142,8 @@ namespace MOBA
 
         protected virtual void OnHitMonster(Monster monster)
         {
-            monster.ReceiveDamage(owner, damage, dmgType);
+            var dmg = new Damage(damage, dmgType, owner, monster);
+            dmg.Inflict();
 
             if (monster == target)
             {
@@ -183,6 +186,18 @@ namespace MOBA
             instance.isHoming = true;
         }
 
+        /// <summary>
+        /// Doesn't work with hitMode targetOnly.
+        /// </summary>
+        /// <param name="_targetPos"></param>
+        /// <param name="position"></param>
+        /// <param name="_owner"></param>
+        /// <param name="_damage"></param>
+        /// <param name="_speed"></param>
+        /// <param name="_hitMode"></param>
+        /// <param name="_dmgType"></param>
+        /// <param name="_destroyOnNonTargetHit"></param>
+        /// <param name="_canHitStructures"></param>
         public void SpawnSkillshot(Vector3 _targetPos, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
             Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
@@ -202,6 +217,11 @@ namespace MOBA
         {
             if (isHoming)
             {
+                if (!target)
+                {
+                    Destroy(gameObject);
+                    return;
+                }
                 movement.MoveTo(target.transform.position);
             }
             else
