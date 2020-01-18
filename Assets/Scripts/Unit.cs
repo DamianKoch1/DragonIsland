@@ -314,9 +314,11 @@ namespace MOBA
 
             HP = baseHP;
             MaxHP = baseHP;
+            HPReg = baseHPReg;
 
             Resource = baseResource;
             MaxResource = baseResource;
+            ResourceReg = baseResourceReg;
 
             AtkDmg = baseAtkDmg;
             AtkSpeed = baseAtkSpeed;

@@ -17,6 +17,8 @@ namespace MOBA
 
         protected Coroutine attacking;
 
+        protected float timeSinceAttack;
+
         public void StartAttacking(Unit _target)
         {
             if (attacking != null)
@@ -29,7 +31,6 @@ namespace MOBA
 
         protected IEnumerator ChaseAndAttack()
         {
-            float time = 0;
             while (true)
             {
                 if (!target) break;
@@ -37,17 +38,24 @@ namespace MOBA
                 if (Vector3.Distance(owner.transform.position, target.transform.position) > owner.AtkRange)
                 {
                     owner.MoveTo(target.transform.position);
-                    time += Time.deltaTime;
                     yield return null;
                 }
-                if (time >= 1 / owner.AtkSpeed)
+                if (timeSinceAttack >= 1 / owner.AtkSpeed)
                 {
                     Attack(target);
-                    time = 0;
+                    timeSinceAttack = 0;
                 }
-                time += Time.deltaTime;
                 yield return null;
             }
+        }
+
+        public void StopAttacking()
+        {
+            if (attacking != null)
+            {
+                StopCoroutine(attacking);
+            }
+            target = null;
         }
 
         public abstract void Attack(Unit target);
@@ -55,6 +63,12 @@ namespace MOBA
         public virtual void Initialize(Unit _owner)
         {
             owner = _owner;
+            timeSinceAttack = 100;
+        }
+
+        private void Update()
+        {
+            timeSinceAttack += Time.deltaTime;
         }
     }
 

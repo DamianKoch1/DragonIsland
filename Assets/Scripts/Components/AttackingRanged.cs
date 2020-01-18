@@ -10,9 +10,15 @@ namespace MOBA
         [SerializeField]
         protected Projectile projectile;
 
+        [SerializeField]
+        protected float projectileSpeed;
+
+        [SerializeField]
+        protected Transform projectileSpawnpoint;
+
         public override void Attack(Unit target)
         {
-            print("attack");
+            projectile.SpawnHoming(target, projectileSpawnpoint.position, owner, owner.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical);
         }
 
        

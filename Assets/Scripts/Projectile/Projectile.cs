@@ -20,7 +20,7 @@ namespace MOBA
     }
 
     [RequireComponent(typeof(Collider))]
-    public abstract class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviour
     {
         [SerializeField]
         protected bool destroyOnNonTargetHit = false;
@@ -46,9 +46,6 @@ namespace MOBA
         protected float damage;
 
         protected DamageType dmgType;
-
-        [SerializeField]
-        protected GameObject prefab;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -164,7 +161,7 @@ namespace MOBA
 
         protected Projectile Spawn(Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
-            Projectile instance = Instantiate(prefab, position, Quaternion.identity).GetComponent<Projectile>();
+            Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
             instance.owner = _owner;
             instance.damage = _damage;
             instance.speed = _speed;
@@ -172,18 +169,20 @@ namespace MOBA
             instance.dmgType = _dmgType;
             instance.destroyOnNonTargetHit = _destroyOnNonTargetHit;
             instance.canHitStructures = _canHitStructures;
+            instance.movement.Initialize(_speed);
             return instance;
         }
 
-        public void SpawnSkillshot(Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        public void SpawnHoming(Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
             Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.target = _target;
         }
 
-        public void SpawnHoming(Vector3 _targetPos, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        public void SpawnSkillshot(Vector3 _targetPos, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
-
+            Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
+            instance.targetPos = _targetPos;
         }
 
         protected virtual void Update()

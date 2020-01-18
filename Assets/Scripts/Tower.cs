@@ -11,15 +11,21 @@ namespace MOBA
         protected List<Minion> enemyMinionsInRange;
         protected List<Champ> enemyChampsInRange;
 
+
         [SerializeField]
-        protected Transform projectileSpawnpoint;
+        protected SphereCollider atkTrigger;
+
         protected Unit CurrentTarget
         {
             set
             {
-                if (!attacking.target)
+                if (!attacking.target && value)
                 {
                     attacking.StartAttacking(value);
+                }
+                else if (attacking.target && !value)
+                {
+                    attacking.StopAttacking();
                 }
             }
             get => attacking.target;
@@ -31,7 +37,7 @@ namespace MOBA
         private void OnTriggerEnter(Collider other)
         {
             var unit = other.GetComponent<Unit>();
-            if (!IsEnemy(unit)) return;
+            if (IsAlly(unit)) return;
             if (unit is Minion)
             {
                 OnMinionEnteredRange((Minion)unit);
@@ -47,6 +53,7 @@ namespace MOBA
         private void OnTriggerExit(Collider other)
         {
             var unit = other.GetComponent<Unit>();
+            if (IsAlly(unit)) return;
             if (unit is Minion)
             {
                 OnMinionExitedRange((Minion)unit);
@@ -61,15 +68,12 @@ namespace MOBA
 
         protected void OnMinionEnteredRange(Minion minion)
         {
-            if (minion.TeamID != TeamID)
+            if (!enemyMinionsInRange.Contains(minion))
             {
-                if (!enemyMinionsInRange.Contains(minion))
+                enemyMinionsInRange.Add(minion);
+                if (!CurrentTarget)
                 {
-                    enemyMinionsInRange.Add(minion);
-                    if (!CurrentTarget)
-                    {
-                        CurrentTarget = minion;
-                    }
+                    CurrentTarget = minion;
                 }
             }
         }
@@ -88,15 +92,12 @@ namespace MOBA
 
         protected void OnChampEnteredRange(Champ champ)
         {
-            if (champ.TeamID != TeamID)
+            if (!enemyChampsInRange.Contains(champ))
             {
-                if (!enemyChampsInRange.Contains(champ))
+                enemyChampsInRange.Add(champ);
+                if (!CurrentTarget)
                 {
-                    enemyChampsInRange.Add(champ);
-                    if (!CurrentTarget)
-                    {
-                        CurrentTarget = champ;
-                    }
+                    CurrentTarget = champ;
                 }
             }
         }
@@ -135,10 +136,7 @@ namespace MOBA
 
             CheckForNewTarget();
 
-            if (CurrentTarget)
-            {
-                Debug.DrawLine(projectileSpawnpoint.position, CurrentTarget.transform.position, Color.red);
-            }
+
         }
 
         protected override void Initialize()
