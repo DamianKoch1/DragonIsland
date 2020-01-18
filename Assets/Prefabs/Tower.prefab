@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &481276093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 481276094}
+  m_Layer: 0
+  m_Name: RangeIndicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &481276094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481276093}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 15, y: 15, z: 15}
+  m_Children:
+  - {fileID: 541025319758214229}
+  m_Father: {fileID: 5881307047872224552}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &799614336
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,12 +85,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4976225094917640771}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.04, z: 0}
-  m_LocalScale: {x: 170, y: 170, z: 170}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.0026666666, z: 0}
+  m_LocalScale: {x: 11.333334, y: 11.333338, z: 11.333338}
   m_Children: []
-  m_Father: {fileID: 5881307047872224552}
-  m_RootOrder: 2
+  m_Father: {fileID: 481276094}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!212 &6038806041748379497
 SpriteRenderer:
@@ -331,7 +362,7 @@ Transform:
   m_Children:
   - {fileID: 5881307046895623441}
   - {fileID: 799614337}
-  - {fileID: 541025319758214229}
+  - {fileID: 481276094}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -389,7 +420,8 @@ MonoBehaviour:
   damageable: 1
   canAttack: 1
   movement: {fileID: 0}
-  atkTrigger: {fileID: 0}
+  atkTrigger: {fileID: 1148474522}
+  rangeIndicator: {fileID: 481276094}
   attacking: {fileID: 8109459138435389817}
 --- !u!114 &8109459138435389817
 MonoBehaviour:

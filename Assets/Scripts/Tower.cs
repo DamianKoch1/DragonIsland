@@ -15,6 +15,9 @@ namespace MOBA
         [SerializeField]
         protected SphereCollider atkTrigger;
 
+        [SerializeField]
+        protected Transform rangeIndicator;
+
         protected Unit CurrentTarget
         {
             set
@@ -167,6 +170,12 @@ namespace MOBA
             if (CurrentTarget?.GetComponent<Champ>()) return;
             if (!enemyChampsInRange.Contains(target)) return;
             CurrentTarget = target;
+        }
+
+        private void OnValidate()
+        {
+            atkTrigger.radius = atkRange;
+            rangeIndicator.localScale = new Vector3(atkRange, atkRange, atkRange);
         }
     }
 }

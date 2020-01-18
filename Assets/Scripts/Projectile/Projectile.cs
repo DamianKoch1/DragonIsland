@@ -32,6 +32,9 @@ namespace MOBA
         protected Movement movement;
 
         [SerializeField]
+        protected bool isHoming;
+
+        [SerializeField]
         protected float speed;
 
         [SerializeField]
@@ -177,24 +180,34 @@ namespace MOBA
         {
             Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.target = _target;
+            instance.isHoming = true;
         }
 
         public void SpawnSkillshot(Vector3 _targetPos, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
             Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.targetPos = _targetPos;
+            instance.isHoming = false;
+        }
+
+        public void SpawnSkillshot(Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        {
+            Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
+            instance.targetPos = _target.transform.position;
+            instance.target = _target;
+            instance.isHoming = false;
         }
 
         protected virtual void Update()
         {
-            if (target)
+            if (isHoming)
             {
                 movement.MoveTo(target.transform.position);
             }
             else
             {
                 movement.MoveTo(targetPos);
-                if (Vector3.Distance(transform.position, targetPos) <= 0.01f)
+                if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
                 {
                     OnReachedDestination();
                 }

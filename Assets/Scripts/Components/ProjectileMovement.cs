@@ -19,7 +19,6 @@ namespace MOBA
         {
             if (stopped) return;
             transform.LookAt(destination);
-            print(speed);
             transform.position += transform.forward * speed * Time.deltaTime;
         }
 
