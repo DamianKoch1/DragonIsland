@@ -17,16 +17,12 @@ namespace MOBA
         [SerializeField]
         private float maxWaypointDistance = 20;
 
-        [SerializeField]
-        private Attacking attacking;
 
         public List<Unit> enemyUnitsInRange;
         public List<Champ> enemyChampsInRange;
 
-        [SerializeField]
-        private SphereCollider atkTrigger;
 
-       
+
 
         public LaneID TargetLane
         {
@@ -125,7 +121,7 @@ namespace MOBA
             switch (TeamID)
             {
                 case TeamID.blue:
-                targetPosition = waypoint.GetNextPosition();
+                    targetPosition = waypoint.GetNextPosition();
                     break;
                 case TeamID.red:
                     targetPosition = waypoint.GetPrevPosition();
@@ -178,9 +174,8 @@ namespace MOBA
             attacking.Initialize(this);
         }
 
-        private void OnValidate()
-        {
-            atkTrigger.radius = atkRange;
-        }
+        
+
+
     }
 }

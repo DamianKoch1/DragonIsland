@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481276093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -5, z: 0}
+  m_LocalPosition: {x: 0, y: -4.99, z: 0}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children:
   - {fileID: 541025319758214229}
@@ -86,7 +86,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4976225094917640771}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.0026666666, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 11.333334, y: 11.333338, z: 11.333338}
   m_Children: []
   m_Father: {fileID: 481276094}
@@ -382,7 +382,6 @@ MonoBehaviour:
   teamID: 0
   maxLvl: 1
   mesh: {fileID: 5881307046895623442}
-  s: {fileID: 4800000, guid: 8d4dc7790983767458fbd144b2fa6f29, type: 3}
   baseHP: 2000
   HPPerLvl: 0
   baseHPReg: 5
@@ -423,13 +422,11 @@ MonoBehaviour:
   damageable: 1
   canAttack: 1
   movement: {fileID: 0}
+  attacking: {fileID: 8109459138435389817}
   isUntargetableUntilDestroyed: []
   targetableUntilMode: 0
   enemyMinionsInRange: []
   enemyChampsInRange: []
-  atkTrigger: {fileID: 1148474522}
-  rangeIndicator: {fileID: 481276094}
-  attacking: {fileID: 8109459138435389817}
 --- !u!114 &8109459138435389817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  atkTrigger: {fileID: 1148474522}
+  rangeIndicator: {fileID: 481276094}
   projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
   projectileSpeed: 10
@@ -609,6 +608,16 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 5881307047872224559}
+    - target: {fileID: 4766237721939396300, guid: da2d5012b4a5a664fbf0cf1433180bab,
+        type: 3}
+      propertyPath: animateDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5111289120927120134, guid: da2d5012b4a5a664fbf0cf1433180bab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da2d5012b4a5a664fbf0cf1433180bab, type: 3}
 --- !u!224 &4035287723000185585 stripped

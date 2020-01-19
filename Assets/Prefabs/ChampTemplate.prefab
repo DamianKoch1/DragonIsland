@@ -221,8 +221,9 @@ GameObject:
   - component: {fileID: 3086226494834410964}
   - component: {fileID: 254097710}
   - component: {fileID: 6840793846866074083}
+  - component: {fileID: 7267630054517515285}
   m_Layer: 0
-  m_Name: TestChamp
+  m_Name: ChampTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,7 +260,6 @@ MonoBehaviour:
   teamID: 0
   maxLvl: 18
   mesh: {fileID: 1503395897112000562}
-  s: {fileID: 4800000, guid: 8d4dc7790983767458fbd144b2fa6f29, type: 3}
   baseHP: 500
   HPPerLvl: 30
   baseHPReg: 1.5
@@ -300,6 +300,7 @@ MonoBehaviour:
   damageable: 1
   canAttack: 1
   movement: {fileID: 430783425}
+  attacking: {fileID: 0}
   cam: {fileID: 7338143702491796175}
   clickVfx: {fileID: 2216396579906894077, guid: bff06226884c3b0488888ccce39bdc96,
     type: 3}
@@ -324,7 +325,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1557736172510688257}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 5
   m_Acceleration: 1000
   avoidancePriority: 50
@@ -336,7 +337,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!136 &3086226494834410964
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -377,9 +378,22 @@ NavMeshObstacle:
   m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_Extents: {x: 0.25, y: 1, z: 0.25}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!135 &7267630054517515285
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557736172510688257}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

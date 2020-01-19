@@ -46,6 +46,7 @@ namespace MOBA
                 }
                 time += Time.deltaTime;
                 yield return null;
+                continue;
             }
             AttackAnimFinished();
         }

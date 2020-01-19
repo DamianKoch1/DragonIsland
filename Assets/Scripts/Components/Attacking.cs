@@ -26,6 +26,16 @@ namespace MOBA
 
         protected float timeSinceAttack;
 
+        [SerializeField]
+        private SphereCollider atkTrigger;
+
+        public SphereCollider AtkTrigger => atkTrigger;
+
+        [SerializeField]
+        protected Transform rangeIndicator;
+
+        public Transform RangeIndicator => rangeIndicator;
+
         public Unit CurrentTarget
         {
             protected set
@@ -57,12 +67,17 @@ namespace MOBA
             while (true)
             {
                 if (!target) break;
-                if (!owner.canAttack) yield return null;
+                if (!owner.canAttack)
+                {
+                    yield return null;
+                    continue;
+                }
                 if (Vector3.Distance(owner.transform.position, target.transform.position) > owner.AtkRange)
                 {
                     owner.CanMove = true;
                     owner.MoveTo(target.transform.position);
                     yield return null;
+                    continue;
                 }
                 else owner.CanMove = false;
                 if (timeSinceAttack >= 1 / owner.AtkSpeed)
@@ -72,6 +87,7 @@ namespace MOBA
                     timeSinceAttack = 0;
                 }
                 yield return null;
+                continue;
             }
         }
 

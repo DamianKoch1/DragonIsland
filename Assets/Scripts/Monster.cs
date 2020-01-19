@@ -7,16 +7,14 @@ namespace MOBA
 
     public class Monster : Unit
     {
-        // Start is called before the first frame update
-        void Start()
+        protected override Color GetOutlineColor()
         {
-
+            return Color.grey;
         }
 
-        // Update is called once per frame
-        void Update()
+        public override Color GetHPColor()
         {
-
+            return Color.magenta;
         }
     }
 }

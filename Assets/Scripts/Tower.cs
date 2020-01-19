@@ -12,15 +12,6 @@ namespace MOBA
         public List<Champ> enemyChampsInRange;
 
 
-        [SerializeField]
-        protected SphereCollider atkTrigger;
-
-        [SerializeField]
-        protected Transform rangeIndicator;
-
-
-        [SerializeField]
-        private Attacking attacking;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -115,9 +106,9 @@ namespace MOBA
             }
         }
 
-       
 
-        
+
+
 
         protected override void Update()
         {
@@ -159,10 +150,6 @@ namespace MOBA
             attacking.StartAttacking(target);
         }
 
-        private void OnValidate()
-        {
-            atkTrigger.radius = atkRange;
-            rangeIndicator.localScale = new Vector3(atkRange, atkRange, atkRange);
-        }
+       
     }
 }

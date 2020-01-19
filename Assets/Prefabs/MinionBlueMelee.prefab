@@ -164,7 +164,6 @@ MonoBehaviour:
   teamID: 0
   maxLvl: 18
   mesh: {fileID: 5176387310780495296}
-  s: {fileID: 4800000, guid: 8d4dc7790983767458fbd144b2fa6f29, type: 3}
   baseHP: 200
   HPPerLvl: 50
   baseHPReg: 0
@@ -205,12 +204,11 @@ MonoBehaviour:
   damageable: 1
   canAttack: 1
   movement: {fileID: 6409819951060390174}
+  attacking: {fileID: 7119685332314796822}
   maxChaseDistance: 20
   maxWaypointDistance: 20
-  attacking: {fileID: 7119685332314796822}
   enemyUnitsInRange: []
   enemyChampsInRange: []
-  atkTrigger: {fileID: 3990027059083123711}
 --- !u!136 &6409819951060390144
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -222,7 +220,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!195 &6409819951060390175
@@ -246,7 +244,7 @@ NavMeshAgent:
   m_Height: 1
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!54 &6409819951060390173
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -300,6 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bc80a1c6db24b489ea83f11ce7d87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  atkTrigger: {fileID: 3990027059083123711}
+  rangeIndicator: {fileID: 0}
   mesh: {fileID: 6409819950041703338}
   attackAnimCurve:
     serializedVersion: 2
@@ -344,7 +344,7 @@ NavMeshObstacle:
   m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_Extents: {x: 0.25, y: 1, z: 0.25}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1

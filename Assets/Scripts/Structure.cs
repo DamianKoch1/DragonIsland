@@ -38,7 +38,14 @@ namespace MOBA
             }
         }
 
-
+        public override Color GetHPColor()
+        {
+            if (IsAlly(ChampHUD.Player))
+            {
+                return ChampHUD.Instance.defaultColors.allyStructureHP;
+            }
+            return ChampHUD.Instance.defaultColors.enemyStructureHP;
+        }
 
         private void CheckTargetableRequirements(Structure destroyedStructure)
         {

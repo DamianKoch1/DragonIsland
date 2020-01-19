@@ -172,7 +172,6 @@ MonoBehaviour:
   teamID: 0
   maxLvl: 1
   mesh: {fileID: 231563102726476513}
-  s: {fileID: 4800000, guid: 8d4dc7790983767458fbd144b2fa6f29, type: 3}
   baseHP: 5000
   HPPerLvl: 0
   baseHPReg: 10
@@ -213,6 +212,7 @@ MonoBehaviour:
   damageable: 1
   canAttack: 0
   movement: {fileID: 0}
+  attacking: {fileID: 0}
   isUntargetableUntilDestroyed:
   - {fileID: 0}
   - {fileID: 0}
@@ -440,6 +440,16 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 6885806197964608257}
+    - target: {fileID: 4766237721939396300, guid: da2d5012b4a5a664fbf0cf1433180bab,
+        type: 3}
+      propertyPath: animateDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5111289120927120134, guid: da2d5012b4a5a664fbf0cf1433180bab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da2d5012b4a5a664fbf0cf1433180bab, type: 3}
 --- !u!224 &1010462426292699272 stripped

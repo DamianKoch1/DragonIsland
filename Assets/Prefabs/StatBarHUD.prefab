@@ -223,7 +223,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5111289120154101482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e4453f1f130a0b4facc4d6f583fd68b, type: 3}
+  m_Script: {fileID: 11500000, guid: dce57fc3e8676264abfe3891f5d22c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
@@ -231,26 +231,27 @@ MonoBehaviour:
   HPShadowBar: {fileID: 5111289120927120632}
   ResourceBar: {fileID: 5111289120279374640}
   HUD: {fileID: 5111289119904547678}
+  animateDamage: 0
   HPShadowAnimCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.002357483
-      inSlope: 0.028301887
-      outSlope: 0.028301887
+      value: 0
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0
     - serializedVersion: 3
       time: 0.5
-      value: 1.0023575
-      inSlope: 5.094338
-      outSlope: 5.094338
+      value: 1
+      inSlope: 6.396074
+      outSlope: 6.396074
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.041666687
+      inWeight: 0.03324747
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -422,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5111289120927120633
 RectTransform:
   m_ObjectHideFlags: 0

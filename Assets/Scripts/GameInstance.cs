@@ -21,7 +21,6 @@ public class GameInstance : MonoBehaviour
         }
     }
 
-    public Shader outline;
 
     private void Start()
     {

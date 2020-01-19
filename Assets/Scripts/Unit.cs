@@ -25,27 +25,34 @@ namespace MOBA
 
         [SerializeField]
         protected int maxLvl = 18;
-        protected int lvl = 0;
+
+        public int Lvl
+        {
+            get;
+            protected set;
+        }
 
         protected float xp = 0;
 
         [SerializeField]
         protected GameObject mesh;
 
-        protected Material defaultMaterial;
-        protected Material outlineMaterial;
+        protected List<Material> defaultMaterials;
+        protected List<Material> outlineMaterials;
+        protected List<Renderer> renderers;
 
         public float XP
         {
             set
             {
-                if (lvl >= maxLvl) return;
+                if (Lvl >= maxLvl) return;
                 xp = value;
                 if (xp == 0) return;
-                if (xp >= GetXPNeededForLevel(lvl + 1))
+                if (xp >= GetXPNeededForLevel(Lvl + 1))
                 {
-                    OnLevelUp?.Invoke(lvl + 1);
+                    OnLevelUp?.Invoke(Lvl + 1);
                 }
+                OnXPChanged?.Invoke(xp, GetXPNeededForLevel(Lvl + 1));
             }
             get
             {
@@ -53,6 +60,7 @@ namespace MOBA
             }
         }
 
+        public Action<float, float> OnXPChanged;
 
         [SerializeField]
         protected float baseHP;
@@ -93,6 +101,9 @@ namespace MOBA
 
         [SerializeField]
         protected float baseResource;
+
+
+
         public float MaxResource
         {
             protected set;
@@ -279,6 +290,9 @@ namespace MOBA
         [SerializeField]
         protected Movement movement;
 
+        [SerializeField]
+        protected Attacking attacking;
+
 
         protected virtual float GetXPNeededForLevel(int level)
         {
@@ -287,14 +301,14 @@ namespace MOBA
 
         public void LevelUp()
         {
-            XP = GetXPNeededForLevel(lvl + 1);
+            XP = GetXPNeededForLevel(Lvl + 1);
         }
 
         public Action<int> OnLevelUp;
 
         protected virtual void LevelUpStats(int level)
         {
-            lvl = level;
+            Lvl = level;
 
             MaxHP += HPPerLvl;
             HP += HPPerLvl;
@@ -392,7 +406,7 @@ namespace MOBA
         protected virtual void Initialize()
         {
             OnLevelUp += LevelUpStats;
-            lvl = 1;
+            Lvl = 1;
             XP = 0;
 
             HP = baseHP;
@@ -430,27 +444,69 @@ namespace MOBA
 
         protected void SetupMaterials()
         {
-            var r = mesh.GetComponentInChildren<Renderer>();
-            defaultMaterial = new Material(r.material);
-            outlineMaterial = new Material(r.material);
-            outlineMaterial.shader = GameInstance.Instance.outline;
-            outlineMaterial.SetColor("Outline Color", Color.white);
-            outlineMaterial.SetFloat("Outline width", 0.5f);
+            defaultMaterials = new List<Material>();
+            outlineMaterials = new List<Material>();
+            renderers = new List<Renderer>();
+            var outlineColor = GetOutlineColor();
+
+            foreach (var renderer in mesh.GetComponentsInChildren<Renderer>())
+            {
+                renderers.Add(renderer);
+                defaultMaterials.Add(new Material(renderer.material));
+
+                var outlineMaterial = new Material(renderer.material);
+                outlineMaterial.shader = ChampHUD.Instance.outline;
+                outlineMaterial.SetColor("_OutlineColor", GetOutlineColor());
+                outlineMaterial.SetFloat("_Outline", 0.5f);
+                outlineMaterials.Add(outlineMaterial);
+            }
+        }
+
+        protected virtual Color GetOutlineColor()
+        {
+            if (IsAlly(ChampHUD.Player))
+            {
+                return ChampHUD.Instance.defaultColors.allyOutline;
+            }
+            return ChampHUD.Instance.defaultColors.enemyOutline;
+        }
+
+        public virtual Color GetHPColor()
+        {
+            if (IsAlly(ChampHUD.Player))
+            {
+                return ChampHUD.Instance.defaultColors.allyMinionHP;
+            }
+            return ChampHUD.Instance.defaultColors.enemyMinionHP;
         }
 
         private void OnMouseEnter()
         {
             if (!Targetable) return;
-            var r = mesh.GetComponentInChildren<Renderer>();
-            print(outlineMaterial.GetColor("Outline Color"));
-            r.material = outlineMaterial;
+            ShowOutlines();
         }
+
+        protected virtual void ShowOutlines()
+        {
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                renderers[i].material = outlineMaterials[i];
+            }
+        }
+
+        protected virtual void HideOutlines()
+        {
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                renderers[i].material = defaultMaterials[i];
+            }
+        }
+
 
         private void OnMouseExit()
         {
             if (!Targetable) return;
-            var r = mesh.GetComponentInChildren<Renderer>();
-            r.material = defaultMaterial;
+            HideOutlines();
         }
 
         public void MoveTo(Vector3 destination)
@@ -542,5 +598,16 @@ namespace MOBA
             return false;
         }
 
+        protected virtual void OnValidate()
+        {
+            if (attacking?.AtkTrigger)
+            {
+                attacking.AtkTrigger.radius = atkRange;
+            }
+            if (attacking?.RangeIndicator)
+            {
+                attacking.RangeIndicator.localScale = new Vector3(atkRange, atkRange, atkRange);
+            }
+        }
     }
 }

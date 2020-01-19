@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
-    public class StatBarHUD : MonoBehaviour
+    public class StatBarHUD<T> : MonoBehaviour where T : Unit
     {
         [SerializeField]
-        protected Unit target;
+        protected T target;
 
         [SerializeField]
         protected Image HPBar;
@@ -23,7 +23,8 @@ namespace MOBA
         private Transform HUD;
 
 
-
+        [SerializeField]
+        private bool animateDamage;
 
         private Coroutine HPShadowAnim;
 
@@ -33,12 +34,14 @@ namespace MOBA
         public void SetHP(float newAmount, float max)
         {
             HPBar.fillAmount = newAmount / max;
+            if (!animateDamage) return;
             if (HPShadowAnim != null)
             {
                 StopCoroutine(HPShadowAnim);
             }
             HPShadowAnim = StartCoroutine(ShowHPShadow(HPShadowBar.fillAmount, HPBar.fillAmount));
         }
+
 
         public void SetResource(float newAmount, float max)
         {
@@ -53,6 +56,7 @@ namespace MOBA
                 HPShadowBar.fillAmount = Mathf.Lerp(from, to, HPShadowAnimCurve.Evaluate(time));
                 time += Time.deltaTime;
                 yield return null;
+                continue;
             }
             HPShadowBar.fillAmount = HPBar.fillAmount;
         }
@@ -75,7 +79,15 @@ namespace MOBA
             {
                 Toggle(false);
             }
+
+            HPBar.color = target.GetHPColor();
+            if (animateDamage)
+            {
+                HPShadowBar.color = HPBar.color * 0.8f;
+            }
         }
+
+      
 
         protected void Toggle(bool show)
         {
@@ -87,6 +99,11 @@ namespace MOBA
             Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
             targetPos.z = 0;
             HUD.position = targetPos;
+        }
+
+        private void OnValidate()
+        {
+            HPShadowBar?.gameObject.SetActive(animateDamage);
         }
     }
 }

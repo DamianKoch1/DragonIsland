@@ -35,7 +35,7 @@ namespace MOBA
             }
         }
 
-        private bool MoveToCursor(out Vector3 targetPos)
+        public bool MoveToCursor(out Vector3 targetPos)
         {
             if (cam.GetCursorToWorldPoint(out var mousePos))
             {
@@ -82,6 +82,40 @@ namespace MOBA
             {
                 nearbyAlliedTowers.Remove(tower);
             }
+        }
+
+        protected override void ShowOutlines()
+        {
+            if (ChampHUD.Player == this) return;
+            base.ShowOutlines();
+        }
+
+        protected override void HideOutlines()
+        {
+            if (ChampHUD.Player == this) return;
+            base.HideOutlines();
+        }
+
+        protected override Color GetOutlineColor()
+        {
+            if (ChampHUD.Player == this)
+            {
+                return ChampHUD.Instance.defaultColors.ownOutline;
+            }
+            return base.GetOutlineColor();
+        }
+
+        public override Color GetHPColor()
+        {
+            if (ChampHUD.Player == this)
+            {
+                return ChampHUD.Instance.defaultColors.ownHP;
+            }
+            if (IsAlly(ChampHUD.Player))
+            {
+                return ChampHUD.Instance.defaultColors.allyChampHP;
+            }
+            return ChampHUD.Instance.defaultColors.enemyChampHP;
         }
 
     }
