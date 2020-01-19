@@ -25,6 +25,10 @@ namespace MOBA
         public override void MoveTo(Vector3 destination)
         {
             if (!agent.enabled) return;
+            if (GetVelocity() > 0.1f)
+            {
+                if (Vector3.Distance(targetPos, destination) < 0.1f) return;
+            }
             base.MoveTo(destination);
             agent.SetDestination(ClosestNavigablePos(destination));
         }
@@ -71,5 +75,6 @@ namespace MOBA
             obstacle.enabled = false;
             agent.enabled = true;
         }
+
     }
 }

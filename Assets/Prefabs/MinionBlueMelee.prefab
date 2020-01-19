@@ -207,7 +207,7 @@ MonoBehaviour:
   movement: {fileID: 6409819951060390174}
   attacking: {fileID: 7119685332314796822}
   maxChaseDistance: 20
-  maxWaypointDistance: 30
+  maxWaypointDistance: 40
   enemyUnitsInRange: []
   enemyChampsInRange: []
 --- !u!136 &6409819951060390144

@@ -149,9 +149,11 @@ namespace MOBA
                 CheckForNewTarget();
             }
         }
+        
         //TODO: shared code with tower, move to ai targeting component
         protected void CheckForNewTarget()
         {
+            ValidateUnitList(enemyUnitsInRange);
             if (enemyUnitsInRange.Count > 0)
             {
                 var unitTargets = GetTargetables(enemyUnitsInRange);
@@ -161,6 +163,7 @@ namespace MOBA
                     return;
                 }
             }
+            ValidateUnitList(enemyChampsInRange);
             if (enemyChampsInRange.Count > 0)
             {
                 var champTargets = GetTargetables(enemyChampsInRange);
@@ -180,9 +183,6 @@ namespace MOBA
             enemyUnitsInRange = new List<Unit>();
             enemyChampsInRange = new List<Champ>();
         }
-
-        
-
 
     }
 }

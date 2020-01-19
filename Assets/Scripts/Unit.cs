@@ -376,7 +376,6 @@ namespace MOBA
 
         protected Unit GetClosestUnit<T>(List<T> fromList) where T : Unit
         {
-            ValidateUnitList(fromList);
             if (fromList.Count == 0) return null;
             float lowestDistance = Mathf.Infinity;
             Unit closestUnit = null;
@@ -394,7 +393,6 @@ namespace MOBA
 
         public static Unit GetClosest<T>(List<T> fromList, Vector3 fromPosition) where T : Unit
         {
-            ValidateUnitList(fromList);
             if (fromList.Count == 0) return null;
             float lowestDistance = Mathf.Infinity;
             Unit closestUnit = null;

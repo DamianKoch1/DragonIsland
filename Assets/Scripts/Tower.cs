@@ -131,6 +131,7 @@ namespace MOBA
         //TODO: shared code with minion, move to ai targeting component
         protected void CheckForNewTarget()
         {
+            ValidateUnitList(enemyMinionsInRange);
             if (enemyMinionsInRange.Count > 0)
             {
                 var minionTargets = GetTargetables(enemyMinionsInRange);
@@ -140,6 +141,7 @@ namespace MOBA
                     return;
                 }
             }
+            ValidateUnitList(enemyChampsInRange);
             if (enemyChampsInRange.Count > 0)
             {
                 var champTargets = GetTargetables(enemyChampsInRange);

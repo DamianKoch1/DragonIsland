@@ -60,4 +60,10 @@ public abstract class Movement : MonoBehaviour
         }
         lastVelocity = GetVelocity();
     }
+
+    protected void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, targetPos);
+    }
 }
