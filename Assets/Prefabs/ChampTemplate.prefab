@@ -274,8 +274,8 @@ MonoBehaviour:
   magicResPerLvl: 2
   baseAtkDmg: 65
   atkDmgPerLvl: 3
-  baseAtkSpeed: 0
-  atkSpeedPerLvl: 0
+  baseAtkSpeed: 0.65
+  atkSpeedPerLvl: 0.06
   atkRange: 10
   moveSpeed: 5
   amplifiers:
@@ -302,8 +302,6 @@ MonoBehaviour:
   movement: {fileID: 430783425}
   attacking: {fileID: 0}
   cam: {fileID: 7338143702491796175}
-  clickVfx: {fileID: 2216396579906894077, guid: bff06226884c3b0488888ccce39bdc96,
-    type: 3}
 --- !u!114 &430783425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +314,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b557431d7b3cbb244a8184436f35e2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  samplePosLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!195 &430783426
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -336,7 +337,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 2
 --- !u!136 &3086226494834410964
 CapsuleCollider:

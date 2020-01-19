@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atkTrigger: {fileID: 4052120518278833257}
+  rangeIndicator: {fileID: 0}
   projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
   projectileSpeed: 10
+  projectileSize: 0.5
   projectileSpawnpoint: {fileID: 6311560771354947223}
 --- !u!1001 &1108846877501849494
 PrefabInstance:
@@ -37,11 +39,6 @@ PrefabInstance:
     - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}
       propertyPath: atkRange
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3990027059083123711, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
-        type: 3}
-      propertyPath: m_Radius
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6409819951060390145, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
@@ -98,6 +95,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990027059083123711, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: m_Radius
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7119685332314796822, guid: 6a4641d7a3c331c41ab7e837eba47b8a, type: 3}

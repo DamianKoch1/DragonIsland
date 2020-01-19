@@ -48,6 +48,7 @@ namespace MOBA
 
         public void StartAttacking(Unit _target)
         {
+            if (CurrentTarget == _target) return;
             if (!_target)
             {
                 Stop();
@@ -66,7 +67,11 @@ namespace MOBA
         {
             while (true)
             {
-                if (!target) break;
+                if (!target)
+                {
+                    Stop();
+                    break;
+                }
                 if (!owner.canAttack)
                 {
                     yield return null;

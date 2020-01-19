@@ -6,23 +6,26 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
-    //TODO: also serves as current player in network, split up or rename
-    public class ChampHUD : StatBarHUD<Champ>
-    {
-        private static ChampHUD instance;
 
-        public static ChampHUD Instance
+    public class PlayerController : StatBarHUD<Champ>
+    {
+        private static PlayerController instance;
+
+        public static PlayerController Instance
         {
             set => instance = value;
             get
             {
                 if (!instance)
                 {
-                    instance = FindObjectOfType<ChampHUD>();
+                    instance = FindObjectOfType<PlayerController>();
                 }
                 return instance;
             }
         }
+
+        [HideInInspector]
+        public Unit hovered;
 
         public static Champ Player => Instance.target;
 
@@ -59,18 +62,60 @@ namespace MOBA
             LevelText.text = newLvl + "";
         }
 
+        private void DisplayStats(Unit target)
+        {
+
+        }
+
+        private void OnleftClick()
+        {
+            if (!hovered) return;
+            DisplayStats(hovered);
+        }
+
+        private void OnRightClick()
+        {
+            if (hovered)
+            {
+                target.StartAttacking(hovered);
+            }
+            else if (target.MoveToCursor(out var targetPos))
+            {
+                Instantiate(clickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
+            }
+        }
+
+        private void OnRightMBHeld()
+        {
+            if (hovered)
+            {
+                target.StartAttacking(hovered);
+            }
+            else
+            {
+                target.MoveToCursor(out var _);
+            }
+        }
+
+        private void AttackHovered()
+        {
+            target.StartAttacking(hovered);
+        }
+
+
         private void Update()
         {
             if (Input.GetMouseButtonDown(1))
             {
-                if (target.MoveToCursor(out var targetPos))
-                {
-                    Instantiate(clickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
-                }
+                OnRightClick();
             }
             else if (Input.GetMouseButton(1))
             {
-                target.MoveToCursor(out var _);
+                OnRightMBHeld();
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                OnleftClick();
             }
         }
 

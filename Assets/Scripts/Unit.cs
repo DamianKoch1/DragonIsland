@@ -264,10 +264,18 @@ namespace MOBA
                 {
                     if (value)
                     {
+                        if (PlayerController.Instance.hovered == this)
+                        {
+                            ShowOutlines();
+                        }
                         OnBecomeTargetable?.Invoke();
                     }
                     else
                     {
+                        if (PlayerController.Instance.hovered == this)
+                        {
+                            HideOutlines();
+                        }
                         OnBecomeUntargetable?.Invoke();
                     }
                 }
@@ -381,7 +389,7 @@ namespace MOBA
 
         public Action<Champ> OnAttackedByChamp;
 
-        protected void Die(Unit killer)
+        protected virtual void Die(Unit killer)
         {
             if (killer is Champ)
             {
@@ -389,11 +397,17 @@ namespace MOBA
                 champ.XP += GetXPReward();
                 champ.AddGold(GetGoldReward());
             }
-            OnDeath?.Invoke();
+            OnBeforeDeath?.Invoke();
+            OnDeath();
         }
 
 
-        public Action OnDeath;
+        public Action OnBeforeDeath;
+
+        protected virtual void OnDeath()
+        {
+            Destroy(gameObject);
+        }
 
         public Action<Unit, float, DamageType> OnDealDamage;
 
@@ -434,10 +448,10 @@ namespace MOBA
             amplifiers.Initialize();
 
             movement?.Initialize(moveSpeed);
+            attacking?.Initialize(this);
+
 
             OnLevelUp += (int a) => print(gameObject.name + " reached lvl " + a);
-
-            OnDeath += () => print(gameObject.name + " died.");
 
             SetupMaterials();
         }
@@ -455,7 +469,7 @@ namespace MOBA
                 defaultMaterials.Add(new Material(renderer.material));
 
                 var outlineMaterial = new Material(renderer.material);
-                outlineMaterial.shader = ChampHUD.Instance.outline;
+                outlineMaterial.shader = PlayerController.Instance.outline;
                 outlineMaterial.SetColor("_OutlineColor", GetOutlineColor());
                 outlineMaterial.SetFloat("_Outline", 0.5f);
                 outlineMaterials.Add(outlineMaterial);
@@ -464,24 +478,25 @@ namespace MOBA
 
         protected virtual Color GetOutlineColor()
         {
-            if (IsAlly(ChampHUD.Player))
+            if (IsAlly(PlayerController.Player))
             {
-                return ChampHUD.Instance.defaultColors.allyOutline;
+                return PlayerController.Instance.defaultColors.allyOutline;
             }
-            return ChampHUD.Instance.defaultColors.enemyOutline;
+            return PlayerController.Instance.defaultColors.enemyOutline;
         }
 
         public virtual Color GetHPColor()
         {
-            if (IsAlly(ChampHUD.Player))
+            if (IsAlly(PlayerController.Player))
             {
-                return ChampHUD.Instance.defaultColors.allyMinionHP;
+                return PlayerController.Instance.defaultColors.allyMinionHP;
             }
-            return ChampHUD.Instance.defaultColors.enemyMinionHP;
+            return PlayerController.Instance.defaultColors.enemyMinionHP;
         }
 
         private void OnMouseEnter()
         {
+            PlayerController.Instance.hovered = this;
             if (!Targetable) return;
             ShowOutlines();
         }
@@ -505,9 +520,13 @@ namespace MOBA
 
         private void OnMouseExit()
         {
-            if (!Targetable) return;
-            HideOutlines();
+            if (PlayerController.Instance.hovered == this)
+            {
+                PlayerController.Instance.hovered = null;
+                HideOutlines();
+            }
         }
+
 
         public void MoveTo(Vector3 destination)
         {

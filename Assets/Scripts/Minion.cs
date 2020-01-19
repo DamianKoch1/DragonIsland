@@ -167,11 +167,8 @@ namespace MOBA
         {
             base.Initialize();
 
-            OnDeath = () => Destroy(gameObject);
             enemyUnitsInRange = new List<Unit>();
             enemyChampsInRange = new List<Champ>();
-
-            attacking.Initialize(this);
         }
 
         

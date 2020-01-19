@@ -17,6 +17,7 @@ MonoBehaviour:
   projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
   projectileSpeed: 10
+  projectileSize: 0.7
   projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1 &8499954249014157485
 GameObject:
@@ -141,16 +142,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestChamp
       objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: atkRange
+      propertyPath: m_Radius
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: attacking
-      value: 
-      objectReference: {fileID: 6035923426967473156}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -206,11 +202,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: m_Radius
+      propertyPath: atkRange
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: attacking
+      value: 
+      objectReference: {fileID: 6035923426967473156}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e69ce5f605b2e194fbb5e38fa2b49f7e, type: 3}
 --- !u!1 &5215801311654412534 stripped

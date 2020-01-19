@@ -4666,6 +4666,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5215801311654412535, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
+        type: 3}
+      propertyPath: baseAtkDmg
+      value: 6500
+      objectReference: {fileID: 0}
     - target: {fileID: 4118471921292742882, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
         type: 3}
       propertyPath: m_Radius
@@ -4740,6 +4745,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.05490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772304858503843637, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
+        type: 3}
+      propertyPath: m_WalkableMask
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ea2e4a703f1b74c85657666a3d3c7d, type: 3}

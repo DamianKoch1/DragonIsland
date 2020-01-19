@@ -33,31 +33,34 @@ namespace MOBA
                 damageable = false;
                 foreach (var structure in isUntargetableUntilDestroyed)
                 {
-                    structure.OnDeath += () => CheckTargetableRequirements(structure);
+                    structure.OnBeforeDeath += CheckTargetableRequirements;
                 }
             }
         }
 
-        public override Color GetHPColor()
+        protected override void Die(Unit killer)
         {
-            if (IsAlly(ChampHUD.Player))
-            {
-                return ChampHUD.Instance.defaultColors.allyStructureHP;
-            }
-            return ChampHUD.Instance.defaultColors.enemyStructureHP;
+            isDestroyed = true;
+            base.Die(killer);
         }
 
-        private void CheckTargetableRequirements(Structure destroyedStructure)
+        public override Color GetHPColor()
+        {
+            if (IsAlly(PlayerController.Player))
+            {
+                return PlayerController.Instance.defaultColors.allyStructureHP;
+            }
+            return PlayerController.Instance.defaultColors.enemyStructureHP;
+        }
+
+        private void CheckTargetableRequirements()
         {
             switch (targetableUntilMode)
             {
                 case UntargetableUntilMode.allDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
-                        if (!structure.isDestroyed)
-                        {
-                            return;
-                        }
+                        if (!structure.isDestroyed) return;
                         Targetable = true;
                         damageable = true;
                     }
@@ -65,12 +68,10 @@ namespace MOBA
                 case UntargetableUntilMode.anyDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
-                        if (structure.isDestroyed)
-                        {
-                            Targetable = true;
-                            damageable = true;
-                            return;
-                        }
+                        if (!structure.isDestroyed) continue;
+                        Targetable = true;
+                        damageable = true;
+                        break;
                     }
                     break;
                 default:

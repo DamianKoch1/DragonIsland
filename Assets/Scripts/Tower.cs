@@ -124,7 +124,6 @@ namespace MOBA
         {
             base.Initialize();
 
-            attacking.Initialize(this);
             enemyMinionsInRange = new List<Minion>();
             enemyChampsInRange = new List<Champ>();
         }

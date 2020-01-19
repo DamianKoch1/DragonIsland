@@ -16,27 +16,20 @@ namespace MOBA
         [SerializeField]
         private ChampCamera cam;
 
-        [SerializeField]
-        private GameObject clickVfx;
+       
 
         protected override void Update()
         {
             base.Update();
-            if (Input.GetMouseButtonDown(1))
-            {
-                if (MoveToCursor(out var targetPos))
-                {
-                    Instantiate(clickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
-                }
-            }
-            else if (Input.GetMouseButton(1))
-            {
-                MoveToCursor(out var _);
-            }
+           
         }
 
         public bool MoveToCursor(out Vector3 targetPos)
         {
+            if (attacking.IsAttacking())
+            {
+                attacking.Stop();
+            }
             if (cam.GetCursorToWorldPoint(out var mousePos))
             {
                 movement.MoveTo(mousePos);
@@ -47,11 +40,29 @@ namespace MOBA
             return false;
         }
 
+        public void StartAttacking(Unit target)
+        {
+            if (!canAttack) return;
+            if (!attacking) return;
+            if (!IsEnemy(target)) return;
+            attacking.StartAttacking(target);
+        }
+
+        public bool IsAttacking()
+        {
+            if (!attacking) return false;
+            return attacking.IsAttacking();
+        }
+
         protected override void Initialize()
         {
             base.Initialize();
             OnAttackedByChamp += RequestTowerAssist;
             nearbyAlliedTowers = new List<Tower>();
+        }
+
+        protected override void OnDeath()
+        {
         }
 
         protected void RequestTowerAssist(Champ attacker)
@@ -86,36 +97,36 @@ namespace MOBA
 
         protected override void ShowOutlines()
         {
-            if (ChampHUD.Player == this) return;
+            if (PlayerController.Player == this) return;
             base.ShowOutlines();
         }
 
         protected override void HideOutlines()
         {
-            if (ChampHUD.Player == this) return;
+            if (PlayerController.Player == this) return;
             base.HideOutlines();
         }
 
         protected override Color GetOutlineColor()
         {
-            if (ChampHUD.Player == this)
+            if (PlayerController.Player == this)
             {
-                return ChampHUD.Instance.defaultColors.ownOutline;
+                return PlayerController.Instance.defaultColors.ownOutline;
             }
             return base.GetOutlineColor();
         }
 
         public override Color GetHPColor()
         {
-            if (ChampHUD.Player == this)
+            if (PlayerController.Player == this)
             {
-                return ChampHUD.Instance.defaultColors.ownHP;
+                return PlayerController.Instance.defaultColors.ownHP;
             }
-            if (IsAlly(ChampHUD.Player))
+            if (IsAlly(PlayerController.Player))
             {
-                return ChampHUD.Instance.defaultColors.allyChampHP;
+                return PlayerController.Instance.defaultColors.allyChampHP;
             }
-            return ChampHUD.Instance.defaultColors.enemyChampHP;
+            return PlayerController.Instance.defaultColors.enemyChampHP;
         }
 
     }

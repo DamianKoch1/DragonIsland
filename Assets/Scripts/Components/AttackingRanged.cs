@@ -14,6 +14,9 @@ namespace MOBA
         protected float projectileSpeed;
 
         [SerializeField]
+        protected float projectileSize = 1;
+
+        [SerializeField]
         protected Transform projectileSpawnpoint;
 
         public override void Attack(Unit target)
@@ -22,7 +25,7 @@ namespace MOBA
             {
                 animator.SetTrigger("attack");
             }
-            projectile.SpawnHoming(target, projectileSpawnpoint.position, owner, owner.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
+            projectile.SpawnHoming(projectileSize, target, projectileSpawnpoint.position, owner, owner.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
             AttackAnimFinished();
         }
 

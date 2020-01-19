@@ -444,6 +444,7 @@ MonoBehaviour:
   projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
   projectileSpeed: 10
+  projectileSize: 1
   projectileSpawnpoint: {fileID: 799614337}
 --- !u!135 &1148474522
 SphereCollider:

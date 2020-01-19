@@ -243,7 +243,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 1
 --- !u!54 &6409819951060390173
 Rigidbody:
@@ -273,6 +273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b557431d7b3cbb244a8184436f35e2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  samplePosLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &3990027059083123711
 SphereCollider:
   m_ObjectHideFlags: 0

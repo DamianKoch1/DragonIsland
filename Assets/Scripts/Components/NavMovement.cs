@@ -25,7 +25,23 @@ namespace MOBA
         public override void MoveTo(Vector3 destination)
         {
             if (!agent.enabled) return;
-            agent.SetDestination(destination);
+            agent.SetDestination(ClosestNavigablePos(destination));
+        }
+
+
+        private Vector3 ClosestNavigablePos(Vector3 source)
+        {
+            Vector3 result = source;
+            result.y = 0;
+            if (agent.CalculatePath(result, new NavMeshPath())) return source;
+            float currentMaxDist = 5;
+            NavMeshHit hit;
+            while (!NavMesh.SamplePosition(result, out hit, currentMaxDist, NavMesh.AllAreas))
+            {
+                currentMaxDist *= 1.3f;
+            }
+            result = hit.position;
+            return result;
         }
 
         public override void SetSpeed(float newSpeed)

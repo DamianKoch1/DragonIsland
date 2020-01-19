@@ -165,29 +165,68 @@ namespace MOBA
             Destroy(gameObject);
         }
 
-        protected Projectile Spawn(Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        /// <summary>
+        /// Only use this if properties are set in prefab
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="_owner"></param>
+        /// <param name="_damage"></param>
+        /// <param name="_dmgType"></param>
+        /// <returns></returns>
+        public Projectile Spawn(Vector3 position, Unit _owner, float _damage, DamageType _dmgType)
         {
             Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
             instance.owner = _owner;
             instance.damage = _damage;
+            instance.dmgType = _dmgType;
+            return instance;
+        }
+
+        /// <summary>
+        /// Spawns a stillstanding projectile
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="_owner"></param>
+        /// <param name="_damage"></param>
+        /// <param name="_speed"></param>
+        /// <param name="_hitMode"></param>
+        /// <param name="_dmgType"></param>
+        /// <param name="_destroyOnNonTargetHit"></param>
+        /// <param name="_canHitStructures"></param>
+        /// <returns></returns>
+        protected Projectile Spawn(float size, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        {
+            Projectile instance = Spawn(position, _owner, _damage, _dmgType);
+            instance.transform.localScale *= size;
             instance.speed = _speed;
             instance.hitMode = _hitMode;
-            instance.dmgType = _dmgType;
             instance.destroyOnNonTargetHit = _destroyOnNonTargetHit;
             instance.canHitStructures = _canHitStructures;
             instance.movement.Initialize(_speed);
             return instance;
         }
 
-        public void SpawnHoming(Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        /// <summary>
+        /// Spawns a projectile that follows _target
+        /// </summary>
+        /// <param name="_target"></param>
+        /// <param name="position"></param>
+        /// <param name="_owner"></param>
+        /// <param name="_damage"></param>
+        /// <param name="_speed"></param>
+        /// <param name="_hitMode"></param>
+        /// <param name="_dmgType"></param>
+        /// <param name="_destroyOnNonTargetHit"></param>
+        /// <param name="_canHitStructures"></param>
+        public void SpawnHoming(float size, Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
-            Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
+            Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.target = _target;
             instance.isHoming = true;
         }
 
         /// <summary>
-        /// Doesn't work with hitMode targetOnly.
+        /// Spawns a projectile that moves to _targetPos, doesn't work with hitMode targetOnly. 
         /// </summary>
         /// <param name="_targetPos"></param>
         /// <param name="position"></param>
@@ -198,16 +237,28 @@ namespace MOBA
         /// <param name="_dmgType"></param>
         /// <param name="_destroyOnNonTargetHit"></param>
         /// <param name="_canHitStructures"></param>
-        public void SpawnSkillshot(Vector3 _targetPos, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        public void SpawnSkillshot(float size, Vector3 _targetPos, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
-            Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
+            Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.targetPos = _targetPos;
             instance.isHoming = false;
         }
 
-        public void SpawnSkillshot(Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        /// <summary>
+        /// Spawns a projectile that moves to current position of _target, works with hitMode targetOnly.
+        /// </summary>
+        /// <param name="_target"></param>
+        /// <param name="position"></param>
+        /// <param name="_owner"></param>
+        /// <param name="_damage"></param>
+        /// <param name="_speed"></param>
+        /// <param name="_hitMode"></param>
+        /// <param name="_dmgType"></param>
+        /// <param name="_destroyOnNonTargetHit"></param>
+        /// <param name="_canHitStructures"></param>
+        public void SpawnSkillshot(float size, Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
         {
-            Projectile instance = Spawn(position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
+            Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.targetPos = _target.transform.position;
             instance.target = _target;
             instance.isHoming = false;

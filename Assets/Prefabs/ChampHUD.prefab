@@ -351,6 +351,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  hovered: {fileID: 0}
   XPBar: {fileID: 5369345508265539177}
   LevelText: {fileID: 9202464609249578380}
   defaultColors: {fileID: 11400000, guid: 1cfe8df74154c0d4a94bc8e371fb394e, type: 2}
