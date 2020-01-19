@@ -19,6 +19,16 @@ namespace MOBA
         [SerializeField]
         private LaneID laneID;
 
+        public override int GetGoldReward()
+        {
+            return 50;
+        }
+
+        public override float GetXPReward()
+        {
+            return Lvl * 50;
+        }
+
         protected override void Initialize()
         {
             base.Initialize();

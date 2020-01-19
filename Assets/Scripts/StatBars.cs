@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
-    public class StatBarHUD<T> : MonoBehaviour where T : Unit
+    public class StatBars<T> : MonoBehaviour where T : Unit
     {
         [SerializeField]
         protected T target;
@@ -51,7 +51,7 @@ namespace MOBA
         private IEnumerator ShowHPShadow(float from, float to)
         {
             float time = 0;
-            while (time < 1)
+            while (time < 0.5f)
             {
                 HPShadowBar.fillAmount = Mathf.Lerp(from, to, HPShadowAnimCurve.Evaluate(time));
                 time += Time.deltaTime;
@@ -61,16 +61,11 @@ namespace MOBA
             HPShadowBar.fillAmount = HPBar.fillAmount;
         }
 
-        protected virtual void Start()
+        public virtual void Initialize(T _target, bool _animateDamage = false)
         {
-            Initialize();
-        }
-
-        protected virtual void Initialize()
-        {
-            HPBar.fillAmount = 1;
-            HPShadowBar.fillAmount = 1;
-            ResourceBar.fillAmount = 1;
+            target = _target;
+            animateDamage = _animateDamage;
+            HPShadowBar?.gameObject.SetActive(animateDamage);
             target.OnHPChanged += SetHP;
             target.OnResourceChanged += SetResource;
             target.OnBecomeTargetable += () => Toggle(true);
@@ -83,10 +78,19 @@ namespace MOBA
             HPBar.color = target.GetHPColor();
             if (animateDamage)
             {
-                HPShadowBar.color = HPBar.color * 0.8f;
+                HPShadowBar.color = HPBar.color * 0.75f;
+                HPShadowBar.fillAmount = 1;
             }
+            target.OnBeforeDeath += OnTargetKilled;
+            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
+            HUD.position = targetPos;
         }
 
+        protected virtual void OnTargetKilled()
+        {
+            StopAllCoroutines();
+            Destroy(gameObject);
+        }
       
 
         protected void Toggle(bool show)
@@ -97,8 +101,8 @@ namespace MOBA
         private void LateUpdate()
         {
             Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
-            targetPos.z = 0;
             HUD.position = targetPos;
+
         }
 
         private void OnValidate()

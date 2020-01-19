@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MOBA
 {
-    public class UnitHUD : StatBarHUD<Unit>
+    public class UnitStatBars : StatBars<Unit>
     {
         
     }

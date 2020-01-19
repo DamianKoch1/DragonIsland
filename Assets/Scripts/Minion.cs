@@ -184,5 +184,14 @@ namespace MOBA
             enemyChampsInRange = new List<Champ>();
         }
 
+        public override float GetXPReward()
+        {
+            return Lvl * 10;
+        }
+
+        public override int GetGoldReward()
+        {
+            return 25;
+        }
     }
 }

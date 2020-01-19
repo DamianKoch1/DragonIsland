@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace MOBA
 {
 
-    public class PlayerController : StatBarHUD<Champ>
+    public class PlayerController : MonoBehaviour
     {
         private static PlayerController instance;
 
@@ -37,13 +37,12 @@ namespace MOBA
         [SerializeField]
         private Vector3 camRotation;
 
-        public static Champ Player => Instance.target;
-
         [SerializeField]
-        private Image XPBar;
+        private Champ player;
 
-        [SerializeField]
-        private Text LevelText;
+        public static Champ Player => Instance.player;
+
+      
 
         public DefaultColors defaultColors;
 
@@ -61,26 +60,13 @@ namespace MOBA
         [SerializeField]
         private KeyCode attackMove;
 
-        protected override void Initialize()
+        private void Start()
         {
             if (instance && instance != this) Destroy(gameObject);
-            base.Initialize();
-            XPBar.fillAmount = 0;
-            LevelText.text = "1";
-            target.OnXPChanged += SetXP;
-            target.OnLevelUp += SetLvl;
-            cam.Initialize(target, camOffset, Quaternion.Euler(camRotation));
+           
+            cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
         }
 
-        protected void SetXP(float newAmount, float max)
-        {
-            XPBar.fillAmount = newAmount / max;
-        }
-
-        protected void SetLvl(int newLvl)
-        {
-            LevelText.text = newLvl + "";
-        }
 
         private void DisplayStats(Unit target)
         {
@@ -101,7 +87,7 @@ namespace MOBA
             }
             else if (MoveToCursor(out var targetPos))
             {
-                target.attackMoving = false;
+                player.attackMoving = false;
                 Instantiate(moveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
             }
         }
@@ -127,18 +113,18 @@ namespace MOBA
             }
             if (!cam.GetCursorToWorldPoint(out var worldMousePos)) return;
             Instantiate(atkMoveClickVfx, worldMousePos + Vector3.up * 0.2f, Quaternion.identity);
-            var targets = target.GetTargetableEnemiesInRange(worldMousePos);
+            var targets = player.GetTargetableEnemiesInAtkRange(worldMousePos);
             switch (targets.Count)
             {
                 case 0:
-                    target.attackMoving = true;
+                    player.attackMoving = true;
                     MoveToCursor(out var _);
                     break;
                 case 1:
-                    target.StartAttacking(targets[0]);
+                    player.StartAttacking(targets[0]);
                     break;
                 default:
-                    target.StartAttacking(Unit.GetClosest(targets, worldMousePos));
+                    player.StartAttacking(Unit.GetClosestUnitFrom(targets, worldMousePos));
                     break;
             }
         }
@@ -147,13 +133,13 @@ namespace MOBA
 
         private bool MoveToCursor(out Vector3 targetPos)
         {
-            if (target.IsAttacking())
+            if (player.IsAttacking())
             {
-                target.StopAttacking();
+                player.StopAttacking();
             }
             if (cam.GetCursorToWorldPoint(out var worldMousePos))
             {
-                target.MoveTo(worldMousePos);
+                player.MoveTo(worldMousePos);
                 targetPos = worldMousePos;
                 return true;
             }
@@ -163,7 +149,7 @@ namespace MOBA
 
         private void AttackHovered()
         {
-            target.StartAttacking(hovered);
+            player.StartAttacking(hovered);
         }
 
 
@@ -190,7 +176,7 @@ namespace MOBA
         private void OnValidate()
         {
             if (!cam) return;
-            cam.transform.position = target.transform.position + camOffset;
+            cam.transform.position = player.transform.position + camOffset;
             cam.transform.rotation = Quaternion.Euler(camRotation);
         }
 

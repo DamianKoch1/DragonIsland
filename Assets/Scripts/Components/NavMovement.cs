@@ -55,9 +55,6 @@ namespace MOBA
             agent.speed = newSpeed;
         }
 
-        private void Start()
-        {
-        }
 
         public override void Disable()
         {

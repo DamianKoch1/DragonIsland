@@ -43,13 +43,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8499954249014157485}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 11.592908, y: 11.592908, z: 11.592908}
   m_Children: []
   m_Father: {fileID: 2480802898496546475}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!212 &907288543812064744
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -124,11 +124,11 @@ Transform:
   m_GameObject: {fileID: 9055844646087016435}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 5401795361213953186}
   m_Father: {fileID: 5215801311654412532}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6772304858078459127
 PrefabInstance:
@@ -141,11 +141,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestChamp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Radius
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
@@ -205,13 +200,18 @@ PrefabInstance:
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: atkRange
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: attacking
       value: 
       objectReference: {fileID: 6035923426967473156}
+    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Radius
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e69ce5f605b2e194fbb5e38fa2b49f7e, type: 3}
 --- !u!1 &5215801311654412534 stripped

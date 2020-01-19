@@ -17,10 +17,9 @@ namespace MOBA
             rotation = _rotation;
         }
 
-        void LateUpdate()
+        void Update()
         {
             transform.position = target.transform.position + offset;
-            transform.rotation = rotation;
         }
 
         public bool GetCursorToWorldPoint(out Vector3 result)

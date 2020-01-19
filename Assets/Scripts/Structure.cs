@@ -12,7 +12,7 @@ namespace MOBA
         anyDestroyed = 1,
     }
 
-    public class Structure : Unit
+    public abstract class Structure : Unit
     {
         [SerializeField]
         protected List<Structure> isUntargetableUntilDestroyed;
@@ -60,7 +60,7 @@ namespace MOBA
                 case UntargetableUntilMode.allDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
-                        if (!structure.isDestroyed) return;
+                        if (!structure.isDestroyed) break;
                         Targetable = true;
                         damageable = true;
                     }
@@ -79,6 +79,11 @@ namespace MOBA
                     break;
             }
 
+        }
+
+        protected override void SetupBars()
+        {
+            Instantiate(statBars).GetComponent<UnitStatBars>()?.Initialize(this, true);
         }
     }
 }

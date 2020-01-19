@@ -1075,6 +1075,11 @@ PrefabInstance:
       propertyPath: targetableUntilMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2063,6 +2068,11 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 8996900411575381947}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2506,6 +2516,11 @@ PrefabInstance:
       propertyPath: targetableUntilMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -2737,6 +2752,11 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 8996900411778797538}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3078,6 +3098,11 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089092209200347}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -3562,6 +3587,11 @@ PrefabInstance:
         type: 3}
       propertyPath: targetableUntilMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
@@ -4386,6 +4416,11 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 8996900412461959548}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4941,6 +4976,11 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089091748719655}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -5314,6 +5354,11 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089091744948321}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -5840,6 +5885,11 @@ PrefabInstance:
         type: 3}
       propertyPath: targetableUntilMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}

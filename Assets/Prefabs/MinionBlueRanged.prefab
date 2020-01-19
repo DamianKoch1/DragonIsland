@@ -18,7 +18,7 @@ MonoBehaviour:
     type: 3}
   projectileSpeed: 10
   projectileSize: 0.5
-  projectileSpawnpoint: {fileID: 6311560771354947223}
+  projectileSpawnpoint: {fileID: 2385855379404602587}
 --- !u!1001 &1108846877501849494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30,16 +30,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MinionBlueRanged
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
-        type: 3}
-      propertyPath: attacking
-      value: 
-      objectReference: {fileID: 2376067098085012665}
-    - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
-        type: 3}
-      propertyPath: atkRange
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6409819951060390145, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}
@@ -96,11 +86,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: attacking
+      value: 
+      objectReference: {fileID: 2376067098085012665}
+    - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: atkRange
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3990027059083123711, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}
       propertyPath: m_Radius
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2509994949196534415, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: m_Name
+      value: Sphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095527770504728672, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 5623562735491629476, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89351125d486b9648ad1a6e9319d3350, type: 2}
     m_RemovedComponents:
     - {fileID: 7119685332314796822, guid: 6a4641d7a3c331c41ab7e837eba47b8a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6a4641d7a3c331c41ab7e837eba47b8a, type: 3}
@@ -110,15 +125,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1108846877501849494}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &6311560771354947223 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6409819951060390145, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1108846877501849494}
-  m_PrefabAsset: {fileID: 0}
 --- !u!135 &4052120518278833257 stripped
 SphereCollider:
   m_CorrespondingSourceObject: {fileID: 3990027059083123711, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1108846877501849494}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2385855379404602587 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3350441244933342029, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
     type: 3}
   m_PrefabInstance: {fileID: 1108846877501849494}
   m_PrefabAsset: {fileID: 0}

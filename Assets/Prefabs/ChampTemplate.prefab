@@ -202,8 +202,11 @@ MonoBehaviour:
   damageable: 1
   canAttack: 1
   radius: 0.5
+  xpRewardRange: 12
   movement: {fileID: 430783425}
   attacking: {fileID: 0}
+  statBars: {fileID: 6447502382329700921, guid: 9fe99a5c94f72e14282369a3dd7eb766,
+    type: 3}
   attackMoving: 0
 --- !u!114 &430783425
 MonoBehaviour:

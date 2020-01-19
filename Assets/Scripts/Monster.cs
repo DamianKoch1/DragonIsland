@@ -16,5 +16,15 @@ namespace MOBA
         {
             return Color.magenta;
         }
+
+        public override float GetXPReward()
+        {
+            return Lvl * 100;
+        }
+
+        public override int GetGoldReward()
+        {
+            return 120;
+        }
     }
 }

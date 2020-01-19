@@ -47,12 +47,11 @@ namespace MOBA
             {
                 if (Lvl >= maxLvl) return;
                 xp = value;
-                if (xp == 0) return;
                 if (xp >= GetXPNeededForLevel(Lvl + 1))
                 {
                     OnLevelUp?.Invoke(Lvl + 1);
                 }
-                OnXPChanged?.Invoke(xp, GetXPNeededForLevel(Lvl + 1));
+                OnXPChanged?.Invoke(xp - GetXPNeededForLevel(Lvl), GetXPNeededForLevel(Lvl + 1) - GetXPNeededForLevel(Lvl));
             }
             get
             {
@@ -299,10 +298,16 @@ namespace MOBA
         protected float timeSinceLastRegTick = 0;
 
         [SerializeField]
+        private float xpRewardRange = 12;
+
+        [SerializeField]
         protected Movement movement;
 
         [SerializeField]
         protected Attacking attacking;
+
+        [SerializeField]
+        protected GameObject statBars;
 
 
         protected virtual float GetXPNeededForLevel(int level)
@@ -346,9 +351,9 @@ namespace MOBA
             return new Vector3(transform.position.x, 0, transform.position.z);
         }
 
-        public List<Unit> GetTargetableEnemiesInRange(Vector3 fromPosition)
+        public List<Unit> GetTargetableEnemiesInAtkRange(Vector3 fromPosition)
         {
-            List<Unit> targets = new List<Unit>();
+            List<Unit> result = new List<Unit>();
             foreach (var collider in Physics.OverlapSphere(fromPosition, AtkRange))
             {
                 if (collider.isTrigger) continue;
@@ -356,9 +361,23 @@ namespace MOBA
                 if (!unit) continue;
                 if (!IsEnemy(unit)) continue;
                 if (!unit.Targetable) continue;
-                targets.Add(unit);
+                result.Add(unit);
             }
-            return targets;
+            return result;
+        }
+
+        public List<T> GetEnemiesInRange<T>(float range) where T : Unit
+        {
+            List<T> result = new List<T>();
+            foreach (var collider in Physics.OverlapSphere(transform.position, range))
+            {
+                if (collider.isTrigger) continue;
+                var unit = collider.GetComponent<T>();
+                if (!unit) continue;
+                if (!IsEnemy(unit)) continue;
+                result.Add(unit);
+            }
+            return result;
         }
 
         public static void ValidateUnitList<T>(List<T> list) where T : Unit
@@ -391,7 +410,7 @@ namespace MOBA
             return closestUnit;
         }
 
-        public static Unit GetClosest<T>(List<T> fromList, Vector3 fromPosition) where T : Unit
+        public static Unit GetClosestUnitFrom<T>(List<T> fromList, Vector3 fromPosition) where T : Unit
         {
             if (fromList.Count == 0) return null;
             float lowestDistance = Mathf.Infinity;
@@ -419,6 +438,12 @@ namespace MOBA
             return result;
         }
 
+        /// <summary>
+        /// Avoid calling this directly, create a new Damage() and use Inflict() on it.
+        /// </summary>
+        /// <param name="instigator"></param>
+        /// <param name="amount"></param>
+        /// <param name="type"></param>
         public void ReceiveDamage(Unit instigator, float amount, DamageType type)
         {
             if (!damageable) return;
@@ -441,19 +466,32 @@ namespace MOBA
 
         protected virtual void Die(Unit killer)
         {
+            var xpEligibleChamps = GetEnemiesInRange<Champ>(xpRewardRange);
             if (killer is Champ)
             {
                 var champ = (Champ)killer;
-                champ.XP += GetXPReward();
                 champ.AddGold(GetGoldReward());
+                if (!xpEligibleChamps.Contains(champ))
+                {
+                    xpEligibleChamps.Add(champ);
+                }
+            }
+            foreach (var champ in xpEligibleChamps)
+            {
+                champ.XP += GetXPReward() / xpEligibleChamps.Count;
             }
             OnBeforeDeath?.Invoke();
             OnDeath();
         }
 
-
+        /// <summary>
+        /// Is called just before OnDeath(), which destroys this game object by default.
+        /// </summary>
         public Action OnBeforeDeath;
 
+        /// <summary>
+        /// Destroys this gameObject unless overridden.
+        /// </summary>
         protected virtual void OnDeath()
         {
             Destroy(gameObject);
@@ -469,6 +507,8 @@ namespace MOBA
 
         protected virtual void Initialize()
         {
+            SetupBars();
+
             OnLevelUp += LevelUpStats;
             Lvl = 1;
             XP = 0;
@@ -500,10 +540,12 @@ namespace MOBA
             movement?.Initialize(moveSpeed);
             attacking?.Initialize(this);
 
-
-            OnLevelUp += (int a) => print(gameObject.name + " reached lvl " + a);
-
             SetupMaterials();
+        }
+
+        protected virtual void SetupBars()
+        {
+            Instantiate(statBars).GetComponent<UnitStatBars>()?.Initialize(this);
         }
 
         protected void SetupMaterials()
@@ -547,7 +589,10 @@ namespace MOBA
         private void OnMouseEnter()
         {
             PlayerController.Instance.hovered = this;
-            if (!Targetable) return;
+            if (!Targetable)
+            {
+                if (!IsAlly(PlayerController.Player)) return;
+            }
             ShowOutlines();
         }
 
@@ -613,15 +658,9 @@ namespace MOBA
         }
 
 
-        public virtual float GetXPReward()
-        {
-            return 10;
-        }
+        public abstract float GetXPReward();
 
-        public virtual int GetGoldReward()
-        {
-            return 25;
-        }
+        public abstract int GetGoldReward();
 
         protected virtual void OnDrawGizmosSelected()
         {

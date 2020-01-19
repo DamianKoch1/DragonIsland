@@ -126,5 +126,16 @@ namespace MOBA
             wave = Instantiate(defaultWave, botSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
             wave.Initialize(LaneID.bot);
         }
+
+        public override float GetXPReward()
+        {
+            return 1;
+        }
+
+        public override int GetGoldReward()
+        {
+            return 1;
+        }
+
     }
 }

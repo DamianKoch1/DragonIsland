@@ -55,7 +55,7 @@ namespace MOBA
         {
             if (other.isTrigger) return;
             if (!attackMoving) return;
-            if (!IsAttacking()) return;
+            if (IsAttacking()) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
             if (!IsEnemy(unit)) return;
@@ -130,5 +130,19 @@ namespace MOBA
             return PlayerController.Instance.defaultColors.enemyChampHP;
         }
 
+        public override float GetXPReward()
+        {
+            return Lvl * 50;
+        }
+
+        public override int GetGoldReward()
+        {
+            return 350;
+        }
+
+        protected override void SetupBars()
+        {
+            Instantiate(statBars).GetComponent<ChampStatBars>()?.Initialize(this, true);
+        }
     }
 }
