@@ -31,6 +31,18 @@ namespace MOBA
             attacking.StartAttacking(target);
         }
 
+        public void DebugMode()
+        {
+            AtkSpeed = 5;
+            MoveSpeed = 20;
+            AtkDmg = 1000;
+            MaxHP = 10000;
+            HP = 10000;
+            MaxResource = 10000;
+            Resource = 10000;
+            while (Lvl < 18) LevelUp();
+        }
+
         public bool IsAttacking()
         {
             if (!attacking) return false;

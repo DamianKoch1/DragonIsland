@@ -171,6 +171,18 @@ namespace MOBA
             {
                 OnAttackMovePressed();
             }
+            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            {
+                Time.timeScale *= 2;
+            }
+            if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            {
+                Time.timeScale /= 2;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                player.DebugMode();
+            }
         }
 
         private void OnValidate()

@@ -16,8 +16,7 @@ namespace MOBA
         [SerializeField]
         protected float projectileSize = 1;
 
-        [SerializeField]
-        protected Transform projectileSpawnpoint;
+        public Transform projectileSpawnpoint;
 
         public override void Attack(Unit target)
         {

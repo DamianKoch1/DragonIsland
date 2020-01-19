@@ -8,10 +8,10 @@ namespace MOBA
 {
     public class Tower : Structure
     {
-        public List<Unit> enemyUnitsInRange;
-        public List<Champ> enemyChampsInRange;
+        private List<Unit> enemyUnitsInRange;
+        private List<Champ> enemyChampsInRange;
 
-
+        private LineRenderer lr;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -109,7 +109,13 @@ namespace MOBA
 
             if (!attacking.IsAttacking())
             {
+                lr.enabled = false;
                 CheckForNewTarget();
+            }
+            else
+            {
+                lr.enabled = true;
+                lr.SetPosition(1, attacking.CurrentTarget.transform.position);
             }
         }
 
@@ -119,6 +125,13 @@ namespace MOBA
 
             enemyUnitsInRange = new List<Unit>();
             enemyChampsInRange = new List<Champ>();
+            lr = GetComponent<LineRenderer>();
+            if (attacking is AttackingRanged)
+            {
+                lr.SetPosition(0, ((AttackingRanged)attacking).projectileSpawnpoint.position);
+            }
+            else lr.SetPosition(0, transform.position);
+            lr.enabled = false;
         }
 
         //TODO: shared code with minion, move to ai targeting component

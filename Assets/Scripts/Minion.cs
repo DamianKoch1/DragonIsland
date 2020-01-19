@@ -18,8 +18,8 @@ namespace MOBA
         private float maxWaypointDistance = 20;
 
 
-        public List<Unit> enemyUnitsInRange;
-        public List<Champ> enemyChampsInRange;
+        private List<Unit> enemyUnitsInRange;
+        private List<Champ> enemyChampsInRange;
 
 
 
@@ -38,14 +38,6 @@ namespace MOBA
 
         private void OnTriggerEnter(Collider other)
         {
-            var waypoint = other.GetComponent<LaneWaypoint>();
-            if (waypoint)
-            {
-                if (waypoint.Lane == TargetLane)
-                {
-                    OnReachedWaypoint(waypoint);
-                }
-            }
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -112,7 +104,7 @@ namespace MOBA
             }
         }
 
-        private void OnReachedWaypoint(LaneWaypoint waypoint)
+        public void OnReachedWaypoint(LaneWaypoint waypoint)
         {
             switch (TeamID)
             {

@@ -55,28 +55,29 @@ namespace MOBA
 
         private void CheckTargetableRequirements()
         {
+            ValidateUnitList(isUntargetableUntilDestroyed);
             switch (targetableUntilMode)
             {
                 case UntargetableUntilMode.allDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
-                        if (!structure.isDestroyed) break;
-                        Targetable = true;
-                        damageable = true;
+                        if (!structure.isDestroyed) return;
                     }
-                    break;
+                    Targetable = true;
+                    damageable = true;
+                    return;
                 case UntargetableUntilMode.anyDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
                         if (!structure.isDestroyed) continue;
                         Targetable = true;
                         damageable = true;
-                        break;
+                        return;
                     }
-                    break;
+                    return;
                 default:
                     Debug.LogWarning("encountered invalid TargetableUntilMode!");
-                    break;
+                    return;
             }
 
         }

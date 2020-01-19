@@ -224,6 +224,17 @@ namespace MOBA
         [SerializeField]
         protected float moveSpeed;
 
+        public float MoveSpeed
+        {
+            protected set
+            {
+                moveSpeed = value;
+                movement?.SetSpeed(moveSpeed);
+            }
+            get => moveSpeed;
+        }
+
+
         [HideInInspector]
         public Amplifiers amplifiers;
 
@@ -563,7 +574,7 @@ namespace MOBA
                 var outlineMaterial = new Material(renderer.material);
                 outlineMaterial.shader = PlayerController.Instance.outline;
                 outlineMaterial.SetColor("_OutlineColor", GetOutlineColor());
-                outlineMaterial.SetFloat("_Outline", 0.5f);
+                outlineMaterial.SetFloat("_Outline", 0.25f);
                 outlineMaterials.Add(outlineMaterial);
             }
         }

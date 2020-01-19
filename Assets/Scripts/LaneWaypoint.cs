@@ -12,15 +12,11 @@ namespace MOBA
         private LaneWaypoint prev;
 
 
-        public LaneID Lane
-        {
-            private set;
-            get;
-        }
+        private LaneID lane;
 
         public void Initialize(LaneID lane)
         {
-            Lane = lane;
+            this.lane = lane;
             if (next)
             {
                 next.prev = this;
@@ -38,6 +34,19 @@ namespace MOBA
         {
             if (!prev) return Base.InstanceBlue.transform.position;
             return prev.transform.position;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.isTrigger) return;
+            var minion = other.GetComponent<Minion>();
+            if (minion)
+            {
+                if (minion.TargetLane == lane)
+                {
+                    minion.OnReachedWaypoint(this);
+                }
+            }
         }
     }
 }
