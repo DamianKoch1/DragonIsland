@@ -173,11 +173,17 @@ namespace MOBA
             }
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {
-                Time.timeScale *= 2;
+                if (Time.timeScale < 8)
+                {
+                    Time.timeScale *= 2;
+                }
             }
             if (Input.GetKeyDown(KeyCode.KeypadMinus))
             {
-                Time.timeScale /= 2;
+                if (Time.timeScale > 0.25f)
+                {
+                    Time.timeScale /= 2;
+                }
             }
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
