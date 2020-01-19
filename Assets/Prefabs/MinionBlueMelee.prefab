@@ -203,10 +203,11 @@ MonoBehaviour:
   targetable: 1
   damageable: 1
   canAttack: 1
+  radius: 0.5
   movement: {fileID: 6409819951060390174}
   attacking: {fileID: 7119685332314796822}
   maxChaseDistance: 20
-  maxWaypointDistance: 20
+  maxWaypointDistance: 30
   enemyUnitsInRange: []
   enemyChampsInRange: []
 --- !u!136 &6409819951060390144
@@ -273,9 +274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b557431d7b3cbb244a8184436f35e2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  samplePosLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!135 &3990027059083123711
 SphereCollider:
   m_ObjectHideFlags: 0

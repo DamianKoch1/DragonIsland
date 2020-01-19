@@ -13,7 +13,12 @@ public abstract class Movement : MonoBehaviour
 
     protected float speed;
 
-    public abstract void MoveTo(Vector3 destination);
+    protected Vector3 targetPos;
+
+    public virtual void MoveTo(Vector3 destination)
+    {
+        targetPos = destination;
+    }
 
     public abstract void SetSpeed(float newSpeed);
 
@@ -30,8 +35,11 @@ public abstract class Movement : MonoBehaviour
     public virtual void Initialize(float moveSpeed)
     {
         SetSpeed(moveSpeed);
+        OnReachedDestination += () => print("dest");
     }
 
+
+    public Action OnReachedDestination;
 
     protected virtual void Update()
     {
@@ -45,6 +53,10 @@ public abstract class Movement : MonoBehaviour
         else if (GetVelocity() <= 0)
         {
             OnStopMoving?.Invoke();
+            if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
+            {
+                OnReachedDestination?.Invoke();
+            }
         }
         lastVelocity = GetVelocity();
     }

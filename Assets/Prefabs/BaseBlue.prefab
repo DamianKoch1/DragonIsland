@@ -211,6 +211,7 @@ MonoBehaviour:
   targetable: 1
   damageable: 1
   canAttack: 0
+  radius: 3
   movement: {fileID: 0}
   attacking: {fileID: 0}
   isUntargetableUntilDestroyed:

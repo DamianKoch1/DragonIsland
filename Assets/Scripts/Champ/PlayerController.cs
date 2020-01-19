@@ -27,6 +27,16 @@ namespace MOBA
         [HideInInspector]
         public Unit hovered;
 
+        [SerializeField]
+        private ChampCamera cam;
+
+
+        [SerializeField]
+        private Vector3 camOffset;
+
+        [SerializeField]
+        private Vector3 camRotation;
+
         public static Champ Player => Instance.target;
 
         [SerializeField]
@@ -40,7 +50,16 @@ namespace MOBA
         public Shader outline;
 
         [SerializeField]
-        private ParticleSystem clickVfx;
+        private ParticleSystem moveClickVfx;
+
+        [SerializeField]
+        private ParticleSystem atkMoveClickVfx;
+
+
+        [Header("Keybinds")]
+
+        [SerializeField]
+        private KeyCode attackMove;
 
         protected override void Initialize()
         {
@@ -50,6 +69,7 @@ namespace MOBA
             LevelText.text = "1";
             target.OnXPChanged += SetXP;
             target.OnLevelUp += SetLvl;
+            cam.Initialize(target, camOffset, Quaternion.Euler(camRotation));
         }
 
         protected void SetXP(float newAmount, float max)
@@ -67,34 +87,78 @@ namespace MOBA
 
         }
 
-        private void OnleftClick()
+        private void OnSelectPressed()
         {
             if (!hovered) return;
             DisplayStats(hovered);
         }
 
-        private void OnRightClick()
+        private void OnMovePressed()
         {
             if (hovered)
             {
-                target.StartAttacking(hovered);
+                AttackHovered();
             }
-            else if (target.MoveToCursor(out var targetPos))
+            else if (MoveToCursor(out var targetPos))
             {
-                Instantiate(clickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
+                target.attackMoving = false;
+                Instantiate(moveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
             }
         }
 
-        private void OnRightMBHeld()
+        private void OnMoveHeld()
         {
             if (hovered)
             {
-                target.StartAttacking(hovered);
+                AttackHovered();
             }
             else
             {
-                target.MoveToCursor(out var _);
+                MoveToCursor(out var _);
             }
+        }
+
+        private void OnAttackMovePressed()
+        {
+            if (hovered)
+            {
+                AttackHovered();
+                return;
+            }
+            if (!cam.GetCursorToWorldPoint(out var worldMousePos)) return;
+            Instantiate(atkMoveClickVfx, worldMousePos + Vector3.up * 0.2f, Quaternion.identity);
+            var targets = target.GetTargetableEnemiesInRange(worldMousePos);
+            switch (targets.Count)
+            {
+                case 0:
+                    target.attackMoving = true;
+                    MoveToCursor(out var _);
+                    break;
+                case 1:
+                    target.StartAttacking(targets[0]);
+                    break;
+                default:
+                    target.StartAttacking(Unit.GetClosest(targets, worldMousePos));
+                    break;
+            }
+        }
+
+
+
+        private bool MoveToCursor(out Vector3 targetPos)
+        {
+            if (target.IsAttacking())
+            {
+                target.StopAttacking();
+            }
+            if (cam.GetCursorToWorldPoint(out var worldMousePos))
+            {
+                target.MoveTo(worldMousePos);
+                targetPos = worldMousePos;
+                return true;
+            }
+            targetPos = Vector3.zero;
+            return false;
         }
 
         private void AttackHovered()
@@ -107,16 +171,27 @@ namespace MOBA
         {
             if (Input.GetMouseButtonDown(1))
             {
-                OnRightClick();
+                OnMovePressed();
             }
             else if (Input.GetMouseButton(1))
             {
-                OnRightMBHeld();
+                OnMoveHeld();
             }
             if (Input.GetMouseButtonDown(0))
             {
-                OnleftClick();
+                OnSelectPressed();
             }
+            if (Input.GetKeyDown(attackMove))
+            {
+                OnAttackMovePressed();
+            }
+        }
+
+        private void OnValidate()
+        {
+            if (!cam) return;
+            cam.transform.position = target.transform.position + camOffset;
+            cam.transform.rotation = Quaternion.Euler(camRotation);
         }
 
     }

@@ -6,22 +6,21 @@ namespace MOBA
 {
     public class ChampCamera : MonoBehaviour
     {
-        [SerializeField]
         private Champ target;
         private Vector3 offset;
-        private Quaternion startRotation;
+        private Quaternion rotation;
 
-        void Start()
+        public void Initialize(Champ _target, Vector3 _offset, Quaternion _rotation)
         {
-            offset = transform.position - target.transform.position;
-            startRotation = transform.rotation;
+            target = _target;
+            offset = _offset;
+            rotation = _rotation;
         }
 
-        // Update is called once per frame
         void LateUpdate()
         {
             transform.position = target.transform.position + offset;
-            transform.rotation = startRotation;
+            transform.rotation = rotation;
         }
 
         public bool GetCursorToWorldPoint(out Vector3 result)

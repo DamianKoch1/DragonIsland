@@ -13,35 +13,18 @@ namespace MOBA
 
         protected List<Tower> nearbyAlliedTowers;
 
-        [SerializeField]
-        private ChampCamera cam;
-
-       
-
         protected override void Update()
         {
             base.Update();
            
         }
 
-        public bool MoveToCursor(out Vector3 targetPos)
-        {
-            if (attacking.IsAttacking())
-            {
-                attacking.Stop();
-            }
-            if (cam.GetCursorToWorldPoint(out var mousePos))
-            {
-                movement.MoveTo(mousePos);
-                targetPos = mousePos;
-                return true;
-            }
-            targetPos = Vector3.zero;
-            return false;
-        }
-
+        [HideInInspector]
+        public bool attackMoving = false;
+       
         public void StartAttacking(Unit target)
         {
+            attackMoving = false;
             if (!canAttack) return;
             if (!attacking) return;
             if (!IsEnemy(target)) return;
@@ -54,11 +37,29 @@ namespace MOBA
             return attacking.IsAttacking();
         }
 
+        public void StopAttacking()
+        {
+            attacking.Stop();
+        }
+
         protected override void Initialize()
         {
             base.Initialize();
             OnAttackedByChamp += RequestTowerAssist;
             nearbyAlliedTowers = new List<Tower>();
+            attackMoving = false;
+            movement.OnReachedDestination += () => attackMoving = false;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.isTrigger) return;
+            if (!attackMoving) return;
+            if (!IsAttacking()) return;
+            var unit = other.GetComponent<Unit>();
+            if (!unit) return;
+            if (!IsEnemy(unit)) return;
+            StartAttacking(unit);
         }
 
         protected override void OnDeath()

@@ -77,7 +77,7 @@ namespace MOBA
                     yield return null;
                     continue;
                 }
-                if (Vector3.Distance(owner.transform.position, target.transform.position) > owner.AtkRange)
+                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > owner.AtkRange + target.radius)
                 {
                     owner.CanMove = true;
                     owner.MoveTo(target.transform.position);

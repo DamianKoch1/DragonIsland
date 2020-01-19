@@ -149,18 +149,28 @@ namespace MOBA
                 CheckForNewTarget();
             }
         }
-
-        private void CheckForNewTarget()
+        //TODO: shared code with tower, move to ai targeting component
+        protected void CheckForNewTarget()
         {
             if (enemyUnitsInRange.Count > 0)
             {
-                attacking.StartAttacking(GetClosestUnit(enemyUnitsInRange));
+                var unitTargets = GetTargetables(enemyUnitsInRange);
+                if (unitTargets.Count > 0)
+                {
+                    attacking.StartAttacking(GetClosestUnit(unitTargets));
+                    return;
+                }
             }
-            else if (enemyChampsInRange.Count > 0)
+            if (enemyChampsInRange.Count > 0)
             {
-                attacking.StartAttacking(GetClosestUnit(enemyChampsInRange));
+                var champTargets = GetTargetables(enemyChampsInRange);
+                if (champTargets.Count > 0)
+                {
+                    attacking.StartAttacking(GetClosestUnit(champTargets));
+                    return;
+                }
             }
-            else if (attacking.IsAttacking()) attacking.Stop();
+            if (attacking.IsAttacking()) attacking.Stop();
         }
 
         protected override void Initialize()

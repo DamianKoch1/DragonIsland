@@ -155,10 +155,6 @@ namespace MOBA
             }
         }
 
-        protected virtual void OnReachedDestination()
-        {
-            Destroy(gameObject);
-        }
 
         protected virtual void OnHitTarget()
         {
@@ -241,6 +237,7 @@ namespace MOBA
         {
             Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.targetPos = _targetPos;
+            movement.OnReachedDestination += () => Destroy(gameObject);
             instance.isHoming = false;
         }
 
@@ -260,6 +257,7 @@ namespace MOBA
         {
             Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
             instance.targetPos = _target.transform.position;
+            movement.OnReachedDestination += () => Destroy(gameObject);
             instance.target = _target;
             instance.isHoming = false;
         }
@@ -278,10 +276,6 @@ namespace MOBA
             else
             {
                 movement.MoveTo(targetPos);
-                if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
-                {
-                    OnReachedDestination();
-                }
             }
         }
 

@@ -352,12 +352,18 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   hovered: {fileID: 0}
+  cam: {fileID: 0}
+  camOffset: {x: 0, y: 0, z: 0}
+  camRotation: {x: 0, y: 0, z: 0}
   XPBar: {fileID: 5369345508265539177}
   LevelText: {fileID: 9202464609249578380}
   defaultColors: {fileID: 11400000, guid: 1cfe8df74154c0d4a94bc8e371fb394e, type: 2}
   outline: {fileID: 4800000, guid: 8d4dc7790983767458fbd144b2fa6f29, type: 3}
-  clickVfx: {fileID: 5423539979992791845, guid: bff06226884c3b0488888ccce39bdc96,
+  moveClickVfx: {fileID: 5423539979992791845, guid: bff06226884c3b0488888ccce39bdc96,
     type: 3}
+  atkMoveClickVfx: {fileID: 928737270336233844, guid: d32bf15b18ed4e94b89dc84d3a34c351,
+    type: 3}
+  attackMove: 32
 --- !u!1001 &3760535402051133996
 PrefabInstance:
   m_ObjectHideFlags: 0

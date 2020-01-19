@@ -128,17 +128,28 @@ namespace MOBA
             enemyChampsInRange = new List<Champ>();
         }
 
+        //TODO: shared code with minion, move to ai targeting component
         protected void CheckForNewTarget()
         {
             if (enemyMinionsInRange.Count > 0)
             {
-                attacking.StartAttacking(GetClosestUnit(enemyMinionsInRange));
+                var minionTargets = GetTargetables(enemyMinionsInRange);
+                if (minionTargets.Count > 0)
+                {
+                    attacking.StartAttacking(GetClosestUnit(minionTargets));
+                    return;
+                }
             }
-            else if (enemyChampsInRange.Count > 0)
+            if (enemyChampsInRange.Count > 0)
             {
-                attacking.StartAttacking(GetClosestUnit(enemyChampsInRange));
+                var champTargets = GetTargetables(enemyChampsInRange);
+                if (champTargets.Count > 0)
+                {
+                    attacking.StartAttacking(GetClosestUnit(champTargets));
+                    return;
+                }
             }
-            else if (attacking.IsAttacking()) attacking.Stop();
+            if (attacking.IsAttacking()) attacking.Stop();
         }
 
         public void TryAttack(Champ target)

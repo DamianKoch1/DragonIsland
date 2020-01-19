@@ -23,6 +23,7 @@ namespace MOBA
         public override void MoveTo(Vector3 destination)
         {
             if (stopped) return;
+            base.MoveTo(destination);
             transform.LookAt(destination);
             transform.position += transform.forward * speed * Time.deltaTime;
         }

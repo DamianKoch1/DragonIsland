@@ -25,6 +25,7 @@ namespace MOBA
         public override void MoveTo(Vector3 destination)
         {
             if (!agent.enabled) return;
+            base.MoveTo(destination);
             agent.SetDestination(ClosestNavigablePos(destination));
         }
 

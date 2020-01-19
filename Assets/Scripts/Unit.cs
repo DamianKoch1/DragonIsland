@@ -291,7 +291,10 @@ namespace MOBA
 
         public bool canAttack = true;
 
-
+        /// <summary>
+        /// If attacker is closer than its own atkRange + this units radius, it can attack this unit. Yellow gizmo wire sphere should include units horizontal bounds, height doesn't matter. Used to prevent not attacking until unit middle is in atkRange
+        /// </summary>
+        public float radius;
 
         protected float timeSinceLastRegTick = 0;
 
@@ -338,7 +341,27 @@ namespace MOBA
             //items + buffs + base
         }
 
-        protected void ValidateUnitList<T>(List<T> list) where T : Unit
+        public Vector3 GetGroundPos()
+        {
+            return new Vector3(transform.position.x, 0, transform.position.z);
+        }
+
+        public List<Unit> GetTargetableEnemiesInRange(Vector3 fromPosition)
+        {
+            List<Unit> targets = new List<Unit>();
+            foreach (var collider in Physics.OverlapSphere(fromPosition, AtkRange))
+            {
+                if (collider.isTrigger) continue;
+                var unit = collider.GetComponent<Unit>();
+                if (!unit) continue;
+                if (!IsEnemy(unit)) continue;
+                if (!unit.Targetable) continue;
+                targets.Add(unit);
+            }
+            return targets;
+        }
+
+        public static void ValidateUnitList<T>(List<T> list) where T : Unit
         {
             int n = 0;
             while (n < list.Count)
@@ -367,6 +390,35 @@ namespace MOBA
                 }
             }
             return closestUnit;
+        }
+
+        public static Unit GetClosest<T>(List<T> fromList, Vector3 fromPosition) where T : Unit
+        {
+            ValidateUnitList(fromList);
+            if (fromList.Count == 0) return null;
+            float lowestDistance = Mathf.Infinity;
+            Unit closestUnit = null;
+            foreach (var unit in fromList)
+            {
+                float distance = Vector3.Distance(fromPosition, unit.transform.position);
+                if (distance < lowestDistance)
+                {
+                    lowestDistance = distance;
+                    closestUnit = unit;
+                }
+            }
+            return closestUnit;
+        }
+
+        public static List<T> GetTargetables<T>(List<T> fromList) where T : Unit
+        {
+            List<T> result = new List<T>();
+            foreach (var unit in fromList)
+            {
+                if (!unit.Targetable) continue;
+                result.Add(unit);
+            }
+            return result;
         }
 
         public void ReceiveDamage(Unit instigator, float amount, DamageType type)
@@ -577,6 +629,8 @@ namespace MOBA
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, atkRange);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, radius);
         }
 
         public bool IsEnemy(Unit other)
