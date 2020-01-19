@@ -739,11 +739,6 @@ PrefabInstance:
       propertyPath: waveSpawnDeltaTime
       value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 1010462426292699272, guid: 52a9fb080d6e95c43aa04b725f9da865,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52a9fb080d6e95c43aa04b725f9da865, type: 3}
 --- !u!4 &4579732128832512469 stripped
@@ -829,10 +824,10 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089092521489366}
-    - target: {fileID: 7767957610283726646, guid: 41195959cde098b418bb8f325134b711,
+    - target: {fileID: 660372660231231400, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: laneID
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41195959cde098b418bb8f325134b711, type: 3}
@@ -1050,36 +1045,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedBase1
       objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 1764806743619925235}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[1]
-      value: 
-      objectReference: {fileID: 1764806743450735706}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[2]
-      value: 
-      objectReference: {fileID: 1764806743745188154}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: targetableUntilMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: baseHPReg
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1135,10 +1100,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 1764806743619925235}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[1]
+      value: 
+      objectReference: {fileID: 1764806743450735706}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[2]
+      value: 
+      objectReference: {fileID: 1764806743745188154}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: targetableUntilMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
@@ -1225,11 +1215,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1431,11 +1416,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089091652164382}
-    - target: {fileID: 7767957610283726646, guid: 41195959cde098b418bb8f325134b711,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41195959cde098b418bb8f325134b711, type: 3}
 --- !u!114 &3937385724393651483 stripped
@@ -1468,16 +1448,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedTopT2
       objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 8996900412715986732}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1533,11 +1503,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 8996900412715986732}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &8996900411575381947 stripped
@@ -1839,11 +1814,6 @@ PrefabInstance:
       propertyPath: waveSpawnDeltaTime
       value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 1990096333613319247, guid: 88c15a5356f0e664390665bcb4810c5a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88c15a5356f0e664390665bcb4810c5a, type: 3}
 --- !u!4 &4607676421988895615 stripped
@@ -2021,10 +1991,10 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089091714731259}
-    - target: {fileID: 7767957610283726646, guid: 41195959cde098b418bb8f325134b711,
+    - target: {fileID: 660372660231231400, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: laneID
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41195959cde098b418bb8f325134b711, type: 3}
@@ -2057,21 +2027,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerRedTopInhib
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 8996900411575381947}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: baseHPReg
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
@@ -2128,11 +2083,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 8996900411575381947}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &8996900411234208954 stripped
@@ -2260,7 +2225,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2270,7 +2235,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2498,6 +2463,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
+      propertyPath: baseHPReg
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 4021862384827643308}
@@ -2515,16 +2485,6 @@ PrefabInstance:
         type: 3}
       propertyPath: targetableUntilMode
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: baseHPReg
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
@@ -2561,7 +2521,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20
+      value: -23
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2571,7 +2531,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20
+      value: -23
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2742,21 +2702,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedBotInhib
       objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 8996900411778797538}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: baseHPReg
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2812,11 +2757,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 8996900411778797538}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!4 &8996900411175616749 stripped
@@ -3095,19 +3050,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 7931089092209200347}
-    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
       propertyPath: baseHPReg
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 7931089092209200347}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
 --- !u!4 &7931089092521489361 stripped
@@ -3235,7 +3185,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -3245,7 +3195,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -3419,7 +3369,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -3429,7 +3379,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -3570,6 +3520,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
+      propertyPath: baseHPReg
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 4021862384827643308}
@@ -3587,16 +3542,6 @@ PrefabInstance:
         type: 3}
       propertyPath: targetableUntilMode
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: baseHPReg
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
@@ -3685,11 +3630,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &8996900410772713647 stripped
@@ -3775,11 +3715,6 @@ PrefabInstance:
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3879,11 +3814,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 8996900411234208954}
-    - target: {fileID: 4977860072059759535, guid: 38a4848c866603241a19234be3915243,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38a4848c866603241a19234be3915243, type: 3}
 --- !u!114 &1764806743745188154 stripped
@@ -3981,11 +3911,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089093405224914}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
 --- !u!4 &7931089092209200348 stripped
@@ -4071,11 +3996,6 @@ PrefabInstance:
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4202,16 +4122,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedMidT2
       objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 8996900410772713647}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4267,11 +4177,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 8996900410772713647}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!4 &8996900412461959547 stripped
@@ -4369,10 +4284,10 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 8996900412326158014}
-    - target: {fileID: 4977860072059759535, guid: 38a4848c866603241a19234be3915243,
+    - target: {fileID: 2878821029840309041, guid: 38a4848c866603241a19234be3915243,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: laneID
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38a4848c866603241a19234be3915243, type: 3}
@@ -4405,21 +4320,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerRedMidInhib
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 8996900412461959548}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: baseHPReg
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
@@ -4476,11 +4376,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 8996900412461959548}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &8996900412326158014 stripped
@@ -4578,10 +4488,10 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 8996900411175616746}
-    - target: {fileID: 4977860072059759535, guid: 38a4848c866603241a19234be3915243,
+    - target: {fileID: 2878821029840309041, guid: 38a4848c866603241a19234be3915243,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: laneID
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38a4848c866603241a19234be3915243, type: 3}
@@ -4680,11 +4590,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089091543364228}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
 --- !u!114 &7931089091744948321 stripped
@@ -4874,11 +4779,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 7931089091498788987}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
 --- !u!114 &7931089091748719655 stripped
@@ -4973,19 +4873,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 7931089091748719655}
-    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
       propertyPath: baseHPReg
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 7931089091748719655}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
 --- !u!114 &7931089091714731259 stripped
@@ -5351,19 +5246,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 7931089091744948321}
-    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
       propertyPath: baseHPReg
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 7931089091744948321}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
 --- !u!114 &7931089091652164382 stripped
@@ -5449,11 +5339,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5630,11 +5515,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4035287723000185585, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}
 --- !u!4 &7931089091498788988 stripped
@@ -5759,16 +5639,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedBotT2
       objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 8996900412611728975}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5824,11 +5694,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 8996900412611728975}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!4 &8996900411778797541 stripped
@@ -5860,36 +5735,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerRedBase
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
-      value: 
-      objectReference: {fileID: 1764806743619925235}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[1]
-      value: 
-      objectReference: {fileID: 1764806743450735706}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: isUntargetableUntilDestroyed.Array.data[2]
-      value: 
-      objectReference: {fileID: 1764806743745188154}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: targetableUntilMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: baseHPReg
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4851805453924769768, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
@@ -5946,10 +5791,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3083754143550668849, guid: df0c11339ba83484faa2f44286f84b2a,
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: isUntargetableUntilDestroyed.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: baseHPReg
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[0]
+      value: 
+      objectReference: {fileID: 1764806743619925235}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[1]
+      value: 
+      objectReference: {fileID: 1764806743450735706}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: isUntargetableUntilDestroyed.Array.data[2]
+      value: 
+      objectReference: {fileID: 1764806743745188154}
+    - target: {fileID: 4851805453924769775, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: targetableUntilMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}

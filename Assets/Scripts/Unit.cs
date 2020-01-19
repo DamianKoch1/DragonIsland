@@ -23,6 +23,8 @@ namespace MOBA
 
         public TeamID TeamID => teamID;
 
+        [Space]
+
         [SerializeField]
         protected int maxLvl = 18;
 
@@ -34,8 +36,6 @@ namespace MOBA
 
         protected float xp = 0;
 
-        [SerializeField]
-        protected GameObject mesh;
 
         protected List<Material> defaultMaterials;
         protected List<Material> outlineMaterials;
@@ -60,6 +60,8 @@ namespace MOBA
         }
 
         public Action<float, float> OnXPChanged;
+
+        [Space]
 
         [SerializeField]
         protected float baseHP;
@@ -97,6 +99,8 @@ namespace MOBA
         [SerializeField]
         protected float HPRegPerLvl;
 
+
+        [Space]
 
         [SerializeField]
         protected float baseResource;
@@ -136,6 +140,7 @@ namespace MOBA
         [SerializeField]
         protected float ResourceRegPerLvl;
 
+        [Space]
 
         [SerializeField]
         protected float baseArmor;
@@ -147,6 +152,7 @@ namespace MOBA
         [SerializeField]
         protected float armorPerLvl;
 
+        [Space]
 
         [SerializeField]
         protected float baseMagicRes;
@@ -158,6 +164,7 @@ namespace MOBA
         [SerializeField]
         protected float magicResPerLvl;
 
+        [Space]
 
         [SerializeField]
         protected float baseAtkDmg;
@@ -169,6 +176,7 @@ namespace MOBA
         [SerializeField]
         protected float atkDmgPerLvl;
 
+        [Space]
 
         [SerializeField]
         protected float baseAtkSpeed;
@@ -196,6 +204,7 @@ namespace MOBA
             get;
         }
 
+        [Space]
 
         [SerializeField]
         protected float atkRange;
@@ -238,6 +247,7 @@ namespace MOBA
         [HideInInspector]
         public Amplifiers amplifiers;
 
+        [Space]
 
         [SerializeField]
         protected bool canMove = true;
@@ -301,6 +311,8 @@ namespace MOBA
 
         public bool canAttack = true;
 
+        [Space]
+
         /// <summary>
         /// If attacker is closer than its own atkRange + this units radius, it can attack this unit. Yellow gizmo wire sphere should include units horizontal bounds, height doesn't matter. Used to prevent not attacking until unit middle is in atkRange
         /// </summary>
@@ -308,8 +320,11 @@ namespace MOBA
 
         protected float timeSinceLastRegTick = 0;
 
+
         [SerializeField]
         private float xpRewardRange = 12;
+
+        [Space]
 
         [SerializeField]
         protected Movement movement;
@@ -319,6 +334,11 @@ namespace MOBA
 
         [SerializeField]
         protected GameObject statBars;
+
+        [Space]
+
+        [SerializeField]
+        protected GameObject mesh;
 
 
         protected virtual float GetXPNeededForLevel(int level)

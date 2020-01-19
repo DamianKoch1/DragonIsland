@@ -6,12 +6,16 @@ namespace MOBA
 {
     public class Base : Structure
     {
+        [Space]
+
         [SerializeField]
         private MinionWave defaultWave;
 
         [SerializeField]
         private MinionWave empoweredWave;
 
+
+        [Space]
 
         [SerializeField]
         private LaneWaypoint topSpawn;
@@ -22,6 +26,7 @@ namespace MOBA
         [SerializeField]
         private LaneWaypoint botSpawn;
 
+        [Space]
 
         [SerializeField]
         private float waveSpawnDeltaTime = 15;

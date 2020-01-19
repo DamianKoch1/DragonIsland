@@ -10,6 +10,7 @@ namespace MOBA
         [SerializeField]
         protected T target;
 
+        [Space]
         [SerializeField]
         protected Image HPBar;
 
@@ -19,12 +20,14 @@ namespace MOBA
         [SerializeField]
         protected Image ResourceBar;
 
+        [Space]
         [SerializeField]
         private Transform HUD;
 
         [SerializeField]
         private float yOffset = 0;
 
+        [Space]
         [SerializeField]
         private bool animateDamage;
 

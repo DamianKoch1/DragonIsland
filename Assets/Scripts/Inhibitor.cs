@@ -16,6 +16,8 @@ namespace MOBA
     {
         private Base alliedBase;
 
+        [Space]
+
         [SerializeField]
         private LaneID laneID;
 

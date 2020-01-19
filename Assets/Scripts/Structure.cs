@@ -14,6 +14,8 @@ namespace MOBA
 
     public abstract class Structure : Unit
     {
+        [Space]
+
         [SerializeField]
         protected List<Structure> isUntargetableUntilDestroyed;
 

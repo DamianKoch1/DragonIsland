@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hovered: {fileID: 0}
   cam: {fileID: 0}
-  camOffset: {x: 0, y: 15, z: -8}
+  camOffset: {x: 0, y: 15, z: -9}
   camRotation: {x: 60, y: 0, z: 0}
   player: {fileID: 0}
   defaultColors: {fileID: 11400000, guid: 1cfe8df74154c0d4a94bc8e371fb394e, type: 2}

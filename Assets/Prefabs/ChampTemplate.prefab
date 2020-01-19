@@ -161,7 +161,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 0
   maxLvl: 18
-  mesh: {fileID: 1503395897112000562}
   baseHP: 500
   HPPerLvl: 30
   baseHPReg: 1.5
@@ -172,7 +171,7 @@ MonoBehaviour:
   ResourceRegPerLvl: 0.1
   baseArmor: 35
   armorPerLvl: 3
-  baseMagicRes: 0
+  baseMagicRes: 33
   magicResPerLvl: 2
   baseAtkDmg: 65
   atkDmgPerLvl: 3
@@ -207,6 +206,7 @@ MonoBehaviour:
   attacking: {fileID: 0}
   statBars: {fileID: 6447502382329700921, guid: 9fe99a5c94f72e14282369a3dd7eb766,
     type: 3}
+  mesh: {fileID: 1503395897112000562}
   attackMoving: 0
 --- !u!114 &430783425
 MonoBehaviour:

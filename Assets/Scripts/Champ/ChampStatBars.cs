@@ -7,6 +7,7 @@ namespace MOBA
 {
     public class ChampStatBars : StatBars<Champ>
     {
+        [Space]
         [SerializeField]
         private Image XPBar;
 

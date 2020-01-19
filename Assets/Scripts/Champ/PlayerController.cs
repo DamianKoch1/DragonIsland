@@ -37,13 +37,14 @@ namespace MOBA
         [SerializeField]
         private Vector3 camRotation;
 
+        [Space]
         [SerializeField]
         private Champ player;
 
         public static Champ Player => Instance.player;
 
-      
 
+        [Space]
         public DefaultColors defaultColors;
 
         public Shader outline;
