@@ -23,9 +23,9 @@ namespace MOBA
             LevelText.text = newLvl + "";
         }
 
-        public override void Initialize(Champ _target, bool _animateDamage = false)
+        public override void Initialize(Champ _target, float _yOffset = 0, float scale = 1, bool _animateDamage = false)
         {
-            base.Initialize(_target, _animateDamage);
+            base.Initialize(_target, _yOffset, scale, _animateDamage);
 
             target.OnXPChanged += SetXP;
             target.OnLevelUp += SetLvl;

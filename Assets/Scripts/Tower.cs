@@ -8,7 +8,7 @@ namespace MOBA
 {
     public class Tower : Structure
     {
-        public List<Minion> enemyMinionsInRange;
+        public List<Unit> enemyUnitsInRange;
         public List<Champ> enemyChampsInRange;
 
 
@@ -23,12 +23,9 @@ namespace MOBA
                 OnChampEnteredRange((Champ)unit);
                 return;
             }
-            if (IsAlly(unit)) return;
-            if (unit is Minion)
-            {
-                OnEnemyMinionEnteredRange((Minion)unit);
-                return;
-            }
+            if (!IsEnemy(unit)) return;
+            OnEnemyUnitEnteredRange(unit);
+            return;
         }
 
         private void OnTriggerExit(Collider other)
@@ -41,32 +38,29 @@ namespace MOBA
                 OnChampExitedRange((Champ)unit);
                 return;
             }
-            if (IsAlly(unit)) return;
-            if (unit is Minion)
-            {
-                OnEnemyMinionExitedRange((Minion)unit);
-                return;
-            }
+            if (!IsEnemy(unit)) return;
+            OnEnemyUnitExitedRange(unit);
+            return;
         }
 
-        protected void OnEnemyMinionEnteredRange(Minion minion)
+        protected void OnEnemyUnitEnteredRange(Unit unit)
         {
-            if (!enemyMinionsInRange.Contains(minion))
+            if (!enemyUnitsInRange.Contains(unit))
             {
-                enemyMinionsInRange.Add(minion);
+                enemyUnitsInRange.Add(unit);
                 if (!attacking.IsAttacking())
                 {
-                    attacking.StartAttacking(minion);
+                    attacking.StartAttacking(unit);
                 }
             }
         }
 
-        protected void OnEnemyMinionExitedRange(Minion minion)
+        protected void OnEnemyUnitExitedRange(Unit unit)
         {
-            if (enemyMinionsInRange.Contains(minion))
+            if (enemyUnitsInRange.Contains(unit))
             {
-                enemyMinionsInRange.Remove(minion);
-                if (minion == attacking.CurrentTarget)
+                enemyUnitsInRange.Remove(unit);
+                if (unit == attacking.CurrentTarget)
                 {
                     CheckForNewTarget();
                 }
@@ -78,9 +72,8 @@ namespace MOBA
             if (IsAlly(champ))
             {
                 champ.AddNearbyAlliedTower(this);
-                return;
             }
-            if (!enemyChampsInRange.Contains(champ))
+            else if (!enemyChampsInRange.Contains(champ))
             {
                 enemyChampsInRange.Add(champ);
                 if (!attacking.IsAttacking())
@@ -96,7 +89,7 @@ namespace MOBA
             {
                 champ.RemoveNearbyTower(this);
             }
-            if (enemyChampsInRange.Contains(champ))
+            else if (enemyChampsInRange.Contains(champ))
             {
                 enemyChampsInRange.Remove(champ);
                 if (champ == attacking.CurrentTarget)
@@ -124,17 +117,17 @@ namespace MOBA
         {
             base.Initialize();
 
-            enemyMinionsInRange = new List<Minion>();
+            enemyUnitsInRange = new List<Unit>();
             enemyChampsInRange = new List<Champ>();
         }
 
         //TODO: shared code with minion, move to ai targeting component
         protected void CheckForNewTarget()
         {
-            ValidateUnitList(enemyMinionsInRange);
-            if (enemyMinionsInRange.Count > 0)
+            ValidateUnitList(enemyUnitsInRange);
+            if (enemyUnitsInRange.Count > 0)
             {
-                var minionTargets = GetTargetables(enemyMinionsInRange);
+                var minionTargets = GetTargetables(enemyUnitsInRange);
                 if (minionTargets.Count > 0)
                 {
                     attacking.StartAttacking(GetClosestUnit(minionTargets));

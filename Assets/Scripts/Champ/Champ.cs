@@ -142,7 +142,7 @@ namespace MOBA
 
         protected override void SetupBars()
         {
-            Instantiate(statBars).GetComponent<ChampStatBars>()?.Initialize(this, true);
+            Instantiate(statBars).GetComponent<ChampStatBars>()?.Initialize(this, 0.5f, 1.2f, true);
         }
     }
 }

@@ -22,6 +22,8 @@ namespace MOBA
         [SerializeField]
         private Transform HUD;
 
+        [SerializeField]
+        private float yOffset = 0;
 
         [SerializeField]
         private bool animateDamage;
@@ -61,9 +63,11 @@ namespace MOBA
             HPShadowBar.fillAmount = HPBar.fillAmount;
         }
 
-        public virtual void Initialize(T _target, bool _animateDamage = false)
+        public virtual void Initialize(T _target, float _yOffset = 0, float scale = 1, bool _animateDamage = false)
         {
             target = _target;
+            yOffset = _yOffset;
+            HUD.localScale *= scale;
             animateDamage = _animateDamage;
             HPShadowBar?.gameObject.SetActive(animateDamage);
             target.OnHPChanged += SetHP;
@@ -82,7 +86,7 @@ namespace MOBA
                 HPShadowBar.fillAmount = 1;
             }
             target.OnBeforeDeath += OnTargetKilled;
-            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
+            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position + Vector3.up * yOffset);
             HUD.position = targetPos;
         }
 
@@ -100,7 +104,7 @@ namespace MOBA
 
         private void LateUpdate()
         {
-            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position);
+            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position + Vector3.up * yOffset);
             HUD.position = targetPos;
 
         }

@@ -48,19 +48,15 @@ namespace MOBA
             }
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
-            if (unit)
+            if (!unit) return;
+            if (!IsEnemy(unit)) return;
+            if (unit is Champ)
             {
-                if (IsEnemy(unit))
-                {
-                    if (unit is Champ)
-                    {
-                        OnEnemyChampEnteredRange((Champ)unit);
-                    }
-                    else
-                    {
-                        OnEnemyUnitEnteredRange(unit);
-                    }
-                }
+                OnEnemyChampEnteredRange((Champ)unit);
+            }
+            else
+            {
+                OnEnemyUnitEnteredRange(unit);
             }
         }
 
@@ -149,7 +145,7 @@ namespace MOBA
                 CheckForNewTarget();
             }
         }
-        
+
         //TODO: shared code with tower, move to ai targeting component
         protected void CheckForNewTarget()
         {
@@ -192,6 +188,11 @@ namespace MOBA
         public override int GetGoldReward()
         {
             return 25;
+        }
+
+        protected override void SetupBars()
+        {
+            Instantiate(statBars).GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.5f);
         }
     }
 }
