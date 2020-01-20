@@ -24,15 +24,15 @@ namespace MOBA
             LevelText.text = newLvl + "";
         }
 
-        public override void Initialize(Champ _target, float _yOffset = 0, float scale = 1, bool _animateDamage = false)
+        public override void Initialize(Champ _target)
         {
-            base.Initialize(_target, _yOffset, scale, _animateDamage);
+            base.Initialize(_target);
 
             target.OnXPChanged += SetXP;
             target.OnLevelUp += SetLvl;
         }
 
-        protected override void OnTargetKilled()
+        public override void OnTargetKilled()
         {
         }
     }

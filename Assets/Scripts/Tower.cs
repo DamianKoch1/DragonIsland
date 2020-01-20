@@ -13,6 +13,9 @@ namespace MOBA
 
         private LineRenderer lr;
 
+        [SerializeField, Range(0, 1)]
+        private float noMinionsDamageMultiplier = 0.5f;
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.isTrigger) return;
@@ -163,7 +166,10 @@ namespace MOBA
         public void TryAttack(Champ target)
         {
             if (!IsEnemy(target)) return;
-            if (attacking.CurrentTarget?.GetComponent<Champ>()) return;
+            if (attacking.IsAttacking())
+            {
+                if (attacking.CurrentTarget?.GetComponent<Champ>()) return;
+            }
             if (!enemyChampsInRange.Contains(target)) return;
             attacking.StartAttacking(target);
         }
@@ -176,6 +182,18 @@ namespace MOBA
         public override int GetGoldReward()
         {
             return 200;
+        }
+        public override void ReceiveDamage(Unit instigator, float amount, DamageType type)
+        {
+            if (type != DamageType.piercing)
+            {
+                ValidateUnitList(enemyUnitsInRange);
+                if (enemyUnitsInRange.Count == 0)
+                {
+                    amount *= noMinionsDamageMultiplier;
+                }
+            }
+            base.ReceiveDamage(instigator, amount, type);
         }
     }
 }

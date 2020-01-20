@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
-    public class StatBars<T> : MonoBehaviour where T : Unit
+    public class StatBars<T> : MonoBehaviour, IUnitDisplay<T> where T : Unit
     {
         [SerializeField]
         protected T target;
@@ -23,9 +23,6 @@ namespace MOBA
         [Space]
         [SerializeField]
         private Transform HUD;
-
-        [SerializeField]
-        private float yOffset = 0;
 
         [Space]
         [SerializeField]
@@ -66,13 +63,19 @@ namespace MOBA
             HPShadowBar.fillAmount = HPBar.fillAmount;
         }
 
-        public virtual void Initialize(T _target, float _yOffset = 0, float scale = 1, bool _animateDamage = false)
+        public void Initialize(T _target, float _yOffset = 0, float scale = 1, bool _animateDamage = false)
         {
-            target = _target;
-            yOffset = _yOffset;
-            HUD.localScale *= scale;
             animateDamage = _animateDamage;
             HPShadowBar?.gameObject.SetActive(animateDamage);
+            Initialize(_target);
+            GetComponent<WorldPosHUD>()?.Initialize(_target, _yOffset);
+            HUD.localScale *= scale;
+            
+        }
+
+        public virtual void Initialize(T _target)
+        {
+            target = _target;
             target.OnHPChanged += SetHP;
             target.OnResourceChanged += SetResource;
             target.OnBecomeTargetable += () => Toggle(true);
@@ -86,14 +89,12 @@ namespace MOBA
             if (animateDamage)
             {
                 HPShadowBar.color = HPBar.color * 0.75f;
-                HPShadowBar.fillAmount = 1;
+                HPShadowBar.fillAmount = HPBar.fillAmount;
             }
             target.OnBeforeDeath += OnTargetKilled;
-            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position + Vector3.up * yOffset);
-            HUD.position = targetPos;
         }
 
-        protected virtual void OnTargetKilled()
+        public virtual void OnTargetKilled()
         {
             StopAllCoroutines();
             Destroy(gameObject);
@@ -105,12 +106,7 @@ namespace MOBA
             HUD.gameObject.SetActive(show);
         }
 
-        private void LateUpdate()
-        {
-            Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position + Vector3.up * yOffset);
-            HUD.position = targetPos;
-
-        }
+     
 
         private void OnValidate()
         {

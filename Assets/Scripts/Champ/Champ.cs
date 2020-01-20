@@ -13,18 +13,10 @@ namespace MOBA
 
         protected List<Tower> nearbyAlliedTowers;
 
-        protected override void Update()
-        {
-            base.Update();
-           
-        }
-
-        [HideInInspector]
-        public bool attackMoving = false;
+      
        
         public void StartAttacking(Unit target)
         {
-            attackMoving = false;
             if (!canAttack) return;
             if (!attacking) return;
             if (!IsEnemy(target)) return;
@@ -59,19 +51,7 @@ namespace MOBA
             base.Initialize();
             OnAttackedByChamp += RequestTowerAssist;
             nearbyAlliedTowers = new List<Tower>();
-            attackMoving = false;
-            movement.OnReachedDestination += () => attackMoving = false;
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.isTrigger) return;
-            if (!attackMoving) return;
-            if (IsAttacking()) return;
-            var unit = other.GetComponent<Unit>();
-            if (!unit) return;
-            if (!IsEnemy(unit)) return;
-            StartAttacking(unit);
+            ToggleRangeIndicator(false);
         }
 
         protected override void OnDeath()
@@ -155,6 +135,13 @@ namespace MOBA
         protected override void SetupBars()
         {
             Instantiate(statBars).GetComponent<ChampStatBars>()?.Initialize(this, 0.5f, 1.2f, true);
+        }
+
+
+        public void ToggleRangeIndicator(bool show)
+        {
+            if (!attacking?.RangeIndicator) return;
+            attacking.RangeIndicator.gameObject.SetActive(show);
         }
     }
 }

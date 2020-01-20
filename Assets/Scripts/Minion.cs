@@ -170,6 +170,7 @@ namespace MOBA
 
             enemyUnitsInRange = new List<Unit>();
             enemyChampsInRange = new List<Champ>();
+            OnReceiveDamage += (Unit attacker, float _, DamageType __) => OnAttacked(attacker);
         }
 
         public override float GetXPReward()
@@ -185,6 +186,12 @@ namespace MOBA
         protected override void SetupBars()
         {
             Instantiate(statBars).GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.5f);
+        }
+
+        protected void OnAttacked(Unit attacker)
+        {
+            if (attacking.IsAttacking()) return;
+            attacking.StartAttacking(attacker);
         }
     }
 }

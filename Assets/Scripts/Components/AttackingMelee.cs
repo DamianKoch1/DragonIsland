@@ -20,7 +20,6 @@ namespace MOBA
             {
                 animator?.SetTrigger("attack");
             }
-            transform.LookAt(target.transform.position);
             StartCoroutine(AttackAnim(target));
         }
 

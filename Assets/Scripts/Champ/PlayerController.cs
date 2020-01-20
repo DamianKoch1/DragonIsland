@@ -41,6 +41,9 @@ namespace MOBA
         [SerializeField]
         private Champ player;
 
+        [SerializeField]
+        private Interface UI;
+
         public static Champ Player => Instance.player;
 
 
@@ -55,6 +58,10 @@ namespace MOBA
         [SerializeField]
         private ParticleSystem atkMoveClickVfx;
 
+        [Header("Settings")]
+
+        [SerializeField, Range(0.1f, 5)]
+        private float scrollSpeed = 0.4f;
 
         [Header("Keybinds")]
 
@@ -66,6 +73,7 @@ namespace MOBA
             if (instance && instance != this) Destroy(gameObject);
            
             cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
+            UI?.Initialize(player);
         }
 
 
@@ -88,7 +96,6 @@ namespace MOBA
             }
             else if (MoveToCursor(out var targetPos))
             {
-                player.attackMoving = false;
                 Instantiate(moveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
             }
         }
@@ -109,7 +116,10 @@ namespace MOBA
         {
             if (hovered)
             {
-                AttackHovered();
+                if (hovered.Targetable)
+                {
+                    AttackHovered();
+                }
                 return;
             }
             if (!cam.GetCursorToWorldPoint(out var worldMousePos)) return;
@@ -118,7 +128,6 @@ namespace MOBA
             switch (targets.Count)
             {
                 case 0:
-                    player.attackMoving = true;
                     MoveToCursor(out var _);
                     break;
                 case 1:
@@ -164,14 +173,29 @@ namespace MOBA
             {
                 OnMoveHeld();
             }
+
             if (Input.GetMouseButtonDown(0))
             {
                 OnSelectPressed();
             }
+
             if (Input.GetKeyDown(attackMove))
             {
                 OnAttackMovePressed();
+                player.ToggleRangeIndicator(true);
             }
+            else if (Input.GetKeyUp(attackMove))
+            {
+                player.ToggleRangeIndicator(false);
+            }
+
+            var scrollAxis = Input.GetAxis("Mouse ScrollWheel");
+            if (scrollAxis != 0)
+            {
+                cam.AddDistanceFactor(-scrollAxis * scrollSpeed);
+            }
+
+            //debug
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {
                 if (Time.timeScale < 8)
@@ -190,6 +214,7 @@ namespace MOBA
             {
                 player.DebugMode();
             }
+
         }
 
         private void OnValidate()

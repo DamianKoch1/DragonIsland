@@ -381,7 +381,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 0
   maxLvl: 1
-  mesh: {fileID: 5881307046895623442}
   baseHP: 2000
   HPPerLvl: 0
   baseHPReg: 0
@@ -427,6 +426,7 @@ MonoBehaviour:
   attacking: {fileID: 8109459138435389817}
   statBars: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
+  mesh: {fileID: 5881307046895623442}
   isUntargetableUntilDestroyed: []
   targetableUntilMode: 0
 --- !u!114 &8109459138435389817
@@ -443,6 +443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkTrigger: {fileID: 1148474522}
   rangeIndicator: {fileID: 481276094}
+  lookAtTarget: 0
   projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
   projectileSpeed: 10

@@ -19,14 +19,14 @@ namespace MOBA
     {
 
         [SerializeField]
-        protected TeamID teamID = TeamID.invalid;
+        private TeamID teamID = TeamID.invalid;
 
         public TeamID TeamID => teamID;
 
         [Space]
 
         [SerializeField]
-        protected int maxLvl = 18;
+        private int maxLvl = 18;
 
         public int Lvl
         {
@@ -34,29 +34,27 @@ namespace MOBA
             protected set;
         }
 
-        protected float xp = 0;
+        private float xp = -1;
 
 
-        protected List<Material> defaultMaterials;
-        protected List<Material> outlineMaterials;
-        protected List<Renderer> renderers;
+        private List<Material> defaultMaterials;
+        private List<Material> outlineMaterials;
+        private List<Renderer> renderers;
 
         public float XP
         {
             set
             {
+                if (xp == value) return;
                 if (Lvl >= maxLvl) return;
-                xp = value;
-                if (xp >= GetXPNeededForLevel(Lvl + 1))
+                xp = value.Truncate(1);
+                while (xp >= GetXPNeededForLevel(Lvl + 1))
                 {
                     OnLevelUp?.Invoke(Lvl + 1);
                 }
                 OnXPChanged?.Invoke(xp - GetXPNeededForLevel(Lvl), GetXPNeededForLevel(Lvl + 1) - GetXPNeededForLevel(Lvl));
             }
-            get
-            {
-                return xp;
-            }
+            get => xp;
         }
 
         public Action<float, float> OnXPChanged;
@@ -64,134 +62,241 @@ namespace MOBA
         [Space]
 
         [SerializeField]
-        protected float baseHP;
+        private float baseHP;
+
+        private float maxHP = -1;
         public float MaxHP
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (maxHP != value)
+                {
+                    maxHP = value.Truncate(1);
+                    OnHPChanged?.Invoke(hp, maxHP);
+                }
+            }
+            get => maxHP;
         }
-        protected float hp;
+        private float hp = -1;
         public float HP
         {
             protected set
             {
-                hp = Mathf.Max(0, value);
-                OnHPChanged?.Invoke(hp, MaxHP);
+                hp = Mathf.Max(0, value).Truncate(1);
+                OnHPChanged?.Invoke(hp, maxHP);
             }
-            get
-            {
-                return hp;
-            }
+            get => hp;
         }
         public Action<float, float> OnHPChanged;
 
 
         [SerializeField]
-        protected float HPPerLvl;
+        private float HPPerLvl;
 
         [SerializeField]
-        protected float baseHPReg;
+        private float baseHPReg;
+
+        private float hpReg = -1;
         public float HPReg
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (hpReg != value)
+                {
+                    hpReg = value.Truncate(1);
+                    OnHPRegChanged?.Invoke(hpReg);
+                }
+            }
+            get => hpReg;
         }
+        public Action<float> OnHPRegChanged;
+
         [SerializeField]
-        protected float HPRegPerLvl;
+        private float HPRegPerLvl;
 
 
         [Space]
 
         [SerializeField]
-        protected float baseResource;
+        private float baseResource;
 
 
-
+        private float maxResource = -1;
         public float MaxResource
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (maxResource != value)
+                {
+                    maxResource = value.Truncate(1);
+                    OnResourceChanged?.Invoke(resource, maxResource);
+                }
+            }
+            get => maxResource;
         }
-        protected float resource;
+        private float resource = -1;
         public float Resource
         {
             protected set
             {
-                resource = value;
-                OnResourceChanged?.Invoke(Resource, MaxResource);
+                resource = value.Truncate(1);
+                OnResourceChanged?.Invoke(resource, maxResource);
             }
-            get
-            {
-                return resource;
-            }
+            get => resource;
         }
         public Action<float, float> OnResourceChanged;
 
         [SerializeField]
-        protected float ResourcePerLvl;
+        private float resourcePerLvl;
 
         [SerializeField]
-        protected float baseResourceReg;
+        private float baseResourceReg;
+
+        private float resourceReg = -1;
         public float ResourceReg
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (resourceReg != value)
+                {
+                    resourceReg = value.Truncate(1);
+                    OnResourceRegChanged?.Invoke(resourceReg);
+                }
+            }
+            get => resourceReg;
         }
+        public Action<float> OnResourceRegChanged;
+
         [SerializeField]
-        protected float ResourceRegPerLvl;
+        private float resourceRegPerLvl;
+
+        private float cdr = -1;
+        public float CDReduction
+        {
+            protected set
+            {
+                if (cdr != value)
+                {
+                    cdr = value.Truncate(1);
+                    OnCDRChanged?.Invoke(cdr);
+                }
+            }
+            get => cdr;
+        }
+
+        public Action<float> OnCDRChanged;
 
         [Space]
 
         [SerializeField]
-        protected float baseArmor;
+        private float baseArmor;
+
+        private float armor = -1;
         public float Armor
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (armor != value)
+                {
+                    armor = value.Truncate(1);
+                    OnArmorChanged?.Invoke(armor);
+                }
+            }
+            get => armor;
         }
+        public Action<float> OnArmorChanged;
+
         [SerializeField]
-        protected float armorPerLvl;
+        private float armorPerLvl;
 
         [Space]
 
         [SerializeField]
-        protected float baseMagicRes;
+        private float baseMagicRes;
+
+        private float magicRes = -1;
         public float MagicRes
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (magicRes != value)
+                {
+                    magicRes = value.Truncate(1);
+                    OnMagicResChanged?.Invoke(magicRes);
+                }
+            }
+            get => magicRes;
         }
+        public Action<float> OnMagicResChanged;
+
+
         [SerializeField]
-        protected float magicResPerLvl;
+        private float magicResPerLvl;
 
         [Space]
 
         [SerializeField]
-        protected float baseAtkDmg;
+        private float baseAtkDmg;
+
+        private float atkDmg = -1;
         public float AtkDmg
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (atkDmg != value)
+                {
+                    atkDmg = value.Truncate(1);
+                    OnADChanged?.Invoke(atkDmg);
+                }
+            }
+            get => atkDmg;
         }
+        public Action<float> OnADChanged;
+
         [SerializeField]
-        protected float atkDmgPerLvl;
+        private float atkDmgPerLvl;
 
         [Space]
 
         [SerializeField]
-        protected float baseAtkSpeed;
+        private float baseAtkSpeed;
+
+        private float atkSpeed;
         public float AtkSpeed
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (atkSpeed != value)
+                {
+                    atkSpeed = value.Truncate(1);
+                    OnAtkSpeedChanged?.Invoke(atkSpeed);
+                }
+            }
+            get => atkSpeed;
         }
+        public Action<float> OnAtkSpeedChanged;
+
         [SerializeField]
-        protected float atkSpeedPerLvl;
+        private float atkSpeedPerLvl;
 
 
-        protected float critChance;
+        private float critChance = -1;
+        public float CritChance
+        {
+            protected set
+            {
+                if (critChance != value)
+                {
+                    critChance = value.Truncate(1);
+                    OnCritChanceChanged?.Invoke(critChance);
+                }
+            }
+            get => critChance;
+        }
+        public Action<float> OnCritChanceChanged;
 
-        protected float lifesteal;
+
+        private float lifesteal;
 
         public float FlatArmorPen
         {
@@ -207,15 +312,24 @@ namespace MOBA
         [Space]
 
         [SerializeField]
-        protected float atkRange;
+        private float atkRange;
 
         public float AtkRange => atkRange;
 
+        private float magicDmg = -1;
         public float MagicDmg
         {
-            protected set;
-            get;
+            protected set
+            {
+                if (magicDmg != value)
+                {
+                    magicDmg = value.Truncate(1);
+                    OnMagicDmgChanged?.Invoke(magicDmg);
+                }
+            }
+            get => magicDmg;
         }
+        public Action<float> OnMagicDmgChanged;
 
         public float FlatMagicPen
         {
@@ -231,17 +345,22 @@ namespace MOBA
 
 
         [SerializeField]
-        protected float moveSpeed;
+        private float moveSpeed;
 
         public float MoveSpeed
         {
             protected set
             {
-                moveSpeed = value;
-                movement?.SetSpeed(moveSpeed);
+                if (moveSpeed != value)
+                {
+                    moveSpeed = value.Truncate(1);
+                    movement?.SetSpeed(moveSpeed);
+                    OnMoveSpeedChanged?.Invoke(moveSpeed);
+                }
             }
             get => moveSpeed;
         }
+        public Action<float> OnMoveSpeedChanged;
 
 
         [HideInInspector]
@@ -250,7 +369,7 @@ namespace MOBA
         [Space]
 
         [SerializeField]
-        protected bool canMove = true;
+        private bool canMove = true;
 
         public bool CanMove
         {
@@ -274,7 +393,7 @@ namespace MOBA
         }
 
         [SerializeField]
-        protected bool targetable = true;
+        private bool targetable = true;
 
         public bool Targetable
         {
@@ -359,17 +478,16 @@ namespace MOBA
 
             MaxHP += HPPerLvl;
             HP += HPPerLvl;
-            baseHPReg += HPRegPerLvl;
             HPReg += HPRegPerLvl;
 
-            MaxResource += ResourcePerLvl;
-            Resource += ResourcePerLvl;
-            baseResourceReg += ResourceRegPerLvl;
+            MaxResource += resourcePerLvl;
+            Resource += resourcePerLvl;
+            ResourceReg += resourceRegPerLvl;
 
-            baseAtkDmg += atkDmgPerLvl;
+            AtkDmg += atkDmgPerLvl;
 
-            baseArmor += armorPerLvl;
-            baseMagicRes += magicResPerLvl;
+            Armor += armorPerLvl;
+            MagicRes += magicResPerLvl;
         }
 
         public void UpdateStats()
@@ -475,7 +593,7 @@ namespace MOBA
         /// <param name="instigator"></param>
         /// <param name="amount"></param>
         /// <param name="type"></param>
-        public void ReceiveDamage(Unit instigator, float amount, DamageType type)
+        public virtual void ReceiveDamage(Unit instigator, float amount, DamageType type)
         {
             if (!damageable) return;
             OnReceiveDamage?.Invoke(instigator, amount, type);
@@ -554,6 +672,8 @@ namespace MOBA
 
             AtkDmg = baseAtkDmg;
             AtkSpeed = baseAtkSpeed;
+            MagicDmg = 0;
+
             Armor = baseArmor;
             MagicRes = baseMagicRes;
 
@@ -563,12 +683,16 @@ namespace MOBA
             FlatMagicPen = 0;
             PercentMagicPen = 0;
 
+            CDReduction = 0;
+            CritChance = 0;
+
             timeSinceLastRegTick = 0;
 
             amplifiers = new Amplifiers();
             amplifiers.Initialize();
 
             movement?.Initialize(moveSpeed);
+            OnMoveSpeedChanged?.Invoke(moveSpeed);
             attacking?.Initialize(this);
 
             SetupMaterials();
@@ -598,6 +722,8 @@ namespace MOBA
                 outlineMaterials.Add(outlineMaterial);
             }
         }
+
+     
 
         protected virtual Color GetOutlineColor()
         {

@@ -36,6 +36,9 @@ namespace MOBA
 
         public Transform RangeIndicator => rangeIndicator;
 
+        [SerializeField]
+        protected bool lookAtTarget = true;
+
         public Unit CurrentTarget
         {
             protected set
@@ -71,6 +74,10 @@ namespace MOBA
                 {
                     Stop();
                     break;
+                }
+                if (lookAtTarget)
+                {
+                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
                 }
                 if (!owner.canAttack)
                 {
