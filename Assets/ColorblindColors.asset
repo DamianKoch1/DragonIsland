@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96869ba379a784a41869f614bbc9ac92, type: 3}
+  m_Name: ColorblindColors
+  m_EditorClassIdentifier: 
+  ownHP: {r: 1, g: 0.8455281, b: 0, a: 1}
+  allyChampHP: {r: 0, g: 0.68035007, b: 1, a: 1}
+  allyStructureHP: {r: 0, g: 0, b: 1, a: 1}
+  allyMinionHP: {r: 0.18396229, g: 0.40145227, b: 1, a: 1}
+  enemyChampHP: {r: 1, g: 0.5240262, b: 0, a: 1}
+  enemyStructureHP: {r: 0.7921569, g: 0.33346772, b: 0, a: 1}
+  enemyMinionHP: {r: 1, g: 0.68134403, b: 0.3176471, a: 1}
+  ownOutline: {r: 1, g: 1, b: 1, a: 1}
+  allyOutline: {r: 0.514151, g: 0.72091746, b: 1, a: 1}
+  enemyOutline: {r: 1, g: 0.3951972, b: 0, a: 1}
