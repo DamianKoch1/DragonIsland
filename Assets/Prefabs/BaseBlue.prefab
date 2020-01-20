@@ -170,15 +170,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 0
   maxLvl: 1
-  mesh: {fileID: 231563102726476513}
   baseHP: 5000
   HPPerLvl: 0
   baseHPReg: 10
   HPRegPerLvl: 0
   baseResource: 0
-  ResourcePerLvl: 0
+  resourcePerLvl: 0
   baseResourceReg: 0
-  ResourceRegPerLvl: 0
+  resourceRegPerLvl: 0
   baseArmor: 0
   armorPerLvl: 0
   baseMagicRes: 0
@@ -214,8 +213,9 @@ MonoBehaviour:
   xpRewardRange: 12
   movement: {fileID: 0}
   attacking: {fileID: 0}
-  statBars: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
+  statBarsPrefab: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
+  mesh: {fileID: 231563102726476513}
   isUntargetableUntilDestroyed:
   - {fileID: 0}
   - {fileID: 0}

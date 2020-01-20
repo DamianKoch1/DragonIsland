@@ -205,7 +205,7 @@ MonoBehaviour:
   xpRewardRange: 12
   movement: {fileID: 430783425}
   attacking: {fileID: 0}
-  statBars: {fileID: 6447502382329700921, guid: 9fe99a5c94f72e14282369a3dd7eb766,
+  statBarsPrefab: {fileID: 6447502382329700921, guid: 9fe99a5c94f72e14282369a3dd7eb766,
     type: 3}
   mesh: {fileID: 1503395897112000562}
 --- !u!114 &430783425

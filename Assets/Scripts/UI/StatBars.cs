@@ -77,7 +77,12 @@ namespace MOBA
         {
             target = _target;
             target.OnHPChanged += SetHP;
-            target.OnResourceChanged += SetResource;
+            SetHP(target.HP, target.MaxHP);
+            if (ResourceBar)
+            {
+                target.OnResourceChanged += SetResource;
+                SetResource(target.Resource, target.MaxResource);
+            }
             target.OnBecomeTargetable += () => Toggle(true);
             target.OnBecomeUntargetable += () => Toggle(false);
             if (!target.Targetable)
@@ -103,6 +108,7 @@ namespace MOBA
 
         protected void Toggle(bool show)
         {
+            if (!HUD) return;
             HUD.gameObject.SetActive(show);
         }
 

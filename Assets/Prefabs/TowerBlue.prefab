@@ -386,9 +386,9 @@ MonoBehaviour:
   baseHPReg: 0
   HPRegPerLvl: 0
   baseResource: 0
-  ResourcePerLvl: 0
+  resourcePerLvl: 0
   baseResourceReg: 0
-  ResourceRegPerLvl: 0
+  resourceRegPerLvl: 0
   baseArmor: 50
   armorPerLvl: 0
   baseMagicRes: 0
@@ -424,11 +424,12 @@ MonoBehaviour:
   xpRewardRange: 12
   movement: {fileID: 0}
   attacking: {fileID: 8109459138435389817}
-  statBars: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
+  statBarsPrefab: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
   mesh: {fileID: 5881307046895623442}
   isUntargetableUntilDestroyed: []
   targetableUntilMode: 0
+  noMinionsDamageMultiplier: 0.5
 --- !u!114 &8109459138435389817
 MonoBehaviour:
   m_ObjectHideFlags: 0

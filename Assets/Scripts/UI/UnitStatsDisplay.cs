@@ -7,7 +7,11 @@ namespace MOBA
 {
     public class UnitStatsDisplay : MonoBehaviour, IUnitDisplay<Unit>
     {
-        private Unit target;
+        public Unit Target
+        {
+            get;
+            private set;
+        }
 
         [Space]
         [SerializeField]
@@ -46,53 +50,67 @@ namespace MOBA
         [SerializeField]
         private Text resourceReg;
 
+        [SerializeField]
+        private Text level;
 
         public void Initialize(Unit _target)
         {
-            target = _target;
+            Target = _target;
 
-            target.OnHPChanged += (float newHP, float maxHP) => SetHP(newHP, maxHP);
-            SetHP(target.HP, target.MaxHP);
+            Target.OnHPChanged += (float newHP, float maxHP) => SetHP(newHP, maxHP);
+            SetHP(Target.HP, Target.MaxHP);
 
-            target.OnResourceChanged += (float newResource, float maxResource) => SetResource(newResource, maxResource);
-            SetResource(target.Resource, target.MaxResource);
+            Target.OnResourceChanged += (float newResource, float maxResource) => SetResource(newResource, maxResource);
+            SetResource(Target.Resource, Target.MaxResource);
 
-            target.OnADChanged += (float newValue) => SetValue(atkDmg, newValue);
-            SetValue(atkDmg, target.AtkDmg);
+            Target.OnADChanged += (float newValue) => SetValue(atkDmg, newValue);
+            SetValue(atkDmg, Target.AtkDmg);
 
-            target.OnMagicDmgChanged += (float newValue) => SetValue(mgcDmg, newValue);
-            SetValue(atkDmg, target.AtkDmg);
+            Target.OnMagicDmgChanged += (float newValue) => SetValue(mgcDmg, newValue);
+            SetValue(atkDmg, Target.AtkDmg);
 
-            target.OnAtkSpeedChanged += (float newValue) => SetValue(atkSpeed, newValue);
-            SetValue(atkSpeed, target.AtkSpeed);
+            Target.OnAtkSpeedChanged += (float newValue) => SetValue(atkSpeed, newValue);
+            SetValue(atkSpeed, Target.AtkSpeed);
 
-            target.OnCDRChanged += (float newValue) => SetValue(cdr, newValue);
-            SetValue(cdr, target.CDReduction);
+            Target.OnCDRChanged += (float newValue) => SetValue(cdr, newValue);
+            SetValue(cdr, Target.CDReduction);
 
-            target.OnArmorChanged += (float newValue) => SetValue(armor, newValue);
-            SetValue(armor, target.Armor);
+            Target.OnArmorChanged += (float newValue) => SetValue(armor, newValue);
+            SetValue(armor, Target.Armor);
 
-            target.OnMagicResChanged += (float newValue) => SetValue(mgcRes, newValue);
-            SetValue(mgcRes, target.MagicRes);
+            Target.OnMagicResChanged += (float newValue) => SetValue(mgcRes, newValue);
+            SetValue(mgcRes, Target.MagicRes);
 
-            target.OnCritChanceChanged += (float newValue) => SetValue(critChance, newValue);
-            SetValue(critChance, target.CritChance);
+            Target.OnCritChanceChanged += (float newValue) => SetValue(critChance, newValue);
+            SetValue(critChance, Target.CritChance);
 
-            target.OnMoveSpeedChanged += (float newValue) => SetValue(moveSpeed, newValue);
-            SetValue(moveSpeed, target.MoveSpeed);
+            Target.OnMoveSpeedChanged += (float newValue) => SetValue(moveSpeed, newValue);
+            SetValue(moveSpeed, Target.MoveSpeed);
 
-            target.OnHPRegChanged += (float newValue) => SetValue(hpReg, newValue);
-            SetValue(hpReg, target.HPReg);
+            if (hpReg)
+            {
+                Target.OnHPRegChanged += (float newValue) => SetValue(hpReg, newValue);
+                SetValue(hpReg, Target.HPReg);
+            }
 
-            target.OnResourceRegChanged += (float newValue) => SetValue(resourceReg, newValue);
-            SetValue(resourceReg, target.ResourceReg);
+            if (resourceReg)
+            {
+                Target.OnResourceRegChanged += (float newValue) => SetValue(resourceReg, newValue);
+                SetValue(resourceReg, Target.ResourceReg);
+            }
 
-            target.OnBeforeDeath += OnTargetKilled;
+            if (level)
+            {
+                Target.OnLevelUp += (int newValue) => SetValue(level, newValue);
+                SetValue(level, Target.Lvl);
+            }
+
+            Target.OnBeforeDeath += OnTargetKilled;
         }
 
         public void OnTargetKilled()
         {
-            if (target != PlayerController.Player)
+            if (Target != PlayerController.Player)
             {
                 Destroy(gameObject);
             }
@@ -109,7 +127,7 @@ namespace MOBA
                     hpReg.gameObject.SetActive(false);
                 }
             }
-            else if (current < max)
+            else if (current < max && Target.HPReg > 0)
             {
                 hpReg.gameObject.SetActive(true);
             }
@@ -126,7 +144,7 @@ namespace MOBA
                     resourceReg.gameObject.SetActive(false);
                 }
             }
-            else if (current < max)
+            else if (current < max && Target.ResourceReg > 0)
             {
                 resourceReg.gameObject.SetActive(true);
             }

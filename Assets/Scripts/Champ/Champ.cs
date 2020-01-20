@@ -60,7 +60,7 @@ namespace MOBA
 
         protected void RequestTowerAssist(Champ attacker)
         {
-            ValidateUnitList(nearbyAlliedTowers.Cast<Unit>().ToList());
+            ValidateUnitList(nearbyAlliedTowers);
             foreach (var tower in nearbyAlliedTowers)
             {
                 tower.TryAttack(attacker);
@@ -134,7 +134,7 @@ namespace MOBA
 
         protected override void SetupBars()
         {
-            Instantiate(statBars).GetComponent<ChampStatBars>()?.Initialize(this, 0.5f, 1.2f, true);
+            Instantiate(statBarsPrefab).GetComponent<ChampStatBars>()?.Initialize(this, 0.5f, 1.2f, true);
         }
 
 

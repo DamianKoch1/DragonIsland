@@ -77,15 +77,15 @@ namespace MOBA
         }
 
 
-        private void DisplayStats(Unit target)
-        {
-
-        }
 
         private void OnSelectPressed()
         {
-            if (!hovered) return;
-            DisplayStats(hovered);
+            if (!hovered)
+            {
+                UI.HideStats();
+                return;
+            }
+            UI.ShowTargetStats(hovered);
         }
 
         private void OnMovePressed()

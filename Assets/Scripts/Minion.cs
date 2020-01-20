@@ -185,7 +185,7 @@ namespace MOBA
 
         protected override void SetupBars()
         {
-            Instantiate(statBars).GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.5f);
+            Instantiate(statBarsPrefab).GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.3f);
         }
 
         protected void OnAttacked(Unit attacker)

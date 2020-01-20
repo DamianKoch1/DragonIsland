@@ -452,7 +452,7 @@ namespace MOBA
         protected Attacking attacking;
 
         [SerializeField]
-        protected GameObject statBars;
+        protected GameObject statBarsPrefab;
 
         [Space]
 
@@ -700,7 +700,7 @@ namespace MOBA
 
         protected virtual void SetupBars()
         {
-            Instantiate(statBars).GetComponent<UnitStatBars>()?.Initialize(this);
+            Instantiate(statBarsPrefab).GetComponent<UnitStatBars>()?.Initialize(this);
         }
 
         protected void SetupMaterials()

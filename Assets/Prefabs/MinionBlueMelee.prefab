@@ -241,15 +241,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 0
   maxLvl: 18
-  mesh: {fileID: 5176387310780495296}
   baseHP: 200
   HPPerLvl: 50
   baseHPReg: 0
   HPRegPerLvl: 0
   baseResource: 0
-  ResourcePerLvl: 0
+  resourcePerLvl: 0
   baseResourceReg: 0
-  ResourceRegPerLvl: 0
+  resourceRegPerLvl: 0
   baseArmor: 20
   armorPerLvl: 2
   baseMagicRes: 20
@@ -285,8 +284,9 @@ MonoBehaviour:
   xpRewardRange: 12
   movement: {fileID: 6409819951060390174}
   attacking: {fileID: 7119685332314796822}
-  statBars: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
+  statBarsPrefab: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
+  mesh: {fileID: 5176387310780495296}
   maxChaseDistance: 20
   maxWaypointDistance: 30
 --- !u!136 &6409819951060390144
@@ -380,6 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atkTrigger: {fileID: 3990027059083123711}
   rangeIndicator: {fileID: 0}
+  lookAtTarget: 1
   mesh: {fileID: 6409819950041703338}
   attackAnimCurve:
     serializedVersion: 2

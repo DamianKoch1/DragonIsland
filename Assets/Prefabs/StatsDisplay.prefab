@@ -480,7 +480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -265, y: -265.8}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4431103379438629829
@@ -567,6 +567,9 @@ MonoBehaviour:
   mgcRes: {fileID: 711142724972640129}
   critChance: {fileID: 6405866054475889956}
   moveSpeed: {fileID: 8042939414021620830}
+  hpReg: {fileID: 0}
+  resourceReg: {fileID: 0}
+  level: {fileID: 0}
 --- !u!1 &4501642983032844466
 GameObject:
   m_ObjectHideFlags: 0
