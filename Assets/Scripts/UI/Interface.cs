@@ -31,7 +31,7 @@ namespace MOBA
                 if (enemyDisplayInstance.Target == _target) return;
                 Destroy(enemyDisplayInstance.gameObject);
             }
-            //TODO cleanup, use extra TargetDisplay script, doesnt clean itself yet after target destroyed
+            //TODO cleanup, use extra TargetDisplay script, clunky mix of child components
             var instance = Instantiate(enemyDisplayPrefab);
             enemyDisplayInstance = instance.GetComponentInChildren<UnitStatsDisplay>();
             enemyDisplayInstance.Initialize(_target);
