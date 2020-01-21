@@ -6,17 +6,17 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6447502382329700921}
+  m_GameObject: {fileID: 2275675838003643624}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dda945a5a5c1ab34490ee1dbb70e580f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  HPBar: {fileID: 6447502381918733664}
-  HPShadowBar: {fileID: 6447502383634741291}
-  ResourceBar: {fileID: 6447502383260348387}
-  HUD: {fileID: 6447502382478608269}
+  HPBar: {fileID: 2275675838003643884}
+  HPShadowBar: {fileID: 2275675838003643799}
+  ResourceBar: {fileID: 2275675838003643792}
+  HUD: {fileID: 2275675838003643438}
   animateDamage: 1
   HPShadowAnimCurve:
     serializedVersion: 2
@@ -151,7 +151,7 @@ RectTransform:
   - {fileID: 2553485908366303070}
   - {fileID: 5182822182495536705}
   - {fileID: 2000167895433106915}
-  m_Father: {fileID: 6447502382478608269}
+  m_Father: {fileID: 2275675838003643438}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -506,19 +506,19 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 4766237721939396300, guid: da2d5012b4a5a664fbf0cf1433180bab, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: da2d5012b4a5a664fbf0cf1433180bab, type: 3}
---- !u!1 &6447502382329700921 stripped
+--- !u!1 &2275675838003643624 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
   m_PrefabInstance: {fileID: 2275675838003643603}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &6447502382478608269 stripped
+--- !u!224 &2275675838003643438 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5111289119904547678, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
   m_PrefabInstance: {fileID: 2275675838003643603}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6447502383634741291 stripped
+--- !u!114 &2275675838003643799 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5111289120927120632, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
@@ -530,7 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6447502381918733664 stripped
+--- !u!114 &2275675838003643884 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5111289119479546291, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6447502383260348387 stripped
+--- !u!114 &2275675838003643792 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5111289120279374640, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}

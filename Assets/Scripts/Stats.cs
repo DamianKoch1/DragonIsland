@@ -20,7 +20,24 @@ namespace MOBA
             protected set;
         }
 
-       
+        private float xp = -1;
+
+        public float XP
+        {
+            set
+            {
+                if (xp == value) return;
+                if (Lvl >= maxLvl) return;
+                xp = value.Truncate(1);
+                while (xp >= GetXPNeededForLevel(Lvl + 1))
+                {
+                    OnLevelUp?.Invoke(Lvl + 1);
+                }
+                OnXPChanged?.Invoke(xp - GetXPNeededForLevel(Lvl), GetXPNeededForLevel(Lvl + 1) - GetXPNeededForLevel(Lvl));
+            }
+            get => xp;
+        }
+
 
         public Action<float, float> OnXPChanged;
 
