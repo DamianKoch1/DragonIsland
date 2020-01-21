@@ -1239,7 +1239,7 @@ MonoBehaviour:
   XPBar: {fileID: 1166624855804609481}
   LevelText: {fileID: 8214811652667127600}
   playerDisplay: {fileID: 6637750357990372226}
-  enemyDisplayPrefab: {fileID: 2020671876235312055, guid: 1bab2c12a5c54ec41b3e914ac2516b0e,
+  enemyDisplayPrefab: {fileID: 8136773903442681610, guid: 1bab2c12a5c54ec41b3e914ac2516b0e,
     type: 3}
 --- !u!1001 &6909424945197664772
 PrefabInstance:

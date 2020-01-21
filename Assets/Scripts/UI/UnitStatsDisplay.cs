@@ -118,11 +118,12 @@ namespace MOBA
 
         private void SetHP(float current, float max)
         {
+            if (!hp) return;
             hp.text = current + " / " + max;
             if (!hpReg) return;
             if (hpReg.gameObject.activeSelf)
             {
-                if (current >= max)
+                if (current >= max || Target.HPReg == 0)
                 {
                     hpReg.gameObject.SetActive(false);
                 }
@@ -135,11 +136,12 @@ namespace MOBA
 
         private void SetResource(float current, float max)
         {
+            if (!resource) return;
             resource.text = current + " / " + max;
             if (!resourceReg) return;
             if (resourceReg.gameObject.activeSelf)
             {
-                if (current >= max)
+                if (current >= max || Target.HPReg == 0)
                 {
                     resourceReg.gameObject.SetActive(false);
                 }

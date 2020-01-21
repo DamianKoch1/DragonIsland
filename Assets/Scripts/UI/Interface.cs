@@ -12,7 +12,7 @@ namespace MOBA
         private UnitStatsDisplay playerDisplay;
 
         [SerializeField]
-        private GameObject enemyDisplayPrefab;
+        private UnitStatsDisplay enemyDisplayPrefab;
 
         private UnitStatsDisplay enemyDisplayInstance;
 
@@ -31,19 +31,17 @@ namespace MOBA
                 if (enemyDisplayInstance.Target == _target) return;
                 Destroy(enemyDisplayInstance.gameObject);
             }
-            //TODO cleanup, use extra TargetDisplay script, clunky mix of child components
-            var instance = Instantiate(enemyDisplayPrefab);
-            enemyDisplayInstance = instance.GetComponentInChildren<UnitStatsDisplay>();
+
+            enemyDisplayInstance = Instantiate(enemyDisplayPrefab.gameObject).GetComponent<UnitStatsDisplay>();
             enemyDisplayInstance.Initialize(_target);
-            instance.GetComponentInChildren<UnitStatBars>().Initialize(_target);
+            enemyDisplayInstance.GetComponent<UnitStatBars>().Initialize(_target);
         }
 
         public void HideStats()
         {
             if (enemyDisplayInstance)
             {
-                //TODO
-                Destroy(enemyDisplayInstance.transform.parent.gameObject);
+                Destroy(enemyDisplayInstance.gameObject);
             }
         }
     }

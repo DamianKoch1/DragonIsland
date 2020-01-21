@@ -35,6 +35,7 @@ namespace MOBA
 
         public void SetHP(float newAmount, float max)
         {
+            if (!HPBar) return;
             HPBar.fillAmount = newAmount / max;
             if (!animateDamage) return;
             if (HPShadowAnim != null)
@@ -47,6 +48,7 @@ namespace MOBA
 
         public void SetResource(float newAmount, float max)
         {
+            if (!ResourceBar) return;
             ResourceBar.fillAmount = newAmount / max;
         }
 
