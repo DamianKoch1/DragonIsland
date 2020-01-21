@@ -208,6 +208,8 @@ MonoBehaviour:
   statBarsPrefab: {fileID: 6447502382329700921, guid: 9fe99a5c94f72e14282369a3dd7eb766,
     type: 3}
   mesh: {fileID: 1503395897112000562}
+  respawnHUDPrefab: {fileID: 4221147136936183634, guid: 4801149cb610f1c40899b22bfaf78610,
+    type: 3}
 --- !u!114 &430783425
 MonoBehaviour:
   m_ObjectHideFlags: 0

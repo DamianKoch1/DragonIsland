@@ -73,5 +73,24 @@ namespace MOBA
             agent.enabled = true;
         }
 
+        public override void DisableCollision()
+        {
+            foreach (var collider in GetComponents<Collider>())
+            {
+                collider.enabled = false;
+            }
+            agent.enabled = false;
+            obstacle.enabled = false;
+        }
+
+        public override void EnableCollision()
+        {
+            foreach (var collider in GetComponents<Collider>())
+            {
+                collider.enabled = true;
+            }
+            obstacle.enabled = false;
+            agent.enabled = true;
+        }
     }
 }

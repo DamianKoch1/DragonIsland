@@ -60,6 +60,10 @@ public abstract class Movement : MonoBehaviour
         lastVelocity = GetVelocity();
     }
 
+    public abstract void DisableCollision();
+
+    public abstract void EnableCollision();
+
     protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

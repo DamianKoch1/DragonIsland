@@ -12,7 +12,7 @@ namespace MOBA
 
         public override void Enable()
         {
-            throw new System.NotImplementedException();
+            stopped = false;
         }
 
         public override float GetVelocity()
@@ -43,6 +43,22 @@ namespace MOBA
             base.Update();
 
             lastPos = transform.position;
+        }
+
+        public override void DisableCollision()
+        {
+            foreach (var collider in GetComponents<Collider>())
+            {
+                collider.enabled = false;
+            }
+        }
+
+        public override void EnableCollision()
+        {
+            foreach (var collider in GetComponents<Collider>())
+            {
+                collider.enabled = true;
+            }
         }
     }
 }

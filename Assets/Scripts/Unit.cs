@@ -23,345 +23,14 @@ namespace MOBA
 
         public TeamID TeamID => teamID;
 
-        [Space]
 
-        [SerializeField]
-        private int maxLvl = 18;
-
-        public int Lvl
-        {
-            get;
-            protected set;
-        }
-
-        private float xp = -1;
 
 
         private List<Material> defaultMaterials;
         private List<Material> outlineMaterials;
         private List<Renderer> renderers;
 
-        public float XP
-        {
-            set
-            {
-                if (xp == value) return;
-                if (Lvl >= maxLvl) return;
-                xp = value.Truncate(1);
-                while (xp >= GetXPNeededForLevel(Lvl + 1))
-                {
-                    OnLevelUp?.Invoke(Lvl + 1);
-                }
-                OnXPChanged?.Invoke(xp - GetXPNeededForLevel(Lvl), GetXPNeededForLevel(Lvl + 1) - GetXPNeededForLevel(Lvl));
-            }
-            get => xp;
-        }
-
-        public Action<float, float> OnXPChanged;
-
-        [Space]
-
-        [SerializeField]
-        private float baseHP;
-
-        private float maxHP = -1;
-        public float MaxHP
-        {
-            protected set
-            {
-                if (maxHP != value)
-                {
-                    maxHP = value.Truncate(1);
-                    OnHPChanged?.Invoke(hp, maxHP);
-                }
-            }
-            get => maxHP;
-        }
-        private float hp = -1;
-        public float HP
-        {
-            protected set
-            {
-                hp = Mathf.Max(0, value).Truncate(1);
-                OnHPChanged?.Invoke(hp, maxHP);
-            }
-            get => hp;
-        }
-        public Action<float, float> OnHPChanged;
-
-
-        [SerializeField]
-        private float HPPerLvl;
-
-        [SerializeField]
-        private float baseHPReg;
-
-        private float hpReg = -1;
-        public float HPReg
-        {
-            protected set
-            {
-                if (hpReg != value)
-                {
-                    hpReg = value.Truncate(1);
-                    OnHPRegChanged?.Invoke(hpReg);
-                }
-            }
-            get => hpReg;
-        }
-        public Action<float> OnHPRegChanged;
-
-        [SerializeField]
-        private float HPRegPerLvl;
-
-
-        [Space]
-
-        [SerializeField]
-        private float baseResource;
-
-
-        private float maxResource = -1;
-        public float MaxResource
-        {
-            protected set
-            {
-                if (maxResource != value)
-                {
-                    maxResource = value.Truncate(1);
-                    OnResourceChanged?.Invoke(resource, maxResource);
-                }
-            }
-            get => maxResource;
-        }
-        private float resource = -1;
-        public float Resource
-        {
-            protected set
-            {
-                resource = value.Truncate(1);
-                OnResourceChanged?.Invoke(resource, maxResource);
-            }
-            get => resource;
-        }
-        public Action<float, float> OnResourceChanged;
-
-        [SerializeField]
-        private float resourcePerLvl;
-
-        [SerializeField]
-        private float baseResourceReg;
-
-        private float resourceReg = -1;
-        public float ResourceReg
-        {
-            protected set
-            {
-                if (resourceReg != value)
-                {
-                    resourceReg = value.Truncate(1);
-                    OnResourceRegChanged?.Invoke(resourceReg);
-                }
-            }
-            get => resourceReg;
-        }
-        public Action<float> OnResourceRegChanged;
-
-        [SerializeField]
-        private float resourceRegPerLvl;
-
-        private float cdr = -1;
-        public float CDReduction
-        {
-            protected set
-            {
-                if (cdr != value)
-                {
-                    cdr = value.Truncate(1);
-                    OnCDRChanged?.Invoke(cdr);
-                }
-            }
-            get => cdr;
-        }
-
-        public Action<float> OnCDRChanged;
-
-        [Space]
-
-        [SerializeField]
-        private float baseArmor;
-
-        private float armor = -1;
-        public float Armor
-        {
-            protected set
-            {
-                if (armor != value)
-                {
-                    armor = value.Truncate(1);
-                    OnArmorChanged?.Invoke(armor);
-                }
-            }
-            get => armor;
-        }
-        public Action<float> OnArmorChanged;
-
-        [SerializeField]
-        private float armorPerLvl;
-
-        [Space]
-
-        [SerializeField]
-        private float baseMagicRes;
-
-        private float magicRes = -1;
-        public float MagicRes
-        {
-            protected set
-            {
-                if (magicRes != value)
-                {
-                    magicRes = value.Truncate(1);
-                    OnMagicResChanged?.Invoke(magicRes);
-                }
-            }
-            get => magicRes;
-        }
-        public Action<float> OnMagicResChanged;
-
-
-        [SerializeField]
-        private float magicResPerLvl;
-
-        [Space]
-
-        [SerializeField]
-        private float baseAtkDmg;
-
-        private float atkDmg = -1;
-        public float AtkDmg
-        {
-            protected set
-            {
-                if (atkDmg != value)
-                {
-                    atkDmg = value.Truncate(1);
-                    OnADChanged?.Invoke(atkDmg);
-                }
-            }
-            get => atkDmg;
-        }
-        public Action<float> OnADChanged;
-
-        [SerializeField]
-        private float atkDmgPerLvl;
-
-        [Space]
-
-        [SerializeField]
-        private float baseAtkSpeed;
-
-        private float atkSpeed;
-        public float AtkSpeed
-        {
-            protected set
-            {
-                if (atkSpeed != value)
-                {
-                    atkSpeed = value.Truncate(1);
-                    OnAtkSpeedChanged?.Invoke(atkSpeed);
-                }
-            }
-            get => atkSpeed;
-        }
-        public Action<float> OnAtkSpeedChanged;
-
-        [SerializeField]
-        private float atkSpeedPerLvl;
-
-
-        private float critChance = -1;
-        public float CritChance
-        {
-            protected set
-            {
-                if (critChance != value)
-                {
-                    critChance = value.Truncate(1);
-                    OnCritChanceChanged?.Invoke(critChance);
-                }
-            }
-            get => critChance;
-        }
-        public Action<float> OnCritChanceChanged;
-
-
-        private float lifesteal;
-
-        public float FlatArmorPen
-        {
-            protected set;
-            get;
-        }
-        public float PercentArmorPen
-        {
-            protected set;
-            get;
-        }
-
-        [Space]
-
-        [SerializeField]
-        private float atkRange;
-
-        public float AtkRange => atkRange;
-
-        private float magicDmg = -1;
-        public float MagicDmg
-        {
-            protected set
-            {
-                if (magicDmg != value)
-                {
-                    magicDmg = value.Truncate(1);
-                    OnMagicDmgChanged?.Invoke(magicDmg);
-                }
-            }
-            get => magicDmg;
-        }
-        public Action<float> OnMagicDmgChanged;
-
-        public float FlatMagicPen
-        {
-            protected set;
-            get;
-        }
-
-        public float PercentMagicPen
-        {
-            protected set;
-            get;
-        }
-
-
-        [SerializeField]
-        private float moveSpeed;
-
-        public float MoveSpeed
-        {
-            protected set
-            {
-                if (moveSpeed != value)
-                {
-                    moveSpeed = value.Truncate(1);
-                    movement?.SetSpeed(moveSpeed);
-                    OnMoveSpeedChanged?.Invoke(moveSpeed);
-                }
-            }
-            get => moveSpeed;
-        }
-        public Action<float> OnMoveSpeedChanged;
-
+       
 
         [HideInInspector]
         public Amplifiers amplifiers;
@@ -435,7 +104,10 @@ namespace MOBA
         /// <summary>
         /// If attacker is closer than its own atkRange + this units radius, it can attack this unit. Yellow gizmo wire sphere should include units horizontal bounds, height doesn't matter. Used to prevent not attacking until unit middle is in atkRange
         /// </summary>
-        public float radius;
+        [SerializeField]
+        private float radius;
+
+        public float Radius => radius;
 
         protected float timeSinceLastRegTick = 0;
 
@@ -454,10 +126,24 @@ namespace MOBA
         [SerializeField]
         protected GameObject statBarsPrefab;
 
+        protected GameObject statBarsInstance;
+
         [Space]
 
         [SerializeField]
         protected GameObject mesh;
+
+
+        private bool isDead;
+
+        public bool IsDead
+        {
+            protected set
+            {
+                isDead = value;
+            }
+            get => isDead;
+        }
 
 
         protected virtual float GetXPNeededForLevel(int level)
@@ -485,6 +171,7 @@ namespace MOBA
             ResourceReg += resourceRegPerLvl;
 
             AtkDmg += atkDmgPerLvl;
+            AtkSpeed += atkSpeedPerLvl;
 
             Armor += armorPerLvl;
             MagicRes += magicResPerLvl;
@@ -500,13 +187,13 @@ namespace MOBA
             return new Vector3(transform.position.x, 0, transform.position.z);
         }
 
-        public List<Unit> GetTargetableEnemiesInAtkRange(Vector3 fromPosition)
+        public UnitList<T> GetTargetableEnemiesInAtkRange<T>(Vector3 fromPosition) where T : Unit
         {
-            List<Unit> result = new List<Unit>();
+            UnitList<T> result = new UnitList<T>();
             foreach (var collider in Physics.OverlapSphere(fromPosition, AtkRange))
             {
                 if (collider.isTrigger) continue;
-                var unit = collider.GetComponent<Unit>();
+                var unit = collider.GetComponent<T>();
                 if (!unit) continue;
                 if (!IsEnemy(unit)) continue;
                 if (!unit.Targetable) continue;
@@ -515,9 +202,9 @@ namespace MOBA
             return result;
         }
 
-        public List<T> GetEnemiesInRange<T>(float range) where T : Unit
+        public UnitList<T> GetEnemiesInRange<T>(float range) where T : Unit
         {
-            List<T> result = new List<T>();
+            UnitList<T> result = new UnitList<T>();
             foreach (var collider in Physics.OverlapSphere(transform.position, range))
             {
                 if (collider.isTrigger) continue;
@@ -529,22 +216,10 @@ namespace MOBA
             return result;
         }
 
-        public static void ValidateUnitList<T>(List<T> list) where T : Unit
-        {
-            int n = 0;
-            while (n < list.Count)
-            {
-                if (!list[n])
-                {
-                    list.RemoveAt(n);
-                }
-                else n++;
-            }
-        }
 
-        protected Unit GetClosestUnit<T>(List<T> fromList) where T : Unit
+        protected Unit GetClosestUnit<T>(UnitList<T> fromList) where T : Unit
         {
-            if (fromList.Count == 0) return null;
+            if (fromList.Count() == 0) return null;
             float lowestDistance = Mathf.Infinity;
             Unit closestUnit = null;
             foreach (var unit in fromList)
@@ -559,34 +234,7 @@ namespace MOBA
             return closestUnit;
         }
 
-        public static Unit GetClosestUnitFrom<T>(List<T> fromList, Vector3 fromPosition) where T : Unit
-        {
-            if (fromList.Count == 0) return null;
-            float lowestDistance = Mathf.Infinity;
-            Unit closestUnit = null;
-            foreach (var unit in fromList)
-            {
-                float distance = Vector3.Distance(fromPosition, unit.transform.position);
-                if (distance < lowestDistance)
-                {
-                    lowestDistance = distance;
-                    closestUnit = unit;
-                }
-            }
-            return closestUnit;
-        }
-
-        public static List<T> GetTargetables<T>(List<T> fromList) where T : Unit
-        {
-            List<T> result = new List<T>();
-            foreach (var unit in fromList)
-            {
-                if (!unit.Targetable) continue;
-                result.Add(unit);
-            }
-            return result;
-        }
-
+    
         /// <summary>
         /// Avoid calling this directly, create a new Damage() and use Inflict() on it.
         /// </summary>
@@ -619,7 +267,7 @@ namespace MOBA
             if (killer is Champ)
             {
                 var champ = (Champ)killer;
-                champ.AddGold(GetGoldReward());
+                champ.Gold += GetGoldReward();
                 if (!xpEligibleChamps.Contains(champ))
                 {
                     xpEligibleChamps.Add(champ);
@@ -627,9 +275,10 @@ namespace MOBA
             }
             foreach (var champ in xpEligibleChamps)
             {
-                champ.XP += GetXPReward() / xpEligibleChamps.Count;
+                champ.XP += GetXPReward() / xpEligibleChamps.Count();
             }
             OnBeforeDeath?.Invoke();
+            IsDead = true;
             OnDeath();
         }
 
@@ -657,6 +306,8 @@ namespace MOBA
         protected virtual void Initialize()
         {
             SetupBars();
+
+            IsDead = false;
 
             OnLevelUp += LevelUpStats;
             Lvl = 1;
@@ -700,7 +351,8 @@ namespace MOBA
 
         protected virtual void SetupBars()
         {
-            Instantiate(statBarsPrefab).GetComponent<UnitStatBars>()?.Initialize(this);
+            statBarsInstance = Instantiate(statBarsPrefab);
+            statBarsInstance.GetComponent<UnitStatBars>()?.Initialize(this);
         }
 
         protected void SetupMaterials()
@@ -798,6 +450,7 @@ namespace MOBA
 
         protected virtual void ApplyRegeneration()
         {
+            if (IsDead) return;
             ApplyHPReg();
             ApplyResourceReg();
         }

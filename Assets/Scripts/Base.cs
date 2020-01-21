@@ -14,6 +14,11 @@ namespace MOBA
         [SerializeField]
         private MinionWave empoweredWave;
 
+        [Space]
+        [SerializeField]
+        private Transform spawnpoint;
+
+        public Transform Spawnpoint => spawnpoint;
 
         [Space]
 
@@ -91,6 +96,19 @@ namespace MOBA
                 }
                 return instanceRed;
             }
+        }
+
+        public static Base GetAllied(Unit unit)
+        {
+            if (unit.IsAlly(InstanceBlue))
+            {
+                return InstanceBlue;
+            }
+            else if (unit.IsAlly(InstanceRed))
+            {
+                return InstanceRed;
+            }
+            return null;
         }
 
         protected override void Initialize()

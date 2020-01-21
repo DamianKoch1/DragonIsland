@@ -28,7 +28,6 @@ namespace MOBA
         {
             base.Initialize();
             isDestroyed = false;
-            ValidateUnitList(isUntargetableUntilDestroyed);
             if (isUntargetableUntilDestroyed.Count > 0)
             {
                 Targetable = false;
@@ -57,7 +56,6 @@ namespace MOBA
 
         private void CheckTargetableRequirements()
         {
-            ValidateUnitList(isUntargetableUntilDestroyed);
             switch (targetableUntilMode)
             {
                 case UntargetableUntilMode.allDestroyed:

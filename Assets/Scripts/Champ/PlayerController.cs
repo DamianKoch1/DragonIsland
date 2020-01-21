@@ -82,7 +82,7 @@ namespace MOBA
         {
             if (!hovered)
             {
-                UI.HideStats();
+                UI.HideTargetStats();
                 return;
             }
             UI.ShowTargetStats(hovered);
@@ -124,8 +124,8 @@ namespace MOBA
             }
             if (!cam.GetCursorToWorldPoint(out var worldMousePos)) return;
             Instantiate(atkMoveClickVfx, worldMousePos + Vector3.up * 0.2f, Quaternion.identity);
-            var targets = player.GetTargetableEnemiesInAtkRange(worldMousePos);
-            switch (targets.Count)
+            var targets = player.GetTargetableEnemiesInAtkRange<Unit>(worldMousePos);
+            switch (targets.Count())
             {
                 case 0:
                     MoveToCursor(out var _);
@@ -134,7 +134,7 @@ namespace MOBA
                     player.StartAttacking(targets[0]);
                     break;
                 default:
-                    player.StartAttacking(Unit.GetClosestUnitFrom(targets, worldMousePos));
+                    player.StartAttacking(targets.GetClosestUnitFrom<Unit>(worldMousePos));
                     break;
             }
         }
@@ -163,8 +163,9 @@ namespace MOBA
         }
 
 
-        private void Update()
+        private void ProcessPlayerInput()
         {
+            if (player.IsDead) return;
             if (Input.GetMouseButtonDown(1))
             {
                 OnMovePressed();
@@ -188,14 +189,19 @@ namespace MOBA
             {
                 player.ToggleRangeIndicator(false);
             }
+        }
 
+        private void ProcessCamInput()
+        {
             var scrollAxis = Input.GetAxis("Mouse ScrollWheel");
             if (scrollAxis != 0)
             {
                 cam.AddDistanceFactor(-scrollAxis * scrollSpeed);
             }
+        }
 
-            //debug
+        private void ProcessDebugInput()
+        {
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {
                 if (Time.timeScale < 8)
@@ -214,7 +220,17 @@ namespace MOBA
             {
                 player.DebugMode();
             }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                player.LevelUp();
+            }
+        }
 
+        private void Update()
+        {
+            ProcessPlayerInput();
+            ProcessCamInput();
+            ProcessDebugInput();
         }
 
         private void OnValidate()

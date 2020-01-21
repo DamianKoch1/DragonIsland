@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,72 +54,113 @@ namespace MOBA
         [SerializeField]
         private Text level;
 
+
+        private Action<float> SetADAction;
+        private Action<float> SetMDAction;
+        private Action<float> SetArmorAction;
+        private Action<float> SetMRAction;
+        private Action<float> SetAtkSpeedAction;
+        private Action<float> SetCDRAction;
+        private Action<float> SetCritChanceAction;
+        private Action<float> SetMoveSpeedAction;
+
+        private Action<float> SetHPRegAction;
+        private Action<float> SetResourceRegAction;
+        private Action<int> SetLevelAction;
+
+
+        public static void UnsubscribeIfInvalidText<T>(ref Action<T> publisher, ref Action<T> subscriber, MaskableGraphic elementToChange)
+        {
+            if (!elementToChange)
+            {
+                publisher -= subscriber;
+            }
+        }
+
+        protected void BindStatTextChangeAction<T>(ref Action<T> publisher, ref Action<T> subscriber, Text textToChange)
+        {
+            subscriber = (T value) =>
+            {
+                SetValueText(textToChange, value);
+            };
+            publisher += subscriber;
+        }
+
+        //TODO remove lambdas and subtract functions again on target killed
         public void Initialize(Unit _target)
         {
             Target = _target;
 
-            Target.OnHPChanged += (float newHP, float maxHP) => SetHP(newHP, maxHP);
-            SetHP(Target.HP, Target.MaxHP);
+            Target.OnHPChanged += SetHPText;
+            SetHPText(Target.HP, Target.MaxHP);
 
-            Target.OnResourceChanged += (float newResource, float maxResource) => SetResource(newResource, maxResource);
-            SetResource(Target.Resource, Target.MaxResource);
+            Target.OnResourceChanged += SetResourceText;
+            SetResourceText(Target.Resource, Target.MaxResource);
 
-            Target.OnADChanged += (float newValue) => SetValue(atkDmg, newValue);
-            SetValue(atkDmg, Target.AtkDmg);
+            SetADAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnADChanged, ref SetADAction, atkDmg);
+            BindStatTextChangeAction(ref Target.OnADChanged, ref SetADAction, atkDmg);
+            SetValueText(atkDmg, Target.AtkDmg);
 
-            Target.OnMagicDmgChanged += (float newValue) => SetValue(mgcDmg, newValue);
-            SetValue(atkDmg, Target.AtkDmg);
+            SetMDAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnMagicDmgChanged, ref SetMDAction, mgcDmg);
+            BindStatTextChangeAction(ref Target.OnMagicDmgChanged, ref SetMDAction, mgcDmg);
+            SetValueText(mgcDmg, Target.MagicDmg);
 
-            Target.OnAtkSpeedChanged += (float newValue) => SetValue(atkSpeed, newValue);
-            SetValue(atkSpeed, Target.AtkSpeed);
+            SetADAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnAtkSpeedChanged, ref SetAtkSpeedAction, atkSpeed);
+            BindStatTextChangeAction(ref Target.OnAtkSpeedChanged, ref SetAtkSpeedAction, atkSpeed);
+            SetValueText(atkSpeed, Target.AtkSpeed);
 
-            Target.OnCDRChanged += (float newValue) => SetValue(cdr, newValue);
-            SetValue(cdr, Target.CDReduction);
+            SetCDRAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnCDRChanged, ref SetCDRAction, cdr);
+            BindStatTextChangeAction(ref Target.OnCDRChanged, ref SetCDRAction, cdr);
+            SetValueText(cdr, Target.CDReduction);
 
-            Target.OnArmorChanged += (float newValue) => SetValue(armor, newValue);
-            SetValue(armor, Target.Armor);
+            SetArmorAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnArmorChanged, ref SetArmorAction, armor);
+            BindStatTextChangeAction(ref Target.OnArmorChanged, ref SetArmorAction, armor);
+            SetValueText(armor, Target.Armor);
 
-            Target.OnMagicResChanged += (float newValue) => SetValue(mgcRes, newValue);
-            SetValue(mgcRes, Target.MagicRes);
+            SetMRAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnMagicResChanged, ref SetMRAction, mgcRes);
+            BindStatTextChangeAction(ref Target.OnMagicResChanged, ref SetMRAction, mgcRes);
+            SetValueText(mgcRes, Target.MagicRes);
 
-            Target.OnCritChanceChanged += (float newValue) => SetValue(critChance, newValue);
-            SetValue(critChance, Target.CritChance);
+            SetCritChanceAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnCritChanceChanged, ref SetCritChanceAction, critChance);
+            BindStatTextChangeAction(ref Target.OnCritChanceChanged, ref SetCritChanceAction, critChance);
+            SetValueText(critChance, Target.CritChance);
 
-            Target.OnMoveSpeedChanged += (float newValue) => SetValue(moveSpeed, newValue);
-            SetValue(moveSpeed, Target.MoveSpeed);
+            SetMoveSpeedAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnMoveSpeedChanged, ref SetMoveSpeedAction, moveSpeed);
+            BindStatTextChangeAction(ref Target.OnMoveSpeedChanged, ref SetMoveSpeedAction, moveSpeed);
+            SetValueText(moveSpeed, Target.MoveSpeed);
 
-            if (hpReg)
-            {
-                Target.OnHPRegChanged += (float newValue) => SetValue(hpReg, newValue);
-                SetValue(hpReg, Target.HPReg);
-            }
+            SetHPRegAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnHPRegChanged, ref SetHPRegAction, hpReg);
+            BindStatTextChangeAction(ref Target.OnHPRegChanged, ref SetHPRegAction, hpReg);
+            SetValueText(hpReg, Target.HPReg);
 
-            if (resourceReg)
-            {
-                Target.OnResourceRegChanged += (float newValue) => SetValue(resourceReg, newValue);
-                SetValue(resourceReg, Target.ResourceReg);
-            }
+            SetResourceRegAction += (float _) => UnsubscribeIfInvalidText(ref Target.OnResourceRegChanged, ref SetResourceRegAction, resourceReg);
+            BindStatTextChangeAction(ref Target.OnResourceRegChanged, ref SetResourceRegAction, resourceReg);
+            SetValueText(resourceReg, Target.ResourceReg);
 
-            if (level)
-            {
-                Target.OnLevelUp += (int newValue) => SetValue(level, newValue);
-                SetValue(level, Target.Lvl);
-            }
+            SetLevelAction += (int _) => UnsubscribeIfInvalidText(ref Target.OnLevelUp, ref SetLevelAction, level);
+            BindStatTextChangeAction(ref Target.OnLevelUp, ref SetLevelAction, level);
+            SetValueText(level, Target.Lvl);
 
             Target.OnBeforeDeath += OnTargetKilled;
         }
 
         public void OnTargetKilled()
         {
-            if (Target != PlayerController.Player)
+            Target.OnBeforeDeath -= OnTargetKilled;
+            if (Target != PlayerController.Player || !Target)
             {
                 Destroy(gameObject);
             }
         }
 
-        private void SetHP(float current, float max)
+        private void SetHPText(float current, float max)
         {
-            if (!hp) return;
+            if (!hp)
+            {
+                Target.OnHPChanged -= SetHPText;
+                return;
+            }
+
             hp.text = current + " / " + max;
             if (!hpReg) return;
             if (hpReg.gameObject.activeSelf)
@@ -134,9 +176,13 @@ namespace MOBA
             }
         }
 
-        private void SetResource(float current, float max)
+        private void SetResourceText(float current, float max)
         {
-            if (!resource) return;
+            if (!resource)
+            {
+                Target.OnResourceChanged -= SetResourceText;
+                return;
+            }
             resource.text = current + " / " + max;
             if (!resourceReg) return;
             if (resourceReg.gameObject.activeSelf)
@@ -152,11 +198,10 @@ namespace MOBA
             }
         }
 
-        private void SetValue(Text target, float value)
+        private void SetValueText<T>(Text text, T value)
         {
-            if (!target) return;
-            target.text = value + "";
+            if (!text) return;
+            text.text = value + "";
         }
-
     }
 }

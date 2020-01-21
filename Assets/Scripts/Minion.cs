@@ -18,8 +18,8 @@ namespace MOBA
         private float maxWaypointDistance = 20;
 
 
-        private List<Unit> enemyUnitsInRange;
-        private List<Champ> enemyChampsInRange;
+        private UnitList<Unit> enemyUnitsInRange;
+        private UnitList<Champ> enemyChampsInRange;
 
 
 
@@ -141,21 +141,19 @@ namespace MOBA
         //TODO: shared code with tower, move to ai targeting component
         protected void CheckForNewTarget()
         {
-            ValidateUnitList(enemyUnitsInRange);
-            if (enemyUnitsInRange.Count > 0)
+            if (enemyUnitsInRange.Count() > 0)
             {
-                var unitTargets = GetTargetables(enemyUnitsInRange);
-                if (unitTargets.Count > 0)
+                var unitTargets = enemyUnitsInRange.GetTargetables<Unit>();
+                if (unitTargets.Count() > 0)
                 {
                     attacking.StartAttacking(GetClosestUnit(unitTargets));
                     return;
                 }
             }
-            ValidateUnitList(enemyChampsInRange);
-            if (enemyChampsInRange.Count > 0)
+            if (enemyChampsInRange.Count() > 0)
             {
-                var champTargets = GetTargetables(enemyChampsInRange);
-                if (champTargets.Count > 0)
+                var champTargets = enemyChampsInRange.GetTargetables<Champ>();
+                if (champTargets.Count() > 0)
                 {
                     attacking.StartAttacking(GetClosestUnit(champTargets));
                     return;
@@ -168,8 +166,8 @@ namespace MOBA
         {
             base.Initialize();
 
-            enemyUnitsInRange = new List<Unit>();
-            enemyChampsInRange = new List<Champ>();
+            enemyUnitsInRange = new UnitList<Unit>();
+            enemyChampsInRange = new UnitList<Champ>();
             OnReceiveDamage += (Unit attacker, float _, DamageType __) => OnAttacked(attacker);
         }
 
@@ -185,7 +183,8 @@ namespace MOBA
 
         protected override void SetupBars()
         {
-            Instantiate(statBarsPrefab).GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.3f);
+            statBarsInstance = Instantiate(statBarsPrefab);
+            statBarsInstance.GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.3f);
         }
 
         protected void OnAttacked(Unit attacker)

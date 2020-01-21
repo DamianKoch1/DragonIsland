@@ -8,8 +8,8 @@ namespace MOBA
 {
     public class Tower : Structure
     {
-        private List<Unit> enemyUnitsInRange;
-        private List<Champ> enemyChampsInRange;
+        private UnitList<Unit> enemyUnitsInRange;
+        private UnitList<Champ> enemyChampsInRange;
 
         private LineRenderer lr;
 
@@ -126,8 +126,8 @@ namespace MOBA
         {
             base.Initialize();
 
-            enemyUnitsInRange = new List<Unit>();
-            enemyChampsInRange = new List<Champ>();
+            enemyUnitsInRange = new UnitList<Unit>();
+            enemyChampsInRange = new UnitList<Champ>();
             lr = GetComponent<LineRenderer>();
             if (attacking is AttackingRanged)
             {
@@ -140,21 +140,19 @@ namespace MOBA
         //TODO: shared code with minion, move to ai targeting component
         protected void CheckForNewTarget()
         {
-            ValidateUnitList(enemyUnitsInRange);
-            if (enemyUnitsInRange.Count > 0)
+            if (enemyUnitsInRange.Count() > 0)
             {
-                var minionTargets = GetTargetables(enemyUnitsInRange);
-                if (minionTargets.Count > 0)
+                var minionTargets = enemyUnitsInRange.GetTargetables<Unit>();
+                if (minionTargets.Count() > 0)
                 {
                     attacking.StartAttacking(GetClosestUnit(minionTargets));
                     return;
                 }
             }
-            ValidateUnitList(enemyChampsInRange);
-            if (enemyChampsInRange.Count > 0)
+            if (enemyChampsInRange.Count() > 0)
             {
-                var champTargets = GetTargetables(enemyChampsInRange);
-                if (champTargets.Count > 0)
+                var champTargets = enemyChampsInRange.GetTargetables<Champ>();
+                if (champTargets.Count() > 0)
                 {
                     attacking.StartAttacking(GetClosestUnit(champTargets));
                     return;
@@ -187,8 +185,7 @@ namespace MOBA
         {
             if (type != DamageType.piercing)
             {
-                ValidateUnitList(enemyUnitsInRange);
-                if (enemyUnitsInRange.Count == 0)
+                if (enemyUnitsInRange.Count() == 0)
                 {
                     amount *= noMinionsDamageMultiplier;
                 }

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 481276093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -4.99, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 9}
+  m_LocalScale: {x: 9.5, y: 9.5, z: 9.5}
   m_Children:
   - {fileID: 541025319758214229}
   m_Father: {fileID: 5881307047872224552}
@@ -397,7 +397,7 @@ MonoBehaviour:
   atkDmgPerLvl: 0
   baseAtkSpeed: 0.5
   atkSpeedPerLvl: 0
-  atkRange: 9
+  atkRange: 9.5
   moveSpeed: 0
   amplifiers:
     hp: 0
@@ -461,7 +461,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 9
+  m_Radius: 9.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6251109598219636127
 BoxCollider:

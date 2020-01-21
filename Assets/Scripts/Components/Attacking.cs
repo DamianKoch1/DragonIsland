@@ -21,6 +21,7 @@ namespace MOBA
         public bool IsAttacking()
         {
             if (!target) return false;
+            if (target.IsDead) return false;
             return chaseAndAttack != null;
         }
 
@@ -57,6 +58,11 @@ namespace MOBA
                 Stop();
                 return;
             }
+            if (_target.IsDead)
+            {
+                Stop();
+                return;
+            }
             if (chaseAndAttack != null)
             {
                 StopCoroutine(chaseAndAttack);
@@ -75,6 +81,11 @@ namespace MOBA
                     Stop();
                     break;
                 }
+                if (target.IsDead)
+                {
+                    Stop();
+                    break;
+                }
                 if (lookAtTarget)
                 {
                     transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
@@ -84,7 +95,7 @@ namespace MOBA
                     yield return null;
                     continue;
                 }
-                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > owner.AtkRange + target.radius)
+                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > owner.AtkRange + target.Radius)
                 {
                     owner.CanMove = true;
                     owner.MoveTo(target.transform.position);

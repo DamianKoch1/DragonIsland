@@ -266,7 +266,7 @@ namespace MOBA
         {
             if (isHoming)
             {
-                if (!target)
+                if (!target || target.IsDead)
                 {
                     Destroy(gameObject);
                     return;

@@ -30,10 +30,12 @@ namespace MOBA
 
             target.OnXPChanged += SetXP;
             target.OnLevelUp += SetLvl;
+            target.OnRespawn += () => Toggle(true);
         }
 
         public override void OnTargetKilled()
         {
+            Toggle(false);
         }
     }
 }

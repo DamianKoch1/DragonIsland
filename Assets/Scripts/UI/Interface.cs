@@ -16,11 +16,21 @@ namespace MOBA
 
         private UnitStatsDisplay enemyDisplayInstance;
 
+
+        [SerializeField]
+        private Text goldText;
+
         public override void Initialize(Champ _target)
         {
             base.Initialize(_target);
 
             playerDisplay?.Initialize(target);
+            target.OnGoldChanged += SetGold;
+        }
+
+        private void SetGold(float value)
+        {
+            goldText.text = value + "";
         }
 
         public void ShowTargetStats(Unit _target)
@@ -34,10 +44,10 @@ namespace MOBA
 
             enemyDisplayInstance = Instantiate(enemyDisplayPrefab.gameObject).GetComponent<UnitStatsDisplay>();
             enemyDisplayInstance.Initialize(_target);
-            enemyDisplayInstance.GetComponent<UnitStatBars>().Initialize(_target);
+            enemyDisplayInstance?.GetComponent<UnitStatBars>().Initialize(_target);
         }
 
-        public void HideStats()
+        public void HideTargetStats()
         {
             if (enemyDisplayInstance)
             {

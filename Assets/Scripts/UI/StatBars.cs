@@ -75,6 +75,9 @@ namespace MOBA
             
         }
 
+
+
+        //TODO remove lambdas and subtract functions again on target killed
         public virtual void Initialize(T _target)
         {
             target = _target;
@@ -103,6 +106,8 @@ namespace MOBA
 
         public virtual void OnTargetKilled()
         {
+            target.OnBeforeDeath -= OnTargetKilled;
+            if (!gameObject) return;
             StopAllCoroutines();
             Destroy(gameObject);
         }
