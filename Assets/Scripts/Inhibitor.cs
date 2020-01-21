@@ -28,7 +28,7 @@ namespace MOBA
 
         public override float GetXPReward()
         {
-            return Lvl * 50;
+            return stats.Lvl * 50;
         }
 
         protected override void Initialize()

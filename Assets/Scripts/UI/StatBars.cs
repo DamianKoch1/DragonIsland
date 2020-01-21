@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
-    public class StatBars<T> : MonoBehaviour, IUnitDisplay<T> where T : Unit
+    public class StatBars<T> : MonoBehaviour where T : Unit
     {
-        [SerializeField]
+
         protected T target;
+        protected UnitStats targetStats;
 
         [Space]
         [SerializeField]
@@ -36,8 +37,11 @@ namespace MOBA
         public void SetHP(float newAmount, float max)
         {
             if (!HPBar) return;
-            HPBar.fillAmount = newAmount / max;
+            float newFillAmount = newAmount / max;
+            if (HPBar.fillAmount == newFillAmount) return;
+            HPBar.fillAmount = newFillAmount;
             if (!animateDamage) return;
+            if (HPShadowBar.fillAmount >= newFillAmount) return;
             if (HPShadowAnim != null)
             {
                 StopCoroutine(HPShadowAnim);
@@ -49,6 +53,7 @@ namespace MOBA
         public void SetResource(float newAmount, float max)
         {
             if (!ResourceBar) return;
+            if (ResourceBar.fillAmount == newAmount / max) return;
             ResourceBar.fillAmount = newAmount / max;
         }
 
@@ -72,24 +77,19 @@ namespace MOBA
             Initialize(_target);
             GetComponent<WorldPosHUD>()?.Initialize(_target, _yOffset);
             HUD.localScale *= scale;
-            
+
         }
 
 
 
-        //TODO remove lambdas and subtract functions again on target killed
         public virtual void Initialize(T _target)
         {
             target = _target;
-            target.OnHPChanged += SetHP;
-            SetHP(target.HP, target.MaxHP);
-            if (ResourceBar)
-            {
-                target.OnResourceChanged += SetResource;
-                SetResource(target.Resource, target.MaxResource);
-            }
-            target.OnBecomeTargetable += () => Toggle(true);
-            target.OnBecomeUntargetable += () => Toggle(false);
+            targetStats = target.Stats;
+            SetHP(targetStats.HP, targetStats.MaxHP);
+
+            SetResource(targetStats.Resource, targetStats.MaxResource);
+
             if (!target.Targetable)
             {
                 Toggle(false);
@@ -101,17 +101,33 @@ namespace MOBA
                 HPShadowBar.color = HPBar.color * 0.75f;
                 HPShadowBar.fillAmount = HPBar.fillAmount;
             }
-            target.OnBeforeDeath += OnTargetKilled;
         }
 
-        public virtual void OnTargetKilled()
+        private void Update()
         {
-            target.OnBeforeDeath -= OnTargetKilled;
-            if (!gameObject) return;
-            StopAllCoroutines();
-            Destroy(gameObject);
+            SetHP(targetStats.HP, targetStats.MaxHP);
+
+            SetResource(targetStats.Resource, targetStats.MaxResource);
+
+            if (HUD && !target.IsDead)
+            {
+                if (IsVisible)
+                {
+                    if (!target.Targetable)
+                    {
+                        Toggle(false);
+                    }
+                }
+                else if (target.Targetable)
+                {
+                    Toggle(true);
+                }
+            }
+
+            if (!target) Destroy(gameObject);
         }
-      
+
+
 
         protected void Toggle(bool show)
         {
@@ -119,7 +135,8 @@ namespace MOBA
             HUD.gameObject.SetActive(show);
         }
 
-     
+        protected bool IsVisible => HUD.gameObject.activeSelf;
+
 
         private void OnValidate()
         {

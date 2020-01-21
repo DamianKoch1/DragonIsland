@@ -1402,7 +1402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd185923bcbfed344aff25955ec95bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   HPBar: {fileID: 8042538903142891300}
   HPShadowBar: {fileID: 555480852056988802}
   ResourceBar: {fileID: 1282897008213742088}

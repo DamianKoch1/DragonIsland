@@ -240,25 +240,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
-  maxLvl: 18
-  baseHP: 200
-  HPPerLvl: 50
-  baseHPReg: 0
-  HPRegPerLvl: 0
-  baseResource: 0
-  resourcePerLvl: 0
-  baseResourceReg: 0
-  resourceRegPerLvl: 0
-  baseArmor: 20
-  armorPerLvl: 2
-  baseMagicRes: 20
-  magicResPerLvl: 2
-  baseAtkDmg: 20
-  atkDmgPerLvl: 2
-  baseAtkSpeed: 0.7
-  atkSpeedPerLvl: 0
-  atkRange: 1.5
-  moveSpeed: 4
+  stats:
+    maxLvl: 18
+    Lvl: -1
+    xpForLevelCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 2
+        value: 100
+        inSlope: 107.3546
+        outSlope: 107.3546
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.2645862
+      - serializedVersion: 3
+        time: 18
+        value: 50000
+        inSlope: 6733.799
+        outSlope: 6733.799
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.07168916
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    baseHP: 250
+    HPPerLvl: 50
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 10
+    armorPerLvl: 2
+    baseMagicRes: 10
+    magicResPerLvl: 2
+    baseAtkDmg: 25
+    atkDmgPerLvl: 5
+    baseAtkSpeed: 0.5
+    atkSpeedPerLvl: 0
+    lifesteal: -1
+    flatArmorPen: -1
+    percentArmorPen: -1
+    atkRange: 2
+    flatMagicPen: -1
+    percentMagicPen: -1
+    moveSpeed: 4
   amplifiers:
     hp: 0
     heal: 0
@@ -364,7 +395,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7119685332314796822
 MonoBehaviour:

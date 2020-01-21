@@ -95,7 +95,7 @@ namespace MOBA
                     yield return null;
                     continue;
                 }
-                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > owner.AtkRange + target.Radius)
+                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > owner.Stats.AtkRange + target.Radius)
                 {
                     owner.CanMove = true;
                     owner.MoveTo(target.transform.position);
@@ -103,7 +103,7 @@ namespace MOBA
                     continue;
                 }
                 else owner.CanMove = false;
-                if (timeSinceAttack >= 1 / owner.AtkSpeed)
+                if (timeSinceAttack >= 1 / owner.Stats.AtkSpeed)
                 {
                     Attack(target);
                     owner.CanMove = false;
@@ -130,7 +130,7 @@ namespace MOBA
         public virtual void Initialize(Unit _owner)
         {
             owner = _owner;
-            timeSinceAttack = 1 / owner.AtkSpeed;
+            timeSinceAttack = 1 / owner.Stats.AtkSpeed;
             animator = GetComponent<Animator>();
         }
 

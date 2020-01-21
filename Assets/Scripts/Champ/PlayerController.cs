@@ -218,7 +218,7 @@ namespace MOBA
             }
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
-                player.DebugMode();
+                player.Stats.DebugMode();
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {

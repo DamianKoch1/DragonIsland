@@ -32,15 +32,15 @@ namespace MOBA
         private IEnumerator AttackAnim(Unit target)
         {
             float time = 0;
-            while (time < 1 / owner.AtkSpeed)
+            while (time < 1 / owner.Stats.AtkSpeed)
             {
                 if (!target) break;
-                mesh.transform.localScale = startScale + Vector3.one * attackAnimCurve.Evaluate(time * owner.AtkSpeed);
-                if (time < 0.5f / owner.AtkSpeed)
+                mesh.transform.localScale = startScale + Vector3.one * attackAnimCurve.Evaluate(time * owner.Stats.AtkSpeed);
+                if (time < 0.5f / owner.Stats.AtkSpeed)
                 {
-                    if (time + Time.deltaTime >= 0.5f / owner.AtkSpeed)
+                    if (time + Time.deltaTime >= 0.5f / owner.Stats.AtkSpeed)
                     {
-                        var dmg = new Damage(owner.AtkDmg, DamageType.physical, owner, target);
+                        var dmg = new Damage(owner.Stats.AtkDmg, DamageType.physical, owner, target);
                         dmg.Inflict();
                     }
                 }

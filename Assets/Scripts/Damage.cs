@@ -29,10 +29,10 @@ namespace MOBA
             switch (dmgType)
             {
                 case DamageType.physical:
-                    defense = target.Armor * instigator.PercentArmorPen - instigator.FlatArmorPen;
+                    defense = target.Stats.Armor * instigator.Stats.percentArmorPen - instigator.Stats.flatArmorPen;
                     break;
                 case DamageType.magical:
-                    defense = target.MagicRes * instigator.PercentMagicPen - instigator.FlatMagicPen;
+                    defense = target.Stats.MagicRes * instigator.Stats.percentMagicPen - instigator.Stats.flatMagicPen;
                     break;
                 case DamageType.piercing:
                     defense = 0;

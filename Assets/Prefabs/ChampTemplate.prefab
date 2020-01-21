@@ -161,25 +161,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
-  maxLvl: 18
-  baseHP: 500
-  HPPerLvl: 30
-  baseHPReg: 1.5
-  HPRegPerLvl: 0.3
-  baseResource: 300
-  resourcePerLvl: 50
-  baseResourceReg: 1.2
-  resourceRegPerLvl: 0.2
-  baseArmor: 35
-  armorPerLvl: 3
-  baseMagicRes: 33
-  magicResPerLvl: 2
-  baseAtkDmg: 65
-  atkDmgPerLvl: 3
-  baseAtkSpeed: 0.65
-  atkSpeedPerLvl: 0.06
-  atkRange: 10
-  moveSpeed: 5
+  stats:
+    maxLvl: 18
+    Lvl: -1
+    xpForLevelCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 2
+        value: 100
+        inSlope: 107.3546
+        outSlope: 107.3546
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.2645862
+      - serializedVersion: 3
+        time: 18
+        value: 50000
+        inSlope: 6733.799
+        outSlope: 6733.799
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.07168916
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    baseHP: 500
+    HPPerLvl: 50
+    baseHPReg: 1.2
+    HPRegPerLvl: 0.3
+    baseResource: 300
+    resourcePerLvl: 60
+    baseResourceReg: 0.8
+    resourceRegPerLvl: 0.2
+    baseArmor: 35
+    armorPerLvl: 3
+    baseMagicRes: 32
+    magicResPerLvl: 2
+    baseAtkDmg: 65
+    atkDmgPerLvl: 3
+    baseAtkSpeed: 0.65
+    atkSpeedPerLvl: 0.2
+    lifesteal: -1
+    flatArmorPen: -1
+    percentArmorPen: -1
+    atkRange: 7
+    flatMagicPen: -1
+    percentMagicPen: -1
+    moveSpeed: 5
   amplifiers:
     hp: 0
     heal: 0
@@ -208,6 +239,7 @@ MonoBehaviour:
   statBarsPrefab: {fileID: 6447502382329700921, guid: 9fe99a5c94f72e14282369a3dd7eb766,
     type: 3}
   mesh: {fileID: 1503395897112000562}
+  goldPerSec: 1
   respawnHUDPrefab: {fileID: 4221147136936183634, guid: 4801149cb610f1c40899b22bfaf78610,
     type: 3}
 --- !u!114 &430783425

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 481276093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -4.99, z: 0}
-  m_LocalScale: {x: 9.5, y: 9.5, z: 9.5}
+  m_LocalScale: {x: 9.5, y: 1, z: 9.5}
   m_Children:
   - {fileID: 541025319758214229}
   m_Father: {fileID: 5881307047872224552}
@@ -380,25 +380,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
-  maxLvl: 1
-  baseHP: 2000
-  HPPerLvl: 0
-  baseHPReg: 0
-  HPRegPerLvl: 0
-  baseResource: 0
-  resourcePerLvl: 0
-  baseResourceReg: 0
-  resourceRegPerLvl: 0
-  baseArmor: 50
-  armorPerLvl: 0
-  baseMagicRes: 0
-  magicResPerLvl: 0
-  baseAtkDmg: 150
-  atkDmgPerLvl: 0
-  baseAtkSpeed: 0.5
-  atkSpeedPerLvl: 0
-  atkRange: 9.5
-  moveSpeed: 0
+  stats:
+    maxLvl: 18
+    Lvl: -1
+    xpForLevelCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 2
+        value: 100
+        inSlope: 107.3546
+        outSlope: 107.3546
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.2645862
+      - serializedVersion: 3
+        time: 18
+        value: 50000
+        inSlope: 6733.799
+        outSlope: 6733.799
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.07168916
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    baseHP: 2000
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 50
+    armorPerLvl: 0
+    baseMagicRes: 50
+    magicResPerLvl: 0
+    baseAtkDmg: 150
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0.5
+    atkSpeedPerLvl: 0
+    lifesteal: -1
+    flatArmorPen: -1
+    percentArmorPen: -1
+    atkRange: 9.5
+    flatMagicPen: -1
+    percentMagicPen: -1
+    moveSpeed: 0
   amplifiers:
     hp: 0
     heal: 0

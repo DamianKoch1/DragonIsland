@@ -24,7 +24,7 @@ namespace MOBA
             {
                 animator.SetTrigger("attack");
             }
-            projectile.SpawnHoming(projectileSize, target, projectileSpawnpoint.position, owner, owner.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
+            projectile.SpawnHoming(projectileSize, target, projectileSpawnpoint.position, owner, owner.Stats.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
             AttackAnimFinished();
         }
 

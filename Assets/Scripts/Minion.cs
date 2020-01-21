@@ -173,7 +173,7 @@ namespace MOBA
 
         public override float GetXPReward()
         {
-            return Lvl * 10;
+            return stats.Lvl * 10;
         }
 
         public override int GetGoldReward()

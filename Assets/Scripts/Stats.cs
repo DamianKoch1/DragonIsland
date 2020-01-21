@@ -8,17 +8,18 @@ namespace MOBA
     [Serializable]
     public class UnitStats
     {
-
+        //TODO fix reg not displaying, shadow bar buggy, xpbar
         [SerializeField]
         private int maxLvl = 18;
 
         public int MaxLvl => maxLvl;
 
-        public int Lvl
-        {
-            get;
-            protected set;
-        }
+        [HideInInspector]
+        public int Lvl = -1;
+
+
+        [SerializeField]
+        private AnimationCurve xpForLevelCurve;
 
         private float xp = -1;
 
@@ -29,27 +30,62 @@ namespace MOBA
                 if (xp == value) return;
                 if (Lvl >= maxLvl) return;
                 xp = value.Truncate(1);
-                while (xp >= GetXPNeededForLevel(Lvl + 1))
+                while (xp >= xpForLevelCurve.Evaluate(Lvl + 1))
                 {
-                    OnLevelUp?.Invoke(Lvl + 1);
+                    Lvl++;
+                    LevelUpStats();
+                    OnLevelUp?.Invoke(Lvl);
                 }
-                OnXPChanged?.Invoke(xp - GetXPNeededForLevel(Lvl), GetXPNeededForLevel(Lvl + 1) - GetXPNeededForLevel(Lvl));
+
+                //TODO remove this
+                if (Lvl >= maxLvl)
+                {
+                    OnXPChanged?.Invoke(1, 1);
+                    return;
+                }
+                //
+
+                OnXPChanged?.Invoke(xp - xpForLevelCurve.Evaluate(Lvl), xpForLevelCurve.Evaluate(Lvl + 1) - xpForLevelCurve.Evaluate(Lvl));
             }
             get => xp;
         }
 
-
         public Action<float, float> OnXPChanged;
 
-        [Space]
+        public void LevelUp()
+        {
+            if (Lvl >= maxLvl) return;
+            XP = xpForLevelCurve.Evaluate(Lvl + 1) + 1;
+        }
 
+        public Action<int> OnLevelUp;
+
+        private void LevelUpStats()
+        {
+            MaxHP += HPPerLvl;
+            HP += HPPerLvl;
+            HPReg += HPRegPerLvl;
+
+            MaxResource += resourcePerLvl;
+            Resource += resourcePerLvl;
+            ResourceReg += resourceRegPerLvl;
+
+            AtkDmg += atkDmgPerLvl;
+            AtkSpeed += atkSpeedPerLvl;
+
+            Armor += armorPerLvl;
+            MagicRes += magicResPerLvl;
+        }
+
+
+        [Space]
         [SerializeField]
         private float baseHP;
 
         private float maxHP = -1;
         public float MaxHP
         {
-            protected set
+            set
             {
                 if (maxHP != value)
                 {
@@ -62,7 +98,7 @@ namespace MOBA
         private float hp = -1;
         public float HP
         {
-            protected set
+            set
             {
                 hp = Mathf.Max(0, value).Truncate(1);
                 OnHPChanged?.Invoke(hp, maxHP);
@@ -81,7 +117,7 @@ namespace MOBA
         private float hpReg = -1;
         public float HPReg
         {
-            protected set
+            set
             {
                 if (hpReg != value)
                 {
@@ -98,15 +134,13 @@ namespace MOBA
 
 
         [Space]
-
         [SerializeField]
         private float baseResource;
-
 
         private float maxResource = -1;
         public float MaxResource
         {
-            protected set
+            set
             {
                 if (maxResource != value)
                 {
@@ -119,7 +153,7 @@ namespace MOBA
         private float resource = -1;
         public float Resource
         {
-            protected set
+            set
             {
                 resource = value.Truncate(1);
                 OnResourceChanged?.Invoke(resource, maxResource);
@@ -137,7 +171,7 @@ namespace MOBA
         private float resourceReg = -1;
         public float ResourceReg
         {
-            protected set
+            set
             {
                 if (resourceReg != value)
                 {
@@ -152,12 +186,13 @@ namespace MOBA
         [SerializeField]
         private float resourceRegPerLvl;
 
-        private float maxCDR = 30;
+
+        private static float maxCDR = 30;
 
         private float cdr = -1;
         public float CDReduction
         {
-            protected set
+            set
             {
                 if (cdr != value)
                 {
@@ -170,15 +205,15 @@ namespace MOBA
 
         public Action<float> OnCDRChanged;
 
-        [Space]
 
+        [Space]
         [SerializeField]
         private float baseArmor;
 
         private float armor = -1;
         public float Armor
         {
-            protected set
+            set
             {
                 if (armor != value)
                 {
@@ -193,15 +228,15 @@ namespace MOBA
         [SerializeField]
         private float armorPerLvl;
 
-        [Space]
 
+        [Space]
         [SerializeField]
         private float baseMagicRes;
 
         private float magicRes = -1;
         public float MagicRes
         {
-            protected set
+            set
             {
                 if (magicRes != value)
                 {
@@ -213,19 +248,18 @@ namespace MOBA
         }
         public Action<float> OnMagicResChanged;
 
-
         [SerializeField]
         private float magicResPerLvl;
 
-        [Space]
 
+        [Space]
         [SerializeField]
         private float baseAtkDmg;
 
         private float atkDmg = -1;
         public float AtkDmg
         {
-            protected set
+            set
             {
                 if (atkDmg != value)
                 {
@@ -240,17 +274,17 @@ namespace MOBA
         [SerializeField]
         private float atkDmgPerLvl;
 
-        [Space]
 
+        [Space]
         [SerializeField]
         private float baseAtkSpeed;
 
-        private float maxAtkSpeed = 3;
+        private static float maxAtkSpeed = 3;
 
         private float atkSpeed = -1;
         public float AtkSpeed
         {
-            protected set
+            set
             {
                 if (atkSpeed != value)
                 {
@@ -269,7 +303,7 @@ namespace MOBA
         private float critChance = -1;
         public float CritChance
         {
-            protected set
+            set
             {
                 if (critChance != value)
                 {
@@ -282,30 +316,27 @@ namespace MOBA
         public Action<float> OnCritChanceChanged;
 
 
-        private float lifesteal;
+        [HideInInspector]
+        public float lifesteal = -1;
 
-        public float FlatArmorPen
-        {
-            protected set;
-            get;
-        }
-        public float PercentArmorPen
-        {
-            protected set;
-            get;
-        }
+        [HideInInspector]
+        public float flatArmorPen = -1;
+
+        [HideInInspector]
+        public float percentArmorPen = -1;
+
 
         [Space]
-
         [SerializeField]
         private float atkRange;
 
         public float AtkRange => atkRange;
 
+
         private float magicDmg = -1;
         public float MagicDmg
         {
-            protected set
+            set
             {
                 if (magicDmg != value)
                 {
@@ -317,17 +348,12 @@ namespace MOBA
         }
         public Action<float> OnMagicDmgChanged;
 
-        public float FlatMagicPen
-        {
-            protected set;
-            get;
-        }
 
-        public float PercentMagicPen
-        {
-            protected set;
-            get;
-        }
+        [HideInInspector]
+        public float flatMagicPen = -1;
+
+        [HideInInspector]
+        public float percentMagicPen = -1;
 
 
         [SerializeField]
@@ -340,13 +366,71 @@ namespace MOBA
                 if (moveSpeed != value)
                 {
                     moveSpeed = value.Truncate(1);
-                    movement?.SetSpeed(moveSpeed);
                     OnMoveSpeedChanged?.Invoke(moveSpeed);
                 }
             }
             get => moveSpeed;
         }
         public Action<float> OnMoveSpeedChanged;
+
+
+        public void Initialize()
+        {
+            Lvl = 1;
+            XP = 0;
+
+            MaxHP = baseHP;
+            HP = baseHP;
+            HPReg = baseHPReg;
+
+            MaxResource = baseResource;
+            Resource = baseResource;
+            ResourceReg = baseResourceReg;
+
+            AtkDmg = baseAtkDmg;
+            AtkSpeed = baseAtkSpeed;
+            MagicDmg = 0;
+
+            Armor = baseArmor;
+            MagicRes = baseMagicRes;
+
+            flatArmorPen = 0;
+            percentArmorPen = 0;
+
+            flatMagicPen = 0;
+            percentMagicPen = 0;
+
+            CDReduction = 0;
+            CritChance = 0;
+            lifesteal = 0;
+
+            OnMoveSpeedChanged?.Invoke(moveSpeed);
+        }
+
+        public void ApplyHPReg()
+        {
+            if (HP >= MaxHP) return;
+            //HP = Mathf.Min(MaxHP, HP + HPReg);
+        }
+
+        public void ApplyResourceReg()
+        {
+            if (Resource >= MaxResource) return;
+            //Resource = Mathf.Min(MaxResource, Resource + ResourceReg);
+        }
+
+
+        public void DebugMode()
+        {
+            AtkSpeed = 5;
+            MoveSpeed = 20;
+            AtkDmg = 1000;
+            MaxHP = 10000;
+            HP = 10000;
+            MaxResource = 10000;
+            Resource = 10000;
+            while (Lvl < 18) LevelUp();
+        }
 
     }
 

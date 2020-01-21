@@ -169,25 +169,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
-  maxLvl: 1
-  baseHP: 3000
-  HPPerLvl: 0
-  baseHPReg: 0
-  HPRegPerLvl: 0
-  baseResource: 0
-  resourcePerLvl: 0
-  baseResourceReg: 0
-  resourceRegPerLvl: 0
-  baseArmor: 0
-  armorPerLvl: 0
-  baseMagicRes: 0
-  magicResPerLvl: 0
-  baseAtkDmg: 0
-  atkDmgPerLvl: 0
-  baseAtkSpeed: 0
-  atkSpeedPerLvl: 0
-  atkRange: 0
-  moveSpeed: 0
+  stats:
+    maxLvl: 18
+    Lvl: -1
+    xpForLevelCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 2
+        value: 100
+        inSlope: 107.3546
+        outSlope: 107.3546
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.2645862
+      - serializedVersion: 3
+        time: 18
+        value: 50000
+        inSlope: 6733.799
+        outSlope: 6733.799
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.07168916
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    baseHP: 3000
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: -1
+    flatArmorPen: -1
+    percentArmorPen: -1
+    atkRange: 0
+    flatMagicPen: -1
+    percentMagicPen: -1
+    moveSpeed: 0
   amplifiers:
     hp: 0
     heal: 0

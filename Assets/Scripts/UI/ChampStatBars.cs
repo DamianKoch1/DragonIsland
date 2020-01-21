@@ -28,14 +28,11 @@ namespace MOBA
         {
             base.Initialize(_target);
 
-            target.OnXPChanged += SetXP;
-            target.OnLevelUp += SetLvl;
-            target.OnRespawn += () => Toggle(true);
-        }
+            target.Stats.OnXPChanged += SetXP;
+            target.Stats.OnLevelUp += SetLvl;
 
-        public override void OnTargetKilled()
-        {
-            Toggle(false);
+            target.OnBeforeDeath += () => Toggle(false);
+            target.OnRespawn += () => Toggle(true);
         }
     }
 }

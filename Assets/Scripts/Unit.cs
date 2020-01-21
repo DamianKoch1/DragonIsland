@@ -24,6 +24,11 @@ namespace MOBA
         public TeamID TeamID => teamID;
 
 
+        [SerializeField]
+        protected UnitStats stats;
+
+        public UnitStats Stats => stats;
+
 
 
         private List<Material> defaultMaterials;
@@ -153,29 +158,10 @@ namespace MOBA
 
         public void LevelUp()
         {
-            XP = GetXPNeededForLevel(Lvl + 1);
+            stats.LevelUp();
         }
 
-        public Action<int> OnLevelUp;
-
-        protected virtual void LevelUpStats(int level)
-        {
-            Lvl = level;
-
-            MaxHP += HPPerLvl;
-            HP += HPPerLvl;
-            HPReg += HPRegPerLvl;
-
-            MaxResource += resourcePerLvl;
-            Resource += resourcePerLvl;
-            ResourceReg += resourceRegPerLvl;
-
-            AtkDmg += atkDmgPerLvl;
-            AtkSpeed += atkSpeedPerLvl;
-
-            Armor += armorPerLvl;
-            MagicRes += magicResPerLvl;
-        }
+     
 
         public void UpdateStats()
         {
@@ -190,7 +176,7 @@ namespace MOBA
         public UnitList<T> GetTargetableEnemiesInAtkRange<T>(Vector3 fromPosition) where T : Unit
         {
             UnitList<T> result = new UnitList<T>();
-            foreach (var collider in Physics.OverlapSphere(fromPosition, AtkRange))
+            foreach (var collider in Physics.OverlapSphere(fromPosition, stats.AtkRange))
             {
                 if (collider.isTrigger) continue;
                 var unit = collider.GetComponent<T>();
@@ -245,13 +231,13 @@ namespace MOBA
         {
             if (!damageable) return;
             OnReceiveDamage?.Invoke(instigator, amount, type);
-            HP -= amount;
+            stats.HP -= amount;
             instigator.OnDealDamage?.Invoke(this, amount, type);
             if (instigator is Champ)
             {
                 OnAttackedByChamp?.Invoke((Champ)instigator);
             }
-            if (HP == 0)
+            if (stats.HP == 0)
             {
                 Die(instigator);
             }
@@ -275,7 +261,7 @@ namespace MOBA
             }
             foreach (var champ in xpEligibleChamps)
             {
-                champ.XP += GetXPReward() / xpEligibleChamps.Count();
+                champ.stats.XP += GetXPReward() / xpEligibleChamps.Count();
             }
             OnBeforeDeath?.Invoke();
             IsDead = true;
@@ -309,41 +295,21 @@ namespace MOBA
 
             IsDead = false;
 
-            OnLevelUp += LevelUpStats;
-            Lvl = 1;
-            XP = 0;
 
-            HP = baseHP;
-            MaxHP = baseHP;
-            HPReg = baseHPReg;
-
-            Resource = baseResource;
-            MaxResource = baseResource;
-            ResourceReg = baseResourceReg;
-
-            AtkDmg = baseAtkDmg;
-            AtkSpeed = baseAtkSpeed;
-            MagicDmg = 0;
-
-            Armor = baseArmor;
-            MagicRes = baseMagicRes;
-
-            FlatArmorPen = 0;
-            PercentArmorPen = 0;
-
-            FlatMagicPen = 0;
-            PercentMagicPen = 0;
-
-            CDReduction = 0;
-            CritChance = 0;
+            stats.Initialize();
 
             timeSinceLastRegTick = 0;
 
             amplifiers = new Amplifiers();
             amplifiers.Initialize();
 
-            movement?.Initialize(moveSpeed);
-            OnMoveSpeedChanged?.Invoke(moveSpeed);
+            if (movement)
+            {
+                stats.OnMoveSpeedChanged += movement.SetSpeed;
+            }
+
+            movement?.Initialize(stats.MoveSpeed);
+
             attacking?.Initialize(this);
 
             SetupMaterials();
@@ -451,21 +417,11 @@ namespace MOBA
         protected virtual void ApplyRegeneration()
         {
             if (IsDead) return;
-            ApplyHPReg();
-            ApplyResourceReg();
+            stats.ApplyHPReg();
+            stats.ApplyResourceReg();
         }
 
-        protected void ApplyHPReg()
-        {
-            if (HP >= MaxHP) return;
-            HP = Mathf.Min(MaxHP, HP + HPReg);
-        }
-
-        protected void ApplyResourceReg()
-        {
-            if (Resource >= MaxResource) return;
-            Resource = Mathf.Min(MaxResource, Resource + ResourceReg);
-        }
+      
 
 
         public abstract float GetXPReward();
@@ -475,7 +431,7 @@ namespace MOBA
         protected virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, atkRange);
+            Gizmos.DrawWireSphere(transform.position, stats.AtkRange);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, radius);
         }
@@ -522,11 +478,11 @@ namespace MOBA
         {
             if (attacking?.AtkTrigger)
             {
-                attacking.AtkTrigger.radius = atkRange;
+                attacking.AtkTrigger.radius = stats.AtkRange;
             }
             if (attacking?.RangeIndicator)
             {
-                attacking.RangeIndicator.localScale = new Vector3(atkRange, atkRange, atkRange);
+                attacking.RangeIndicator.localScale = new Vector3(stats.AtkRange, 1, stats.AtkRange);
             }
         }
     }

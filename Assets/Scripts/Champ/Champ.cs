@@ -49,17 +49,7 @@ namespace MOBA
             attacking.StartAttacking(target);
         }
 
-        public void DebugMode()
-        {
-            AtkSpeed = 5;
-            MoveSpeed = 20;
-            AtkDmg = 1000;
-            MaxHP = 10000;
-            HP = 10000;
-            MaxResource = 10000;
-            Resource = 10000;
-            while (Lvl < 18) LevelUp();
-        }
+      
 
         public bool IsAttacking()
         {
@@ -100,7 +90,7 @@ namespace MOBA
 
         private float GetRespawnTime()
         {
-            return 7 + 3 * Lvl;
+            return 7 + 3 * stats.Lvl;
         }
         //TODO add to inhib, make IRespawning
         private IEnumerator Respawn()
@@ -137,8 +127,8 @@ namespace MOBA
             movement.EnableCollision();
             mesh.SetActive(true);
             IsDead = false;
-            HP = MaxHP;
-            Resource = MaxResource;
+            stats.HP = stats.MaxHP;
+            stats.Resource = stats.MaxResource;
             OnRespawn?.Invoke();
         }
 
@@ -204,7 +194,7 @@ namespace MOBA
 
         public override float GetXPReward()
         {
-            return Lvl * 50;
+            return stats.Lvl * 50;
         }
 
         public override int GetGoldReward()
