@@ -16,11 +16,13 @@ namespace MOBA
 
         protected void SetXP(float newAmount, float max)
         {
+            if (XPBar.fillAmount == newAmount / max) return;
             XPBar.fillAmount = newAmount / max;
         }
 
         protected void SetLvl(int newLvl)
         {
+            if (LevelText.text == newLvl + "") return;
             LevelText.text = newLvl + "";
         }
 

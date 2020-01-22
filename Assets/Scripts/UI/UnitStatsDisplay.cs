@@ -98,43 +98,54 @@ namespace MOBA
 
         private void SetHPText(float current, float max)
         {
-            if (!hp) return;
+            if (hp.text == current + " / " + max) return;
             hp.text = current + " / " + max;
-            if (!hpReg) return;
+
             if (hpReg.gameObject.activeSelf)
             {
                 if (current >= max || targetStats.HPReg == 0)
                 {
                     hpReg.gameObject.SetActive(false);
                 }
+                else
+                {
+                    SetValueText(hpReg, targetStats.HPReg);
+                }
             }
             else if (current < max && targetStats.HPReg > 0)
             {
                 hpReg.gameObject.SetActive(true);
+                SetValueText(hpReg, targetStats.HPReg);
             }
         }
 
         private void SetResourceText(float current, float max)
         {
-            if (!resource) return;
+            if (resource.text == current + " / " + max) return;
             resource.text = current + " / " + max;
-            if (!resourceReg) return;
+
             if (resourceReg.gameObject.activeSelf)
             {
                 if (current >= max || targetStats.HPReg == 0)
                 {
                     resourceReg.gameObject.SetActive(false);
                 }
+                else
+                {
+                    SetValueText(resourceReg, targetStats.ResourceReg);
+                }
             }
             else if (current < max && targetStats.ResourceReg > 0)
             {
                 resourceReg.gameObject.SetActive(true);
+                SetValueText(resourceReg, targetStats.ResourceReg);
             }
         }
 
         private void SetValueText(Text text, object value)
         {
             if (!text) return;
+            if (text.text == value + "") return;
             text.text = value + "";
         }
     }

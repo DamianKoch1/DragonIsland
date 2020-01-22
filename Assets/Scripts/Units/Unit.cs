@@ -35,13 +35,12 @@ namespace MOBA
         private List<Material> outlineMaterials;
         private List<Renderer> renderers;
 
-       
+
 
         [HideInInspector]
         public Amplifiers amplifiers;
 
         [Space]
-
         [SerializeField]
         private bool canMove = true;
 
@@ -151,7 +150,7 @@ namespace MOBA
         }
 
 
-        protected virtual float GetXPNeededForLevel(int level)
+        public virtual float GetXPNeededForLevel(int level)
         {
             return (level - 1) * (level - 1) * 100;
         }
@@ -161,11 +160,11 @@ namespace MOBA
             stats.LevelUp();
         }
 
-     
 
+        //TODO
         public void UpdateStats()
         {
-            //items + buffs + base
+            //items + buffs + base + perLvl * (lvl-1)
         }
 
         public Vector3 GetGroundPos()
@@ -220,7 +219,7 @@ namespace MOBA
             return closestUnit;
         }
 
-    
+
         /// <summary>
         /// Avoid calling this directly, create a new Damage() and use Inflict() on it.
         /// </summary>
@@ -232,10 +231,13 @@ namespace MOBA
             if (!damageable) return;
             OnReceiveDamage?.Invoke(instigator, amount, type);
             stats.HP -= amount;
-            instigator.OnDealDamage?.Invoke(this, amount, type);
-            if (instigator is Champ)
+            if (instigator)
             {
-                OnAttackedByChamp?.Invoke((Champ)instigator);
+                instigator.OnDealDamage?.Invoke(this, amount, type);
+                if (instigator is Champ)
+                {
+                    OnAttackedByChamp?.Invoke((Champ)instigator);
+                }
             }
             if (stats.HP == 0)
             {
@@ -296,7 +298,7 @@ namespace MOBA
             IsDead = false;
 
 
-            stats.Initialize();
+            stats.Initialize(this);
 
             timeSinceLastRegTick = 0;
 
@@ -311,6 +313,8 @@ namespace MOBA
             movement?.Initialize(stats.MoveSpeed);
 
             attacking?.Initialize(this);
+
+            OnUnitTick += ApplyRegeneration;
 
             SetupMaterials();
         }
@@ -341,7 +345,7 @@ namespace MOBA
             }
         }
 
-     
+
 
         protected virtual Color GetOutlineColor()
         {
@@ -408,11 +412,13 @@ namespace MOBA
         {
             while (timeSinceLastRegTick >= 0.5f)
             {
-                ApplyRegeneration();
+                OnUnitTick?.Invoke();
                 timeSinceLastRegTick--;
             }
             timeSinceLastRegTick += Time.deltaTime;
         }
+
+        public Action OnUnitTick;
 
         protected virtual void ApplyRegeneration()
         {
@@ -421,7 +427,7 @@ namespace MOBA
             stats.ApplyResourceReg();
         }
 
-      
+
 
 
         public abstract float GetXPReward();
@@ -438,16 +444,21 @@ namespace MOBA
 
         public bool IsEnemy(Unit other)
         {
+            return IsEnemy(other.teamID);
+        }
+
+        public bool IsEnemy(TeamID id)
+        {
             if (teamID == TeamID.blue)
             {
-                if (other.teamID == TeamID.red)
+                if (id == TeamID.red)
                 {
                     return true;
                 }
             }
             if (teamID == TeamID.red)
             {
-                if (other.teamID == TeamID.blue)
+                if (id == TeamID.blue)
                 {
                     return true;
                 }
@@ -457,16 +468,21 @@ namespace MOBA
 
         public bool IsAlly(Unit other)
         {
+            return IsAlly(other.teamID);
+        }
+
+        public bool IsAlly(TeamID id)
+        {
             if (teamID == TeamID.blue)
             {
-                if (other.teamID == TeamID.blue)
+                if (id == TeamID.blue)
                 {
                     return true;
                 }
             }
             if (teamID == TeamID.red)
             {
-                if (other.teamID == TeamID.red)
+                if (id == TeamID.red)
                 {
                     return true;
                 }

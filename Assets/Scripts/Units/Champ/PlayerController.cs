@@ -42,7 +42,9 @@ namespace MOBA
         private Champ player;
 
         [SerializeField]
-        private Interface UI;
+        private Interface ui;
+
+        public Interface UI => ui;
 
         public static Champ Player => Instance.player;
 
@@ -71,21 +73,24 @@ namespace MOBA
         private void Start()
         {
             if (instance && instance != this) Destroy(gameObject);
-           
+
             cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
-            UI?.Initialize(player);
+            ui?.Initialize(player);
         }
 
-
+        public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
+        {
+            return cam.GetCursorToWorldPoint(out mouseWorldPos);
+        }
 
         private void OnSelectPressed()
         {
             if (!hovered)
             {
-                UI.HideTargetStats();
+                ui.HideTargetStats();
                 return;
             }
-            UI.ShowTargetStats(hovered);
+            ui.ShowTargetStats(hovered);
         }
 
         private void OnMovePressed()
@@ -122,9 +127,9 @@ namespace MOBA
                 }
                 return;
             }
-            if (!cam.GetCursorToWorldPoint(out var worldMousePos)) return;
-            Instantiate(atkMoveClickVfx, worldMousePos + Vector3.up * 0.2f, Quaternion.identity);
-            var targets = player.GetTargetableEnemiesInAtkRange<Unit>(worldMousePos);
+            if (!cam.GetCursorToWorldPoint(out var mouseWorldPos)) return;
+            Instantiate(atkMoveClickVfx, mouseWorldPos + Vector3.up * 0.2f, Quaternion.identity);
+            var targets = player.GetTargetableEnemiesInAtkRange<Unit>(mouseWorldPos);
             switch (targets.Count())
             {
                 case 0:
@@ -134,7 +139,7 @@ namespace MOBA
                     player.StartAttacking(targets[0]);
                     break;
                 default:
-                    player.StartAttacking(targets.GetClosestUnitFrom<Unit>(worldMousePos));
+                    player.StartAttacking(targets.GetClosestUnitFrom<Unit>(mouseWorldPos));
                     break;
             }
         }
@@ -147,10 +152,10 @@ namespace MOBA
             {
                 player.StopAttacking();
             }
-            if (cam.GetCursorToWorldPoint(out var worldMousePos))
+            if (cam.GetCursorToWorldPoint(out var mouseWorldPos))
             {
-                player.MoveTo(worldMousePos);
-                targetPos = worldMousePos;
+                player.MoveTo(mouseWorldPos);
+                targetPos = mouseWorldPos;
                 return true;
             }
             targetPos = Vector3.zero;
@@ -188,6 +193,23 @@ namespace MOBA
             else if (Input.GetKeyUp(attackMove))
             {
                 player.ToggleRangeIndicator(false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                player.CastQ();
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                player.CastW();
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                player.CastE();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                player.CastR();
             }
         }
 

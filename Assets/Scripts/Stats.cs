@@ -8,7 +8,6 @@ namespace MOBA
     [Serializable]
     public class UnitStats
     {
-        //TODO fix reg not displaying, shadow bar buggy, xpbar
         [SerializeField]
         private int maxLvl = 18;
 
@@ -17,10 +16,13 @@ namespace MOBA
         [HideInInspector]
         public int Lvl = -1;
 
+        public Unit Owner
+        {
+            private set;
+            get;
+        }
 
-        [SerializeField]
-        private AnimationCurve xpForLevelCurve;
-
+     
         private float xp = -1;
 
         public float XP
@@ -30,7 +32,7 @@ namespace MOBA
                 if (xp == value) return;
                 if (Lvl >= maxLvl) return;
                 xp = value.Truncate(1);
-                while (xp >= xpForLevelCurve.Evaluate(Lvl + 1))
+                while (xp >= Owner.GetXPNeededForLevel(Lvl + 1))
                 {
                     Lvl++;
                     LevelUpStats();
@@ -45,7 +47,7 @@ namespace MOBA
                 }
                 //
 
-                OnXPChanged?.Invoke(xp - xpForLevelCurve.Evaluate(Lvl), xpForLevelCurve.Evaluate(Lvl + 1) - xpForLevelCurve.Evaluate(Lvl));
+                OnXPChanged?.Invoke(xp - Owner.GetXPNeededForLevel(Lvl), Owner.GetXPNeededForLevel(Lvl + 1) - Owner.GetXPNeededForLevel(Lvl));
             }
             get => xp;
         }
@@ -55,7 +57,7 @@ namespace MOBA
         public void LevelUp()
         {
             if (Lvl >= maxLvl) return;
-            XP = xpForLevelCurve.Evaluate(Lvl + 1) + 1;
+            XP = Owner.GetXPNeededForLevel(Lvl + 1) + 1;
         }
 
         public Action<int> OnLevelUp;
@@ -374,8 +376,9 @@ namespace MOBA
         public Action<float> OnMoveSpeedChanged;
 
 
-        public void Initialize()
+        public void Initialize(Unit _owner)
         {
+            Owner = _owner;
             Lvl = 1;
             XP = 0;
 
@@ -410,13 +413,13 @@ namespace MOBA
         public void ApplyHPReg()
         {
             if (HP >= MaxHP) return;
-            //HP = Mathf.Min(MaxHP, HP + HPReg);
+            HP = Mathf.Min(MaxHP, HP + HPReg);
         }
 
         public void ApplyResourceReg()
         {
             if (Resource >= MaxResource) return;
-            //Resource = Mathf.Min(MaxResource, Resource + ResourceReg);
+            Resource = Mathf.Min(MaxResource, Resource + ResourceReg);
         }
 
 

@@ -32,11 +32,15 @@ namespace MOBA
 
         private Vector3 spawnpoint;
 
+
+
+        //TODO make global
         [SerializeField]
         private float goldPerSec = 1;
 
+        public List<Skill> Skills { get; private set; }
 
-        //TODO move to interface, shouldnt be in every champ
+        //move to interface, shouldnt be in every champ
         [Space]
         [SerializeField]
         private RespawnHUD respawnHUDPrefab;
@@ -65,19 +69,55 @@ namespace MOBA
         protected override void Initialize()
         {
             base.Initialize();
+
             OnAttackedByChamp += RequestTowerAssist;
+
             nearbyAlliedTowers = new List<Tower>();
+
             ToggleRangeIndicator(false);
+
             spawnpoint = Base.GetAllied(this).Spawnpoint.position;
+
             Gold = 0;
+
+            OnUnitTick += () => Gold += goldPerSec;
+
+            SetupSkills();
         }
 
-        //TODO make tick action, gold doesnt fit in applyregen
-        protected override void ApplyRegeneration()
+        private void SetupSkills()
         {
-            Gold += goldPerSec;
-            base.ApplyRegeneration();
+            Skills = new List<Skill>(GetComponentsInChildren<Skill>());
+            foreach (var skill in Skills)
+            {
+                skill.Initialize(this);
+            }
         }
+
+        public bool CastQ()
+        {
+            if (Skills.Count == 0) return false;
+            return Skills[0].TryCast();
+        }
+
+        public bool CastW()
+        {
+            if (Skills.Count <= 1) return false;
+            return Skills[1].TryCast();
+        }
+
+        public bool CastE()
+        {
+            if (Skills.Count <= 2) return false;
+            return Skills[2].TryCast();
+        }
+
+        public bool CastR()
+        {
+            if (Skills.Count <= 3) return false;
+            return Skills[3].TryCast();
+        }
+
 
         protected override void OnDeath()
         {
@@ -92,12 +132,13 @@ namespace MOBA
         {
             return 7 + 3 * stats.Lvl;
         }
-        //TODO add to inhib, make IRespawning
+
+        //add to inhib, make IRespawning
         private IEnumerator Respawn()
         {
             float remainingTime = GetRespawnTime();
 
-            //TODO move to interface, shouldnt be called by every champ
+            //move to interface, shouldnt be called by every champ
             RespawnHUD respawnHUD = null;
             if (this == PlayerController.Player)
             {

@@ -36,12 +36,12 @@ namespace MOBA
 
         public void SetHP(float newAmount, float max)
         {
-            if (!HPBar) return;
             float newFillAmount = newAmount / max;
             if (HPBar.fillAmount == newFillAmount) return;
             HPBar.fillAmount = newFillAmount;
+
             if (!animateDamage) return;
-            if (HPShadowBar.fillAmount >= newFillAmount) return;
+            if (HPShadowBar.fillAmount <= newFillAmount) return;
             if (HPShadowAnim != null)
             {
                 StopCoroutine(HPShadowAnim);
@@ -52,7 +52,6 @@ namespace MOBA
 
         public void SetResource(float newAmount, float max)
         {
-            if (!ResourceBar) return;
             if (ResourceBar.fillAmount == newAmount / max) return;
             ResourceBar.fillAmount = newAmount / max;
         }
@@ -105,6 +104,8 @@ namespace MOBA
 
         private void Update()
         {
+            if (!target) Destroy(gameObject);
+
             SetHP(targetStats.HP, targetStats.MaxHP);
 
             SetResource(targetStats.Resource, targetStats.MaxResource);
@@ -124,10 +125,7 @@ namespace MOBA
                 }
             }
 
-            if (!target) Destroy(gameObject);
         }
-
-
 
         protected void Toggle(bool show)
         {

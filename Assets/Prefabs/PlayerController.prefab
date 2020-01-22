@@ -49,7 +49,7 @@ MonoBehaviour:
   camOffset: {x: 0, y: 15, z: -9}
   camRotation: {x: 60, y: 0, z: 0}
   player: {fileID: 0}
-  UI: {fileID: 3206784737227795518}
+  ui: {fileID: 3206784737227795518}
   defaultColors: {fileID: 11400000, guid: 1cfe8df74154c0d4a94bc8e371fb394e, type: 2}
   outline: {fileID: 4800000, guid: 8d4dc7790983767458fbd144b2fa6f29, type: 3}
   moveClickVfx: {fileID: 5423539979992791845, guid: bff06226884c3b0488888ccce39bdc96,
@@ -178,12 +178,37 @@ PrefabInstance:
     - target: {fileID: 5971878515441647976, guid: d00178c45b06b6d46a20b812e1afb8f6,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 10.6
+      value: 10.599976
       objectReference: {fileID: 0}
     - target: {fileID: 8933438656946441038, guid: d00178c45b06b6d46a20b812e1afb8f6,
         type: 3}
       propertyPath: m_SortingOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840239408290732332, guid: d00178c45b06b6d46a20b812e1afb8f6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7368
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840239408290732332, guid: d00178c45b06b6d46a20b812e1afb8f6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7368
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840239408290732332, guid: d00178c45b06b6d46a20b812e1afb8f6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7368
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840239408290732332, guid: d00178c45b06b6d46a20b812e1afb8f6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840239408290732332, guid: d00178c45b06b6d46a20b812e1afb8f6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -95
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d00178c45b06b6d46a20b812e1afb8f6, type: 3}

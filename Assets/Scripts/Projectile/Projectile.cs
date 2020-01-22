@@ -15,8 +15,7 @@ namespace MOBA
         alliedUnits = 4,
         monsters = 5,
         anyUnit = 6,
-        HitModeCount = 7
-
+        ownerOnly = 7
     }
 
     [RequireComponent(typeof(Collider))]
@@ -45,6 +44,7 @@ namespace MOBA
         protected Vector3 targetPos;
 
         protected Unit owner;
+        protected TeamID ownerTeamID;
 
         protected float damage;
 
@@ -63,9 +63,6 @@ namespace MOBA
 
             switch (hitMode)
             {
-                case HitMode.invalid:
-                    print("encountered invalid projectile hit mode!");
-                    break;
                 case HitMode.targetOnly:
                     if (unit == target)
                     {
@@ -75,14 +72,14 @@ namespace MOBA
                 case HitMode.enemyChamps:
                     if (unit.GetComponent<Champ>())
                     {
-                        if (owner.IsEnemy(unit))
+                        if (unit.IsEnemy(ownerTeamID))
                         {
                             OnHit(unit);
                         }
                     }
                     break;
                 case HitMode.enemyUnits:
-                    if (owner.IsEnemy(unit))
+                    if (unit.IsEnemy(ownerTeamID))
                     {
                         OnHit(unit);
                     }
@@ -90,14 +87,14 @@ namespace MOBA
                 case HitMode.alliedChamps:
                     if (unit.GetComponent<Champ>())
                     {
-                        if (owner.IsAlly(unit))
+                        if (unit.IsAlly(ownerTeamID))
                         {
                             OnHit(unit);
                         }
                     }
                     break;
                 case HitMode.alliedUnits:
-                    if (owner.IsAlly(unit))
+                    if (unit.IsAlly(ownerTeamID))
                     {
                         OnHit(unit);
                     }
@@ -118,9 +115,8 @@ namespace MOBA
                         OnHit(unit);
                     }
                     break;
-                case HitMode.HitModeCount:
-                    break;
                 default:
+                    Debug.LogError(owner.name + "spawned projectile with invalid hit mode!");
                     break;
             }
         }
@@ -173,6 +169,7 @@ namespace MOBA
         {
             Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
             instance.owner = _owner;
+            instance.ownerTeamID = _owner.TeamID;
             instance.damage = _damage;
             instance.dmgType = _dmgType;
             return instance;
