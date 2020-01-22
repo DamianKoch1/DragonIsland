@@ -15,8 +15,10 @@ namespace MOBA
         passive = 3,
     }
 
-
-    public abstract class Unit : MonoBehaviour
+    [RequireComponent(typeof(CapsuleCollider))]
+    [RequireComponent(typeof(SphereCollider))]
+    [RequireComponent(typeof(Rigidbody))]
+    public class Unit : MonoBehaviour
     {
         public const float TICKINTERVAL = 0.5f;
 
@@ -43,7 +45,6 @@ namespace MOBA
         public Amplifiers amplifiers;
 
         [Space]
-        [SerializeField]
         private bool canMove = true;
 
         public bool CanMove
@@ -103,6 +104,7 @@ namespace MOBA
 
         public bool damageable = true;
 
+        [HideInInspector]
         public bool canAttack = true;
 
         [Space]
@@ -423,9 +425,15 @@ namespace MOBA
 
 
 
-        public abstract float GetXPReward();
+        public virtual float GetXPReward()
+        {
+            return 0;
+        }
 
-        public abstract int GetGoldReward();
+        public virtual int GetGoldReward()
+        {
+            return 0;
+        }
 
         protected virtual void OnDrawGizmosSelected()
         {

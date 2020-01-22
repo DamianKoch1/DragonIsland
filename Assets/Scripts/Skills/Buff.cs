@@ -5,14 +5,14 @@ using UnityEngine;
 public class Buff : MonoBehaviour
 {
     [SerializeField]
-    protected bool isDisplayed;
-    // Start is called before the first frame update
+    protected bool isHidden = false;
+
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

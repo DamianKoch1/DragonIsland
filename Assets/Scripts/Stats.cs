@@ -437,10 +437,49 @@ namespace MOBA
 
     }
 
-    [Serializable]
-    public class ItemStats
-    {
 
+    [Serializable]
+    public class Stats
+    {
+        public float hp;
+        public float hpReg;
+
+        public float resource;
+        public float resourceReg;
+
+        public float atkDmg;
+        public float magicDmg;
+
+        public float atkSpeed;
+        public float cdReduction;
+
+        public float armor;
+        public float magicRe;
+
+        public float critChance;
+        public float moveSpeed;
+
+        public float atkRange;
+
+        public float lifesteal;
+
+        //pen
+    }
+
+
+
+    [Serializable]
+    public class BuffProperties
+    {
+        public Stats statChanges;
+
+        public Amplifiers amplifiers;
+
+        public bool stun;
+        public bool root;
+        public bool silence;
+        public bool disarm;
+        
     }
 
 

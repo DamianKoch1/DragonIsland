@@ -37,6 +37,7 @@ namespace MOBA
                     structure.OnBeforeDeath += CheckTargetableRequirements;
                 }
             }
+            CanMove = false;
         }
 
         protected override void Die(Unit killer)

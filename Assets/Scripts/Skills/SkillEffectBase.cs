@@ -7,20 +7,28 @@ using UnityEngine;
 
 namespace MOBA
 {
-    //[CreateAssetMenu(fileName = "Skill", menuName = "ScriptableObjects/SkillEffects/Default", order = 2)]
-    public abstract class SkillEffectBase : ScriptableObject
+    public abstract class SkillEffect : MonoBehaviour
     {
         protected Unit owner;
 
-        public void SetOwner(Unit _owner)
+        protected int rank;
+
+        public void Initialize(Unit _owner, int _rank)
         {
             owner = _owner;
+            rank = _rank;
         }
 
         public abstract void Activate();
 
         public abstract void Tick();
 
-        public abstract void Deactivate();
+        public void Deactivate()
+        {
+            OnDeactivated();
+            Destroy(this);
+        }
+
+        protected abstract void OnDeactivated();
     }
 }

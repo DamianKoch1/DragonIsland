@@ -22,6 +22,8 @@ namespace MOBA
     {
         protected Unit owner;
 
+        public Unit Owner => owner;
+
         [SerializeField]
         private Sprite icon;
 
@@ -30,8 +32,7 @@ namespace MOBA
         [SerializeField]
         protected string skillName;
 
-        [SerializeField]
-        protected List<SkillEffectBase> effects;
+        protected List<SkillEffect> effects;
 
         [SerializeField, Range(0.1f, 500)]
         private float cooldown;
@@ -65,6 +66,7 @@ namespace MOBA
         {
             isReady = true;
             Rank = 1;
+            effects = new List<SkillEffect>(GetComponents<SkillEffect>());
         }
 
         public virtual void SetOwner(Unit _owner)
@@ -72,7 +74,7 @@ namespace MOBA
             owner = _owner;
             foreach (var effect in effects)
             {
-                effect.SetOwner(owner);
+                effect.Initialize(owner, Rank);
             }
         }
 
