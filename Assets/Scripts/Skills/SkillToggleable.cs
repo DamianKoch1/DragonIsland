@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,13 +11,22 @@ namespace MOBA
         [SerializeField]
         private bool isToggledOn;
 
+        public bool IsToggledOn => isToggledOn;
+
         [SerializeField, Range(0, 1000)]
-        private float tickCost;
+        private float costPerSec;
+
+        public float CostPerSec => costPerSec;
 
         [SerializeField]
         private bool beginCDOnActivation;
 
-        private void OnToggledOn()
+        [SerializeField, Range(-1, 300)]
+        private float maxDuration = -1;
+
+        private float timeActive;
+
+        private void ToggleOn()
         {
             owner.Stats.Resource -= cost;
             foreach (var effect in effects)
@@ -24,46 +34,49 @@ namespace MOBA
                 effect.Activate();
             }
             isToggledOn = true;
+            OnCast?.Invoke();
             if (beginCDOnActivation)
             {
                 StartCoroutine(StartCooldown());
             }
-            print(owner.name + " activated " + skillName);
+            timeActive = 0;
         }
 
-        private void OnToggledOff()
+        private void ToggleOff()
         {
             foreach (var effect in effects)
             {
                 effect.Deactivate();
             }
             isToggledOn = false;
+            OnToggledOff?.Invoke();
             if (!beginCDOnActivation)
             {
                 StartCoroutine(StartCooldown());
             }
-            print(owner.name + " deactivated " + skillName);
         }
 
-        public override void Initialize(Unit _owner)
+        public Action OnToggledOff;
+
+        public override void SetOwner(Unit _owner)
         {
-            base.Initialize(_owner);
+            base.SetOwner(_owner);
             owner.OnUnitTick += Tick;
         }
 
         public override bool TryCast()
         {
-            if (rank < 1) return false;
+            if (Rank < 1) return false;
             if (isToggledOn)
             {
-                OnToggledOff();
+                ToggleOff();
                 return true;
             }
             else
             {
                 if (owner.Stats.Resource < cost) return false;
                 if (!isReady) return false;
-                OnToggledOn();
+                ToggleOn();
                 return false;
             }
         }
@@ -71,17 +84,24 @@ namespace MOBA
         public virtual void Tick()
         {
             if (!isToggledOn) return;
-            if (owner.Stats.Resource < tickCost)
+            if (owner.Stats.Resource < costPerSec)
             {
-                OnToggledOff();
+                ToggleOff();
                 return;
             }
             foreach (var effect in effects)
             {
                 effect.Tick();
             }
-            owner.Stats.Resource -= tickCost;
-            print(owner.name + " tick " + skillName);
+            owner.Stats.Resource -= costPerSec / Unit.TICKINTERVAL;
+            timeActive += Unit.TICKINTERVAL;
+            if (maxDuration > 0)
+            {
+                if (timeActive >= maxDuration)
+                {
+                    ToggleOff();
+                }
+            }
         }
     }
 }

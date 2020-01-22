@@ -19,6 +19,7 @@ namespace MOBA
                 if (!instance)
                 {
                     instance = FindObjectOfType<PlayerController>();
+                    instance.Initialize();
                 }
                 return instance;
             }
@@ -72,11 +73,15 @@ namespace MOBA
 
         private void Start()
         {
-            if (instance && instance != this) Destroy(gameObject);
+            if (Instance && Instance != this) Destroy(gameObject);
+        }
 
+        public void Initialize()
+        {
             cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
             ui?.Initialize(player);
         }
+
 
         public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
         {

@@ -23,6 +23,11 @@ namespace MOBA
         protected Unit owner;
 
         [SerializeField]
+        private Sprite icon;
+
+        public Sprite Icon => icon;
+
+        [SerializeField]
         protected string skillName;
 
         [SerializeField]
@@ -45,17 +50,29 @@ namespace MOBA
 
         protected bool isReady;
 
-        protected int rank;
+        public int Rank
+        {
+            protected set;
+            get;
+        }
 
-        public virtual void Initialize(Unit _owner)
+        private void Start()
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            isReady = true;
+            Rank = 1;
+        }
+
+        public virtual void SetOwner(Unit _owner)
         {
             owner = _owner;
-            isReady = true;
-            rank = 1;
-
             foreach (var effect in effects)
             {
-                effect.Initialize(owner);
+                effect.SetOwner(owner);
             }
         }
 
@@ -81,7 +98,7 @@ namespace MOBA
         public virtual bool TryCast()
         {
             if (!isReady) return false;
-            if (rank < 1) return false;
+            if (Rank < 1) return false;
             if (owner.Stats.Resource < cost) return false;
             switch (targetingMode)
             {
@@ -102,7 +119,7 @@ namespace MOBA
                 case TargetingMode.self:
                     break;
                 default:
-                    Debug.LogError(skillName + "had invalid targetingMode!");
+                    Debug.LogError(skillName + " had invalid targetingMode!");
                     break;
             }
             foreach (var effect in effects)
@@ -111,7 +128,6 @@ namespace MOBA
             }
             owner.Stats.Resource -= cost;
             OnCast?.Invoke();
-            print(owner.name + " cast " + skillName);
             StartCoroutine(StartCooldown());
             return true;
         }

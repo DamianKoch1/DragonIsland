@@ -61,6 +61,7 @@ namespace MOBA
                                 instanceRed = teamBase;
                                 break;
                             default:
+                                Debug.LogWarning("Warning: " + teamBase.name + " had TeamID other than blue/red.");
                                 break;
                         }
                     }
@@ -90,6 +91,7 @@ namespace MOBA
                                 instanceRed = teamBase;
                                 break;
                             default:
+                                Debug.LogWarning("Warning: " + teamBase.name + " had TeamID other than blue/red.");
                                 break;
                         }
                     }

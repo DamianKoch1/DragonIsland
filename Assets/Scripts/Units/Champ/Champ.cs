@@ -10,6 +10,8 @@ namespace MOBA
     [RequireComponent(typeof(NavMovement))]
     public class Champ : Unit
     {
+        public const float GOLDPERSEC = 1;
+
         protected float currGold;
 
         public float Gold
@@ -34,11 +36,23 @@ namespace MOBA
 
 
 
-        //TODO make global
-        [SerializeField]
-        private float goldPerSec = 1;
+        private List<Skill> skills;
 
-        public List<Skill> Skills { get; private set; }
+        public List<Skill> Skills
+        {
+            get
+            {
+                if (skills == null)
+                {
+                    skills = new List<Skill>(GetComponentsInChildren<Skill>());
+                }
+                return skills;
+            }
+            private set
+            {
+                skills = value;
+            }
+        }
 
         //move to interface, shouldnt be in every champ
         [Space]
@@ -53,7 +67,7 @@ namespace MOBA
             attacking.StartAttacking(target);
         }
 
-      
+
 
         public bool IsAttacking()
         {
@@ -80,17 +94,16 @@ namespace MOBA
 
             Gold = 0;
 
-            OnUnitTick += () => Gold += goldPerSec;
+            OnUnitTick += () => Gold += GOLDPERSEC;
 
             SetupSkills();
         }
 
         private void SetupSkills()
         {
-            Skills = new List<Skill>(GetComponentsInChildren<Skill>());
             foreach (var skill in Skills)
             {
-                skill.Initialize(this);
+                skill.SetOwner(this);
             }
         }
 

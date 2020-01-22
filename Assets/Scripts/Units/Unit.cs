@@ -15,8 +15,10 @@ namespace MOBA
         passive = 3,
     }
 
+
     public abstract class Unit : MonoBehaviour
     {
+        public const float TICKINTERVAL = 0.5f;
 
         [SerializeField]
         private TeamID teamID = TeamID.invalid;
@@ -115,6 +117,7 @@ namespace MOBA
 
         protected float timeSinceLastRegTick = 0;
 
+    
 
         [SerializeField]
         private float xpRewardRange = 12;
@@ -137,17 +140,7 @@ namespace MOBA
         [SerializeField]
         protected GameObject mesh;
 
-
-        private bool isDead;
-
-        public bool IsDead
-        {
-            protected set
-            {
-                isDead = value;
-            }
-            get => isDead;
-        }
+        public bool IsDead { protected set; get; }
 
 
         public virtual float GetXPNeededForLevel(int level)
@@ -410,10 +403,10 @@ namespace MOBA
         }
         protected virtual void Update()
         {
-            while (timeSinceLastRegTick >= 0.5f)
+            while (timeSinceLastRegTick >= TICKINTERVAL)
             {
                 OnUnitTick?.Invoke();
-                timeSinceLastRegTick--;
+                timeSinceLastRegTick = 0;
             }
             timeSinceLastRegTick += Time.deltaTime;
         }

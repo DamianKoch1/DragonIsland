@@ -16,6 +16,8 @@ namespace MOBA
 
         private UnitStatsDisplay enemyDisplayInstance;
 
+        [SerializeField]
+        private GameObject skillsDisplay;
 
         [SerializeField]
         private Text goldText;
@@ -26,6 +28,12 @@ namespace MOBA
 
             playerDisplay?.Initialize(target);
             target.OnGoldChanged += SetGold;
+
+            var skillDisplays = skillsDisplay.GetComponentsInChildren<SkillDisplay>();
+            for (int i = 0; i < target.Skills.Count; i++)
+            {
+                skillDisplays[i].Initialize(target.Skills[i]);
+            }
         }
 
         private void SetGold(float value)

@@ -38,17 +38,29 @@ namespace MOBA
         {
             float newFillAmount = newAmount / max;
             if (HPBar.fillAmount == newFillAmount) return;
-            HPBar.fillAmount = newFillAmount;
 
-            if (!animateDamage) return;
-            if (HPShadowBar.fillAmount <= newFillAmount) return;
+            if (animateDamage)
+            {
+                UpdateHPShadow(newFillAmount);
+            }
+
+            HPBar.fillAmount = newFillAmount;
+        }
+
+        private void UpdateHPShadow(float newHPFillAmount)
+        {
+            if (newHPFillAmount >= HPBar.fillAmount) return;
+            if (newHPFillAmount > HPShadowBar.fillAmount)
+            {
+                HPShadowBar.fillAmount = newHPFillAmount;
+                return;
+            }
             if (HPShadowAnim != null)
             {
                 StopCoroutine(HPShadowAnim);
             }
-            HPShadowAnim = StartCoroutine(ShowHPShadow(HPShadowBar.fillAmount, HPBar.fillAmount));
+            HPShadowAnim = StartCoroutine(ShowHPShadow(newHPFillAmount));
         }
-
 
         public void SetResource(float newAmount, float max)
         {
@@ -56,15 +68,15 @@ namespace MOBA
             ResourceBar.fillAmount = newAmount / max;
         }
 
-        private IEnumerator ShowHPShadow(float from, float to)
+        private IEnumerator ShowHPShadow(float to)
         {
+            float from = HPShadowBar.fillAmount;
             float time = 0;
             while (time < 0.5f)
             {
                 HPShadowBar.fillAmount = Mathf.Lerp(from, to, HPShadowAnimCurve.Evaluate(time));
                 time += Time.deltaTime;
                 yield return null;
-                continue;
             }
             HPShadowBar.fillAmount = HPBar.fillAmount;
         }

@@ -10,11 +10,11 @@ namespace MOBA
     //[CreateAssetMenu(fileName = "Skill", menuName = "ScriptableObjects/SkillEffects/Default", order = 2)]
     public abstract class SkillEffectBase : ScriptableObject
     {
-        protected Unit caster;
+        protected Unit owner;
 
-        public void Initialize(Unit _caster)
+        public void SetOwner(Unit _owner)
         {
-            caster = _caster;
+            owner = _owner;
         }
 
         public abstract void Activate();
