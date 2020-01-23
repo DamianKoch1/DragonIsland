@@ -34,7 +34,7 @@ namespace MOBA
 
         private Vector3 spawnpoint;
 
-
+      
 
         private List<Skill> skills;
 

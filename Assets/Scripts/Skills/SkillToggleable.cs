@@ -7,7 +7,7 @@ namespace MOBA
 {
     public class SkillToggleable : Skill
     {
-
+        [Space]
         [SerializeField]
         private bool isToggledOn;
 
@@ -29,10 +29,6 @@ namespace MOBA
         private void ToggleOn()
         {
             owner.Stats.Resource -= cost;
-            foreach (var effect in effects)
-            {
-                effect.Activate();
-            }
             isToggledOn = true;
             OnCast?.Invoke();
             if (beginCDOnActivation)
@@ -40,6 +36,7 @@ namespace MOBA
                 StartCoroutine(StartCooldown());
             }
             timeActive = 0;
+            StartCoroutine(StartCastTime());
         }
 
         private void ToggleOff()
@@ -54,6 +51,13 @@ namespace MOBA
             {
                 StartCoroutine(StartCooldown());
             }
+        }
+
+
+        public override void OnButtonClicked()
+        {
+            if (!isToggledOn) return;
+            ToggleOff();
         }
 
         public Action OnToggledOff;
@@ -76,6 +80,7 @@ namespace MOBA
             {
                 if (owner.Stats.Resource < cost) return false;
                 if (!isReady) return false;
+                if (!IsValidTargetSelected()) return false;
                 ToggleOn();
                 return false;
             }

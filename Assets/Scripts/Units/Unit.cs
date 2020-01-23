@@ -41,6 +41,8 @@ namespace MOBA
 
 
 
+
+
         [HideInInspector]
         public Amplifiers amplifiers;
 
@@ -119,7 +121,7 @@ namespace MOBA
 
         protected float timeSinceLastRegTick = 0;
 
-    
+
 
         [SerializeField]
         private float xpRewardRange = 12;
@@ -137,7 +139,25 @@ namespace MOBA
 
         protected GameObject statBarsInstance;
 
-        [Space]
+
+        private BuffsSlot buffsSlot;
+
+        public BuffsSlot BuffsSlot
+        {
+            private set
+            {
+                buffsSlot = value;
+            }
+            get
+            {
+                if (!buffsSlot)
+                {
+                    buffsSlot = GetComponentInChildren<BuffsSlot>();
+                }
+                return buffsSlot;
+            }
+        }
+
 
         [SerializeField]
         protected GameObject mesh;
@@ -161,12 +181,26 @@ namespace MOBA
         {
             //items + buffs + base + perLvl * (lvl-1)
         }
-
+        
+        //make extension method
         public Vector3 GetGroundPos()
         {
             return new Vector3(transform.position.x, 0, transform.position.z);
         }
 
+        //make extension method
+        public T AddBuff<T>() where T : Buff
+        {
+            return BuffsSlot.gameObject.AddComponent<T>();
+        }
+
+        public CustomBuff AddCustomBuff(Type buffType)
+        {
+            if (!buffType.IsSubclassOf(typeof(CustomBuff))) return null;
+            return (CustomBuff)BuffsSlot.gameObject.AddComponent(buffType);
+        }
+
+        //make extension method
         public UnitList<T> GetTargetableEnemiesInAtkRange<T>(Vector3 fromPosition) where T : Unit
         {
             UnitList<T> result = new UnitList<T>();
@@ -182,6 +216,7 @@ namespace MOBA
             return result;
         }
 
+        //make extension method
         public UnitList<T> GetEnemiesInRange<T>(float range) where T : Unit
         {
             UnitList<T> result = new UnitList<T>();
@@ -196,7 +231,7 @@ namespace MOBA
             return result;
         }
 
-
+        //make extension method
         protected Unit GetClosestUnit<T>(UnitList<T> fromList) where T : Unit
         {
             if (fromList.Count() == 0) return null;
@@ -298,7 +333,7 @@ namespace MOBA
             timeSinceLastRegTick = 0;
 
             amplifiers = new Amplifiers();
-            amplifiers.Initialize();
+            amplifiers.Reset();
 
             if (movement)
             {
@@ -408,7 +443,7 @@ namespace MOBA
             while (timeSinceLastRegTick >= TICKINTERVAL)
             {
                 OnUnitTick?.Invoke();
-                timeSinceLastRegTick = 0;
+                timeSinceLastRegTick -= TICKINTERVAL;
             }
             timeSinceLastRegTick += Time.deltaTime;
         }

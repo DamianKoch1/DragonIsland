@@ -1910,26 +1910,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5971878515441647976}
     m_Modifications:
-    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
-        type: 3}
-      propertyPath: hp
-      value: 
-      objectReference: {fileID: 6870710222320910265}
-    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
-        type: 3}
-      propertyPath: resource
-      value: 
-      objectReference: {fileID: 4009295279824302137}
-    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
-        type: 3}
-      propertyPath: hpReg
-      value: 
-      objectReference: {fileID: 4605524833886032369}
-    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
-        type: 3}
-      propertyPath: resourceReg
-      value: 
-      objectReference: {fileID: 3502423581614944411}
     - target: {fileID: 4360246637421513866, guid: 1b4041a432d23bd40b14f9393d707586,
         type: 3}
       propertyPath: m_Name
@@ -2520,6 +2500,26 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
+        type: 3}
+      propertyPath: hp
+      value: 
+      objectReference: {fileID: 6870710222320910265}
+    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
+        type: 3}
+      propertyPath: resource
+      value: 
+      objectReference: {fileID: 4009295279824302137}
+    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
+        type: 3}
+      propertyPath: hpReg
+      value: 
+      objectReference: {fileID: 4605524833886032369}
+    - target: {fileID: 287442752281917830, guid: 1b4041a432d23bd40b14f9393d707586,
+        type: 3}
+      propertyPath: resourceReg
+      value: 
+      objectReference: {fileID: 3502423581614944411}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b4041a432d23bd40b14f9393d707586, type: 3}
 --- !u!114 &6637750357990372226 stripped

@@ -8,13 +8,10 @@ namespace MOBA
     {
 
         [SerializeField]
-        protected Projectile projectile;
+        protected Projectile projectilePrefab;
 
         [SerializeField]
-        protected float projectileSpeed;
-
-        [SerializeField]
-        protected float projectileSize = 1;
+        private ProjectileProperties projectileProperties;
 
         public Transform projectileSpawnpoint;
 
@@ -24,7 +21,7 @@ namespace MOBA
             {
                 animator.SetTrigger("attack");
             }
-            projectile.SpawnHoming(projectileSize, target, projectileSpawnpoint.position, owner, owner.Stats.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
+            projectilePrefab.SpawnHoming(projectileSize, target, projectileSpawnpoint.position, owner, owner.Stats.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
             AttackAnimFinished();
         }
 

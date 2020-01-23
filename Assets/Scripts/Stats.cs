@@ -22,7 +22,7 @@ namespace MOBA
             get;
         }
 
-     
+
         private float xp = -1;
 
         public float XP
@@ -463,25 +463,82 @@ namespace MOBA
 
         public float lifesteal;
 
+        public float flatArmorPen;
+        public float percentArmorPen;
+
+        public float flatMagicPen;
+        public float percentMagicPen;
+
         //pen
     }
 
 
 
     [Serializable]
-    public class BuffProperties
+    public class BuffStats
     {
         public Stats statChanges;
 
+        [Space]
         public Amplifiers amplifiers;
 
+    }
+
+    [Serializable]
+    public class BuffFlags
+    {
         public bool stun;
         public bool root;
         public bool silence;
         public bool disarm;
-        
+        public bool undamageable;
+        public bool untargetable;
     }
 
+    [Serializable]
+    public class Scalings
+    {
+        public float ad;
+        public float md;
+
+        public int level;
+
+        public float armor;
+        public float magicRes;
+
+        [Space]
+        public float maxHP;
+        public float currentHP;
+        public float missingHP;
+
+        [Space]
+        public float targetMaxHP;
+        public float targetCurrentHP;
+        public float targetMissingHP;
+
+        public static float operator *(Scalings scalings, Unit owner)
+        {
+            var ownerStats = owner.Stats;
+            return scalings.ad        * ownerStats.AtkDmg
+                 + scalings.md        * ownerStats.MagicDmg
+                 + scalings.level     * ownerStats.Lvl
+                 + scalings.armor     * ownerStats.Armor
+                 + scalings.magicRes  * ownerStats.MagicRes
+                 + scalings.maxHP     * ownerStats.MaxHP
+                 + scalings.currentHP * ownerStats.HP
+                 + scalings.missingHP * (ownerStats.MaxHP - ownerStats.HP);
+        }
+
+        public float GetScalingDamageBonusOnTarget(Unit owner, Unit target)
+        {
+            var ownerStats = owner.Stats;
+            return this * owner
+                 + targetMaxHP     * ownerStats.MaxHP
+                 + targetCurrentHP * ownerStats.HP
+                 + targetMissingHP * (ownerStats.MaxHP - ownerStats.HP);
+
+        }
+    }
 
     [Serializable]
     public class Amplifiers
@@ -489,14 +546,17 @@ namespace MOBA
         public float hp;
         public float heal;
 
+        [Space]
         //received
         public float physDmg;
         public float magicDmg;
         //
 
+        [Space]
         public float resource;
         public float resourceReg;
 
+        [Space]
         public float dealtDmg;
 
         public float atkDmg;
@@ -504,9 +564,11 @@ namespace MOBA
         public float atkRange;
         public float critDamage;
 
+        [Space]
         public float armor;
         public float magicRes;
 
+        [Space]
         public float moveSpeed;
 
         [Range(0, 1)]
@@ -514,7 +576,7 @@ namespace MOBA
         [Range(0, 1)]
         public float disables;
 
-        public void Initialize()
+        public void Reset()
         {
             hp = 1;
             heal = 1;

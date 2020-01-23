@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,37 +19,52 @@ namespace MOBA
         ownerOnly = 7
     }
 
+    [Serializable]
+    public class ProjectileProperties
+    {
+        public bool isHoming;
+
+        public float speed;
+
+        public float size;
+
+        public HitMode hitMode;
+
+        public DamageType dmgType;
+
+        public float baseDamage;
+
+        [HideInInspector]
+        public float bonusDamage;
+
+        [Space]
+        public bool hitUntargetables = false;
+
+        public bool destroyOnNonTargetHit = false;
+
+        public bool canHitStructures = false;
+    }
+
     [RequireComponent(typeof(Collider))]
     public class Projectile : MonoBehaviour
     {
-        [SerializeField]
-        protected bool destroyOnNonTargetHit = false;
-
-        [SerializeField]
-        protected bool canHitStructures = false;
+        protected ProjectileProperties properties;
 
         [SerializeField]
         protected Movement movement;
 
-        [SerializeField]
-        protected bool isHoming;
+        protected Unit owner;
 
-        [SerializeField]
-        protected float speed;
-
-        [SerializeField]
-        protected HitMode hitMode;
+        /// <summary>
+        /// Used to store team id of owner in case owner is destroyed on hit.
+        /// </summary>
+        protected TeamID ownerTeamID;
 
         protected Unit target;
 
         protected Vector3 targetPos;
 
-        protected Unit owner;
-        protected TeamID ownerTeamID;
-
-        protected float damage;
-
-        protected DamageType dmgType;
+        protected List<SkillEffect> onHitEffects;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -58,10 +74,10 @@ namespace MOBA
 
             if (unit is Structure)
             {
-                if (!canHitStructures) return;
+                if (!properties.canHitStructures) return;
             }
 
-            switch (hitMode)
+            switch (properties.hitMode)
             {
                 case HitMode.targetOnly:
                     if (unit == target)
@@ -123,14 +139,17 @@ namespace MOBA
 
         protected virtual void OnHit(Unit unit)
         {
-            var dmg = new Damage(damage, dmgType, owner, unit);
-            dmg.Inflict();
+            if (properties.hitUntargetables || unit.damageable)
+            {
+                var dmg = new Damage(properties.baseDamage + properties.bonusDamage, properties.dmgType, owner, unit);
+                dmg.Inflict();
+            }
 
             if (unit == target)
             {
                 OnHitTarget();
             }
-            else if (destroyOnNonTargetHit)
+            else if (properties.destroyOnNonTargetHit)
             {
                 Destroy(gameObject);
             }
@@ -138,14 +157,14 @@ namespace MOBA
 
         protected virtual void OnHitMonster(Monster monster)
         {
-            var dmg = new Damage(damage, dmgType, owner, monster);
+            var dmg = new Damage(properties.baseDamage + properties.bonusDamage, properties.dmgType, owner, monster);
             dmg.Inflict();
 
             if (monster == target)
             {
                 OnHitTarget();
             }
-            else if (destroyOnNonTargetHit)
+            else if (properties.destroyOnNonTargetHit)
             {
                 Destroy(gameObject);
             }
@@ -158,115 +177,79 @@ namespace MOBA
         }
 
         /// <summary>
-        /// Only use this if properties are set in prefab
+        /// Spawns a stillstanding projectile.
         /// </summary>
         /// <param name="position"></param>
-        /// <param name="_owner"></param>
-        /// <param name="_damage"></param>
-        /// <param name="_dmgType"></param>
+        /// <param name="_properties"></param>
         /// <returns></returns>
-        public Projectile Spawn(Vector3 position, Unit _owner, float _damage, DamageType _dmgType)
+        protected Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties)
         {
             Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
+            instance.properties = _properties;
             instance.owner = _owner;
             instance.ownerTeamID = _owner.TeamID;
-            instance.damage = _damage;
-            instance.dmgType = _dmgType;
+            instance.onHitEffects = new List<SkillEffect>(instance.GetComponents<SkillEffect>());
+            foreach (var effect in instance.onHitEffects)
+            {
+                effect.Initialize(instance.owner, 0);
+            }
             return instance;
         }
 
         /// <summary>
-        /// Spawns a stillstanding projectile
+        /// Spawns a projectile with given properties, _properties determine whether it is homing.
         /// </summary>
-        /// <param name="position"></param>
         /// <param name="_owner"></param>
-        /// <param name="_damage"></param>
-        /// <param name="_speed"></param>
-        /// <param name="_hitMode"></param>
-        /// <param name="_dmgType"></param>
-        /// <param name="_destroyOnNonTargetHit"></param>
-        /// <param name="_canHitStructures"></param>
-        /// <returns></returns>
-        protected Projectile Spawn(float size, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
-        {
-            Projectile instance = Spawn(position, _owner, _damage, _dmgType);
-            instance.transform.localScale *= size;
-            instance.speed = _speed;
-            instance.hitMode = _hitMode;
-            instance.destroyOnNonTargetHit = _destroyOnNonTargetHit;
-            instance.canHitStructures = _canHitStructures;
-            instance.movement.Initialize(_speed);
-            return instance;
-        }
-
-        /// <summary>
-        /// Spawns a projectile that follows _target
-        /// </summary>
         /// <param name="_target"></param>
         /// <param name="position"></param>
-        /// <param name="_owner"></param>
-        /// <param name="_damage"></param>
-        /// <param name="_speed"></param>
-        /// <param name="_hitMode"></param>
-        /// <param name="_dmgType"></param>
-        /// <param name="_destroyOnNonTargetHit"></param>
-        /// <param name="_canHitStructures"></param>
-        public void SpawnHoming(float size, Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        /// <param name="_properties"></param>
+        /// <returns></returns>
+        public Projectile Spawn(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, float _bonusDamage = 0)
         {
-            Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
+            Projectile instance = Spawn(_owner, position, _properties);
             instance.target = _target;
-            instance.isHoming = true;
+            instance.targetPos = _owner.transform.position;
+            instance.properties.bonusDamage = _bonusDamage;
+            return instance;
         }
 
         /// <summary>
-        /// Spawns a projectile that moves to _targetPos, doesn't work with hitMode targetOnly. 
+        /// Spawns a projectile with given properties, cannot be homing.
         /// </summary>
+        /// <param name="_owner"></param>
         /// <param name="_targetPos"></param>
         /// <param name="position"></param>
-        /// <param name="_owner"></param>
-        /// <param name="_damage"></param>
-        /// <param name="_speed"></param>
-        /// <param name="_hitMode"></param>
-        /// <param name="_dmgType"></param>
-        /// <param name="_destroyOnNonTargetHit"></param>
-        /// <param name="_canHitStructures"></param>
-        public void SpawnSkillshot(float size, Vector3 _targetPos, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
+        /// <param name="_properties"></param>
+        /// <returns></returns>
+        public Projectile SpawnSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, float _bonusDamage = 0)
         {
-            Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
+            Projectile instance = Spawn(_owner, position, _properties);
             instance.targetPos = _targetPos;
-            movement.OnReachedDestination += () => Destroy(gameObject);
-            instance.isHoming = false;
+            if (_properties.isHoming)
+            {
+                instance.properties.isHoming = false;
+                Debug.LogWarning(owner.name + " tried to spawn a homing projectile given only a target position instead of a unit!");
+            }
+            instance.properties.bonusDamage = _bonusDamage;
+            return instance;
         }
 
-        /// <summary>
-        /// Spawns a projectile that moves to current position of _target, works with hitMode targetOnly.
-        /// </summary>
-        /// <param name="_target"></param>
-        /// <param name="position"></param>
-        /// <param name="_owner"></param>
-        /// <param name="_damage"></param>
-        /// <param name="_speed"></param>
-        /// <param name="_hitMode"></param>
-        /// <param name="_dmgType"></param>
-        /// <param name="_destroyOnNonTargetHit"></param>
-        /// <param name="_canHitStructures"></param>
-        public void SpawnSkillshot(float size, Unit _target, Vector3 position, Unit _owner, float _damage, float _speed, HitMode _hitMode, DamageType _dmgType, bool _destroyOnNonTargetHit = false, bool _canHitStructures = false)
-        {
-            Projectile instance = Spawn(size, position, _owner, _damage, _speed, _hitMode, _dmgType, _destroyOnNonTargetHit, _canHitStructures);
-            instance.targetPos = _target.transform.position;
-            movement.OnReachedDestination += () => Destroy(gameObject);
-            instance.target = _target;
-            instance.isHoming = false;
-        }
 
         protected virtual void Update()
         {
-            if (isHoming)
+            if (properties.isHoming)
             {
                 if (!target || target.IsDead)
                 {
                     Destroy(gameObject);
                     return;
+                }
+                if (!properties.hitUntargetables)
+                {
+                    if (!target.Targetable)
+                    {
+                        Destroy(gameObject);
+                    }
                 }
                 movement.MoveTo(target.transform.position);
             }

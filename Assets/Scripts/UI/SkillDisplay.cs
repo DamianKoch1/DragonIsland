@@ -33,6 +33,8 @@ namespace MOBA
 
             skill.OnCDFinished += OnSkillCDFinished;
 
+            button.onClick.AddListener(skill.OnButtonClicked);
+
             if (skill is SkillToggleable)
             {
                 Initialize((SkillToggleable)skill);

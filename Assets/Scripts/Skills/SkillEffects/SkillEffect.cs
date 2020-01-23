@@ -13,13 +13,21 @@ namespace MOBA
 
         protected int rank;
 
-        public void Initialize(Unit _owner, int _rank)
+        [SerializeField]
+        protected HitMode hitMode;
+
+        [SerializeField]
+        protected Scalings scalings;
+
+        public virtual void Initialize(Unit _owner, int _rank)
         {
             owner = _owner;
             rank = _rank;
         }
 
-        public abstract void Activate();
+        public abstract void Activate(Vector3 targetPos);
+
+        public abstract void Activate(Unit target);
 
         public abstract void Tick();
 

@@ -45,12 +45,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   skillName: W
-  effects: []
+  castTime: 0.5
   cooldown: 10
+  cooldownReductionPerRank: 0
   cost: 20
   castRange: 0.1
   targetingMode: 0
-  hitMode: 0
   isToggledOn: 0
   costPerSec: 10
   beginCDOnActivation: 0
@@ -100,12 +100,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   skillName: Q
-  effects: []
+  castTime: 0.5
   cooldown: 10
+  cooldownReductionPerRank: 0
   cost: 10
   castRange: 0.1
-  targetingMode: 0
-  hitMode: 0
+  targetingMode: 7
   isToggledOn: 0
   costPerSec: 5
   beginCDOnActivation: 1
@@ -155,12 +155,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   skillName: E
-  effects: []
+  castTime: 2
   cooldown: 5
+  cooldownReductionPerRank: 0
   cost: 30
   castRange: 0.1
   targetingMode: 0
-  hitMode: 0
+--- !u!114 &6035923426967473156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215801311654412534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkTrigger: {fileID: 4118471921292742882}
+  rangeIndicator: {fileID: 7907824628354924291}
+  lookAtTarget: 1
+  projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+    type: 3}
+  projectileSpeed: 10
+  projectileSize: 0.7
+  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1 &5511781662580891295
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7956939546264444935}
   - component: {fileID: 3514943496585836381}
+  - component: {fileID: 839568809}
   m_Layer: 0
   m_Name: R
   m_TagString: Untagged
@@ -206,32 +227,88 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: a1a7e5d017e03144982b4d1ac73ceeca, type: 3}
   skillName: R
-  effects: []
+  castTime: 0
   cooldown: 5
+  cooldownReductionPerRank: 0
   cost: 40
   castRange: 0.1
-  targetingMode: 0
-  hitMode: 0
---- !u!114 &6035923426967473156
+  targetingMode: 7
+--- !u!114 &839568809
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5215801311654412534}
+  m_GameObject: {fileID: 5511781662580891295}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Script: {fileID: 11500000, guid: 0baa32b05239a9b42a91264cf8b8bab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkTrigger: {fileID: 4118471921292742882}
-  rangeIndicator: {fileID: 7907824628354924291}
-  lookAtTarget: 1
-  projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
-    type: 3}
-  projectileSpeed: 10
-  projectileSize: 0.7
-  projectileSpawnpoint: {fileID: 5215801311654412532}
+  hitMode: 0
+  properties:
+    isHidden: 0
+    maxDuration: 3
+    maxDurationPerRank: 0
+  addStatBuff: 1
+  stats:
+    statChanges:
+      hp: 0
+      hpReg: 0
+      resource: 0
+      resourceReg: 0
+      atkDmg: 0
+      magicDmg: 0
+      atkSpeed: 0
+      cdReduction: 0
+      armor: 0
+      magicRe: 0
+      critChance: 0
+      moveSpeed: 0
+      atkRange: 0
+      lifesteal: 0
+      flatArmorPen: 0
+      percentArmorPen: 0
+      flatMagicPen: 0
+      percentMagicPen: 0
+    amplifiers:
+      hp: 0
+      heal: 0
+      physDmg: 0
+      magicDmg: 0
+      resource: 0
+      resourceReg: 0
+      dealtDmg: 0
+      atkDmg: 0
+      atkSpeed: 0
+      atkRange: 0
+      critDamage: 0
+      armor: 0
+      magicRes: 0
+      moveSpeed: 0
+      slow: 0.395
+      disables: 0
+    scalings:
+      ad: 0
+      md: 0
+      level: 0
+      armor: 0
+      magicRes: 0
+      maxHP: 0
+      currentHP: 0
+      missingHP: 0
+      targetMaxHP: 0
+      targetCurrentHP: 0
+      targetMissingHP: 0
+  addDisable: 1
+  disableFlags:
+    stun: 0
+    root: 1
+    silence: 0
+    disarm: 1
+    undamageable: 0
+    untargetable: 1
+  customBuffArgs: []
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239,25 +316,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: m_Radius
-      value: 7
+      propertyPath: m_Name
+      value: TestChamp
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -48.4
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -49.1
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
@@ -299,35 +376,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Name
-      value: TestChamp
-      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: atkRange
-      value: 7
+      propertyPath: stats.baseResource
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: attacking
       value: 
       objectReference: {fileID: 6035923426967473156}
-    - target: {fileID: 3477399007884807156, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.99
+      propertyPath: m_Radius
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3477399007884807156, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalScale.x
       value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3477399007884807156, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3477399007884807156, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
