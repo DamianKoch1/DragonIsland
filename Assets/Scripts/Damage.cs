@@ -61,14 +61,6 @@ namespace MOBA
             target.ReceiveDamage(instigator, GetDamageTo(target), dmgType);
         }
 
-        public Damage(float _baseDmg, DamageType _dmgType, Unit _instigator, List<Unit> _targets)
-        {
-            baseDmg = _baseDmg;
-            dmgType = _dmgType;
-            instigator = _instigator;
-            targets = _targets;
-        }
-
         public Damage(float _baseDmg, DamageType _dmgType, Unit _instigator, Unit _target)
         {
             baseDmg = _baseDmg;

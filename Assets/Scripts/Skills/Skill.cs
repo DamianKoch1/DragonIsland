@@ -19,14 +19,16 @@ namespace MOBA
     }
 
 
-    //TODO silence, cancellable
+    //TODO silence, castrange
     public class Skill : MonoBehaviour
     {
         protected Unit owner;
 
         protected Unit target;
 
-        protected Vector3 mousePos;
+        protected bool wasCastOnUnit;
+
+        protected Vector3 mousePosAtCast;
 
         public Unit Owner => owner;
 
@@ -67,8 +69,14 @@ namespace MOBA
 
         private Unit prevAttackTarget;
 
+        [SerializeField]
+        private bool canCastOnStructures;
 
         protected bool isReady;
+
+        protected Coroutine castTimeCoroutine;
+
+        protected UnitStats ownerStatsAtCast;
 
         public int Rank
         {
@@ -87,6 +95,9 @@ namespace MOBA
             Rank = 1;
             effects = new List<SkillEffect>(GetComponents<SkillEffect>());
             OnCastTimeFinished += ActivateEffects;
+            OnCastTimeFinished += StopCastTimeLock;
+            OnCastTimeFinished += () => castTimeCoroutine = null;
+            castTimeCoroutine = null;
         }
 
         public virtual void SetOwner(Unit _owner)
@@ -138,22 +149,49 @@ namespace MOBA
 
             if (!IsValidTargetSelected()) return false;
 
+            if (castRange < 0)
+            {
+                Cast();
+                return true;
+            }
+            else if (target)
+            {
+                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) <= castRange)
+                {
+                    Cast();
+                    return true;
+                }
+            }
+            else if (Vector3.Distance(owner.GetGroundPos(), mousePosAtCast) <= castRange)
+            {
+                Cast();
+                return true;
+            }
+            return false;
+        }
+
+        private void Cast()
+        {
             owner.Stats.Resource -= cost;
-            OnCast?.Invoke();
             StartCoroutine(StartCooldown());
-            StartCoroutine(StartCastTime());
-            return true;
+            if (castTimeCoroutine != null)
+            {
+                StopCoroutine(castTimeCoroutine);
+            }
+            castTimeCoroutine = StartCoroutine(StartCastTime());
+            OnCast?.Invoke();
         }
 
         protected bool IsValidTargetSelected()
         {
             Unit hovered = PlayerController.Instance.hovered;
+            wasCastOnUnit = true;
             switch (targetingMode)
             {
                 case TargetingMode.mousePos:
-                    if (!PlayerController.Instance.GetMouseWorldPos(out mousePos)) return false;
+                    if (!PlayerController.Instance.GetMouseWorldPos(out mousePosAtCast)) return false;
+                    wasCastOnUnit = false;
                     return true;
-                    break;
 
                 case TargetingMode.enemyChamps:
                     if (hovered is Champ == false) return false;
@@ -162,7 +200,9 @@ namespace MOBA
                     return true;
 
                 case TargetingMode.enemyUnits:
+                    if (!hovered) return false;
                     if (!owner.IsEnemy(hovered)) return false;
+                    if (hovered is Structure && !canCastOnStructures) return false;
                     target = hovered;
                     return true;
 
@@ -173,7 +213,9 @@ namespace MOBA
                     return true;
 
                 case TargetingMode.alliedUnits:
+                    if (!hovered) return false;
                     if (!owner.IsAlly(hovered)) return false;
+                    if (hovered is Structure && !canCastOnStructures) return false;
                     target = hovered;
                     return true;
 
@@ -184,6 +226,7 @@ namespace MOBA
 
                 case TargetingMode.anyUnit:
                     if (!hovered) return false;
+                    if (hovered is Structure && !canCastOnStructures) return false;
                     target = hovered;
                     return true;
 
@@ -195,11 +238,12 @@ namespace MOBA
                     Debug.LogError(skillName + " had invalid targetingMode!");
                     return false;
             }
-            return false;
         }
 
         protected IEnumerator StartCastTime()
         {
+            ownerStatsAtCast = new UnitStats(owner.Stats);
+
             if (castTime > 0)
             {
                 StartCastTimeLock();
@@ -211,9 +255,6 @@ namespace MOBA
                     OnRemainingCastTimeChanged?.Invoke(remainingTime);
                     yield return null;
                 }
-
-                StopCastTimeLock();
-
             }
             OnCastTimeFinished?.Invoke();
         }
@@ -238,7 +279,7 @@ namespace MOBA
             }
         }
 
-        private void StopCastTimeLock()
+        protected void StopCastTimeLock()
         {
             owner.canAttack = true;
             owner.canCast = true;
@@ -250,7 +291,10 @@ namespace MOBA
             {
                 owner.StartAttacking(prevAttackTarget);
             }
-            else owner.MoveTo(owner.GetDestination());
+            else if (owner.GetDestination() != Vector3.zero)
+            {
+                owner.MoveTo(owner.GetDestination());
+            }
         }
 
 
@@ -260,16 +304,23 @@ namespace MOBA
             {
                 foreach (var effect in effects)
                 {
-                    effect.Activate(target);
+                    effect.Activate(target, ownerStatsAtCast);
                 }
             }
             else
             {
                 foreach (var effect in effects)
                 {
-                    effect.Activate(mousePos);
+                    effect.Activate(mousePosAtCast, ownerStatsAtCast);
                 }
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (castRange < 0) return;
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(transform.position, castRange);
         }
     }
 

@@ -11,9 +11,12 @@ namespace MOBA
 
         public BuffFlags Flags => flags;
 
-        public void Initialize(BuffProperties _properties, BuffFlags _flags)
+        public const string NAMESUFFIX = " (Disable)";
+
+        public void Initialize(BuffProperties _properties, UnitStats ownerStats, BuffFlags _flags)
         {
-            Initialize(_properties);
+            Initialize(_properties, ownerStats);
+            BuffName += NAMESUFFIX;
             flags = _flags;
         }
 

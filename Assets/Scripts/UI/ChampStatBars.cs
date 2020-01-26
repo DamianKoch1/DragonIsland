@@ -30,7 +30,10 @@ namespace MOBA
         {
             base.Initialize(_target);
 
+            SetXP(0, 1);
             target.Stats.OnXPChanged += SetXP;
+
+            SetLvl(1);
             target.Stats.OnLevelUp += SetLvl;
 
             target.OnBeforeDeath += () => Toggle(false);

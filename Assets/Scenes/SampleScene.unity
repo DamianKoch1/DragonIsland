@@ -259,7 +259,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.0372e-41, y: 1.02e-43, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -284,6 +284,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Name
+      value: ChampTemplate
+      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -339,11 +344,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Name
-      value: ChampTemplate
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e69ce5f605b2e194fbb5e38fa2b49f7e, type: 3}
 --- !u!1001 &1803244804
@@ -361,7 +361,7 @@ PrefabInstance:
     - target: {fileID: 5215801311654412532, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -48.4
+      value: -19.3
       objectReference: {fileID: 0}
     - target: {fileID: 5215801311654412532, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
         type: 3}
@@ -371,7 +371,7 @@ PrefabInstance:
     - target: {fileID: 5215801311654412532, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.1
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 5215801311654412532, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
         type: 3}
@@ -413,10 +413,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1576693398, guid: 01ea2e4a703f1b74c85657666a3d3c7d, type: 3}
-      propertyPath: scalings.targetCurrentHP
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ea2e4a703f1b74c85657666a3d3c7d, type: 3}
 --- !u!114 &1803244805 stripped
@@ -450,6 +446,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Name
+      value: ChampTemplate (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -504,11 +505,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Name
-      value: ChampTemplate (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
@@ -1339,7 +1335,7 @@ PrefabInstance:
     - target: {fileID: 8829435747689780364, guid: 1347383c31f1cc24d8acbee16f3d4364,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -58.1
+      value: -11.2
       objectReference: {fileID: 0}
     - target: {fileID: 8829435747689780364, guid: 1347383c31f1cc24d8acbee16f3d4364,
         type: 3}
@@ -1354,7 +1350,7 @@ PrefabInstance:
     - target: {fileID: 8829435747689780364, guid: 1347383c31f1cc24d8acbee16f3d4364,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -48.4
+      value: -19.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1347383c31f1cc24d8acbee16f3d4364, type: 3}

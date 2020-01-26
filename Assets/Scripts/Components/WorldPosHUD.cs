@@ -23,6 +23,11 @@ namespace MOBA
 
         private void LateUpdate()
         {
+            if (!target)
+            {
+                Destroy(gameObject);
+                return;
+            }
             Vector3 targetPos = Camera.main.WorldToScreenPoint(target.transform.position + Vector3.up * yOffset);
             HUD.position = targetPos;
         }

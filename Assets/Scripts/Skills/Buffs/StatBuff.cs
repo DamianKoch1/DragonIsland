@@ -11,9 +11,12 @@ namespace MOBA
 
         public BuffStats Stats => stats;
 
-        public void Initialize(BuffProperties _properties, BuffStats _stats)
+        public const string NAMESUFFIX = " (Stat change)";
+
+        public void Initialize(BuffProperties _properties, UnitStats ownerStats, BuffStats _stats)
         {
-            Initialize(_properties);
+            Initialize(_properties, ownerStats);
+            BuffName += NAMESUFFIX;
             stats = _stats;
         }
 

@@ -15,13 +15,13 @@ namespace MOBA
 
         private LaneID targetLane;
 
-        public void Initialize(LaneID lane)
+        public void Initialize(LaneID lane, Transform spawnParent)
         {
             targetLane = lane;
-            StartCoroutine(BeginSpawning());
+            StartCoroutine(BeginSpawning(spawnParent));
         }
 
-        private IEnumerator BeginSpawning()
+        private IEnumerator BeginSpawning(Transform spawnParent)
         {
             float time = 0;
             int minionCounter = 0;
@@ -29,7 +29,7 @@ namespace MOBA
             {
                 if (time >= spawnDeltaTime)
                 {
-                    SpawnMinion(minionCounter);
+                    SpawnMinion(minionCounter, spawnParent);
                     time = 0;
                     minionCounter++;
                     yield return null;
@@ -40,9 +40,9 @@ namespace MOBA
             Destroy(gameObject);
         }
 
-        private void SpawnMinion(int index)
+        private void SpawnMinion(int index, Transform parent)
         {
-            var minion = Instantiate(minions[index].gameObject, transform.position, Quaternion.identity).GetComponent<Minion>();
+            var minion = Instantiate(minions[index].gameObject, transform.position, Quaternion.identity, parent).GetComponent<Minion>();
             minion.TargetLane = targetLane;
         }
     }

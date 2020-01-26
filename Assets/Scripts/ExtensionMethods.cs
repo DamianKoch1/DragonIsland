@@ -113,5 +113,19 @@ namespace MOBA
         {
             return unit.IsAlly(other.TeamID);
         }
+
+        public static bool HasBuff(this Unit unit, string buffName, out Buff existing)
+        {
+            foreach (var buff in unit.BuffsSlot.Buffs)
+            {
+                if (buff.BuffName.Equals(buffName))
+                {
+                    existing = buff;
+                    return true;
+                }
+            }
+            existing = null;
+            return false;
+        }
     }
 }

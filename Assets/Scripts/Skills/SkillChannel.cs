@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MOBA
 {
+    //TODO cancellable when moving
     public class SkillChannel : SkillToggleable
     {
         [Space]
@@ -12,16 +13,19 @@ namespace MOBA
 
         protected override void Initialize()
         {
-            isReady = true;
-            Rank = 1;
-            effects = new List<SkillEffect>(GetComponents<SkillEffect>());
+            base.Initialize();
             OnCast += ActivateEffects;
+            OnCastTimeFinished -= ActivateEffects;
             OnCastTimeFinished += ToggleOff;
         }
 
         protected override bool TryToggleOff()
         {
             if (!cancellable) return false;
+            if (castTimeCoroutine != null)
+            {
+                StopCoroutine(castTimeCoroutine);
+            }
             OnCastTimeFinished?.Invoke();
             return true;
         }

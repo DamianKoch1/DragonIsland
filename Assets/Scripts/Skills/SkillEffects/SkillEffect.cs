@@ -11,28 +11,53 @@ namespace MOBA
     {
         protected Unit owner;
 
+        protected TeamID ownerTeamID;
+
         protected int rank;
 
+        protected Unit target;
+
+        protected Vector3 castTargetPos;
+        protected Vector3 castTargetDir;
+
+        protected UnitStats ownerStatsAtActivation;
 
         [SerializeField]
-        protected Scalings scalings;
+        protected Scalings scaling;
 
         public virtual void Initialize(Unit _owner, int _rank)
         {
             owner = _owner;
             rank = _rank;
+            ownerTeamID = owner.TeamID;
         }
 
-        public abstract void Activate(Vector3 targetPos);
+        public void SetScaling(Scalings _scaling)
+        {
+            scaling = _scaling;
+        }
 
-        public abstract void Activate(Unit target);
+        public virtual void Activate(Vector3 targetPos, UnitStats ownerStats)
+        {
+            target = null;
+            castTargetPos = targetPos;
+            castTargetDir = targetPos - owner.GetGroundPos();
+            castTargetDir.Normalize();
+        }
 
-        public abstract void Tick();
+        public virtual void Activate(Unit _target, UnitStats ownerStats)
+        {
+            target = _target;
+        }
+
+        public abstract void Activate<T>(UnitList<T> targets, UnitStats ownerStats) where T : Unit;
+
+        public abstract void Tick(UnitStats ownerStats);
+
 
         public void Deactivate()
         {
             OnDeactivated();
-            Destroy(this);
         }
 
         protected abstract void OnDeactivated();

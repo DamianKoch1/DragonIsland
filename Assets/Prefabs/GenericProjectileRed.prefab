@@ -72,5 +72,20 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f2e97a69799cdbe458336ef055e9d5fd, type: 2}
+    - target: {fileID: 5892554788460991454, guid: 45e83463a1662284899c2f9004b28e8a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5892554788460991454, guid: 45e83463a1662284899c2f9004b28e8a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.113028064
+      objectReference: {fileID: 0}
+    - target: {fileID: 5892554788460991454, guid: 45e83463a1662284899c2f9004b28e8a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45e83463a1662284899c2f9004b28e8a, type: 3}

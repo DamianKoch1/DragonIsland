@@ -76,6 +76,7 @@ namespace MOBA
 
             Gold = 0;
 
+
             OnUnitTick += () => Gold += GOLDPERSEC;
 
             SetupSkills();

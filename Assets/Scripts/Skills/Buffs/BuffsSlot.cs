@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffsSlot : MonoBehaviour
+namespace MOBA
 {
-    // Start is called before the first frame update
-    void Start()
+    public class BuffsSlot : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public List<Buff> Buffs => new List<Buff>(GetComponents<Buff>());
     }
 }

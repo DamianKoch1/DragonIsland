@@ -19,7 +19,6 @@ namespace MOBA
         ownerOnly = 7
     }
 
-    //TODO onhit effects
     [Serializable]
     public class ProjectileProperties
     {
@@ -33,10 +32,10 @@ namespace MOBA
 
         public DamageType dmgType;
 
-        [Tooltip("Changing this within AttackingRanged has no effect.")]
+        [Tooltip("For regular ranged autoattacks scaling 1:1 with AD, this should be 0.")]
         public float baseDamage;
 
-        [Range(-1, 60)]
+        [Range(-1, 60), Tooltip("Leave at -1 for infinite.")]
         public float lifespan = -1;
 
         [Space]
@@ -45,37 +44,43 @@ namespace MOBA
         public bool destroyOnNonTargetHit = false;
 
         public bool canHitStructures = false;
-
     }
 
     [RequireComponent(typeof(Collider))]
     public class Projectile : MonoBehaviour
     {
-        protected ProjectileProperties properties;
+        private ProjectileProperties properties;
 
         [SerializeField]
-        protected Movement movement;
+        private Movement movement;
 
-        protected Unit owner;
+        private Unit owner;
 
         /// <summary>
         /// Used to store team id of owner in case owner is destroyed on hit.
         /// </summary>
-        protected TeamID ownerTeamID;
+        private TeamID ownerTeamID;
 
-        protected Unit target;
+        private Unit target;
 
-        protected Vector3 targetPos;
+        private Vector3 targetPos;
 
-        protected Vector3 targetDir;
+        private Vector3 targetDir;
 
-        protected List<SkillEffect> onHitEffects;
+        private List<SkillEffect> onHitEffects;
+
+        private float remainingLifetime;
+
+        private Scalings scaling;
+
+        private UnitStats ownerStatsAtSpawn;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
+            if (unit.IsDead) return;
 
             if (unit is Structure)
             {
@@ -146,8 +151,12 @@ namespace MOBA
         {
             if (properties.hitUntargetables || unit.damageable)
             {
-                var dmg = new Damage(properties.baseDamage /*TODO add scaling here*/, properties.dmgType, owner, unit);
+                var dmg = new Damage(properties.baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStatsAtSpawn, unit), properties.dmgType, owner, unit);
                 dmg.Inflict();
+                foreach (var effect in onHitEffects)
+                {
+                    effect.Activate(unit, ownerStatsAtSpawn);
+                }
             }
 
             if (unit == target)
@@ -160,19 +169,9 @@ namespace MOBA
             }
         }
 
-        private void OnHitMonster(Monster monster)
+        protected virtual void OnHitMonster(Monster monster)
         {
-            var dmg = new Damage(properties.baseDamage /*TODO add scaling here*/, properties.dmgType, owner, monster);
-            dmg.Inflict();
-
-            if (monster == target)
-            {
-                OnHitTarget();
-            }
-            else if (properties.destroyOnNonTargetHit)
-            {
-                Destroy(gameObject);
-            }
+            OnHit(monster);
         }
 
 
@@ -181,17 +180,24 @@ namespace MOBA
             Destroy(gameObject);
         }
 
-        private void Initialize(Unit _owner, Vector3 position, ProjectileProperties _properties)
+        private void Initialize(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
             properties = _properties;
+            if (properties.lifespan > 0)
+            {
+                remainingLifetime = properties.lifespan;
+            }
             movement.SetSpeed(properties.speed);
             transform.localScale *= properties.size;
             owner = _owner;
-            ownerTeamID = owner.TeamID;
+            ownerTeamID = teamID;
+            scaling = _scaling;
             onHitEffects = new List<SkillEffect>(GetComponents<SkillEffect>());
+            ownerStatsAtSpawn = ownerStats;
             foreach (var effect in onHitEffects)
             {
                 effect.Initialize(owner, 0);
+                effect.SetScaling(scaling);
             }
         }
 
@@ -201,10 +207,10 @@ namespace MOBA
         /// <param name="position"></param>
         /// <param name="_properties"></param>
         /// <returns></returns>
-        private Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scalings)
+        private Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
             Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
-            instance.Initialize(_owner, position, _properties);
+            instance.Initialize(_owner, position, _properties, _scaling, teamID, ownerStats);
             return instance;
         }
 
@@ -216,9 +222,9 @@ namespace MOBA
         /// <param name="position"></param>
         /// <param name="_properties"></param>
         /// <returns></returns>
-        public Projectile Spawn(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, Scalings _scalings)
+        public Projectile Spawn(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
-            Projectile instance = Spawn(_owner, position, _properties, _scalings);
+            Projectile instance = Spawn(_owner, position, _properties, _scaling, teamID, ownerStats);
             instance.target = _target;
             instance.targetPos = _owner.transform.position;
             instance.targetDir = (_target.transform.position - position).normalized;
@@ -234,9 +240,9 @@ namespace MOBA
         /// <param name="position"></param>
         /// <param name="_properties"></param>
         /// <returns></returns>
-        public Projectile SpawnSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, Scalings _scalings)
+        public Projectile SpawnSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, Scalings _scalings, TeamID teamID, UnitStats ownerStats)
         {
-            Projectile instance = Spawn(_owner, position, _properties, _scalings);
+            Projectile instance = Spawn(_owner, position, _properties, _scalings, teamID, ownerStats);
             instance.targetPos = _targetPos;
             instance.targetDir = (_targetPos - position).normalized;
             instance.targetDir.y = 0;
@@ -254,9 +260,13 @@ namespace MOBA
             Move();
 
             if (properties.lifespan < 0) return;
-            properties.lifespan -= Time.deltaTime;
-            if (properties.lifespan < 0)
+            remainingLifetime -= Time.deltaTime;
+            if (remainingLifetime < 0)
             {
+                foreach (var effect in onHitEffects)
+                {
+                    effect.Activate(transform.position, ownerStatsAtSpawn);
+                }
                 Destroy(gameObject);
             }
         }

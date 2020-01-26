@@ -6,9 +6,13 @@ namespace MOBA
 {
     public abstract class CustomBuff : Buff
     {
-        public void Initialize(BuffProperties _properties, List<string> customArgs)
+        public void Initialize(BuffProperties _properties, UnitStats ownerStats, List<string> customArgs)
         {
-            base.Initialize(_properties);
+            base.Initialize(_properties, ownerStats);
+            if (customArgs.Count == 0) return;
+            BuffName += " (" + customArgs[0] + ")";
+            customArgs.RemoveAt(0);
+            if (customArgs.Count == 0) return;
             Initialize(customArgs);
         }
 

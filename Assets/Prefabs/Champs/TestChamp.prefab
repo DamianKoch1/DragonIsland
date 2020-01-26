@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4398526564615673358}
   - component: {fileID: 8310842927617871448}
+  - component: {fileID: 757495912}
   m_Layer: 0
   m_Name: W
   m_TagString: Untagged
@@ -47,15 +48,53 @@ MonoBehaviour:
   skillName: W
   castTime: 0.5
   canMoveWhileCasting: 0
-  cooldown: 10
+  cooldown: 5
   cooldownReductionPerRank: 0
   cost: 20
   castRange: 0.1
   targetingMode: 7
+  canCastOnStructures: 0
   isToggledOn: 0
   costPerSec: 10
   beginCDOnActivation: 0
-  maxDuration: 8
+  maxDuration: 5
+  tickInterval: 2
+--- !u!114 &757495912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718957101806930207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf260950d4150f14a88c098cb8ff95d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaling:
+    ad: 0.1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
+    type: 3}
+  delay: 0
+  attachToTarget: 1
+  lifespan: -1
+  size: 15
+  tickInterval: 0.25
+  hitMode: 2
+  canHitStructures: 0
+  spawnEachToggleTick: 0
+  rememberCastDirection: 0
+  rememberCastMousePos: 0
 --- !u!1 &1713575772536214249
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,7 +104,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1447692015720376172}
-  - component: {fileID: 8971402143447526420}
+  - component: {fileID: 2208006085676354290}
+  - component: {fileID: 61637304205041448}
   m_Layer: 0
   m_Name: Q
   m_TagString: Untagged
@@ -87,7 +127,7 @@ Transform:
   m_Father: {fileID: 2007135837247356119}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8971402143447526420
+--- !u!114 &2208006085676354290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,22 +136,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 1713575772536214249}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf2e3a3eab55b8448c2cde4af80b9ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 4644944ba87aefe42956bc35daf8accb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   skillName: Q
   castTime: 0.5
-  canMoveWhileCasting: 0
-  cooldown: 10
+  canMoveWhileCasting: 1
+  cooldown: 2
   cooldownReductionPerRank: 0
-  cost: 10
-  castRange: 0.1
-  targetingMode: 7
-  isToggledOn: 0
-  costPerSec: 5
-  beginCDOnActivation: 1
-  maxDuration: -1
+  cost: 50
+  castRange: 7
+  targetingMode: 2
+  canCastOnStructures: 0
+--- !u!114 &61637304205041448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713575772536214249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fcc9598f925364ab58c89486daabf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaling:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0.2
+  baseDamage: 50
+  dmgType: 0
 --- !u!1 &2595568225189140903
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,8 +185,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9142297264316308399}
   - component: {fileID: 5688224950653318077}
+  - component: {fileID: 7822316496354501506}
   m_Layer: 0
-  m_Name: E
+  m_Name: R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +205,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007135837247356119}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5688224950653318077
 MonoBehaviour:
@@ -156,19 +220,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  skillName: E
+  skillName: R
   castTime: 5
-  canMoveWhileCasting: 1
+  canMoveWhileCasting: 0
   cooldown: 5
   cooldownReductionPerRank: 0
-  cost: 30
+  cost: 100
   castRange: -1
-  targetingMode: 7
+  targetingMode: 0
+  canCastOnStructures: 0
   isToggledOn: 0
-  costPerSec: 5
+  costPerSec: 20
   beginCDOnActivation: 0
   maxDuration: -1
-  cancellable: 0
+  tickInterval: 0.5
+  cancellable: 1
+--- !u!114 &7822316496354501506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2595568225189140903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f951c0609f2705747a4c07ad915ea5c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaling:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0.1
+  projectileProperties:
+    isHoming: 0
+    speed: 30
+    size: 1.5
+    hitMode: 2
+    dmgType: 1
+    baseDamage: 10
+    lifespan: 0.7
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 0
+  projectileSpawnpoint: {fileID: 5215801311654412532}
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+    type: 3}
+  spawnEachToggleTick: 1
+  rememberCastDirection: 0
+  rememberCastMousePos: 0
 --- !u!114 &6035923426967473156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +300,6 @@ MonoBehaviour:
     hitMode: 0
     dmgType: 0
     baseDamage: 0
-    bonusDamage: 0
     lifespan: -1
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
@@ -206,7 +312,7 @@ MonoBehaviour:
     magicRes: 0
     maxHP: 0
     currentHP: 0
-    missingHP: 1
+    missingHP: 0
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
@@ -224,7 +330,7 @@ GameObject:
   - component: {fileID: 839568809}
   - component: {fileID: 1576693398}
   m_Layer: 0
-  m_Name: R
+  m_Name: E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,7 +348,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007135837247356119}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3514943496585836381
 MonoBehaviour:
@@ -257,14 +363,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: a1a7e5d017e03144982b4d1ac73ceeca, type: 3}
-  skillName: R
+  skillName: E
   castTime: 0.2
   canMoveWhileCasting: 0
-  cooldown: 5
+  cooldown: 3
   cooldownReductionPerRank: 0
   cost: 40
-  castRange: 0.1
+  castRange: -1
   targetingMode: 0
+  canCastOnStructures: 0
 --- !u!114 &839568809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0baa32b05239a9b42a91264cf8b8bab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scalings:
+  scaling:
     ad: 0
     md: 0
     level: 0
@@ -290,9 +397,10 @@ MonoBehaviour:
     targetCurrentHP: 0
     targetMissingHP: 0
   alwaysBuffOwner: 1
+  onlyBuffOwner: 0
   properties:
     isHidden: 0
-    buffName: 
+    buffBaseName: 
     icon: {fileID: 0}
     maxDuration: 8
     maxDurationPerRank: 0
@@ -343,6 +451,9 @@ MonoBehaviour:
     disarm: 1
     undamageable: 0
     untargetable: 1
+  addDamageOverTime: 0
+  baseDamage: 0
+  dmgType: 0
   customBuffs: []
 --- !u!114 &1576693398
 MonoBehaviour:
@@ -356,33 +467,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f951c0609f2705747a4c07ad915ea5c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scalings:
-    ad: 0.1
-    md: 0.1
-    level: 10
+  scaling:
+    ad: 0
+    md: 0
+    level: 0
     armor: 0
     magicRes: 0
     maxHP: 0
     currentHP: 0
     missingHP: 0
     targetMaxHP: 0
-    targetCurrentHP: 50
+    targetCurrentHP: 0
     targetMissingHP: 0
   projectileProperties:
     isHoming: 0
-    speed: 5
-    size: 3
+    speed: 15
+    size: 2
     hitMode: 2
-    dmgType: 1
-    baseDamage: 100
-    bonusDamage: 0
-    lifespan: 5
+    dmgType: 2
+    baseDamage: 150
+    lifespan: 1.5
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 0
   projectileSpawnpoint: {fileID: 5215801311654412532}
   projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
+  spawnEachToggleTick: 0
+  rememberCastDirection: 0
+  rememberCastMousePos: 0
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -390,15 +503,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: m_Radius
-      value: 7
+      propertyPath: m_Name
+      value: TestChamp
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -48.4
+      value: -19.3
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
@@ -408,7 +521,7 @@ PrefabInstance:
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -49.1
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
@@ -450,11 +563,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Name
-      value: TestChamp
-      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: stats.baseResource
@@ -465,6 +573,11 @@ PrefabInstance:
       propertyPath: attacking
       value: 
       objectReference: {fileID: 6035923426967473156}
+    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Radius
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3477399007884807156, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalScale.x

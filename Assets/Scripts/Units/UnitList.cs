@@ -53,7 +53,11 @@ namespace MOBA
             int n = 0;
             while (n < list.Count)
             {
-                if (!list[n] || list[n].IsDead)
+                if (!list[n])
+                {
+                    list.RemoveAt(n);
+                }
+                else if (list[n].IsDead)
                 {
                     list.RemoveAt(n);
                 }

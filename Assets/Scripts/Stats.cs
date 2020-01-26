@@ -22,6 +22,10 @@ namespace MOBA
             get;
         }
 
+        public const float MAXATKSPEED = 3;
+        public const float MAXCDR = 30;
+
+
 
         private float xp = -1;
 
@@ -189,7 +193,6 @@ namespace MOBA
         private float resourceRegPerLvl;
 
 
-        private static float maxCDR = 30;
 
         private float cdr = -1;
         public float CDReduction
@@ -198,7 +201,7 @@ namespace MOBA
             {
                 if (cdr != value)
                 {
-                    cdr = Mathf.Min(maxCDR, value.Truncate(1));
+                    cdr = Mathf.Min(MAXCDR, value.Truncate(1));
                     OnCDRChanged?.Invoke(cdr);
                 }
             }
@@ -281,7 +284,7 @@ namespace MOBA
         [SerializeField]
         private float baseAtkSpeed;
 
-        private static float maxAtkSpeed = 3;
+        
 
         private float atkSpeed = -1;
         public float AtkSpeed
@@ -290,7 +293,7 @@ namespace MOBA
             {
                 if (atkSpeed != value)
                 {
-                    atkSpeed = Mathf.Min(maxAtkSpeed, value.Truncate(1));
+                    atkSpeed = Mathf.Min(MAXATKSPEED, value.Truncate(1));
                     OnAtkSpeedChanged?.Invoke(atkSpeed);
                 }
             }
@@ -375,6 +378,31 @@ namespace MOBA
         }
         public Action<float> OnMoveSpeedChanged;
 
+        /// <summary>
+        /// Used to save stats at skill cast time incase unit dies while e.g. projectile flies.
+        /// </summary>
+        public UnitStats(UnitStats ownerStats)
+        {
+            Lvl = ownerStats.Lvl;
+            maxHP = ownerStats.MaxHP;
+            hp = ownerStats.HP;
+            hpReg = ownerStats.HPReg;
+            maxResource = ownerStats.MaxResource;
+            resource = ownerStats.Resource;
+            resourceReg = ownerStats.ResourceReg;
+            cdr = ownerStats.CDReduction;
+            armor = ownerStats.Armor;
+            magicRes = ownerStats.MagicRes;
+            atkDmg = ownerStats.AtkDmg;
+            atkSpeed = ownerStats.AtkSpeed;
+            critChance = ownerStats.CritChance;
+            flatArmorPen = ownerStats.flatArmorPen;
+            percentArmorPen = ownerStats.percentArmorPen;
+            magicDmg = ownerStats.MagicDmg;
+            flatMagicPen = ownerStats.flatMagicPen;
+            percentMagicPen = ownerStats.percentMagicPen;
+            moveSpeed = ownerStats.MoveSpeed;
+        }
 
         public void Initialize(Unit _owner)
         {
@@ -450,7 +478,10 @@ namespace MOBA
         public float atkDmg;
         public float magicDmg;
 
+        [Range(0, UnitStats.MAXATKSPEED)]
         public float atkSpeed;
+
+        [Range(0, UnitStats.MAXCDR)]
         public float cdReduction;
 
         public float armor;
@@ -468,107 +499,130 @@ namespace MOBA
 
         public float flatMagicPen;
         public float percentMagicPen;
-
-        //pen
     }
 
 
-
-    [Serializable]
-    public class BuffStats
-    {
-        public Stats statChanges;
-
-        [Space]
-        public Amplifiers amplifiers;
-
-    }
-
-    [Serializable]
-    public class BuffFlags
-    {
-        public bool stun;
-        public bool root;
-        public bool silence;
-        public bool disarm;
-        public bool undamageable;
-        public bool untargetable;
-    }
 
     [Serializable]
     public class Scalings
     {
+        [Range(0, 5), Tooltip("Damage per attack damage")]
         public float ad;
+
+        [Range(0, 5), Tooltip("Damage per magic damage")]
         public float md;
 
+        [Range(0, 100), Tooltip("Damage per level")]
         public int level;
 
+        [Range(0, 5), Tooltip("Damage per armor")]
         public float armor;
+
+        [Range(0, 5), Tooltip("Damage per magic resist")]
         public float magicRes;
 
         [Space]
+        [Range(0, 2), Tooltip("Damage per max HP")]
         public float maxHP;
+
+        [Range(0, 2), Tooltip("Damage per current HP")]
         public float currentHP;
+
+        [Range(0, 2), Tooltip("Damage per missing HP")]
         public float missingHP;
 
         [Space]
+        [Range(0, 2), Tooltip("Damage per target max HP")]
         public float targetMaxHP;
+
+        [Range(0, 2), Tooltip("Damage per target current HP")]
         public float targetCurrentHP;
+
+        [Range(0, 2), Tooltip("Damage per target missing HP")]
         public float targetMissingHP;
 
-        public static float operator *(Scalings scalings, Unit owner)
+        public static float operator *(Scalings scaling, Unit owner)
         {
-            var ownerStats = owner.Stats;
-            return scalings.ad        * ownerStats.AtkDmg
-                 + scalings.md        * ownerStats.MagicDmg
-                 + scalings.level     * ownerStats.Lvl
-                 + scalings.armor     * ownerStats.Armor
-                 + scalings.magicRes  * ownerStats.MagicRes
-                 + scalings.maxHP     * ownerStats.MaxHP
-                 + scalings.currentHP * ownerStats.HP
-                 + scalings.missingHP * (ownerStats.MaxHP - ownerStats.HP);
+            return scaling * owner.Stats;
+        }
+
+        public static float operator *(Scalings scaling, UnitStats ownerStats)
+        {
+            Debug.Log(ownerStats.AtkDmg);
+            return scaling.ad * ownerStats.AtkDmg
+                + scaling.md * ownerStats.MagicDmg
+                + scaling.level * ownerStats.Lvl
+                + scaling.armor * ownerStats.Armor
+                + scaling.magicRes * ownerStats.MagicRes
+                + scaling.maxHP * ownerStats.MaxHP
+                + scaling.currentHP * ownerStats.HP
+                + scaling.missingHP * (ownerStats.MaxHP - ownerStats.HP);
+        }
+
+        public float GetScalingDamageBonusOnTarget(UnitStats ownerStats, Unit target)
+        {
+            var targetStats = target.Stats;
+            return this * ownerStats
+                 + targetMaxHP * targetStats.MaxHP
+                 + targetCurrentHP * targetStats.HP
+                 + targetMissingHP * (targetStats.MaxHP - targetStats.HP);
         }
 
         public float GetScalingDamageBonusOnTarget(Unit owner, Unit target)
         {
-            var ownerStats = owner.Stats;
-            return this * owner
-                 + targetMaxHP     * ownerStats.MaxHP
-                 + targetCurrentHP * ownerStats.HP
-                 + targetMissingHP * (ownerStats.MaxHP - ownerStats.HP);
+            return GetScalingDamageBonusOnTarget(owner.Stats, target);
 
         }
+
     }
 
     [Serializable]
     public class Amplifiers
     {
+        [Range(0, 5)]
         public float hp;
+
+        [Range(0, 5), Tooltip("Amplifies received healing including HP regen")]
         public float heal;
 
         [Space]
-        //received
+        [Range(0, 5), Tooltip("Amplifies received physical damage")]
         public float physDmg;
+
+        [Range(0, 5), Tooltip("Amplifies received magic damage")]
         public float magicDmg;
-        //
 
         [Space]
+        [Range(0, 5)]
         public float resource;
+
+        [Range(0, 10)]
         public float resourceReg;
 
         [Space]
+        [Range(0, 5)]
         public float dealtDmg;
 
+        [Range(0, 5)]
         public float atkDmg;
+
+        [Range(0, 5)]
         public float atkSpeed;
+
+        [Range(0, 5)]
         public float atkRange;
+
+        [Range(0, 5)]
         public float critDamage;
 
         [Space]
+        [Range(0, 5)]
         public float armor;
+        [Range(0, 5)]
         public float magicRes;
 
         [Space]
+        [Range(0, 5)]
         public float moveSpeed;
 
         [Range(0, 1)]

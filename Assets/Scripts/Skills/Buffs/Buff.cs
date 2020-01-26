@@ -6,11 +6,33 @@ using UnityEngine;
 namespace MOBA
 {
     [Serializable]
+    public class BuffStats
+    {
+        public Stats statChanges;
+
+        [Space]
+        public Amplifiers amplifiers;
+
+    }
+
+    [Serializable]
+    public class BuffFlags
+    {
+        public bool stun;
+        public bool root;
+        public bool silence;
+        public bool disarm;
+        public bool undamageable;
+        public bool untargetable;
+    }
+
+
+    [Serializable]
     public class BuffProperties
     {
         public bool isHidden = false;
 
-        public string buffName;
+        public string buffBaseName;
 
         public Sprite icon;
 
@@ -24,6 +46,7 @@ namespace MOBA
         public Unit instigator;
     }
 
+    //TODO add stackable
     public abstract class Buff : MonoBehaviour
     {
         [SerializeField]
@@ -37,16 +60,22 @@ namespace MOBA
 
         protected float timeSinceLastTick = 0;
 
+        public string BuffName { protected set; get; }
+
         public float TimeActive { get; private set; }
 
-        public Unit Instigator { get; }
+        public Unit Instigator => properties.instigator;
 
-        public virtual void Initialize(BuffProperties _properties)
+        protected UnitStats ownerStatsAtApply;
+
+        public virtual void Initialize(BuffProperties _properties, UnitStats ownerStats)
         {
             TimeActive = 0;
             timeSinceLastTick = Unit.TICKINTERVAL;
             OnActivated();
             properties = _properties;
+            BuffName = properties.buffBaseName;
+            ownerStatsAtApply = ownerStats;
         }
 
         protected abstract void OnActivated();
@@ -67,6 +96,11 @@ namespace MOBA
                     Destroy(this);
                 }
             }
+        }
+
+        public void Refresh()
+        {
+            TimeActive = 0;
         }
 
         protected abstract void OnTick();

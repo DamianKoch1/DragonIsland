@@ -329,7 +329,7 @@ namespace MOBA
 
         protected virtual void SetupBars()
         {
-            statBarsInstance = Instantiate(statBarsPrefab);
+            statBarsInstance = Instantiate(statBarsPrefab, transform.parent);
             statBarsInstance.GetComponent<UnitStatBars>()?.Initialize(this);
         }
 

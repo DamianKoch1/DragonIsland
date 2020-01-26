@@ -7,7 +7,7 @@ namespace MOBA
     public class AttackingRanged : Attacking
     {
         [Space]
-        [SerializeField]
+        [SerializeField, Tooltip("Assign a prefab with Projectile component")]
         protected Projectile projectilePrefab;
 
         [SerializeField]
@@ -34,7 +34,7 @@ namespace MOBA
             {
                 animator.SetTrigger("attack");
             }
-            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, attackScaling);
+            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, attackScaling, owner.TeamID, new UnitStats(owner.Stats));
             AttackAnimFinished();
         }
 

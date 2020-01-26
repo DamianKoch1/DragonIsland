@@ -85,7 +85,7 @@ namespace MOBA
 
         protected override void SetupBars()
         {
-            Instantiate(statBarsPrefab).GetComponent<UnitStatBars>()?.Initialize(this, 1, 2, true);
+            Instantiate(statBarsPrefab, transform.parent).GetComponent<UnitStatBars>()?.Initialize(this, 1, 2, true);
         }
     }
 }

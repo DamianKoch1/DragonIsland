@@ -21,6 +21,8 @@ namespace MOBA
         public Transform Spawnpoint => spawnpoint;
 
         [Space]
+        [SerializeField]
+        private Transform spawnParent;
 
         [SerializeField]
         private LaneWaypoint topSpawn;
@@ -145,13 +147,13 @@ namespace MOBA
         {
             MinionWave wave;
             wave = Instantiate(defaultWave, topSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
-            wave.Initialize(LaneID.top);
+            wave.Initialize(LaneID.top, spawnParent);
 
             wave = Instantiate(defaultWave, midSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
-            wave.Initialize(LaneID.mid);
+            wave.Initialize(LaneID.mid, spawnParent);
 
             wave = Instantiate(defaultWave, botSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
-            wave.Initialize(LaneID.bot);
+            wave.Initialize(LaneID.bot, spawnParent);
         }
 
         public override float GetXPReward()
