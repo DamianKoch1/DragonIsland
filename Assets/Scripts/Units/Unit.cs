@@ -40,11 +40,11 @@ namespace MOBA
         private List<Renderer> renderers;
 
 
-
-
-
         [HideInInspector]
         public Amplifiers amplifiers;
+
+        [HideInInspector]
+        public BuffFlags statusEffects;
 
         [Space]
         private bool canMove = true;
@@ -109,12 +109,12 @@ namespace MOBA
         [HideInInspector]
         public bool canAttack = true;
 
-        [Space]
+        [HideInInspector]
+        public bool canCast = true;
 
-        /// <summary>
-        /// If attacker is closer than its own atkRange + this units radius, it can attack this unit. Yellow gizmo wire sphere should include units horizontal bounds, height doesn't matter. Used to prevent not attacking until unit middle is in atkRange
-        /// </summary>
-        [SerializeField]
+
+        [Space]
+        [SerializeField, Tooltip("Adjust until yellow gizmo sphere horizontally encapsulates the unit, increases the distance from which this is attackable.")]
         private float radius;
 
         public float Radius => radius;
@@ -127,7 +127,6 @@ namespace MOBA
         private float xpRewardRange = 12;
 
         [Space]
-
         [SerializeField]
         protected Movement movement;
 
@@ -181,14 +180,38 @@ namespace MOBA
         {
             //items + buffs + base + perLvl * (lvl-1)
         }
-        
-        //make extension method
-        public Vector3 GetGroundPos()
+
+        public Vector3 GetDestination()
         {
-            return new Vector3(transform.position.x, 0, transform.position.z);
+            if (!movement) return Vector3.zero;
+            return movement.TargetPos;
         }
 
-        //make extension method
+        public void StartAttacking(Unit target)
+        {
+            if (!canAttack) return;
+            if (!attacking) return;
+            if (!target) return;
+            if (!this.IsEnemy(target)) return;
+            attacking.StartAttacking(target);
+        }
+
+
+
+        public bool IsAttacking()
+        {
+            if (!attacking) return false;
+            return attacking.IsAttacking();
+        }
+
+        public void StopAttacking()
+        {
+            attacking.Stop();
+        }
+
+
+        public Unit CurrentAttackTarget => attacking.CurrentTarget;
+
         public T AddBuff<T>() where T : Buff
         {
             return BuffsSlot.gameObject.AddComponent<T>();
@@ -200,54 +223,7 @@ namespace MOBA
             return (CustomBuff)BuffsSlot.gameObject.AddComponent(buffType);
         }
 
-        //make extension method
-        public UnitList<T> GetTargetableEnemiesInAtkRange<T>(Vector3 fromPosition) where T : Unit
-        {
-            UnitList<T> result = new UnitList<T>();
-            foreach (var collider in Physics.OverlapSphere(fromPosition, stats.AtkRange))
-            {
-                if (collider.isTrigger) continue;
-                var unit = collider.GetComponent<T>();
-                if (!unit) continue;
-                if (!IsEnemy(unit)) continue;
-                if (!unit.Targetable) continue;
-                result.Add(unit);
-            }
-            return result;
-        }
-
-        //make extension method
-        public UnitList<T> GetEnemiesInRange<T>(float range) where T : Unit
-        {
-            UnitList<T> result = new UnitList<T>();
-            foreach (var collider in Physics.OverlapSphere(transform.position, range))
-            {
-                if (collider.isTrigger) continue;
-                var unit = collider.GetComponent<T>();
-                if (!unit) continue;
-                if (!IsEnemy(unit)) continue;
-                result.Add(unit);
-            }
-            return result;
-        }
-
-        //make extension method
-        protected Unit GetClosestUnit<T>(UnitList<T> fromList) where T : Unit
-        {
-            if (fromList.Count() == 0) return null;
-            float lowestDistance = Mathf.Infinity;
-            Unit closestUnit = null;
-            foreach (var unit in fromList)
-            {
-                float distance = Vector3.Distance(transform.position, unit.transform.position);
-                if (distance < lowestDistance)
-                {
-                    lowestDistance = distance;
-                    closestUnit = unit;
-                }
-            }
-            return closestUnit;
-        }
+       
 
 
         /// <summary>
@@ -281,7 +257,7 @@ namespace MOBA
 
         protected virtual void Die(Unit killer)
         {
-            var xpEligibleChamps = GetEnemiesInRange<Champ>(xpRewardRange);
+            var xpEligibleChamps = this.GetEnemiesInRange<Champ>(xpRewardRange);
             if (killer is Champ)
             {
                 var champ = (Champ)killer;
@@ -324,6 +300,8 @@ namespace MOBA
         protected virtual void Initialize()
         {
             SetupBars();
+
+            statusEffects = new BuffFlags();
 
             IsDead = false;
 
@@ -379,7 +357,7 @@ namespace MOBA
 
         protected virtual Color GetOutlineColor()
         {
-            if (IsAlly(PlayerController.Player))
+            if (this.IsAlly(PlayerController.Player))
             {
                 return PlayerController.Instance.defaultColors.allyOutline;
             }
@@ -388,7 +366,7 @@ namespace MOBA
 
         public virtual Color GetHPColor()
         {
-            if (IsAlly(PlayerController.Player))
+            if (this.IsAlly(PlayerController.Player))
             {
                 return PlayerController.Instance.defaultColors.allyMinionHP;
             }
@@ -400,7 +378,7 @@ namespace MOBA
             PlayerController.Instance.hovered = this;
             if (!Targetable)
             {
-                if (!IsAlly(PlayerController.Player)) return;
+                if (!this.IsAlly(PlayerController.Player)) return;
             }
             ShowOutlines();
         }
@@ -438,6 +416,8 @@ namespace MOBA
             if (!movement) return;
             movement.MoveTo(destination);
         }
+
+
         protected virtual void Update()
         {
             while (timeSinceLastRegTick >= TICKINTERVAL)
@@ -458,8 +438,6 @@ namespace MOBA
         }
 
 
-
-
         public virtual float GetXPReward()
         {
             return 0;
@@ -478,53 +456,6 @@ namespace MOBA
             Gizmos.DrawWireSphere(transform.position, radius);
         }
 
-        public bool IsEnemy(Unit other)
-        {
-            return IsEnemy(other.teamID);
-        }
-
-        public bool IsEnemy(TeamID id)
-        {
-            if (teamID == TeamID.blue)
-            {
-                if (id == TeamID.red)
-                {
-                    return true;
-                }
-            }
-            if (teamID == TeamID.red)
-            {
-                if (id == TeamID.blue)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool IsAlly(Unit other)
-        {
-            return IsAlly(other.teamID);
-        }
-
-        public bool IsAlly(TeamID id)
-        {
-            if (teamID == TeamID.blue)
-            {
-                if (id == TeamID.blue)
-                {
-                    return true;
-                }
-            }
-            if (teamID == TeamID.red)
-            {
-                if (id == TeamID.red)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         protected virtual void OnValidate()
         {

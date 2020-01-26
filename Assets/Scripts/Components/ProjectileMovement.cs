@@ -42,6 +42,10 @@ namespace MOBA
         {
             base.Update();
 
+            if (Vector3.Distance(lastPos, transform.position) < 0.1f * Time.deltaTime)
+            {
+                Destroy(gameObject);
+            }
             lastPos = transform.position;
         }
 

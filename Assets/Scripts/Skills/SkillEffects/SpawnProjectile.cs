@@ -7,8 +7,6 @@ namespace MOBA
 {
     public class SpawnProjectile : SkillEffect
     {
-        [SerializeField]
-        private Projectile projectilePrefab;
 
         [SerializeField]
         private ProjectileProperties projectileProperties;
@@ -16,16 +14,18 @@ namespace MOBA
         [SerializeField]
         private Transform projectileSpawnpoint;
 
+        [SerializeField]
+        private Projectile projectilePrefab;
+
 
         public override void Activate(Vector3 targetPos)
         {
-            if (projectileProperties.isHoming) return;
-            projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, ProjectileScalingDamageBonus);
+            projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scalings);
         }
 
         public override void Activate(Unit target)
         {
-            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, GetProjectileDamageBonusOnTarget(target));
+            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, scalings);
         }
 
         public override void Tick()
@@ -36,11 +36,5 @@ namespace MOBA
         {
         }
 
-        private float ProjectileScalingDamageBonus => scalings * owner;
-
-        private float GetProjectileDamageBonusOnTarget(Unit target)
-        {
-            return ProjectileScalingDamageBonus + scalings.GetScalingDamageBonusOnTarget(owner, target);
-        }
     }
 }

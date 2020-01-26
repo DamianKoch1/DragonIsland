@@ -53,6 +53,7 @@ namespace MOBA
         public void StartAttacking(Unit _target)
         {
             if (CurrentTarget == _target) return;
+            if (!owner.canAttack) return;
             if (!_target)
             {
                 Stop();

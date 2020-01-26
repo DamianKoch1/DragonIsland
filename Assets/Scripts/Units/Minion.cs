@@ -41,7 +41,7 @@ namespace MOBA
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
-            if (!IsEnemy(unit)) return;
+            if (!this.IsEnemy(unit)) return;
             if (unit is Champ)
             {
                 OnEnemyChampEnteredRange((Champ)unit);
@@ -58,7 +58,7 @@ namespace MOBA
             var unit = other.GetComponent<Unit>();
             if (unit)
             {
-                if (IsEnemy(unit))
+                if (this.IsEnemy(unit))
                 {
                     if (unit is Champ)
                     {
@@ -146,7 +146,7 @@ namespace MOBA
                 var unitTargets = enemyUnitsInRange.GetTargetables<Unit>();
                 if (unitTargets.Count() > 0)
                 {
-                    attacking.StartAttacking(GetClosestUnit(unitTargets));
+                    attacking.StartAttacking(this.GetClosestUnit(unitTargets));
                     return;
                 }
             }
@@ -155,7 +155,7 @@ namespace MOBA
                 var champTargets = enemyChampsInRange.GetTargetables<Champ>();
                 if (champTargets.Count() > 0)
                 {
-                    attacking.StartAttacking(GetClosestUnit(champTargets));
+                    attacking.StartAttacking(this.GetClosestUnit(champTargets));
                     return;
                 }
             }
@@ -190,6 +190,7 @@ namespace MOBA
         protected void OnAttacked(Unit attacker)
         {
             if (attacking.IsAttacking()) return;
+            if (this.IsAlly(attacker)) return;
             attacking.StartAttacking(attacker);
         }
     }

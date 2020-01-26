@@ -19,6 +19,7 @@ namespace MOBA
         ownerOnly = 7
     }
 
+    //TODO onhit effects
     [Serializable]
     public class ProjectileProperties
     {
@@ -32,10 +33,11 @@ namespace MOBA
 
         public DamageType dmgType;
 
+        [Tooltip("Changing this within AttackingRanged has no effect.")]
         public float baseDamage;
 
-        [HideInInspector]
-        public float bonusDamage;
+        [Range(-1, 60)]
+        public float lifespan = -1;
 
         [Space]
         public bool hitUntargetables = false;
@@ -43,6 +45,7 @@ namespace MOBA
         public bool destroyOnNonTargetHit = false;
 
         public bool canHitStructures = false;
+
     }
 
     [RequireComponent(typeof(Collider))]
@@ -63,6 +66,8 @@ namespace MOBA
         protected Unit target;
 
         protected Vector3 targetPos;
+
+        protected Vector3 targetDir;
 
         protected List<SkillEffect> onHitEffects;
 
@@ -141,7 +146,7 @@ namespace MOBA
         {
             if (properties.hitUntargetables || unit.damageable)
             {
-                var dmg = new Damage(properties.baseDamage + properties.bonusDamage, properties.dmgType, owner, unit);
+                var dmg = new Damage(properties.baseDamage /*TODO add scaling here*/, properties.dmgType, owner, unit);
                 dmg.Inflict();
             }
 
@@ -155,9 +160,9 @@ namespace MOBA
             }
         }
 
-        protected virtual void OnHitMonster(Monster monster)
+        private void OnHitMonster(Monster monster)
         {
-            var dmg = new Damage(properties.baseDamage + properties.bonusDamage, properties.dmgType, owner, monster);
+            var dmg = new Damage(properties.baseDamage /*TODO add scaling here*/, properties.dmgType, owner, monster);
             dmg.Inflict();
 
             if (monster == target)
@@ -171,71 +176,92 @@ namespace MOBA
         }
 
 
-        protected virtual void OnHitTarget()
+        private void OnHitTarget()
         {
             Destroy(gameObject);
         }
 
+        private void Initialize(Unit _owner, Vector3 position, ProjectileProperties _properties)
+        {
+            properties = _properties;
+            movement.SetSpeed(properties.speed);
+            transform.localScale *= properties.size;
+            owner = _owner;
+            ownerTeamID = owner.TeamID;
+            onHitEffects = new List<SkillEffect>(GetComponents<SkillEffect>());
+            foreach (var effect in onHitEffects)
+            {
+                effect.Initialize(owner, 0);
+            }
+        }
+
         /// <summary>
-        /// Spawns a stillstanding projectile.
+        /// Spawns a stillstanding but initialized projectile.
         /// </summary>
         /// <param name="position"></param>
         /// <param name="_properties"></param>
         /// <returns></returns>
-        protected Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties)
+        private Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scalings)
         {
             Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
-            instance.properties = _properties;
-            instance.owner = _owner;
-            instance.ownerTeamID = _owner.TeamID;
-            instance.onHitEffects = new List<SkillEffect>(instance.GetComponents<SkillEffect>());
-            foreach (var effect in instance.onHitEffects)
-            {
-                effect.Initialize(instance.owner, 0);
-            }
+            instance.Initialize(_owner, position, _properties);
             return instance;
         }
 
         /// <summary>
-        /// Spawns a projectile with given properties, _properties determine whether it is homing.
+        /// Spawns a projectile flying after a unit or to its position at spawn time with given properties, _properties determine whether it is homing.
         /// </summary>
         /// <param name="_owner"></param>
         /// <param name="_target"></param>
         /// <param name="position"></param>
         /// <param name="_properties"></param>
         /// <returns></returns>
-        public Projectile Spawn(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, float _bonusDamage = 0)
+        public Projectile Spawn(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, Scalings _scalings)
         {
-            Projectile instance = Spawn(_owner, position, _properties);
+            Projectile instance = Spawn(_owner, position, _properties, _scalings);
             instance.target = _target;
             instance.targetPos = _owner.transform.position;
-            instance.properties.bonusDamage = _bonusDamage;
+            instance.targetDir = (_target.transform.position - position).normalized;
+            instance.targetDir.y = 0;
             return instance;
         }
 
         /// <summary>
-        /// Spawns a projectile with given properties, cannot be homing.
+        /// Spawns a projectile flying to a position with given properties, cannot be homing.
         /// </summary>
         /// <param name="_owner"></param>
         /// <param name="_targetPos"></param>
         /// <param name="position"></param>
         /// <param name="_properties"></param>
         /// <returns></returns>
-        public Projectile SpawnSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, float _bonusDamage = 0)
+        public Projectile SpawnSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, Scalings _scalings)
         {
-            Projectile instance = Spawn(_owner, position, _properties);
+            Projectile instance = Spawn(_owner, position, _properties, _scalings);
             instance.targetPos = _targetPos;
+            instance.targetDir = (_targetPos - position).normalized;
+            instance.targetDir.y = 0;
             if (_properties.isHoming)
             {
                 instance.properties.isHoming = false;
-                Debug.LogWarning(owner.name + " tried to spawn a homing projectile given only a target position instead of a unit!");
+                Debug.LogWarning(owner.name + " tried to spawn a homing projectile given only a target position instead of a target unit!");
             }
-            instance.properties.bonusDamage = _bonusDamage;
             return instance;
         }
 
 
-        protected virtual void Update()
+        private void Update()
+        {
+            Move();
+
+            if (properties.lifespan < 0) return;
+            properties.lifespan -= Time.deltaTime;
+            if (properties.lifespan < 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void Move()
         {
             if (properties.isHoming)
             {
@@ -255,10 +281,9 @@ namespace MOBA
             }
             else
             {
-                movement.MoveTo(targetPos);
+                movement.MoveTo(transform.position + targetDir);
             }
         }
-
 
     }
 }

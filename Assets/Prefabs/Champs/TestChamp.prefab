@@ -46,11 +46,12 @@ MonoBehaviour:
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   skillName: W
   castTime: 0.5
+  canMoveWhileCasting: 0
   cooldown: 10
   cooldownReductionPerRank: 0
   cost: 20
   castRange: 0.1
-  targetingMode: 0
+  targetingMode: 7
   isToggledOn: 0
   costPerSec: 10
   beginCDOnActivation: 0
@@ -101,6 +102,7 @@ MonoBehaviour:
   icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   skillName: Q
   castTime: 0.5
+  canMoveWhileCasting: 0
   cooldown: 10
   cooldownReductionPerRank: 0
   cost: 10
@@ -119,7 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9142297264316308399}
-  - component: {fileID: 643484642666860740}
+  - component: {fileID: 5688224950653318077}
   m_Layer: 0
   m_Name: E
   m_TagString: Untagged
@@ -141,7 +143,7 @@ Transform:
   m_Father: {fileID: 2007135837247356119}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &643484642666860740
+--- !u!114 &5688224950653318077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,17 +152,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2595568225189140903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4644944ba87aefe42956bc35daf8accb, type: 3}
+  m_Script: {fileID: 11500000, guid: e8c513c4b3616ab4e8dccef0a58ee503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   skillName: E
-  castTime: 2
+  castTime: 5
+  canMoveWhileCasting: 1
   cooldown: 5
   cooldownReductionPerRank: 0
   cost: 30
-  castRange: 0.1
-  targetingMode: 0
+  castRange: -1
+  targetingMode: 7
+  isToggledOn: 0
+  costPerSec: 5
+  beginCDOnActivation: 0
+  maxDuration: -1
+  cancellable: 0
 --- !u!114 &6035923426967473156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,10 +184,32 @@ MonoBehaviour:
   atkTrigger: {fileID: 4118471921292742882}
   rangeIndicator: {fileID: 7907824628354924291}
   lookAtTarget: 1
-  projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
-  projectileSpeed: 10
-  projectileSize: 0.7
+  projectileProperties:
+    isHoming: 1
+    speed: 10
+    size: 0.75
+    hitMode: 0
+    dmgType: 0
+    baseDamage: 0
+    bonusDamage: 0
+    lifespan: -1
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 1
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1 &5511781662580891295
 GameObject:
@@ -192,6 +222,7 @@ GameObject:
   - component: {fileID: 7956939546264444935}
   - component: {fileID: 3514943496585836381}
   - component: {fileID: 839568809}
+  - component: {fileID: 1576693398}
   m_Layer: 0
   m_Name: R
   m_TagString: Untagged
@@ -227,12 +258,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: a1a7e5d017e03144982b4d1ac73ceeca, type: 3}
   skillName: R
-  castTime: 0
+  castTime: 0.2
+  canMoveWhileCasting: 0
   cooldown: 5
   cooldownReductionPerRank: 0
   cost: 40
   castRange: 0.1
-  targetingMode: 7
+  targetingMode: 0
 --- !u!114 &839568809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,11 +277,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0baa32b05239a9b42a91264cf8b8bab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitMode: 0
+  scalings:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  alwaysBuffOwner: 1
   properties:
     isHidden: 0
-    maxDuration: 3
+    buffName: 
+    icon: {fileID: 0}
+    maxDuration: 8
     maxDurationPerRank: 0
+    instigator: {fileID: 0}
   addStatBuff: 1
   stats:
     statChanges:
@@ -288,18 +335,6 @@ MonoBehaviour:
       moveSpeed: 0
       slow: 0.395
       disables: 0
-    scalings:
-      ad: 0
-      md: 0
-      level: 0
-      armor: 0
-      magicRes: 0
-      maxHP: 0
-      currentHP: 0
-      missingHP: 0
-      targetMaxHP: 0
-      targetCurrentHP: 0
-      targetMissingHP: 0
   addDisable: 1
   disableFlags:
     stun: 0
@@ -308,7 +343,46 @@ MonoBehaviour:
     disarm: 1
     undamageable: 0
     untargetable: 1
-  customBuffArgs: []
+  customBuffs: []
+--- !u!114 &1576693398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5511781662580891295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f951c0609f2705747a4c07ad915ea5c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scalings:
+    ad: 0.1
+    md: 0.1
+    level: 10
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 50
+    targetMissingHP: 0
+  projectileProperties:
+    isHoming: 0
+    speed: 5
+    size: 3
+    hitMode: 2
+    dmgType: 1
+    baseDamage: 100
+    bonusDamage: 0
+    lifespan: 5
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 0
+  projectileSpawnpoint: {fileID: 5215801311654412532}
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+    type: 3}
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -316,10 +390,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: m_Name
-      value: TestChamp
+      propertyPath: m_Radius
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
@@ -376,6 +450,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Name
+      value: TestChamp
+      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: stats.baseResource
@@ -386,11 +465,6 @@ PrefabInstance:
       propertyPath: attacking
       value: 
       objectReference: {fileID: 6035923426967473156}
-    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Radius
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 3477399007884807156, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalScale.x

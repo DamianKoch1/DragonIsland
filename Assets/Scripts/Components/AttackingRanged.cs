@@ -6,13 +6,26 @@ namespace MOBA
 {
     public class AttackingRanged : Attacking
     {
-
+        [Space]
         [SerializeField]
         protected Projectile projectilePrefab;
 
         [SerializeField]
-        private ProjectileProperties projectileProperties;
+        private ProjectileProperties projectileProperties = new ProjectileProperties()
+        {
+            isHoming = true,
+            canHitStructures = true,
+            speed = 10,
+            size = 1,
+            hitMode = HitMode.targetOnly,
+            dmgType = DamageType.physical,
+        };
 
+        [Space]
+        [SerializeField]
+        private Scalings attackScaling = new Scalings() { ad = 1 };
+
+        [Space]
         public Transform projectileSpawnpoint;
 
         public override void Attack(Unit target)
@@ -21,7 +34,7 @@ namespace MOBA
             {
                 animator.SetTrigger("attack");
             }
-            projectilePrefab.SpawnHoming(projectileSize, target, projectileSpawnpoint.position, owner, owner.Stats.AtkDmg, projectileSpeed, HitMode.targetOnly, DamageType.physical, false, true);
+            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, attackScaling);
             AttackAnimFinished();
         }
 

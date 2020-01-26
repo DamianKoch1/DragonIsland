@@ -57,28 +57,10 @@ namespace MOBA
         //move to interface, shouldnt be in every champ
         [Space]
         [SerializeField]
-        private RespawnHUD respawnHUDPrefab;
+        private BarTextTimer respawnHUDPrefab;
 
-        public void StartAttacking(Unit target)
-        {
-            if (!canAttack) return;
-            if (!attacking) return;
-            if (!IsEnemy(target)) return;
-            attacking.StartAttacking(target);
-        }
+     
 
-
-
-        public bool IsAttacking()
-        {
-            if (!attacking) return false;
-            return attacking.IsAttacking();
-        }
-
-        public void StopAttacking()
-        {
-            attacking.Stop();
-        }
 
         protected override void Initialize()
         {
@@ -141,9 +123,9 @@ namespace MOBA
         }
 
 
-        private float GetRespawnTime()
+        protected float GetRespawnTime()
         {
-            return 7 + 3 * stats.Lvl;
+            return 5 + 3 * stats.Lvl-1;
         }
 
         //add to inhib, make IRespawning
@@ -151,31 +133,25 @@ namespace MOBA
         {
             float remainingTime = GetRespawnTime();
 
-            //move to interface, shouldnt be called by every champ
-            RespawnHUD respawnHUD = null;
+            BarTextTimer respawnHUD = null;
             if (this == PlayerController.Player)
             {
-                respawnHUD = Instantiate(respawnHUDPrefab.gameObject).GetComponent<RespawnHUD>();
+                respawnHUD = Instantiate(respawnHUDPrefab.gameObject).GetComponent<BarTextTimer>();
                 respawnHUD.Initialize(remainingTime);
             }
-            //
 
             while (remainingTime > 0)
             {
-                //
                 respawnHUD?.SetRemainingTime(remainingTime);
-                //
 
                 remainingTime -= Time.deltaTime;
                 yield return null;
             }
 
-            //
             if (respawnHUD)
             {
                 Destroy(respawnHUD.gameObject);
             }
-            //
 
             transform.position = spawnpoint;
             movement.EnableCollision();
@@ -239,7 +215,7 @@ namespace MOBA
             {
                 return PlayerController.Instance.defaultColors.ownHP;
             }
-            if (IsAlly(PlayerController.Player))
+            if (this.IsAlly(PlayerController.Player))
             {
                 return PlayerController.Instance.defaultColors.allyChampHP;
             }

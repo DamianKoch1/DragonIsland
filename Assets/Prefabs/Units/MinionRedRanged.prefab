@@ -7,19 +7,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6311560771354947220, guid: fc60774677988d848bf2f4b20bd05bbb,
-        type: 3}
-      propertyPath: m_Name
-      value: MinionRedRanged
-      objectReference: {fileID: 0}
     - target: {fileID: 6311560771354947210, guid: fc60774677988d848bf2f4b20bd05bbb,
         type: 3}
       propertyPath: teamID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6311560771354947220, guid: fc60774677988d848bf2f4b20bd05bbb,
+        type: 3}
+      propertyPath: m_Name
+      value: MinionRedRanged
+      objectReference: {fileID: 0}
     - target: {fileID: 2376067098085012665, guid: fc60774677988d848bf2f4b20bd05bbb,
         type: 3}
       propertyPath: projectile
+      value: 
+      objectReference: {fileID: 7099415486780098135, guid: abf0d1880c70d2c46b0da5f29b19955c,
+        type: 3}
+    - target: {fileID: 2376067098085012665, guid: fc60774677988d848bf2f4b20bd05bbb,
+        type: 3}
+      propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: 7099415486780098135, guid: abf0d1880c70d2c46b0da5f29b19955c,
         type: 3}

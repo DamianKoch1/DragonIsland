@@ -27,7 +27,7 @@ namespace MOBA
             if (!agent.enabled) return;
             if (GetVelocity() > 0.1f)
             {
-                if (Vector3.Distance(targetPos, destination) < 0.1f) return;
+                if (Vector3.Distance(TargetPos, destination) < 0.1f) return;
             }
             base.MoveTo(destination);
             agent.SetDestination(ClosestNavigablePos(destination));

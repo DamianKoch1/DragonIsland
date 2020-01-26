@@ -13,11 +13,12 @@ public abstract class Movement : MonoBehaviour
 
     protected float speed;
 
-    protected Vector3 targetPos;
+    public Vector3 TargetPos { protected set; get; }
+
 
     public virtual void MoveTo(Vector3 destination)
     {
-        targetPos = destination;
+        TargetPos = destination;
     }
 
     public abstract void SetSpeed(float newSpeed);
@@ -52,13 +53,14 @@ public abstract class Movement : MonoBehaviour
         else if (GetVelocity() <= 0)
         {
             OnStopMoving?.Invoke();
-            if (Vector3.Distance(transform.position, targetPos) <= 1.2f)
+            if (Vector3.Distance(transform.position, TargetPos) <= 1.2f)
             {
                 OnReachedDestination?.Invoke();
             }
         }
         lastVelocity = GetVelocity();
     }
+
 
     public abstract void DisableCollision();
 
@@ -67,6 +69,6 @@ public abstract class Movement : MonoBehaviour
     protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, targetPos);
+        Gizmos.DrawLine(transform.position, TargetPos);
     }
 }

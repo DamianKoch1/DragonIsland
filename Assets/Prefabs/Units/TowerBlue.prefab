@@ -322,7 +322,6 @@ MonoBehaviour:
   attacking: {fileID: 8109459138435389817}
   statBarsPrefab: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
     type: 3}
-  buffsSlot: {fileID: 0}
   mesh: {fileID: 5881307046895623442}
   isUntargetableUntilDestroyed: []
   targetableUntilMode: 0
@@ -342,10 +341,31 @@ MonoBehaviour:
   atkTrigger: {fileID: 1148474522}
   rangeIndicator: {fileID: 2422364881025931413}
   lookAtTarget: 0
-  projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
-  projectileSpeed: 10
-  projectileSize: 1
+  projectileProperties:
+    isHoming: 1
+    speed: 10
+    size: 1
+    hitMode: 0
+    dmgType: 0
+    baseDamage: 0
+    bonusDamage: 0
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   projectileSpawnpoint: {fileID: 799614337}
 --- !u!135 &1148474522
 SphereCollider:
@@ -551,11 +571,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5881307047872224552}
     m_Modifications:
-    - target: {fileID: 3364623558810345848, guid: 6af23e95078d7d441bc17a8bb487bacd,
-        type: 3}
-      propertyPath: m_Name
-      value: AtkRangeIndicator
-      objectReference: {fileID: 0}
     - target: {fileID: 6950764585731354520, guid: 6af23e95078d7d441bc17a8bb487bacd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -620,6 +635,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364623558810345848, guid: 6af23e95078d7d441bc17a8bb487bacd,
+        type: 3}
+      propertyPath: m_Name
+      value: AtkRangeIndicator
       objectReference: {fileID: 0}
     - target: {fileID: 9074347625022006416, guid: 6af23e95078d7d441bc17a8bb487bacd,
         type: 3}

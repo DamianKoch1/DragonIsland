@@ -36,7 +36,7 @@ namespace MOBA
             base.Initialize();
             foreach (var teamBase in FindObjectsOfType<Base>())
             {
-                if (IsAlly(teamBase))
+                if (this.IsAlly(teamBase))
                 {
                     alliedBase = teamBase;
                     break;

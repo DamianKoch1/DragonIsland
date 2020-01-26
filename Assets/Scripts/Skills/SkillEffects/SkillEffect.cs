@@ -13,8 +13,6 @@ namespace MOBA
 
         protected int rank;
 
-        [SerializeField]
-        protected HitMode hitMode;
 
         [SerializeField]
         protected Scalings scalings;

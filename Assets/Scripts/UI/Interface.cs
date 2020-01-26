@@ -20,6 +20,9 @@ namespace MOBA
         private GameObject skillsDisplay;
 
         [SerializeField]
+        private BarTextTimer castTimeDisplay;
+
+        [SerializeField]
         private Text goldText;
 
         public override void Initialize(Champ _target)
@@ -32,7 +35,15 @@ namespace MOBA
             var skillDisplays = skillsDisplay.GetComponentsInChildren<SkillDisplay>();
             for (int i = 0; i < target.Skills.Count; i++)
             {
-                skillDisplays[i].Initialize(target.Skills[i]);
+                var skill = target.Skills[i];
+                skillDisplays[i].Initialize(skill);
+
+                if (skill.CastTime > 0)
+                {
+                    skill.OnCast += () => castTimeDisplay.Initialize(skill.CastTime);
+                    skill.OnRemainingCastTimeChanged += castTimeDisplay.SetRemainingTime;
+                    skill.OnCastTimeFinished += () => castTimeDisplay.gameObject.SetActive(false);
+                }
             }
         }
 

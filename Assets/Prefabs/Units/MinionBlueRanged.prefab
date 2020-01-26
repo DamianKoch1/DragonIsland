@@ -15,10 +15,31 @@ MonoBehaviour:
   atkTrigger: {fileID: 4052120518278833257}
   rangeIndicator: {fileID: 0}
   lookAtTarget: 1
-  projectile: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
-  projectileSpeed: 10
-  projectileSize: 0.5
+  projectileProperties:
+    isHoming: 1
+    speed: 10
+    size: 0.5
+    hitMode: 0
+    dmgType: 0
+    baseDamage: 0
+    bonusDamage: 0
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   projectileSpawnpoint: {fileID: 2385855379404602587}
 --- !u!1001 &1108846877501849494
 PrefabInstance:
@@ -27,11 +48,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6409819951060390146, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
-        type: 3}
-      propertyPath: m_Name
-      value: MinionBlueRanged
-      objectReference: {fileID: 0}
     - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}
       propertyPath: attacking
@@ -86,6 +102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: stats.magicResPerLvl
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409819951060390146, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: m_Name
+      value: MinionBlueRanged
       objectReference: {fileID: 0}
     - target: {fileID: 6409819951060390145, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}

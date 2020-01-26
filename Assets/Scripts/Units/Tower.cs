@@ -26,7 +26,7 @@ namespace MOBA
                 OnChampEnteredRange((Champ)unit);
                 return;
             }
-            if (!IsEnemy(unit)) return;
+            if (!this.IsEnemy(unit)) return;
             OnEnemyUnitEnteredRange(unit);
             return;
         }
@@ -41,7 +41,7 @@ namespace MOBA
                 OnChampExitedRange((Champ)unit);
                 return;
             }
-            if (!IsEnemy(unit)) return;
+            if (!this.IsEnemy(unit)) return;
             OnEnemyUnitExitedRange(unit);
             return;
         }
@@ -72,7 +72,7 @@ namespace MOBA
 
         protected void OnChampEnteredRange(Champ champ)
         {
-            if (IsAlly(champ))
+            if (this.IsAlly(champ))
             {
                 champ.AddNearbyAlliedTower(this);
             }
@@ -88,7 +88,7 @@ namespace MOBA
 
         protected void OnChampExitedRange(Champ champ)
         {
-            if (IsAlly(champ))
+            if (this.IsAlly(champ))
             {
                 champ.RemoveNearbyTower(this);
             }
@@ -145,7 +145,7 @@ namespace MOBA
                 var minionTargets = enemyUnitsInRange.GetTargetables<Unit>();
                 if (minionTargets.Count() > 0)
                 {
-                    attacking.StartAttacking(GetClosestUnit(minionTargets));
+                    attacking.StartAttacking(this.GetClosestUnit(minionTargets));
                     return;
                 }
             }
@@ -154,7 +154,7 @@ namespace MOBA
                 var champTargets = enemyChampsInRange.GetTargetables<Champ>();
                 if (champTargets.Count() > 0)
                 {
-                    attacking.StartAttacking(GetClosestUnit(champTargets));
+                    attacking.StartAttacking(this.GetClosestUnit(champTargets));
                     return;
                 }
             }
@@ -163,7 +163,7 @@ namespace MOBA
 
         public void TryAttack(Champ target)
         {
-            if (!IsEnemy(target)) return;
+            if (!this.IsEnemy(target)) return;
             if (attacking.IsAttacking())
             {
                 if (attacking.CurrentTarget?.GetComponent<Champ>()) return;

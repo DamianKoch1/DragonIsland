@@ -40,26 +40,33 @@ namespace MOBA
 
         protected List<SkillEffect> effects;
 
+
         [Space]
         [SerializeField, Range(0, 50)]
-        private float castTime;
+        protected float castTime;
+
+        [SerializeField]
+        private bool canMoveWhileCasting;
+
+        public float CastTime => castTime;
 
         [SerializeField, Range(0.1f, 300)]
-        private float cooldown;
+        private float cooldown = 5;
 
         [SerializeField, Range(0, 300)]
         private float cooldownReductionPerRank;
 
         [SerializeField, Min(0)]
-        protected float cost;
+        protected float cost = 50;
 
         [SerializeField, Range(-1, 100)]
-        protected float castRange;
+        protected float castRange = -1;
 
         [SerializeField]
         private TargetingMode targetingMode;
 
-      
+        private Unit prevAttackTarget;
+
 
         protected bool isReady;
 
@@ -74,11 +81,12 @@ namespace MOBA
             Initialize();
         }
 
-        private void Initialize()
+        protected virtual void Initialize()
         {
             isReady = true;
             Rank = 1;
             effects = new List<SkillEffect>(GetComponents<SkillEffect>());
+            OnCastTimeFinished += ActivateEffects;
         }
 
         public virtual void SetOwner(Unit _owner)
@@ -90,6 +98,8 @@ namespace MOBA
             }
         }
 
+
+        //TODO target selection
         public virtual void OnButtonHovered()
         {
 
@@ -123,6 +133,7 @@ namespace MOBA
         {
             if (!isReady) return false;
             if (Rank < 1) return false;
+            if (!owner.canCast) return false;
             if (owner.Stats.Resource < cost) return false;
 
             if (!IsValidTargetSelected()) return false;
@@ -141,6 +152,7 @@ namespace MOBA
             {
                 case TargetingMode.mousePos:
                     if (!PlayerController.Instance.GetMouseWorldPos(out mousePos)) return false;
+                    return true;
                     break;
 
                 case TargetingMode.enemyChamps:
@@ -188,9 +200,59 @@ namespace MOBA
 
         protected IEnumerator StartCastTime()
         {
-            yield return new WaitForSeconds(castTime);
-            ActivateEffects();
+            if (castTime > 0)
+            {
+                StartCastTimeLock();
+
+                float remainingTime = castTime;
+                while (remainingTime > 0)
+                {
+                    remainingTime -= Time.deltaTime;
+                    OnRemainingCastTimeChanged?.Invoke(remainingTime);
+                    yield return null;
+                }
+
+                StopCastTimeLock();
+
+            }
+            OnCastTimeFinished?.Invoke();
         }
+
+        public Action<float> OnRemainingCastTimeChanged;
+        public Action OnCastTimeFinished;
+
+        private void StartCastTimeLock()
+        {
+            prevAttackTarget = null;
+
+            if (owner.IsAttacking())
+            {
+                prevAttackTarget = owner.CurrentAttackTarget;
+                owner.StopAttacking();
+            }
+            owner.canAttack = false;
+            owner.canCast = false;
+            if (!canMoveWhileCasting)
+            {
+                owner.CanMove = false;
+            }
+        }
+
+        private void StopCastTimeLock()
+        {
+            owner.canAttack = true;
+            owner.canCast = true;
+            if (!canMoveWhileCasting)
+            {
+                owner.CanMove = true;
+            }
+            if (prevAttackTarget)
+            {
+                owner.StartAttacking(prevAttackTarget);
+            }
+            else owner.MoveTo(owner.GetDestination());
+        }
+
 
         protected void ActivateEffects()
         {

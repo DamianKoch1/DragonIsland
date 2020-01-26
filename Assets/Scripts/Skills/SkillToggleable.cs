@@ -9,24 +9,25 @@ namespace MOBA
     {
         [Space]
         [SerializeField]
-        private bool isToggledOn;
+        protected bool isToggledOn;
 
         public bool IsToggledOn => isToggledOn;
 
+        [Space]
         [SerializeField, Range(0, 1000)]
-        private float costPerSec;
+        protected float costPerSec;
 
         public float CostPerSec => costPerSec;
 
         [SerializeField]
-        private bool beginCDOnActivation;
+        protected bool beginCDOnActivation;
 
-        [SerializeField, Range(-1, 300)]
-        private float maxDuration = -1;
+        [SerializeField, Range(-1, 300), Tooltip("Max duration the skill can be toggled on, unlimited if -1")]
+        protected float maxDuration = -1;
 
-        private float timeActive;
+        protected float timeActive;
 
-        private void ToggleOn()
+        protected void ToggleOn()
         {
             owner.Stats.Resource -= cost;
             isToggledOn = true;
@@ -39,7 +40,7 @@ namespace MOBA
             StartCoroutine(StartCastTime());
         }
 
-        private void ToggleOff()
+        protected void ToggleOff()
         {
             foreach (var effect in effects)
             {
@@ -70,20 +71,31 @@ namespace MOBA
 
         public override bool TryCast()
         {
-            if (Rank < 1) return false;
             if (isToggledOn)
             {
-                ToggleOff();
-                return true;
+                return TryToggleOff();
             }
             else
             {
-                if (owner.Stats.Resource < cost) return false;
-                if (!isReady) return false;
-                if (!IsValidTargetSelected()) return false;
-                ToggleOn();
-                return false;
+                return TryToggleOn();
             }
+        }
+
+        protected virtual bool TryToggleOff()
+        {
+            ToggleOff();
+            return true;
+        }
+
+        protected virtual bool TryToggleOn()
+        {
+            if (Rank < 1) return false;
+            if (!isReady) return false;
+            if (!owner.canCast) return false;
+            if (owner.Stats.Resource < cost) return false;
+            if (!IsValidTargetSelected()) return false;
+            ToggleOn();
+            return true;
         }
 
         public virtual void Tick()

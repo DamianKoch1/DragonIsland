@@ -9,6 +9,11 @@ namespace MOBA
 {
     public class ApplyBuff : SkillEffect
     {
+        [Space]
+        [SerializeField]
+        private bool alwaysBuffOwner;
+
+        [Space]
         [SerializeField]
         private BuffProperties properties;
 
@@ -26,6 +31,7 @@ namespace MOBA
         [SerializeField]
         private BuffFlags disableFlags;
 
+
         /// <summary>
         /// Format: ClassName,arg1,arg2,... (Class must derive from CustomBuff and be in MOBA namespace, no spaces after comma)
         /// </summary>
@@ -41,9 +47,20 @@ namespace MOBA
 
         public override void Activate(Vector3 targetPos)
         {
+            Activate(owner);
         }
 
         public override void Activate(Unit target)
+        {
+            if (alwaysBuffOwner)
+            {
+                AddBuffs(owner);
+                return;
+            }
+            AddBuffs(target);
+        }
+
+        private void AddBuffs(Unit target)
         {
             if (addStatBuff)
             {
@@ -55,12 +72,11 @@ namespace MOBA
             }
             foreach (var customBuff in customBuffs)
             {
-                TryAddBuff(target, customBuff);
+                TryAddCustomBuff(target, customBuff);
             }
-
         }
 
-        private void TryAddBuff(Unit target, string customBuff)
+        private void TryAddCustomBuff(Unit target, string customBuff)
         {
             var customBuffArgs = new List<string>(customBuff.Split(','));
             var customBuffName = customBuffArgs[0];

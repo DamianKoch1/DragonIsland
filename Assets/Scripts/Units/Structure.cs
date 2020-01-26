@@ -48,7 +48,7 @@ namespace MOBA
 
         public override Color GetHPColor()
         {
-            if (IsAlly(PlayerController.Player))
+            if (this.IsAlly(PlayerController.Player))
             {
                 return PlayerController.Instance.defaultColors.allyStructureHP;
             }
