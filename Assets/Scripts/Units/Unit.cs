@@ -15,6 +15,7 @@ namespace MOBA
         passive = 3,
     }
 
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(CapsuleCollider))]
     [RequireComponent(typeof(SphereCollider))]
     [RequireComponent(typeof(Rigidbody))]

@@ -19,6 +19,16 @@ namespace MOBA
             OnCastTimeFinished += ToggleOff;
         }
 
+        protected override void Update()
+        {
+            if (owner.IsDead)
+            {
+                ToggleOff();
+                return;
+            }
+            base.Update();
+        }
+
         protected override bool TryToggleOff()
         {
             if (!cancellable) return false;

@@ -76,24 +76,22 @@ namespace MOBA
         public Action OnToggledOff;
 
 
-        private void Update()
+        protected virtual void Update()
         {
-            if (IsToggledOn)
+            if (!IsToggledOn) return;
+            timeSinceLastTick += Time.deltaTime;
+            while (timeSinceLastTick >= tickInterval)
             {
-                timeSinceLastTick += Time.deltaTime;
-                while (timeSinceLastTick >= tickInterval)
+                timeSinceLastTick -= tickInterval;
+                timeActive += tickInterval;
+                Tick();
+                owner.Stats.Resource -= costPerSec * tickInterval;
+                if (maxDuration > 0)
                 {
-                    timeSinceLastTick -= tickInterval;
-                    timeActive += tickInterval;
-                    Tick();
-                    owner.Stats.Resource -= costPerSec * tickInterval;
-                    if (maxDuration > 0)
+                    if (timeActive >= maxDuration)
                     {
-                        if (timeActive >= maxDuration)
-                        {
-                            ToggleOff();
-                            break;
-                        }
+                        ToggleOff();
+                        break;
                     }
                 }
             }

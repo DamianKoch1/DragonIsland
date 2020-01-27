@@ -22,14 +22,14 @@ namespace MOBA
         [SerializeField, Range(-1, 60), Tooltip("Leave at -1 for infinite.")]
         private float lifespan = -1;
 
-        [SerializeField, Range(0, 100)]
-        private float size = 1;
+        [SerializeField, Range(0.1f, 100)]
+        private float size = 5;
 
         [SerializeField, Range(0.1f, 2)]
         private float tickInterval = 0.5f;
 
         [SerializeField]
-        private HitMode hitMode;
+        private HitMode hitMode = HitMode.enemyUnits;
 
         [SerializeField]
         private bool canHitStructures;
@@ -39,10 +39,10 @@ namespace MOBA
         private bool spawnEachToggleTick;
 
         [SerializeField, Tooltip("If skill is mousePos targeted toggle, use current mouse pos or cast in original cast direction? (excludes remembering mouse pos)")]
-        private bool rememberCastDirection = false;
+        private bool rememberCastDirection;
 
         [SerializeField, Tooltip("If skill is mousePos targeted toggle, use current mouse pos or cast at original cast position?")]
-        private bool rememberCastMousePos = false;
+        private bool rememberCastMousePos;
 
         public override void Activate(Vector3 targetPos, UnitStats ownerStats)
         {

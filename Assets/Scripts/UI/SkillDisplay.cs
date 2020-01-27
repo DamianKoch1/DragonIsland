@@ -22,9 +22,12 @@ namespace MOBA
         [SerializeField]
         private Text costText;
 
+        private Skill sourceSkill;
+
 
         public void Initialize(Skill skill)
         {
+            sourceSkill = skill;
             cdBar.gameObject.SetActive(false);
             cdText.gameObject.SetActive(false);
             button.interactable = true;
@@ -40,6 +43,7 @@ namespace MOBA
                 Initialize((SkillToggleable)skill);
                 return;
             }
+            costText.text = skill.Cost + "";
 
             skill.OnCast += OnSkillCast;
             skill.OnRemainingCDChanged += OnRemainingCDUpdated;
@@ -47,6 +51,7 @@ namespace MOBA
 
         private void Initialize(SkillToggleable skill)
         {
+            sourceSkill = skill;
             skill.OnCast += OnSkillToggledOn;
             skill.OnToggledOff += OnSkillToggledOff;
             skill.OnRemainingCDChanged += (float remainingTime, float fullCooldown) =>
@@ -75,11 +80,13 @@ namespace MOBA
         private void OnSkillToggledOn()
         {
             icon.color = Color.magenta;
+            costText.text = ((SkillToggleable)sourceSkill).CostPerSec + "";
         }
 
         private void OnSkillToggledOff()
         {
             icon.color = Color.white;
+            costText.text = sourceSkill.Cost + "";
         }
 
         private void OnRemainingCDUpdated(float remainingTime, float fullCooldown)

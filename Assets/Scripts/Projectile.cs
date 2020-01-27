@@ -75,6 +75,9 @@ namespace MOBA
 
         private UnitStats ownerStatsAtSpawn;
 
+        [SerializeField, Tooltip("Activate effects when projectile dies (not only on hit)?")]
+        private bool activateEffectsOnDestroy;
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.isTrigger) return;
@@ -197,7 +200,6 @@ namespace MOBA
             foreach (var effect in onHitEffects)
             {
                 effect.Initialize(owner, 0);
-                effect.SetScaling(scaling);
             }
         }
 
@@ -263,9 +265,12 @@ namespace MOBA
             remainingLifetime -= Time.deltaTime;
             if (remainingLifetime < 0)
             {
-                foreach (var effect in onHitEffects)
+                if (activateEffectsOnDestroy)
                 {
-                    effect.Activate(transform.position, ownerStatsAtSpawn);
+                    foreach (var effect in onHitEffects)
+                    {
+                        effect.Activate(transform.position.NullY(), ownerStatsAtSpawn);
+                    }
                 }
                 Destroy(gameObject);
             }

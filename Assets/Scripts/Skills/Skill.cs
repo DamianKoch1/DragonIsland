@@ -20,6 +20,7 @@ namespace MOBA
 
 
     //TODO silence, castrange
+    [DisallowMultipleComponent]
     public class Skill : MonoBehaviour
     {
         protected Unit owner;
@@ -60,6 +61,8 @@ namespace MOBA
 
         [SerializeField, Min(0)]
         protected float cost = 50;
+
+        public float Cost => cost;
 
         [SerializeField, Range(-1, 100)]
         protected float castRange = -1;
@@ -287,6 +290,7 @@ namespace MOBA
             {
                 owner.CanMove = true;
             }
+            if (owner.IsDead) return;
             if (prevAttackTarget)
             {
                 owner.StartAttacking(prevAttackTarget);

@@ -548,7 +548,6 @@ namespace MOBA
 
         public static float operator *(Scalings scaling, UnitStats ownerStats)
         {
-            Debug.Log(ownerStats.AtkDmg);
             return scaling.ad * ownerStats.AtkDmg
                 + scaling.md * ownerStats.MagicDmg
                 + scaling.level * ownerStats.Lvl

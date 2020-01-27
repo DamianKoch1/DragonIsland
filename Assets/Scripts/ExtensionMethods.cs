@@ -15,9 +15,13 @@ namespace MOBA
 
         public static Vector3 GetGroundPos(this Unit unit)
         {
-            return new Vector3(unit.transform.position.x, 0, unit.transform.position.z);
+            return unit.transform.position.NullY();
         }
 
+        public static Vector3 NullY(this Vector3 v)
+        {
+            return new Vector3(v.x, 0, v.z);
+        }
 
         public static UnitList<T> GetTargetableEnemiesInAtkRange<T>(this Unit unit, Vector3 fromPosition) where T : Unit
         {

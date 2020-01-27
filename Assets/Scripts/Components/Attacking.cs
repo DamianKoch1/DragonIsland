@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MOBA
 {
+    [DisallowMultipleComponent]
     public abstract class Attacking : MonoBehaviour
     {
 
