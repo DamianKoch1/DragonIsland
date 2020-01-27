@@ -284,6 +284,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Name
+      value: ChampTemplate
+      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -339,10 +344,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    - target: {fileID: 7233640518036558526, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
-      propertyPath: m_Name
-      value: ChampTemplate
+      propertyPath: viewIdField
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e69ce5f605b2e194fbb5e38fa2b49f7e, type: 3}
@@ -422,6 +427,11 @@ PrefabInstance:
       propertyPath: projectileProperties.destroyOnNonTargetHit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4152040520645486153, guid: 01ea2e4a703f1b74c85657666a3d3c7d,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ea2e4a703f1b74c85657666a3d3c7d, type: 3}
 --- !u!114 &1803244805 stripped
@@ -455,6 +465,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Name
+      value: ChampTemplate (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -510,11 +525,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Name
-      value: ChampTemplate (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: teamID
@@ -529,8 +539,25 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7233640518036558526, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e69ce5f605b2e194fbb5e38fa2b49f7e, type: 3}
+--- !u!114 &2125025124 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1141806021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da1e25a752b8ed41b93d141d9d5de61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &879011779876508133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -797,6 +824,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1803244805}
+    - target: {fileID: 6927983118853757690, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: player1
+      value: 
+      objectReference: {fileID: 1803244805}
+    - target: {fileID: 6927983118853757690, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: player2
+      value: 
+      objectReference: {fileID: 2125025124}
     - target: {fileID: 1044929403390842985, guid: 096a82ac6abbd9e428b638859eded951,
         type: 3}
       propertyPath: m_AnchorMin.y

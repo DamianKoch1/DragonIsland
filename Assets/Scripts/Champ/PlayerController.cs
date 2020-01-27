@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +44,12 @@ namespace MOBA
         private Champ player;
 
         [SerializeField]
+        private Champ player1;
+
+        [SerializeField]
+        private Champ player2;
+
+        [SerializeField]
         private Interface ui;
 
         public Interface UI => ui;
@@ -78,6 +85,11 @@ namespace MOBA
 
         public void Initialize()
         {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                player = player1;
+            }
+            else player = player2;
             cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
             ui?.Initialize(player);
         }
