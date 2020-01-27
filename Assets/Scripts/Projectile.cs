@@ -150,6 +150,7 @@ namespace MOBA
             }
         }
 
+        //TODO ???
         protected virtual void OnHit(Unit unit)
         {
             if (properties.hitUntargetables || unit.damageable)

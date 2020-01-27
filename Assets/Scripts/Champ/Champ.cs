@@ -29,7 +29,7 @@ namespace MOBA
 
         public Action<float> OnGoldChanged;
 
-        protected List<Tower> nearbyAlliedTowers;
+        protected UnitList<Tower> nearbyAlliedTowers;
 
 
         private Vector3 spawnpoint;
@@ -68,7 +68,7 @@ namespace MOBA
 
             OnAttackedByChamp += RequestTowerAssist;
 
-            nearbyAlliedTowers = new List<Tower>();
+            nearbyAlliedTowers = new UnitList<Tower>();
 
             ToggleRangeIndicator(false);
 
@@ -167,7 +167,8 @@ namespace MOBA
 
         protected void RequestTowerAssist(Champ attacker)
         {
-            foreach (var tower in nearbyAlliedTowers)
+            if (nearbyAlliedTowers.Count() == 0) return;
+            foreach (Tower tower in nearbyAlliedTowers)
             {
                 tower.TryAttack(attacker);
             }
