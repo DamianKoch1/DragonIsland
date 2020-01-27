@@ -158,7 +158,7 @@ namespace MOBA
                 dmg.Inflict();
                 foreach (var effect in onHitEffects)
                 {
-                    effect.Activate(unit, ownerStatsAtSpawn);
+                    effect.Activate(transform.position.NullY(), unit, ownerStatsAtSpawn);
                 }
             }
 

@@ -25,6 +25,9 @@ namespace MOBA
         [SerializeField]
         protected Scalings scaling;
 
+        [SerializeField, Tooltip("If given position AND target (e.g. from projectile hitting a unit), activate on position or on target?")]
+        private bool preferApplyToPosition;
+
         public virtual void Initialize(Unit _owner, int _rank)
         {
             owner = _owner;
@@ -35,6 +38,15 @@ namespace MOBA
         public void SetScaling(Scalings _scaling)
         {
             scaling = _scaling;
+        }
+
+        public void Activate(Vector3 targetPos, Unit target, UnitStats ownerStats)
+        {
+            if (preferApplyToPosition)
+            {
+                Activate(targetPos, ownerStats);
+            }
+            else Activate(this.target, ownerStats);
         }
 
         public virtual void Activate(Vector3 targetPos, UnitStats ownerStats)

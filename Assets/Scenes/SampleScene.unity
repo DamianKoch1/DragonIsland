@@ -418,6 +418,10 @@ PrefabInstance:
       propertyPath: canMoveWhileCasting
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1576693398, guid: 01ea2e4a703f1b74c85657666a3d3c7d, type: 3}
+      propertyPath: projectileProperties.destroyOnNonTargetHit
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01ea2e4a703f1b74c85657666a3d3c7d, type: 3}
 --- !u!114 &1803244805 stripped

@@ -44,6 +44,8 @@ namespace MOBA
         [SerializeField, Tooltip("If skill is mousePos targeted toggle, use current mouse pos or cast at original cast position?")]
         private bool rememberCastMousePos;
 
+       
+
         public override void Activate(Vector3 targetPos, UnitStats ownerStats)
         {
             base.Activate(targetPos, ownerStats);
