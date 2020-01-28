@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -130,6 +131,7 @@ namespace MOBA
         {
             base.Update();
 
+            if (!PhotonNetwork.IsMasterClient) return;
             if (timeSinceSpawn >= waveSpawnDeltaTime)
             {
                 SpawnWaves();
@@ -146,13 +148,13 @@ namespace MOBA
         private void SpawnWaves()
         {
             MinionWave wave;
-            wave = Instantiate(defaultWave, topSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, topSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
             wave.Initialize(LaneID.top, spawnParent);
 
-            wave = Instantiate(defaultWave, midSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, midSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>(); wave.Initialize(LaneID.mid, spawnParent);
             wave.Initialize(LaneID.mid, spawnParent);
 
-            wave = Instantiate(defaultWave, botSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, botSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>(); wave.Initialize(LaneID.bot, spawnParent);
             wave.Initialize(LaneID.bot, spawnParent);
         }
 

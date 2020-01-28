@@ -86,7 +86,7 @@ namespace MOBA
         {
             foreach (var skill in Skills)
             {
-                skill.SetOwner(this);
+                skill.Initialize(this);
             }
         }
 

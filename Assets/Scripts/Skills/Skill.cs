@@ -19,7 +19,7 @@ namespace MOBA
     }
 
 
-    //TODO silence, castrange
+    //TODO silence, chase until in castrange
     [DisallowMultipleComponent]
     public class Skill : MonoBehaviour
     {
@@ -87,12 +87,7 @@ namespace MOBA
             get;
         }
 
-        private void Start()
-        {
-            Initialize();
-        }
-
-        protected virtual void Initialize()
+        public virtual void Initialize(Unit _owner)
         {
             isReady = true;
             Rank = 1;
@@ -101,9 +96,10 @@ namespace MOBA
             OnCastTimeFinished += StopCastTimeLock;
             OnCastTimeFinished += () => castTimeCoroutine = null;
             castTimeCoroutine = null;
+            SetOwner(_owner);
         }
 
-        public virtual void SetOwner(Unit _owner)
+        private void SetOwner(Unit _owner)
         {
             owner = _owner;
             foreach (var effect in effects)

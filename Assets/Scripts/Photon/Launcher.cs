@@ -1,8 +1,10 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -10,17 +12,15 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-    }
-
-    void Start()
-    {
         Connect();
     }
 
-    void Update()
-    {
-        
-    }
+    [SerializeField]
+    private Text roomDisplay;
+
+    [SerializeField]
+    private Button startBtn;
+
 
     public void Connect()
     {
@@ -42,12 +42,31 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        PhotonNetwork.CreateRoom(new Guid().ToString());
+        PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), new RoomOptions() { MaxPlayers = 10 });
     }
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("SampleScene");
+        if (PhotonNetwork.IsMasterClient) startBtn.interactable = true;
+        else startBtn.GetComponentInChildren<Text>().text = "Only masterClient can start!";
+
+        roomDisplay.text = PhotonNetwork.CurrentRoom.ToString();
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        roomDisplay.text = PhotonNetwork.CurrentRoom.ToString();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        roomDisplay.text = PhotonNetwork.CurrentRoom.ToString();
+    }
+
+    public void TryLoadLevel()
+    {
+        if (!PhotonNetwork.InRoom) return;
+        PhotonNetwork.LoadLevel("Game");
     }
 
 }

@@ -11,22 +11,12 @@ namespace MOBA
         [SerializeField]
         private bool cancellable;
 
-        protected override void Initialize()
+        public override void Initialize(Unit _owner)
         {
-            base.Initialize();
+            base.Initialize(_owner);
             OnCast += ActivateEffects;
             OnCastTimeFinished -= ActivateEffects;
             OnCastTimeFinished += ToggleOff;
-        }
-
-        protected override void Update()
-        {
-            if (owner.IsDead)
-            {
-                ToggleOff();
-                return;
-            }
-            base.Update();
         }
 
         protected override bool TryToggleOff()

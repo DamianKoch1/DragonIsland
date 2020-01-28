@@ -79,6 +79,11 @@ namespace MOBA
         protected virtual void Update()
         {
             if (!IsToggledOn) return;
+            if (owner.IsDead)
+            {
+                ToggleOff();
+                return;
+            }
             timeSinceLastTick += Time.deltaTime;
             while (timeSinceLastTick >= tickInterval)
             {

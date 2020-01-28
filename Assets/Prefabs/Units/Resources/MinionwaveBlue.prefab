@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4670454683648302817}
   - component: {fileID: 4670454683648302818}
+  - component: {fileID: 5902494359208944499}
   m_Layer: 0
   m_Name: MinionwaveBlue
   m_TagString: Untagged
@@ -51,3 +52,25 @@ MonoBehaviour:
   - {fileID: 6311560771354947210, guid: fc60774677988d848bf2f4b20bd05bbb, type: 3}
   - {fileID: 6311560771354947210, guid: fc60774677988d848bf2f4b20bd05bbb, type: 3}
   spawnDeltaTime: 1
+--- !u!114 &5902494359208944499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4670454683648302819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

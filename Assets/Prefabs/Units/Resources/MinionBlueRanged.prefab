@@ -24,7 +24,7 @@ MonoBehaviour:
     hitMode: 0
     dmgType: 0
     baseDamage: 0
-    bonusDamage: 0
+    lifespan: -1
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 1
@@ -48,6 +48,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6409819951060390146, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: m_Name
+      value: MinionBlueRanged
+      objectReference: {fileID: 0}
     - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}
       propertyPath: attacking
@@ -102,11 +107,6 @@ PrefabInstance:
         type: 3}
       propertyPath: stats.magicResPerLvl
       value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409819951060390146, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
-        type: 3}
-      propertyPath: m_Name
-      value: MinionBlueRanged
       objectReference: {fileID: 0}
     - target: {fileID: 6409819951060390145, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}

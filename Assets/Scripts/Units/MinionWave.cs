@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ namespace MOBA
 
         public void Initialize(LaneID lane, Transform spawnParent)
         {
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                Destroy(gameObject);
+                return;
+            }
             targetLane = lane;
             StartCoroutine(BeginSpawning(spawnParent));
         }
@@ -42,7 +48,8 @@ namespace MOBA
 
         private void SpawnMinion(int index, Transform parent)
         {
-            var minion = Instantiate(minions[index].gameObject, transform.position, Quaternion.identity, parent).GetComponent<Minion>();
+            var minion = PhotonNetwork.Instantiate(minions[index].gameObject.name, transform.position, Quaternion.identity).GetComponent<Minion>();
+            minion.transform.SetParent(parent);
             minion.TargetLane = targetLane;
         }
     }
