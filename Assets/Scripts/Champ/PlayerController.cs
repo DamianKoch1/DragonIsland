@@ -10,6 +10,21 @@ using UnityEngine.UI;
 namespace MOBA
 {
 
+    public class CursorInfo
+    {
+        public Unit hovered;
+        public Vector3 position;
+
+        public CursorInfo()
+        { }
+
+        public CursorInfo(Unit _hovered, Vector3 _position)
+        {
+            hovered = _hovered;
+            position = _position;
+        }
+    }
+
     public class PlayerController : MonoBehaviour
     {
         private static PlayerController instance;
@@ -27,6 +42,8 @@ namespace MOBA
                 return instance;
             }
         }
+
+        public static Dictionary<int, CursorInfo> PlayerCursorInfos { private set; get; } = new Dictionary<int, CursorInfo>();
 
         [HideInInspector]
         public Unit hovered;
@@ -58,6 +75,7 @@ namespace MOBA
 
         public static Champ Player => Instance.player;
 
+        private Vector3 mousePos;
 
         [Space]
         public DefaultColors defaultColors;
@@ -104,6 +122,22 @@ namespace MOBA
             return cam.GetCursorToWorldPoint(out mouseWorldPos);
         }
 
+
+        [PunRPC]
+        private void SetPlayerCursorInfo(int playerID, int hoveredID, Vector3 _mousePos)
+        {
+            Unit _hovered = GetUnitByID(hoveredID);
+            if (!PlayerCursorInfos.ContainsKey(playerID))
+            {
+                PlayerCursorInfos.Add(playerID, new CursorInfo(_hovered, _mousePos));
+            }
+            else
+            {
+                PlayerCursorInfos[playerID].hovered = _hovered;
+                PlayerCursorInfos[playerID].position = _mousePos;
+            }
+        }
+
         private void OnSelectPressed()
         {
             if (!hovered)
@@ -121,12 +155,12 @@ namespace MOBA
                 //Attack(player, hovered);
                 PhotonView.Get(this).RPC(nameof(Attack), RpcTarget.All, GetViewID(player), GetViewID(hovered));
             }
-            else if (GetMouseWorldPos(out var targetPos))
+            else if (GetMouseWorldPos(out mousePos))
             {
                 //MoveChampTo(player, targetPos);
-                PhotonView.Get(this).RPC(nameof(MoveChampTo), RpcTarget.All, GetViewID(player), targetPos);
+                PhotonView.Get(this).RPC(nameof(MoveChampTo), RpcTarget.All, GetViewID(player), mousePos);
 
-                Instantiate(moveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
+                Instantiate(moveClickVfx, mousePos + Vector3.up * 0.2f, Quaternion.identity);
             }
         }
 
@@ -137,10 +171,10 @@ namespace MOBA
                 //Attack(player, hovered);
                 PhotonView.Get(this).RPC(nameof(Attack), RpcTarget.All, GetViewID(player), GetViewID(hovered));
             }
-            else if (GetMouseWorldPos(out var targetPos))
+            else if(GetMouseWorldPos(out mousePos))
             {
                 //MoveChampTo(player, targetPos);
-                PhotonView.Get(this).RPC(nameof(MoveChampTo), RpcTarget.All, GetViewID(player), targetPos);
+                PhotonView.Get(this).RPC(nameof(MoveChampTo), RpcTarget.All, GetViewID(player), mousePos);
             }
         }
 
@@ -155,14 +189,14 @@ namespace MOBA
                 }
                 return;
             }
-            if (!cam.GetCursorToWorldPoint(out var mouseWorldPos)) return;
-            Instantiate(atkMoveClickVfx, mouseWorldPos + Vector3.up * 0.2f, Quaternion.identity);
-            var targets = player.GetTargetableEnemiesInAtkRange<Unit>(mouseWorldPos);
+            if (!GetMouseWorldPos(out mousePos)) return;
+            Instantiate(atkMoveClickVfx, mousePos + Vector3.up * 0.2f, Quaternion.identity);
+            var targets = player.GetTargetableEnemiesInAtkRange<Unit>(mousePos);
             switch (targets.Count())
             {
                 case 0:
                     //MoveChampTo(player, targetPos);
-                    PhotonView.Get(this).RPC(nameof(MoveChampTo), RpcTarget.All, GetViewID(player), mouseWorldPos);
+                    PhotonView.Get(this).RPC(nameof(MoveChampTo), RpcTarget.All, GetViewID(player), mousePos);
                     break;
                 case 1:
                     //Attack(player, targets[0]);
@@ -170,18 +204,27 @@ namespace MOBA
                     break;
                 default:
                     //Attack(player, targets.GetClosestUnitFrom<Unit>(mouseWorldPos));
-                    PhotonView.Get(this).RPC(nameof(Attack), RpcTarget.All, GetViewID(player), GetViewID(targets.GetClosestUnitFrom<Unit>(mouseWorldPos)));
+                    PhotonView.Get(this).RPC(nameof(Attack), RpcTarget.All, GetViewID(player), GetViewID(targets.GetClosestUnitFrom<Unit>(mousePos)));
                     break;
             }
         }
 
         private int GetViewID(Unit from)
         {
-            return PhotonView.Get(from).ViewID;
+            if (from)
+            {
+                if (!from.IsDead)
+                {
+                    return PhotonView.Get(from).ViewID;
+                }
+                return -1;
+            }
+            return -1;
         }
 
         private Unit GetUnitByID(int viewID)
         {
+            if (viewID == -1) return null;
             return PhotonView.Find(viewID).GetComponent<Unit>();
         }
 
@@ -205,27 +248,27 @@ namespace MOBA
 
         //TODO add cast fail feedback
         [PunRPC]
-        private void CastQ(int ownerID)
+        private void CastQ(int ownerID, int hoveredID, Vector3 mousePos)
         {
-            ((Champ)GetUnitByID(ownerID)).CastQ();
+            ((Champ)GetUnitByID(ownerID)).CastQ(GetUnitByID(hoveredID), mousePos);
         }
 
         [PunRPC]
-        private void CastW(int ownerID)
+        private void CastW(int ownerID, int hoveredID, Vector3 mousePos)
         {
-            ((Champ)GetUnitByID(ownerID)).CastW();
+            ((Champ)GetUnitByID(ownerID)).CastW(GetUnitByID(hoveredID), mousePos);
         }
 
         [PunRPC]
-        private void CastE(int ownerID)
+        private void CastE(int ownerID, int hoveredID, Vector3 mousePos)
         {
-            ((Champ)GetUnitByID(ownerID)).CastE();
+            ((Champ)GetUnitByID(ownerID)).CastE(GetUnitByID(hoveredID), mousePos);
         }
 
         [PunRPC]
-        private void CastR(int ownerID)
+        private void CastR(int ownerID, int hoveredID, Vector3 mousePos)
         {
-            ((Champ)GetUnitByID(ownerID)).CastR();
+            ((Champ)GetUnitByID(ownerID)).CastR(GetUnitByID(hoveredID), mousePos);
         }
 
 
@@ -259,22 +302,34 @@ namespace MOBA
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 //CastQ(player);
-                PhotonView.Get(this).RPC(nameof(CastQ), RpcTarget.All, GetViewID(player));
+                if (GetMouseWorldPos(out mousePos))
+                {
+                    PhotonView.Get(this).RPC(nameof(CastQ), RpcTarget.All, GetViewID(player), GetViewID(hovered), mousePos);
+                }
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
                 //CastW(player);
-                PhotonView.Get(this).RPC(nameof(CastW), RpcTarget.All, GetViewID(player));
+                if (GetMouseWorldPos(out mousePos))
+                {
+                    PhotonView.Get(this).RPC(nameof(CastW), RpcTarget.All, GetViewID(player), GetViewID(hovered), mousePos);
+                }
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //CastE(player);
-                PhotonView.Get(this).RPC(nameof(CastE), RpcTarget.All, GetViewID(player));
+                if (GetMouseWorldPos(out mousePos))
+                {
+                    PhotonView.Get(this).RPC(nameof(CastE), RpcTarget.All, GetViewID(player), GetViewID(hovered), mousePos);
+                }
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
                 //CastR(player);
-                PhotonView.Get(this).RPC(nameof(CastR), RpcTarget.All, GetViewID(player));
+                if (GetMouseWorldPos(out mousePos))
+                {
+                    PhotonView.Get(this).RPC(nameof(CastR), RpcTarget.All, GetViewID(player), GetViewID(hovered), mousePos);
+                }
             }
         }
 
@@ -317,10 +372,15 @@ namespace MOBA
             }
         }
 
-
+        public void UpdateMousePos()
+        {
+            GetMouseWorldPos(out mousePos);
+            PhotonView.Get(this).RPC(nameof(SetPlayerCursorInfo), RpcTarget.All, GetViewID(player), GetViewID(hovered), mousePos);
+        }
 
         private void Update()
         {
+            UpdateMousePos();
             ProcessPlayerInput();
             ProcessCamInput();
             ProcessDebugInput();

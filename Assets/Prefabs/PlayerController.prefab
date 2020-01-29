@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 550190767179589393}
   - component: {fileID: 6927983118853757690}
   - component: {fileID: -5194112922466926963}
+  - component: {fileID: -7395449557576943501}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -78,10 +79,35 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-7395449557576943501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7034248667655049033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06466c03d263624786afa88b52928b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsWindowOn: 0
+  statsOn: 1
+  healthStatsVisible: 1
+  trafficStatsOn: 1
+  buttonsOn: 1
+  statsRect:
+    serializedVersion: 2
+    x: 0
+    y: 100
+    width: 200
+    height: 50
+  WindowId: 100
 --- !u!1001 &4126731477978111074
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -139,14 +139,15 @@ namespace MOBA
         public Action<float, float> OnRemainingCDChanged;
         public Action OnCDFinished;
 
-        public virtual bool TryCast()
+        public virtual bool TryCast(Unit hovered, Vector3 mousePos)
         {
             if (!isReady) return false;
             if (Rank < 1) return false;
             if (!owner.canCast) return false;
             if (owner.Stats.Resource < cost) return false;
 
-            if (!IsValidTargetSelected()) return false;
+            mousePosAtCast = mousePos;
+            if (!IsValidTargetSelected(hovered)) return false;
 
             if (castRange < 0)
             {
@@ -181,14 +182,12 @@ namespace MOBA
             OnCast?.Invoke();
         }
 
-        protected bool IsValidTargetSelected()
+        protected bool IsValidTargetSelected(Unit hovered)
         {
-            Unit hovered = PlayerController.Instance.hovered;
             wasCastOnUnit = true;
             switch (targetingMode)
             {
                 case TargetingMode.mousePos:
-                    if (!PlayerController.Instance.GetMouseWorldPos(out mousePosAtCast)) return false;
                     wasCastOnUnit = false;
                     return true;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -183,7 +184,8 @@ namespace MOBA
 
         protected override void SetupBars()
         {
-            statBarsInstance = Instantiate(statBarsPrefab, transform.parent);
+            var statBarsGO = Resources.Load<GameObject>("StatBars");
+            statBarsInstance = Instantiate(statBarsGO, transform.parent);
             statBarsInstance.GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.3f);
         }
 
@@ -192,6 +194,14 @@ namespace MOBA
             if (attacking.IsAttacking()) return;
             if (this.IsAlly(attacker)) return;
             attacking.StartAttacking(attacker);
+        }
+
+        protected override void OnDeath()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
 }

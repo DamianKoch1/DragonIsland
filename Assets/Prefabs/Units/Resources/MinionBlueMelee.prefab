@@ -301,8 +301,6 @@ MonoBehaviour:
   xpRewardRange: 12
   movement: {fileID: 6409819951060390174}
   attacking: {fileID: 7119685332314796822}
-  statBarsPrefab: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
-    type: 3}
   mesh: {fileID: 5176387310780495296}
   maxChaseDistance: 20
   maxWaypointDistance: 30

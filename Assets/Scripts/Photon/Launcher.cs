@@ -30,19 +30,31 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
         else
         {
-            PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
+            PhotonNetwork.ConnectUsingSettings();
         }
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        print(cause);
     }
 
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinRandomRoom();
+        //PhotonNetwork.JoinRoom("room");
     }
+
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), new RoomOptions() { MaxPlayers = 10 });
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        PhotonNetwork.CreateRoom("room", new RoomOptions() { MaxPlayers = 10 });
     }
 
     public override void OnJoinedRoom()
@@ -66,6 +78,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void TryLoadLevel()
     {
         if (!PhotonNetwork.InRoom) return;
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.LoadLevel("Game");
     }
 

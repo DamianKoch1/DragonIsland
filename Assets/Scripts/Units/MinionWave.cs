@@ -23,8 +23,12 @@ namespace MOBA
                 Destroy(gameObject);
                 return;
             }
-            targetLane = lane;
-            StartCoroutine(BeginSpawning(spawnParent));
+            else
+            {
+
+                targetLane = lane;
+                StartCoroutine(BeginSpawning(spawnParent));
+            }
         }
 
         private IEnumerator BeginSpawning(Transform spawnParent)
@@ -43,11 +47,16 @@ namespace MOBA
                 time += Time.deltaTime;
                 yield return null;
             }
-            Destroy(gameObject);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
 
         private void SpawnMinion(int index, Transform parent)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             var minion = PhotonNetwork.Instantiate(minions[index].gameObject.name, transform.position, Quaternion.identity).GetComponent<Minion>();
             minion.transform.SetParent(parent);
             minion.TargetLane = targetLane;

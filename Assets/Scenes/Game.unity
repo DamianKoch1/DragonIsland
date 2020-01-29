@@ -768,15 +768,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -5194112922466926963, guid: 096a82ac6abbd9e428b638859eded951,
-        type: 3}
-      propertyPath: viewIdField
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 7034248667655049033, guid: 096a82ac6abbd9e428b638859eded951,
         type: 3}
       propertyPath: m_Name
       value: PlayerController
+      objectReference: {fileID: 0}
+    - target: {fileID: -5194112922466926963, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: viewIdField
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 550190767179589393, guid: 096a82ac6abbd9e428b638859eded951,
         type: 3}

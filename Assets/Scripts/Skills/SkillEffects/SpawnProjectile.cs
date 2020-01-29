@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,9 +64,10 @@ namespace MOBA
             {
                 Activate(castTargetPos, ownerStats);
             }
-            else if (PlayerController.Instance.GetMouseWorldPos(out var mouseWorldPos))
+            else if (owner is Champ)
             {
-                Activate(mouseWorldPos, ownerStats);
+                //PlayerController.Instance.UpdateMousePos();
+                Activate(PlayerController.PlayerCursorInfos[PhotonView.Get(owner).ViewID].position, ownerStats);
             }
         }
 

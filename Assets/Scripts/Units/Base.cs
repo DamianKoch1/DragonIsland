@@ -123,6 +123,8 @@ namespace MOBA
             topSpawn.Initialize(LaneID.top);
             botSpawn.Initialize(LaneID.bot);
             midSpawn.Initialize(LaneID.mid);
+
+            if (!PhotonNetwork.IsMasterClient) return;
             timeSinceSpawn = waveSpawnDeltaTime;
 
         }
@@ -147,14 +149,16 @@ namespace MOBA
 
         private void SpawnWaves()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             MinionWave wave;
             wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, topSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
             wave.Initialize(LaneID.top, spawnParent);
 
-            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, midSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>(); wave.Initialize(LaneID.mid, spawnParent);
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, midSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
             wave.Initialize(LaneID.mid, spawnParent);
 
-            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, botSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>(); wave.Initialize(LaneID.bot, spawnParent);
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, botSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
             wave.Initialize(LaneID.bot, spawnParent);
         }
 

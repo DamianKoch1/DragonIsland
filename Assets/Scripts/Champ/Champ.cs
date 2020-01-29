@@ -90,28 +90,28 @@ namespace MOBA
             }
         }
 
-        public bool CastQ()
+        public bool CastQ(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count == 0) return false;
-            return Skills[0].TryCast();
+            return Skills[0].TryCast(hovered, mousePos);
         }
 
-        public bool CastW()
+        public bool CastW(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 1) return false;
-            return Skills[1].TryCast();
+            return Skills[1].TryCast(hovered, mousePos);
         }
 
-        public bool CastE()
+        public bool CastE(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 2) return false;
-            return Skills[2].TryCast();
+            return Skills[2].TryCast(hovered, mousePos);
         }
 
-        public bool CastR()
+        public bool CastR(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 3) return false;
-            return Skills[3].TryCast();
+            return Skills[3].TryCast(hovered, mousePos);
         }
 
 
@@ -236,7 +236,8 @@ namespace MOBA
 
         protected override void SetupBars()
         {
-            statBarsInstance = Instantiate(statBarsPrefab);
+            var statBarsGO = Resources.Load<GameObject>("ChampStatBars");
+            statBarsInstance = Instantiate(statBarsGO, transform.parent);
             statBarsInstance.GetComponent<ChampStatBars>()?.Initialize(this, 0.5f, 1.2f, true);
         }
 

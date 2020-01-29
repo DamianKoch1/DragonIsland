@@ -102,7 +102,7 @@ namespace MOBA
             }
         }
 
-        public override bool TryCast()
+        public override bool TryCast(Unit hovered, Vector3 mousePos)
         {
             if (isToggledOn)
             {
@@ -110,7 +110,7 @@ namespace MOBA
             }
             else
             {
-                return TryToggleOn();
+                return TryToggleOn(hovered, mousePos);
             }
         }
 
@@ -120,13 +120,14 @@ namespace MOBA
             return true;
         }
 
-        protected virtual bool TryToggleOn()
+        protected virtual bool TryToggleOn(Unit hovered, Vector3 mousePos)
         {
             if (Rank < 1) return false;
             if (!isReady) return false;
             if (!owner.canCast) return false;
             if (owner.Stats.Resource < cost) return false;
-            if (!IsValidTargetSelected()) return false;
+            mousePosAtCast = mousePos;
+            if (!IsValidTargetSelected(hovered)) return false;
             ToggleOn();
             return true;
         }

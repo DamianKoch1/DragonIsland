@@ -19,6 +19,8 @@ namespace MOBA
         [SerializeField, Range(1, 10), Tooltip("The higher the value, the further away the camera can get.")]
         private float minZoom = 2f;
 
+        Plane groundPlane;
+
         public void Initialize(Champ _target, Vector3 _offset, Quaternion _rotation)
         {
             distanceFactor = 1;
@@ -26,6 +28,7 @@ namespace MOBA
             target = _target;
             offset = _offset;
             rotation = _rotation;
+            groundPlane = new Plane(Vector3.up, Vector3.zero);
         }
 
         void Update()
@@ -44,9 +47,9 @@ namespace MOBA
         public bool GetCursorToWorldPoint(out Vector3 result)
         {
             Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit))
+            if (groundPlane.Raycast(ray, out var hit))
             {
-                result = hit.point;
+                result = ray.GetPoint(hit);
                 return true;
             }
             result = Vector3.zero;
