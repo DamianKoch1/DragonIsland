@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MOBA
 {
-    //TODO cancellable when moving
+    //TODO cancellable by moving
     public class SkillChannel : SkillToggleable
     {
         [Space]
