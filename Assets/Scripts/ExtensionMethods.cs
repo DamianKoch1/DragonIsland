@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -130,6 +131,25 @@ namespace MOBA
             }
             existing = null;
             return false;
+        }
+
+        public static int GetViewID(this Unit from)
+        {
+            if (from)
+            {
+                if (!from.IsDead)
+                {
+                    return PhotonView.Get(from).ViewID;
+                }
+                return -1;
+            }
+            return -1;
+        }
+
+        public static Unit GetUnitByID(this int viewID)
+        {
+            if (viewID == -1) return null;
+            return PhotonView.Find(viewID).GetComponent<Unit>();
         }
     }
 }

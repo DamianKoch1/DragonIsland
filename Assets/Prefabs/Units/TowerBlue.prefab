@@ -232,6 +232,8 @@ GameObject:
   - component: {fileID: 1148474522}
   - component: {fileID: 6251109598219636127}
   - component: {fileID: 4745629919015085562}
+  - component: {fileID: 6650186491123310610}
+  - component: {fileID: 756129146296243942}
   m_Layer: 0
   m_Name: TowerBlue
   m_TagString: Untagged
@@ -313,15 +315,21 @@ MonoBehaviour:
     moveSpeed: 0
     slow: 0
     disables: 0
+  statusEffects:
+    stun: 0
+    root: 0
+    silence: 0
+    disarm: 0
+    undamageable: 0
+    untargetable: 0
   targetable: 1
   damageable: 1
   canAttack: 1
+  canCast: 1
   radius: 1
   xpRewardRange: 12
   movement: {fileID: 0}
   attacking: {fileID: 8109459138435389817}
-  statBarsPrefab: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
-    type: 3}
   mesh: {fileID: 5881307046895623442}
   isUntargetableUntilDestroyed: []
   targetableUntilMode: 0
@@ -350,7 +358,7 @@ MonoBehaviour:
     hitMode: 0
     dmgType: 0
     baseDamage: 0
-    bonusDamage: 0
+    lifespan: -1
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 1
@@ -489,6 +497,43 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &6650186491123310610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881307047872224553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 756129146296243942}
+  viewIdField: 0
+  InstantiationId: 99
+  isRuntimeInstantiated: 0
+--- !u!114 &756129146296243942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881307047872224553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1001 &4665312342654137540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -571,6 +616,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5881307047872224552}
     m_Modifications:
+    - target: {fileID: 3364623558810345848, guid: 6af23e95078d7d441bc17a8bb487bacd,
+        type: 3}
+      propertyPath: m_Name
+      value: AtkRangeIndicator
+      objectReference: {fileID: 0}
     - target: {fileID: 6950764585731354520, guid: 6af23e95078d7d441bc17a8bb487bacd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -635,11 +685,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 9.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3364623558810345848, guid: 6af23e95078d7d441bc17a8bb487bacd,
-        type: 3}
-      propertyPath: m_Name
-      value: AtkRangeIndicator
       objectReference: {fileID: 0}
     - target: {fileID: 9074347625022006416, guid: 6af23e95078d7d441bc17a8bb487bacd,
         type: 3}

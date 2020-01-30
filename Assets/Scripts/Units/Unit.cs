@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using GameLogger = MOBA.Logging.GameLogger;
 
 namespace MOBA
 {
@@ -19,6 +21,8 @@ namespace MOBA
     [RequireComponent(typeof(CapsuleCollider))]
     [RequireComponent(typeof(SphereCollider))]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonTransformView))]
     public class Unit : MonoBehaviour
     {
         public const float TICKINTERVAL = 0.5f;
@@ -265,6 +269,7 @@ namespace MOBA
                 {
                     xpEligibleChamps.Add(champ);
                 }
+                GameLogger.Log(killer, Logging.LogActionType.kill, transform.position, this);
             }
             foreach (var champ in xpEligibleChamps)
             {
@@ -303,7 +308,6 @@ namespace MOBA
             statusEffects = new BuffFlags();
 
             IsDead = false;
-
 
             stats.Initialize(this);
 
@@ -409,6 +413,7 @@ namespace MOBA
             }
         }
 
+      
 
         public void MoveTo(Vector3 destination)
         {

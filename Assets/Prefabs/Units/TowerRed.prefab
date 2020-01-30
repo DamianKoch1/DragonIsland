@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: teamID
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8109459138435389817, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: projectile
@@ -79,11 +84,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7099415486780098135, guid: abf0d1880c70d2c46b0da5f29b19955c,
         type: 3}
-    - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: teamID
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6038806041748379497, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_Color.r
@@ -113,6 +113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: Synchronization
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87acb7a40a177c4eb7f154e5beb8b2e, type: 3}

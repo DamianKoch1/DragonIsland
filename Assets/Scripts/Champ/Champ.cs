@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MOBA.Logging;
+using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +36,7 @@ namespace MOBA
 
         private Vector3 spawnpoint;
 
-      
+
 
         private List<Skill> skills;
 
@@ -59,7 +61,7 @@ namespace MOBA
         [SerializeField]
         private BarTextTimer respawnHUDPrefab;
 
-     
+
 
 
         protected override void Initialize()
@@ -90,28 +92,34 @@ namespace MOBA
             }
         }
 
-        public bool CastQ(Unit hovered, Vector3 mousePos)
+
+        //TODO cast fail feedback
+        [PunRPC]
+        public bool CastQ(int hoveredID, Vector3 mousePos)
         {
             if (Skills.Count == 0) return false;
-            return Skills[0].TryCast(hovered, mousePos);
+            return Skills[0].TryCast(hoveredID.GetUnitByID(), mousePos);
         }
 
-        public bool CastW(Unit hovered, Vector3 mousePos)
+        [PunRPC]
+        public bool CastW(int hoveredID, Vector3 mousePos)
         {
             if (Skills.Count <= 1) return false;
-            return Skills[1].TryCast(hovered, mousePos);
+            return Skills[1].TryCast(hoveredID.GetUnitByID(), mousePos);
         }
 
-        public bool CastE(Unit hovered, Vector3 mousePos)
+        [PunRPC]
+        public bool CastE(int hoveredID, Vector3 mousePos)
         {
             if (Skills.Count <= 2) return false;
-            return Skills[2].TryCast(hovered, mousePos);
+            return Skills[2].TryCast(hoveredID.GetUnitByID(), mousePos);
         }
 
-        public bool CastR(Unit hovered, Vector3 mousePos)
+        [PunRPC]
+        public bool CastR(int hoveredID, Vector3 mousePos)
         {
             if (Skills.Count <= 3) return false;
-            return Skills[3].TryCast(hovered, mousePos);
+            return Skills[3].TryCast(hoveredID.GetUnitByID(), mousePos);
         }
 
 
@@ -126,7 +134,7 @@ namespace MOBA
 
         protected float GetRespawnTime()
         {
-            return 5 + 3 * stats.Lvl-1;
+            return 5 + 3 * stats.Lvl - 1;
         }
 
         //add to inhib, make IRespawning
@@ -247,5 +255,28 @@ namespace MOBA
             if (!attacking?.RangeIndicator) return;
             attacking.RangeIndicator.gameObject.SetActive(show);
         }
+
+        [PunRPC]
+        public void OnMoveCommand(Vector3 mousePos)
+        {
+            if (IsAttacking())
+            {
+                StopAttacking();
+            }
+            MoveTo(mousePos);
+        }
+
+        [PunRPC]
+        public void OnAttackCommand(int targetViewID)
+        {
+            StartAttacking(targetViewID.GetUnitByID());
+        }
+
+        protected override void Die(Unit killer)
+        {
+            GameLogger.Log(this, Logging.LogActionType.die, transform.position, killer);
+            base.Die(killer);
+        }
+
     }
 }

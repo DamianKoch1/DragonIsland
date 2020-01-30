@@ -66,8 +66,8 @@ namespace MOBA
             }
             else if (owner is Champ)
             {
-                //PlayerController.Instance.UpdateMousePos();
-                Activate(PlayerController.PlayerCursorInfos[PhotonView.Get(owner).ViewID].position, ownerStats);
+                PlayerController.Instance.GetMouseWorldPos(out var mousePos);
+                Activate(mousePos, ownerStats);
             }
         }
 

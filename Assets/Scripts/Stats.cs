@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MOBA.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,6 +69,8 @@ namespace MOBA
 
         private void LevelUpStats()
         {
+            GameLogger.Log(Owner, LogActionType.levelUp, Owner.transform.position);
+
             MaxHP += HPPerLvl;
             HP += HPPerLvl;
             HPReg += HPRegPerLvl;

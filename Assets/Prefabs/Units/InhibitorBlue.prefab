@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 7692697332126755066}
   - component: {fileID: 7761129892094762813}
   - component: {fileID: 660372660231231400}
+  - component: {fileID: -8098396584308211720}
+  - component: {fileID: -4236665881957126632}
   m_Layer: 0
   m_Name: InhibitorBlue
   m_TagString: Untagged
@@ -213,20 +215,62 @@ MonoBehaviour:
     moveSpeed: 0
     slow: 0
     disables: 0
+  statusEffects:
+    stun: 0
+    root: 0
+    silence: 0
+    disarm: 0
+    undamageable: 0
+    untargetable: 0
   targetable: 1
   damageable: 1
   canAttack: 0
+  canCast: 1
   radius: 2
   xpRewardRange: 12
   movement: {fileID: 0}
   attacking: {fileID: 0}
-  statBarsPrefab: {fileID: 5111289120154101482, guid: da2d5012b4a5a664fbf0cf1433180bab,
-    type: 3}
-  buffsSlot: {fileID: 0}
   mesh: {fileID: 3341591739335804407}
   isUntargetableUntilDestroyed: []
   targetableUntilMode: 0
   laneID: 0
+--- !u!114 &-8098396584308211720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692697332126755061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: -4236665881957126632}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-4236665881957126632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692697332126755061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 0
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0
 --- !u!1 &7692697332626688530
 GameObject:
   m_ObjectHideFlags: 0

@@ -41,5 +41,7 @@ MonoBehaviour:
   - MoveChampTo
   - RespawnSpaceship
   - SetPlayerCursorInfo
+  - OnAttackCommand
+  - OnMoveCommand
   DisableAutoOpenWizard: 1
   ShowSettings: 1

@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinionRedMelee
       objectReference: {fileID: 0}
+    - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
+        type: 3}
+      propertyPath: teamID
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6409819951060390145, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,11 +71,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6409819951060390172, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
-        type: 3}
-      propertyPath: teamID
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6409819950041703336, guid: 6a4641d7a3c331c41ab7e837eba47b8a,
         type: 3}
