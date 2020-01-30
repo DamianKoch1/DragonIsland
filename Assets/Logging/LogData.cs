@@ -42,19 +42,25 @@ namespace MOBA.Logging
         {
             return new TimeSpan(0, 0, (int)timeStamp) + " " + sourceName + " " + type + " " + new Vector2(eventPosX, eventPosZ) + " " + otherName;
         }
+
+        public string ToString(string extraActions, string extraOtherNames)
+        {
+            return new TimeSpan(0, 0, (int)timeStamp) + " " + sourceName + " " + type + extraActions + " " + new Vector2(eventPosX, eventPosZ) + " " + otherName + extraOtherNames;
+        }
     }
 
-    public enum LogActionType
+    [Flags]
+    public enum LogActionType : short
     {
-        invalid = -1,
-        move = 0,
-        attack = 1,
-        kill = 2,
-        die = 3,
-        levelUp = 4,
-        Q = 5,
-        W = 6,
-        E = 7,
-        R = 8
+        none = 0,
+        move = 1,
+        attack = 2,
+        kill = 4,
+        die = 8,
+        levelUp = 16,
+        Q = 32,
+        W = 64,
+        E = 128,
+        R = 256
     }
 }
