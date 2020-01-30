@@ -37,10 +37,10 @@ namespace MOBA.Logging
                 {
                     case LogActionType.invalid:
                         break;
-                    case LogActionType.move:
-                        break;
-                    case LogActionType.attack:
-                        break;
+                    //case LogActionType.move:
+                    //    break;
+                    //case LogActionType.attack:
+                    //    break;
                     //case LogActionType.kill:
                     //    break;
                     //case LogActionType.die:
@@ -57,7 +57,7 @@ namespace MOBA.Logging
                     //    break;
                     default:
                         var evtText = Instantiate(eventTextPrefab, transform);
-                        evtText.transform.position += GetComponent<RectTransform>().rect.width * Vector3.right * evt.timeStamp / lastTime;
+                        evtText.transform.localPosition += GetComponent<RectTransform>().rect.width * Vector3.right * evt.timeStamp / lastTime;
                         evtText.GetComponent<Text>().text = evt.ToString();
                         evtTextInstances.Add(evtText);
                         break;
