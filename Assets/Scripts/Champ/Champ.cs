@@ -1,5 +1,6 @@
 ﻿using MOBA.Logging;
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace MOBA
     public class Champ : Unit
     {
         public const float GOLDPERSEC = 1;
+
+        private bool clientTookOver = false;
 
         protected float currGold;
 
@@ -82,6 +85,14 @@ namespace MOBA
             OnUnitTick += () => Gold += GOLDPERSEC;
 
             SetupSkills();
+
+            if (!PhotonView.Get(this).IsMine)
+            {
+                Destroy(movement);
+                Destroy(attacking);
+                Destroy(GetComponent<NavMeshAgent>());
+                Destroy(GetComponent<NavMeshObstacle>());
+            }
         }
 
         private void SetupSkills()

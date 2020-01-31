@@ -117,6 +117,7 @@ namespace MOBA
             cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
             ui?.Initialize(player);
             playerView = PhotonView.Get(player);
+            playerView.RequestOwnership();
         }
 
         public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
@@ -249,7 +250,7 @@ namespace MOBA
                 //CastQ(player);
                 if (GetMouseWorldPos(out mousePos))
                 {
-                    playerView.RPC(nameof(player.CastQ), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
+                    playerView.RPC(nameof(player.CastQ), RpcTarget.All, hovered.GetViewID(), mousePos);
                     GameLogger.Log(player, LogActionType.Q, mousePos, hovered);
                 }
             }
@@ -258,7 +259,7 @@ namespace MOBA
                 //CastW(player);
                 if (GetMouseWorldPos(out mousePos))
                 {
-                    playerView.RPC(nameof(player.CastW), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
+                    playerView.RPC(nameof(player.CastW), RpcTarget.All, hovered.GetViewID(), mousePos);
                     GameLogger.Log(player, LogActionType.W, mousePos, hovered);
                 }
             }
@@ -267,7 +268,7 @@ namespace MOBA
                 //CastE(player);
                 if (GetMouseWorldPos(out mousePos))
                 {
-                    playerView.RPC(nameof(player.CastE), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
+                    playerView.RPC(nameof(player.CastE), RpcTarget.All, hovered.GetViewID(), mousePos);
                     GameLogger.Log(player, LogActionType.E, mousePos, hovered);
                 }
             }
