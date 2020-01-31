@@ -13,6 +13,9 @@ namespace MOBA
     [RequireComponent(typeof(NavMovement))]
     public class Champ : Unit
     {
+
+        private ChampCamera cam;
+
         public const float GOLDPERSEC = 1;
 
         private bool clientTookOver = false;
@@ -85,14 +88,6 @@ namespace MOBA
             OnUnitTick += () => Gold += GOLDPERSEC;
 
             SetupSkills();
-
-            if (!PhotonView.Get(this).IsMine)
-            {
-                Destroy(movement);
-                Destroy(attacking);
-                Destroy(GetComponent<NavMeshAgent>());
-                Destroy(GetComponent<NavMeshObstacle>());
-            }
         }
 
         private void SetupSkills()
@@ -101,6 +96,16 @@ namespace MOBA
             {
                 skill.Initialize(this);
             }
+        }
+
+        public void SetCamera(ChampCamera _cam)
+        {
+            cam = _cam;
+        }
+
+        public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
+        {
+            return cam.GetCursorToWorldPoint(out mouseWorldPos);
         }
 
 
