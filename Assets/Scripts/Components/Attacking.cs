@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -128,6 +129,14 @@ namespace MOBA
         }
 
         public abstract void Attack(Unit target);
+
+        private void Start()
+        {
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                Destroy(this);
+            }
+        }
 
         public virtual void Initialize(Unit _owner)
         {

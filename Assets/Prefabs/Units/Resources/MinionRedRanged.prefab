@@ -94,5 +94,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinionRedRanged
       objectReference: {fileID: 0}
+    - target: {fileID: 1108846877501849228, guid: fc60774677988d848bf2f4b20bd05bbb,
+        type: 3}
+      propertyPath: m_Name
+      value: MinionRedRanged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc60774677988d848bf2f4b20bd05bbb, type: 3}

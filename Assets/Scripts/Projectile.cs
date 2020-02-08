@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,6 +81,8 @@ namespace MOBA
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -150,7 +153,6 @@ namespace MOBA
             }
         }
 
-        //TODO ???
         protected virtual void OnHit(Unit unit)
         {
             if (properties.hitUntargetables || unit.damageable)
@@ -169,7 +171,7 @@ namespace MOBA
             }
             else if (properties.destroyOnNonTargetHit)
             {
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
 
@@ -178,10 +180,9 @@ namespace MOBA
             OnHit(monster);
         }
 
-
         private void OnHitTarget()
         {
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
 
         private void Initialize(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
@@ -191,7 +192,7 @@ namespace MOBA
             {
                 remainingLifetime = properties.lifespan;
             }
-            movement.SetSpeed(properties.speed);
+            movement.Initialize(properties.speed);
             transform.localScale *= properties.size;
             owner = _owner;
             ownerTeamID = teamID;
@@ -212,7 +213,7 @@ namespace MOBA
         /// <returns></returns>
         private Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
-            Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
+            Projectile instance = PhotonNetwork.Instantiate(gameObject.name, position, Quaternion.identity).GetComponent<Projectile>();
             instance.Initialize(_owner, position, _properties, _scaling, teamID, ownerStats);
             return instance;
         }
@@ -260,6 +261,8 @@ namespace MOBA
 
         private void Update()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             Move();
 
             if (properties.lifespan < 0) return;
@@ -273,7 +276,7 @@ namespace MOBA
                         effect.Activate(transform.position.NullY(), ownerStatsAtSpawn);
                     }
                 }
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
 
@@ -283,14 +286,14 @@ namespace MOBA
             {
                 if (!target || target.IsDead)
                 {
-                    Destroy(gameObject);
+                    PhotonNetwork.Destroy(gameObject);
                     return;
                 }
                 if (!properties.hitUntargetables)
                 {
                     if (!target.Targetable)
                     {
-                        Destroy(gameObject);
+                        PhotonNetwork.Destroy(gameObject);
                     }
                 }
                 movement.MoveTo(target.transform.position);

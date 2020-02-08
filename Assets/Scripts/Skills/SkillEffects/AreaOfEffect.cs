@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,6 +63,7 @@ namespace MOBA
 
         private void Update()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
             timeSinceLastTick += Time.deltaTime;
             while (timeSinceLastTick >= tickInterval)
             {
@@ -73,12 +75,13 @@ namespace MOBA
             if (lifespan < 0) return;
             if (timeActive > lifespan)
             {
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -144,6 +147,7 @@ namespace MOBA
 
         private void OnTriggerExit(Collider other)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;

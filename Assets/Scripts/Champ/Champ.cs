@@ -67,11 +67,13 @@ namespace MOBA
         {
             base.Initialize();
 
+            ToggleRangeIndicator(false);
+
+            if (!PhotonNetwork.IsMasterClient) return;
             OnAttackedByChamp += RequestTowerAssist;
 
             nearbyAlliedTowers = new UnitList<Tower>();
 
-            ToggleRangeIndicator(false);
 
             spawnpoint = Base.GetAllied(this).Spawnpoint.position;
 
@@ -273,7 +275,7 @@ namespace MOBA
 
         protected override void Die(Unit killer)
         {
-            GameLogger.Log(this, Logging.LogActionType.die, transform.position, killer);
+            GameLogger.Log(this, LogActionType.die, transform.position, killer);
             base.Die(killer);
         }
 

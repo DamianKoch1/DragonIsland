@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace MOBA
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -33,6 +36,8 @@ namespace MOBA
 
         private void OnTriggerExit(Collider other)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -108,6 +113,8 @@ namespace MOBA
 
         protected override void Update()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             base.Update();
 
             if (!attacking.IsAttacking())

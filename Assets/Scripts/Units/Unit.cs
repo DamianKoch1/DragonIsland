@@ -138,7 +138,7 @@ namespace MOBA
         [SerializeField]
         protected Attacking attacking;
 
-      
+
         protected GameObject statBarsInstance;
 
 
@@ -226,7 +226,7 @@ namespace MOBA
             return (CustomBuff)BuffsSlot.gameObject.AddComponent(buffType);
         }
 
-       
+
 
 
         /// <summary>
@@ -260,6 +260,7 @@ namespace MOBA
 
         protected virtual void Die(Unit killer)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
             var xpEligibleChamps = this.GetEnemiesInRange<Champ>(xpRewardRange);
             if (killer is Champ)
             {
@@ -305,27 +306,31 @@ namespace MOBA
         {
             SetupBars();
 
-            statusEffects = new BuffFlags();
-
-            IsDead = false;
-
             stats.Initialize(this);
-
-            timeSinceLastRegTick = 0;
-
-            amplifiers = new Amplifiers();
-            amplifiers.Reset();
-
-            if (movement)
+            if (PhotonNetwork.IsMasterClient)
             {
-                stats.OnMoveSpeedChanged += movement.SetSpeed;
+
+                statusEffects = new BuffFlags();
+
+                IsDead = false;
+
+
+                timeSinceLastRegTick = 0;
+
+                amplifiers = new Amplifiers();
+                amplifiers.Reset();
+
+                if (movement)
+                {
+                    stats.OnMoveSpeedChanged += movement.SetSpeed;
+                }
+
+
+
+                OnUnitTick += ApplyRegeneration;
             }
-
             movement?.Initialize(stats.MoveSpeed);
-
             attacking?.Initialize(this);
-
-            OnUnitTick += ApplyRegeneration;
 
             SetupMaterials();
         }
@@ -413,7 +418,7 @@ namespace MOBA
             }
         }
 
-      
+
 
         public void MoveTo(Vector3 destination)
         {
@@ -425,6 +430,8 @@ namespace MOBA
 
         protected virtual void Update()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             while (timeSinceLastRegTick >= TICKINTERVAL)
             {
                 OnUnitTick?.Invoke();

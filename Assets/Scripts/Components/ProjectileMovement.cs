@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,14 @@ namespace MOBA
         public override void Enable()
         {
             stopped = false;
+        }
+
+        private void Start()
+        {
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                Destroy(this);
+            }
         }
 
         public override float GetVelocity()
@@ -40,11 +49,12 @@ namespace MOBA
 
         protected override void Update()
         {
+            if (!PhotonNetwork.IsMasterClient) return;
             base.Update();
 
             if (Vector3.Distance(lastPos, transform.position) < 0.1f * Time.deltaTime)
             {
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
             lastPos = transform.position;
         }

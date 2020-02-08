@@ -73,7 +73,7 @@ namespace MOBA
 
         private void SpawnAOE(Vector3 targetPos, UnitStats ownerStats)
         {
-            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
+            currentAOEInstance = PhotonNetwork.Instantiate(areaOfEffectPrefab.gameObject.name, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
             if (attachToTarget)
             {
                 currentAOEInstance.transform.SetParent(owner.transform, true);
@@ -83,7 +83,7 @@ namespace MOBA
 
         private void SpawnAOE(Unit target, UnitStats ownerStats)
         {
-            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, target.GetGroundPos(), Quaternion.identity).GetComponent<AreaOfEffect>();
+            currentAOEInstance = PhotonNetwork.Instantiate(areaOfEffectPrefab.gameObject.name, target.GetGroundPos(), Quaternion.identity).GetComponent<AreaOfEffect>();
             if (attachToTarget)
             {
                 currentAOEInstance.transform.SetParent(target.transform, true);
@@ -135,7 +135,7 @@ namespace MOBA
         protected override void OnDeactivated()
         {
             if (!currentAOEInstance) return;
-            Destroy(currentAOEInstance.gameObject);
+            PhotonNetwork.Destroy(currentAOEInstance.gameObject);
         }
 
         private void OnDrawGizmosSelected()

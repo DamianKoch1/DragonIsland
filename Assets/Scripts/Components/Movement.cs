@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,11 @@ public abstract class Movement : MonoBehaviour
 
     public virtual void Initialize(float moveSpeed)
     {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Destroy(this);
+            return;
+        }
         SetSpeed(moveSpeed);
     }
 
