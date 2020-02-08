@@ -9,7 +9,6 @@ using UnityEngine.AI;
 
 namespace MOBA
 {
-    [RequireComponent(typeof(NavMovement))]
     public class Champ : Unit
     {
         public const float GOLDPERSEC = 1;

@@ -43,5 +43,8 @@ MonoBehaviour:
   - SetPlayerCursorInfo
   - OnAttackCommand
   - OnMoveCommand
+  - AddPlayerCursorInfo
+  - UpdateCursorInfo
+  - AddPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1

@@ -11,21 +11,6 @@ using MOBA.Logging;
 namespace MOBA
 {
 
-    public class CursorInfo
-    {
-        public Unit hovered;
-        public Vector3 position;
-
-        public CursorInfo()
-        { }
-
-        public CursorInfo(Unit _hovered, Vector3 _position)
-        {
-            hovered = _hovered;
-            position = _position;
-        }
-    }
-
     public class PlayerController : MonoBehaviour
     {
         private static PlayerController instance;
@@ -99,6 +84,22 @@ namespace MOBA
         [SerializeField]
         private KeyCode attackMove;
 
+        private Dictionary<int, int> players;
+
+     
+
+        [PunRPC]
+        public void AddPlayer(int playerViewID, int playerID)
+        {
+            players.Add(playerViewID, playerID);
+        }
+
+        public Vector3 GetPlayerMousePos(int playerViewID)
+        {
+            var retVal = (Vector3)PhotonNetwork.LocalPlayer.Get(players[playerViewID]).CustomProperties["mousePos"];
+            return retVal;
+        }
+
         private void Start()
         {
             if (Instance && Instance != this) Destroy(gameObject);
@@ -117,6 +118,8 @@ namespace MOBA
             cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
             ui?.Initialize(player);
             playerView = PhotonView.Get(player);
+            players = new Dictionary<int, int>();
+            PhotonView.Get(this).RPC(nameof(AddPlayer), RpcTarget.MasterClient, player.GetViewID(), PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
         public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
@@ -246,7 +249,6 @@ namespace MOBA
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                //CastQ(player);
                 if (GetMouseWorldPos(out mousePos))
                 {
                     playerView.RPC(nameof(player.CastQ), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
@@ -255,7 +257,6 @@ namespace MOBA
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
-                //CastW(player);
                 if (GetMouseWorldPos(out mousePos))
                 {
                     playerView.RPC(nameof(player.CastW), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
@@ -264,7 +265,6 @@ namespace MOBA
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                //CastE(player);
                 if (GetMouseWorldPos(out mousePos))
                 {
                     playerView.RPC(nameof(player.CastE), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
@@ -273,7 +273,6 @@ namespace MOBA
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                //CastR(player);
                 if (GetMouseWorldPos(out mousePos))
                 {
                     playerView.RPC(nameof(player.CastR), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
@@ -324,6 +323,9 @@ namespace MOBA
         public void UpdateMousePos()
         {
             GetMouseWorldPos(out mousePos);
+            var properties = new ExitGames.Client.Photon.Hashtable();
+            properties.Add("mousePos", mousePos);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         }
 
         private void Update()
@@ -340,8 +342,6 @@ namespace MOBA
             cam.transform.position = player.transform.position + camOffset;
             cam.transform.rotation = Quaternion.Euler(camRotation);
         }
-
-
     }
 
 }
