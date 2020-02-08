@@ -1,6 +1,5 @@
 ﻿using MOBA.Logging;
 using Photon.Pun;
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,15 +9,9 @@ using UnityEngine.AI;
 
 namespace MOBA
 {
-    [RequireComponent(typeof(NavMovement))]
     public class Champ : Unit
     {
-
-        private ChampCamera cam;
-
         public const float GOLDPERSEC = 1;
-
-        private bool clientTookOver = false;
 
         protected float currGold;
 
@@ -96,16 +89,6 @@ namespace MOBA
             {
                 skill.Initialize(this);
             }
-        }
-
-        public void SetCamera(ChampCamera _cam)
-        {
-            cam = _cam;
-        }
-
-        public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
-        {
-            return cam.GetCursorToWorldPoint(out mouseWorldPos);
         }
 
 
