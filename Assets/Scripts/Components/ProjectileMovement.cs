@@ -16,14 +16,6 @@ namespace MOBA
             stopped = false;
         }
 
-        private void Start()
-        {
-            if (!PhotonNetwork.IsMasterClient)
-            {
-                Destroy(this);
-            }
-        }
-
         public override float GetVelocity()
         {
             return Vector3.Distance(transform.position, lastPos) / Time.deltaTime;
@@ -49,12 +41,11 @@ namespace MOBA
 
         protected override void Update()
         {
-            if (!PhotonNetwork.IsMasterClient) return;
             base.Update();
 
             if (Vector3.Distance(lastPos, transform.position) < 0.1f * Time.deltaTime)
             {
-                PhotonNetwork.Destroy(gameObject);
+                Destroy(gameObject);
             }
             lastPos = transform.position;
         }

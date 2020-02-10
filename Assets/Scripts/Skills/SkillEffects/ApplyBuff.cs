@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace MOBA
 {
-    //TODO scaling
+    //TODO scaling, networking
     public class ApplyBuff : SkillEffect
     {
         [Space]
@@ -64,15 +64,15 @@ namespace MOBA
             properties.instigator = owner;
         }
 
-        public override void Activate(Vector3 targetPos, UnitStats ownerStats)
+        public override void Activate(Vector3 targetPos)
         {
-            base.Activate(targetPos, ownerStats);
-            Activate(owner, ownerStats);
+            base.Activate(targetPos);
+            Activate(owner);
         }
 
-        public override void Activate(Unit target, UnitStats ownerStats)
+        public override void Activate(Unit target)
         {
-            base.Activate(target, ownerStats);
+            base.Activate(target);
             if (onlyBuffOwner)
             {
                 AddBuffs(owner);
@@ -168,7 +168,7 @@ namespace MOBA
             addedBuffs.Add(buff);
         }
 
-        public override void Tick(UnitStats ownerStats)
+        public override void Tick()
         {
         }
 
@@ -180,11 +180,11 @@ namespace MOBA
             }
         }
 
-        public override void Activate<T>(UnitList<T> targets, UnitStats ownerStats)
+        public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
             {
-                Activate(target, ownerStats);
+                Activate(target);
             }
             target = null;
         }

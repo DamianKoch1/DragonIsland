@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,8 @@ namespace MOBA
 
     //TODO silence, chase until in castrange
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(PhotonView))]
+
     public class Skill : MonoBehaviour
     {
         protected Unit owner;
@@ -241,6 +244,10 @@ namespace MOBA
         protected IEnumerator StartCastTime()
         {
             ownerStatsAtCast = new UnitStats(owner.Stats);
+            foreach (var effect in effects)
+            {
+                effect.ownerStatsAtActivation = ownerStatsAtCast;
+            }
 
             if (castTime > 0)
             {
@@ -303,14 +310,14 @@ namespace MOBA
             {
                 foreach (var effect in effects)
                 {
-                    effect.Activate(target, ownerStatsAtCast);
+                    effect.Activate(target);
                 }
             }
             else
             {
                 foreach (var effect in effects)
                 {
-                    effect.Activate(mousePosAtCast, ownerStatsAtCast);
+                    effect.Activate(mousePosAtCast);
                 }
             }
         }

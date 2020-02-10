@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MOBA
 {
-    public enum DamageType
+    public enum DamageType : short
     {
         invalid = -1,
         physical = 0,
@@ -22,7 +23,7 @@ namespace MOBA
 
         private List<Unit> targets;
 
-        private float GetDamageTo(Unit target)
+        private int GetDamageTo(Unit target)
         {
             float dmg = baseDmg * instigator.amplifiers.dealtDmg;
             float defense = 0;
@@ -43,9 +44,9 @@ namespace MOBA
             }
             if (defense < 0)
             {
-                return dmg * (2 - 100 / (100 - defense));
+                return (int)(dmg * (2 - 100 / (100 - defense)));
             }
-            return dmg * (100 / 100 + defense);
+            return (int)(dmg * (100 / 100 + defense));
         }
 
         public void Inflict()
@@ -58,7 +59,11 @@ namespace MOBA
 
         private void InflictTo(Unit target)
         {
-            target.ReceiveDamage(instigator, GetDamageTo(target), dmgType);
+            target.GetComponent<PhotonView>().RPC(nameof(target.ReceiveDamage), RpcTarget.All, 
+                instigator.GetViewID(), 
+                GetDamageTo(target), 
+                (short)dmgType
+            );
         }
 
         public Damage(float _baseDmg, DamageType _dmgType, Unit _instigator, Unit _target)

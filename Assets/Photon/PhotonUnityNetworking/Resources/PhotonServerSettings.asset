@@ -46,5 +46,12 @@ MonoBehaviour:
   - AddPlayerCursorInfo
   - UpdateCursorInfo
   - AddPlayer
+  - SaveOwnerStatsAtCast
+  - ReceiveDamage
+  - SpawnAOEatPosNetworked
+  - SpawnAOEonUnitNetworked
+  - SpawnHomingNetworked
+  - SpawnSkillshotNetworked
+  - SetTeamID
   DisableAutoOpenWizard: 1
   ShowSettings: 1

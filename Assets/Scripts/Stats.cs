@@ -407,6 +407,7 @@ namespace MOBA
             moveSpeed = ownerStats.MoveSpeed;
         }
 
+
         public void Initialize(Unit _owner)
         {
             Owner = _owner;

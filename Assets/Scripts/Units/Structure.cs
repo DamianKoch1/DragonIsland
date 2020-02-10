@@ -24,7 +24,7 @@ namespace MOBA
 
         protected bool isDestroyed;
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
             isDestroyed = false;

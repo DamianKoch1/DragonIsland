@@ -31,7 +31,7 @@ namespace MOBA
             return stats.Lvl * 50;
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
             foreach (var teamBase in FindObjectsOfType<Base>())

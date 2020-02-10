@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,13 +15,14 @@ namespace MOBA
         [SerializeField]
         private AnimationCurve attackAnimCurve;
 
-        public override void Attack(Unit target)
+        [PunRPC]
+        public override void Attack(int targetViewID)
         {
             if (animator)
             {
                 animator?.SetTrigger("attack");
             }
-            StartCoroutine(AttackAnim(target));
+            StartCoroutine(AttackAnim(targetViewID.GetUnitByID()));
         }
 
         public override void Initialize(Unit _owner)
@@ -36,12 +38,15 @@ namespace MOBA
             {
                 if (!target) break;
                 mesh.transform.localScale = startScale + Vector3.one * attackAnimCurve.Evaluate(time * owner.Stats.AtkSpeed);
-                if (time < 0.5f / owner.Stats.AtkSpeed)
+                if (photonView.IsMine)
                 {
-                    if (time + Time.deltaTime >= 0.5f / owner.Stats.AtkSpeed)
+                    if (time < 0.5f / owner.Stats.AtkSpeed)
                     {
-                        var dmg = new Damage(owner.Stats.AtkDmg, DamageType.physical, owner, target);
-                        dmg.Inflict();
+                        if (time + Time.deltaTime >= 0.5f / owner.Stats.AtkSpeed)
+                        {
+                            var dmg = new Damage(owner.Stats.AtkDmg, DamageType.physical, owner, target);
+                            dmg.Inflict();
+                        }
                     }
                 }
                 time += Time.deltaTime;

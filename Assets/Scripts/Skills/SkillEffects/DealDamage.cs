@@ -13,30 +13,30 @@ namespace MOBA
         private DamageType dmgType;
 
 
-        public override void Activate(Vector3 targetPos, UnitStats ownerStats)
+        public override void Activate(Vector3 targetPos)
         {
-            base.Activate(targetPos, ownerStats);
+            base.Activate(targetPos);
             Debug.LogError("Can't use DealDamage effect on a mousePos targeted skill, use SpawnAreaOfEffect instead! (Source: " + owner.name + ")");
         }
 
-        public override void Activate(Unit target, UnitStats ownerStats)
+        public override void Activate(Unit target)
         {
-            base.Activate(target, ownerStats);
-            var damage = new Damage(baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStats, target), dmgType, owner, target);
+            base.Activate(target);
+            var damage = new Damage(baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStatsAtActivation, target), dmgType, owner, target);
             damage.Inflict();
         }
 
-        public override void Activate<T>(UnitList<T> targets, UnitStats ownerStats)
+        public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
             {
-                var damage = new Damage(baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStats, target), dmgType, owner, target);
+                var damage = new Damage(baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStatsAtActivation, target), dmgType, owner, target);
                 damage.Inflict();
             }
             target = null;
         }
 
-        public override void Tick(UnitStats ownerStats)
+        public override void Tick()
         {
             Debug.LogError("A DealDamage effect shouldn't tick, consider applying a DamageOverTime buff for better visibility instead!");
         }

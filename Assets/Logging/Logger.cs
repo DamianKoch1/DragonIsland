@@ -27,6 +27,7 @@ namespace MOBA.Logging
         public static void Log(Unit source, LogActionType type, Vector3 mousePos, Unit other = null)
         {
             if (!enabled) return;
+            if (!Photon.Pun.PhotonNetwork.IsMasterClient) return;
             var data = new LogData(source, type, mousePos, other);
             Database.Save(ref data);
         }

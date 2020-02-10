@@ -47,47 +47,64 @@ namespace MOBA
 
        
 
-        public override void Activate(Vector3 targetPos, UnitStats ownerStats)
+        public override void Activate(Vector3 targetPos)
         {
-            base.Activate(targetPos, ownerStats);
+            base.Activate(targetPos);
             if (delay == 0)
             {
-                SpawnAOE(targetPos, ownerStats);
+                SpawnAOE(targetPos);
                 return;
             }
-            OnDelayFinished = () => SpawnAOE(targetPos, ownerStats);
+            OnDelayFinished = () => SpawnAOE(targetPos);
             StartCoroutine(WaitForDelay());
         }
 
-        public override void Activate(Unit target, UnitStats ownerStats)
+        public override void Activate(Unit target)
         {
-            base.Activate(target, ownerStats);
+            base.Activate(target);
             if (delay == 0)
             {
-                SpawnAOE(target, ownerStats);
+                SpawnAOE(target, ownerStatsAtActivation);
                 return;
             }
-            OnDelayFinished = () => SpawnAOE(target, ownerStats);
+            OnDelayFinished = () => SpawnAOE(target, ownerStatsAtActivation);
             StartCoroutine(WaitForDelay());
         }
 
-        private void SpawnAOE(Vector3 targetPos, UnitStats ownerStats)
+        [PunRPC]
+        public void SpawnAOEatPosNetworked(Vector3 targetPos)
         {
-            currentAOEInstance = PhotonNetwork.Instantiate(areaOfEffectPrefab.gameObject.name, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
+            Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity);
+        }
+
+        [PunRPC]
+        public void SpawnAOEonUnitNetworked(int parentViewID, Vector3 targetPos)
+        {
+            Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity, parentViewID.GetUnitByID().transform);
+        }
+
+        private void SpawnAOE(Vector3 targetPos)
+        {
+            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
             if (attachToTarget)
             {
                 currentAOEInstance.transform.SetParent(owner.transform, true);
+
+                photonView?.RPC(nameof(SpawnAOEonUnitNetworked), RpcTarget.Others, owner.GetViewID(), targetPos);
             }
-            currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, null, lifespan, size, tickInterval, hitMode, canHitStructures, scaling);
+            else photonView?.RPC(nameof(SpawnAOEatPosNetworked), RpcTarget.Others, targetPos);
+            currentAOEInstance.Initialize(owner, ownerStatsAtActivation, ownerTeamID, null, lifespan, size, tickInterval, hitMode, canHitStructures, scaling);
         }
 
         private void SpawnAOE(Unit target, UnitStats ownerStats)
         {
-            currentAOEInstance = PhotonNetwork.Instantiate(areaOfEffectPrefab.gameObject.name, target.GetGroundPos(), Quaternion.identity).GetComponent<AreaOfEffect>();
+            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, target.GetGroundPos(), Quaternion.identity).GetComponent<AreaOfEffect>();
             if (attachToTarget)
             {
                 currentAOEInstance.transform.SetParent(target.transform, true);
+                photonView?.RPC(nameof(SpawnAOEonUnitNetworked), RpcTarget.Others, target.GetViewID(), target.GetGroundPos());
             }
+            else photonView?.RPC(nameof(SpawnAOEatPosNetworked), RpcTarget.Others, target.GetGroundPos());
             currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, target, lifespan, size, tickInterval, hitMode, canHitStructures, scaling);
         }
 
@@ -102,40 +119,41 @@ namespace MOBA
 
         private Action OnDelayFinished;
 
-        public override void Activate<T>(UnitList<T> targets, UnitStats ownerStats)
+        public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
             {
-                Activate(target, ownerStats);
+                Activate(target);
             }
             target = null;
         }
 
-        public override void Tick(UnitStats ownerStats)
+        public override void Tick()
         {
             if (!spawnEachToggleTick) return;
             if (target)
             {
-                Activate(target, ownerStats);
+                Activate(target);
             }
             else if (rememberCastDirection)
             {
-                Activate(owner.GetGroundPos() + 5 * castTargetDir, ownerStats);
+                Activate(owner.GetGroundPos() + 5 * castTargetDir);
             }
             else if (rememberCastMousePos)
             {
-                Activate(castTargetPos, ownerStats);
+                Activate(castTargetPos);
             }
             else if (owner is Champ)
             {
-                Activate(PlayerController.Instance.GetPlayerMousePos(owner.GetViewID()), ownerStats);
+                PlayerController.Instance.GetMouseWorldPos(out var mousePos);
+                Activate(mousePos);
             }
         }
 
         protected override void OnDeactivated()
         {
             if (!currentAOEInstance) return;
-            PhotonNetwork.Destroy(currentAOEInstance.gameObject);
+            Destroy(currentAOEInstance.gameObject);
         }
 
         private void OnDrawGizmosSelected()

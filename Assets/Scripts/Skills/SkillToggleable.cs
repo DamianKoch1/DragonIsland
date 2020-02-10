@@ -165,7 +165,7 @@ namespace MOBA
             }
             foreach (var effect in effects)
             {
-                effect.Tick(ownerStatsAtCast);
+                effect.Tick();
             }
 
         }

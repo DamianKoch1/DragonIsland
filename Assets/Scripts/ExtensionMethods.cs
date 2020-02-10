@@ -149,7 +149,9 @@ namespace MOBA
         public static Unit GetUnitByID(this int viewID)
         {
             if (viewID == -1) return null;
-            return PhotonView.Find(viewID).GetComponent<Unit>();
+            var unit = PhotonView.Find(viewID);
+            if (!unit) return null;
+            return unit.GetComponent<Unit>();
         }
     }
 }

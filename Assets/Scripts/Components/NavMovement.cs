@@ -62,6 +62,12 @@ namespace MOBA
             obstacle.enabled = true;
         }
 
+        protected override void Update()
+        {
+            if (!agent) return;
+            if (!agent.enabled) return;
+            base.Update();
+        }
         public override float GetVelocity()
         {
             return agent.velocity.magnitude;

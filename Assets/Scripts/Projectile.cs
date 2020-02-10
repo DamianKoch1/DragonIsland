@@ -76,13 +76,14 @@ namespace MOBA
 
         private UnitStats ownerStatsAtSpawn;
 
+        private PhotonView ownerView;
+
+
         [SerializeField, Tooltip("Activate effects when projectile dies (not only on hit)?")]
         private bool activateEffectsOnDestroy;
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
-
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -155,13 +156,19 @@ namespace MOBA
 
         protected virtual void OnHit(Unit unit)
         {
-            if (properties.hitUntargetables || unit.damageable)
+            if (ownerView)
             {
-                var dmg = new Damage(properties.baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStatsAtSpawn, unit), properties.dmgType, owner, unit);
-                dmg.Inflict();
-                foreach (var effect in onHitEffects)
+                if (ownerView.IsMine)
                 {
-                    effect.Activate(transform.position.NullY(), unit, ownerStatsAtSpawn);
+                    if (properties.hitUntargetables || unit.damageable)
+                    {
+                        var dmg = new Damage(properties.baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStatsAtSpawn, unit), properties.dmgType, owner, unit);
+                        dmg.Inflict();
+                        foreach (var effect in onHitEffects)
+                        {
+                            effect.Activate(transform.position.NullY(), unit);
+                        }
+                    }
                 }
             }
 
@@ -171,7 +178,7 @@ namespace MOBA
             }
             else if (properties.destroyOnNonTargetHit)
             {
-                PhotonNetwork.Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
 
@@ -182,27 +189,37 @@ namespace MOBA
 
         private void OnHitTarget()
         {
-            PhotonNetwork.Destroy(gameObject);
+            Destroy(gameObject);
         }
 
-        private void Initialize(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
+        private void Initialize(Unit _owner, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
             properties = _properties;
             if (properties.lifespan > 0)
             {
                 remainingLifetime = properties.lifespan;
             }
-            movement.Initialize(properties.speed);
+            movement.SetSpeed(properties.speed);
             transform.localScale *= properties.size;
-            owner = _owner;
+            if (_owner)
+            {
+                owner = _owner;
+                ownerView = owner.GetComponent<PhotonView>();
+                if (ownerView)
+                {
+                    if (ownerView.IsMine)
+                    {
+                        onHitEffects = new List<SkillEffect>(GetComponents<SkillEffect>());
+                        ownerStatsAtSpawn = ownerStats;
+                        foreach (var effect in onHitEffects)
+                        {
+                            effect.Initialize(owner, 0);
+                        }
+                    }
+                }
+            }
             ownerTeamID = teamID;
             scaling = _scaling;
-            onHitEffects = new List<SkillEffect>(GetComponents<SkillEffect>());
-            ownerStatsAtSpawn = ownerStats;
-            foreach (var effect in onHitEffects)
-            {
-                effect.Initialize(owner, 0);
-            }
         }
 
         /// <summary>
@@ -213,8 +230,8 @@ namespace MOBA
         /// <returns></returns>
         private Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
-            Projectile instance = PhotonNetwork.Instantiate(gameObject.name, position, Quaternion.identity).GetComponent<Projectile>();
-            instance.Initialize(_owner, position, _properties, _scaling, teamID, ownerStats);
+            Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
+            instance.Initialize(_owner, _properties, _scaling, teamID, ownerStats);
             return instance;
         }
 
@@ -261,22 +278,26 @@ namespace MOBA
 
         private void Update()
         {
-            if (!PhotonNetwork.IsMasterClient) return;
-
             Move();
 
             if (properties.lifespan < 0) return;
             remainingLifetime -= Time.deltaTime;
             if (remainingLifetime < 0)
             {
-                if (activateEffectsOnDestroy)
+                if (ownerView)
                 {
-                    foreach (var effect in onHitEffects)
+                    if (ownerView.IsMine)
                     {
-                        effect.Activate(transform.position.NullY(), ownerStatsAtSpawn);
+                        if (activateEffectsOnDestroy)
+                        {
+                            foreach (var effect in onHitEffects)
+                            {
+                                effect.Activate(transform.position.NullY());
+                            }
+                        }
                     }
                 }
-                PhotonNetwork.Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
 
@@ -286,14 +307,14 @@ namespace MOBA
             {
                 if (!target || target.IsDead)
                 {
-                    PhotonNetwork.Destroy(gameObject);
+                    Destroy(gameObject);
                     return;
                 }
                 if (!properties.hitUntargetables)
                 {
                     if (!target.Targetable)
                     {
-                        PhotonNetwork.Destroy(gameObject);
+                        Destroy(gameObject);
                     }
                 }
                 movement.MoveTo(target.transform.position);

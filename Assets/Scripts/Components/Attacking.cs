@@ -51,6 +51,7 @@ namespace MOBA
             get => target;
         }
 
+        protected PhotonView photonView;
 
         public void StartAttacking(Unit _target)
         {
@@ -108,7 +109,7 @@ namespace MOBA
                 else owner.CanMove = false;
                 if (timeSinceAttack >= 1 / owner.Stats.AtkSpeed)
                 {
-                    Attack(target);
+                    photonView.RPC(nameof(Attack), RpcTarget.All, target.GetViewID());
                     owner.CanMove = false;
                     timeSinceAttack = 0;
                 }
@@ -128,19 +129,12 @@ namespace MOBA
             owner.CanMove = true;
         }
 
-        public abstract void Attack(Unit target);
-
-        private void Start()
-        {
-            if (!PhotonNetwork.IsMasterClient)
-            {
-                Destroy(this);
-            }
-        }
+        public abstract void Attack(int targetViewID);
 
         public virtual void Initialize(Unit _owner)
         {
             owner = _owner;
+            photonView = owner.GetComponent<PhotonView>();
             timeSinceAttack = 1 / owner.Stats.AtkSpeed;
             animator = GetComponent<Animator>();
         }

@@ -37,11 +37,6 @@ public abstract class Movement : MonoBehaviour
 
     public virtual void Initialize(float moveSpeed)
     {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            Destroy(this);
-            return;
-        }
         SetSpeed(moveSpeed);
     }
 

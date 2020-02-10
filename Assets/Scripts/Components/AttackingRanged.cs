@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,13 +29,15 @@ namespace MOBA
         [Space]
         public Transform projectileSpawnpoint;
 
-        public override void Attack(Unit target)
+
+        [PunRPC]
+        public override void Attack(int targetViewID)
         {
             if (animator)
             {
                 animator.SetTrigger("attack");
             }
-            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, attackScaling, owner.TeamID, new UnitStats(owner.Stats));
+            projectilePrefab.Spawn(owner, targetViewID.GetUnitByID(), projectileSpawnpoint.position, projectileProperties, attackScaling, owner.TeamID, new UnitStats(owner.Stats));
             AttackAnimFinished();
         }
 

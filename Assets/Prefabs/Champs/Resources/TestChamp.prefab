@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4398526564615673358}
   - component: {fileID: 8310842927617871448}
   - component: {fileID: 757495912}
+  - component: {fileID: 1970507311821427506}
   m_Layer: 0
   m_Name: W
   m_TagString: Untagged
@@ -71,6 +72,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf260950d4150f14a88c098cb8ff95d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
   scaling:
     ad: 0.1
     md: 0
@@ -83,6 +110,7 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  preferApplyToPosition: 0
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
   delay: 0
@@ -95,6 +123,28 @@ MonoBehaviour:
   spawnEachToggleTick: 0
   rememberCastDirection: 0
   rememberCastMousePos: 0
+--- !u!114 &1970507311821427506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718957101806930207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1713575772536214249
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,6 +156,7 @@ GameObject:
   - component: {fileID: 1447692015720376172}
   - component: {fileID: 2208006085676354290}
   - component: {fileID: 61637304205041448}
+  - component: {fileID: 3594137419949795960}
   m_Layer: 0
   m_Name: Q
   m_TagString: Untagged
@@ -161,6 +212,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8fcc9598f925364ab58c89486daabf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
   scaling:
     ad: 0
     md: 0
@@ -173,8 +250,31 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0.2
+  preferApplyToPosition: 0
   baseDamage: 50
   dmgType: 0
+--- !u!114 &3594137419949795960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713575772536214249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2595568225189140903
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +286,7 @@ GameObject:
   - component: {fileID: 9142297264316308399}
   - component: {fileID: 5688224950653318077}
   - component: {fileID: 7822316496354501506}
+  - component: {fileID: 3450643367887106174}
   m_Layer: 0
   m_Name: R
   m_TagString: Untagged
@@ -247,6 +348,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f951c0609f2705747a4c07ad915ea5c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
   scaling:
     ad: 0
     md: 0
@@ -259,6 +386,7 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0.1
+  preferApplyToPosition: 0
   projectileProperties:
     isHoming: 0
     speed: 30
@@ -276,6 +404,28 @@ MonoBehaviour:
   spawnEachToggleTick: 1
   rememberCastDirection: 0
   rememberCastMousePos: 0
+--- !u!114 &3450643367887106174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2595568225189140903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &6035923426967473156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +479,7 @@ GameObject:
   - component: {fileID: 3514943496585836381}
   - component: {fileID: 839568809}
   - component: {fileID: 1576693398}
+  - component: {fileID: 1123884894825877295}
   m_Layer: 0
   m_Name: E
   m_TagString: Untagged
@@ -384,6 +535,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0baa32b05239a9b42a91264cf8b8bab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
   scaling:
     ad: 0
     md: 0
@@ -396,6 +573,7 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  preferApplyToPosition: 0
   alwaysBuffOwner: 1
   onlyBuffOwner: 0
   properties:
@@ -467,6 +645,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f951c0609f2705747a4c07ad915ea5c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
   scaling:
     ad: 0
     md: 0
@@ -479,6 +683,7 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  preferApplyToPosition: 0
   projectileProperties:
     isHoming: 0
     speed: 15
@@ -488,7 +693,7 @@ MonoBehaviour:
     baseDamage: 150
     lifespan: 1.5
     hitUntargetables: 0
-    destroyOnNonTargetHit: 0
+    destroyOnNonTargetHit: 1
     canHitStructures: 0
   projectileSpawnpoint: {fileID: 5215801311654412532}
   projectilePrefab: {fileID: 8643838230528916119, guid: 037c50099f0fb5d41b827f97888a9f72,
@@ -496,6 +701,28 @@ MonoBehaviour:
   spawnEachToggleTick: 0
   rememberCastDirection: 0
   rememberCastMousePos: 0
+--- !u!114 &1123884894825877295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5511781662580891295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -503,6 +730,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Name
+      value: TestChamp
+      objectReference: {fileID: 0}
     - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_Radius
@@ -562,11 +794,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Name
-      value: TestChamp
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}

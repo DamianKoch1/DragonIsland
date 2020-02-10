@@ -32,9 +32,10 @@ namespace MOBA
 
         private float tickInterval;
 
+        private PhotonView ownerView;
+
         public void Initialize(Unit _owner, UnitStats ownerStats, TeamID _ownerTeamID, Unit _target, float _lifespan, float size, float _tickInterval, HitMode _hitMode, bool _canHitStructures, Scalings scaling)
         {
-            owner = _owner;
             target = _target;
             ownerTeamID = _ownerTeamID;
             lifespan = _lifespan;
@@ -51,19 +52,29 @@ namespace MOBA
             timeActive = 0;
             timeSinceLastTick = 0;
             ownerStatsAtSpawn = ownerStats;
-            onHitEffects = new List<SkillEffect>(GetComponents<SkillEffect>());
-            foreach (var effect in onHitEffects)
+            if (_owner)
             {
-                effect.Initialize(owner, 0);
-                effect.SetScaling(scaling);
+                owner = _owner;
+                ownerView = owner.GetComponent<PhotonView>();
+                if (ownerView)
+                {
+                    if (ownerView.IsMine)
+                    {
+                        onHitEffects = new List<SkillEffect>(GetComponents<SkillEffect>());
+                        foreach (var effect in onHitEffects)
+                        {
+                            effect.Initialize(owner, 0);
+                            effect.SetScaling(scaling);
+                        }
+                        hitables = new UnitList<Unit>();
+                        Tick();
+                    }
+                }
             }
-            hitables = new UnitList<Unit>();
-            Tick();
         }
 
         private void Update()
         {
-            if (!PhotonNetwork.IsMasterClient) return;
             timeSinceLastTick += Time.deltaTime;
             while (timeSinceLastTick >= tickInterval)
             {
@@ -75,13 +86,13 @@ namespace MOBA
             if (lifespan < 0) return;
             if (timeActive > lifespan)
             {
-                PhotonNetwork.Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
+            if (!ownerView.IsMine) return;
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -147,7 +158,7 @@ namespace MOBA
 
         private void OnTriggerExit(Collider other)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
+            if (!ownerView.IsMine) return;
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -159,11 +170,12 @@ namespace MOBA
 
         private void Tick()
         {
+            if (!ownerView.IsMine) return;
             if (hitables.Count() > 0)
             {
                 foreach (var effect in onHitEffects)
                 {
-                    effect.Activate(hitables, ownerStatsAtSpawn);
+                    effect.Activate(hitables);
                 }
             }
 

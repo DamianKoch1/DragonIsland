@@ -129,7 +129,7 @@ namespace MOBA
             }
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -188,16 +188,20 @@ namespace MOBA
         {
             return 200;
         }
-        public override void ReceiveDamage(Unit instigator, float amount, DamageType type)
+
+        [PunRPC]
+        public override void ReceiveDamage(int instigatorViewID, int amount, short damageType)
         {
+            var instigator = instigatorViewID.GetUnitByID();
+            var type = (DamageType)damageType;
             if (type != DamageType.piercing)
             {
                 if (enemyUnitsInRange.Count() == 0)
                 {
-                    amount *= noMinionsDamageMultiplier;
+                    amount = (int)(amount * noMinionsDamageMultiplier);
                 }
             }
-            base.ReceiveDamage(instigator, amount, type);
+            base.ReceiveDamage(instigatorViewID, amount, damageType);
         }
     }
 }

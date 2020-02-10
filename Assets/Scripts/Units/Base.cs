@@ -116,7 +116,7 @@ namespace MOBA
             return null;
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 

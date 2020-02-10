@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Each effect has to implement their own networking, this gameObject has a PhotonView for RPCs.
+    /// </summary>
     public abstract class SkillEffect : MonoBehaviour
     {
         protected Unit owner;
@@ -23,7 +26,8 @@ namespace MOBA
         protected Vector3 castTargetPos;
         protected Vector3 castTargetDir;
 
-        protected UnitStats ownerStatsAtActivation;
+        [HideInInspector]
+        public UnitStats ownerStatsAtActivation;
 
         [SerializeField]
         protected Scalings scaling;
@@ -31,11 +35,14 @@ namespace MOBA
         [SerializeField, Tooltip("If given position AND target (e.g. from projectile hitting a unit), activate on position or on target?")]
         private bool preferApplyToPosition;
 
+        protected PhotonView photonView;
+
         public virtual void Initialize(Unit _owner, int _rank)
         {
             owner = _owner;
             rank = _rank;
             ownerTeamID = owner.TeamID;
+            photonView = GetComponent<PhotonView>();
         }
 
         public void SetScaling(Scalings _scaling)
@@ -43,16 +50,16 @@ namespace MOBA
             scaling = _scaling;
         }
 
-        public void Activate(Vector3 targetPos, Unit target, UnitStats ownerStats)
+        public void Activate(Vector3 targetPos, Unit _target)
         {
             if (preferApplyToPosition)
             {
-                Activate(targetPos, ownerStats);
+                Activate(targetPos);
             }
-            else Activate(this.target, ownerStats);
+            else Activate(_target);
         }
 
-        public virtual void Activate(Vector3 targetPos, UnitStats ownerStats)
+        public virtual void Activate(Vector3 targetPos)
         {
             target = null;
             castTargetPos = targetPos;
@@ -60,14 +67,14 @@ namespace MOBA
             castTargetDir.Normalize();
         }
 
-        public virtual void Activate(Unit _target, UnitStats ownerStats)
+        public virtual void Activate(Unit _target)
         {
             target = _target;
         }
 
-        public abstract void Activate<T>(UnitList<T> targets, UnitStats ownerStats) where T : Unit;
+        public abstract void Activate<T>(UnitList<T> targets) where T : Unit;
 
-        public abstract void Tick(UnitStats ownerStats);
+        public abstract void Tick();
 
 
         public void Deactivate()

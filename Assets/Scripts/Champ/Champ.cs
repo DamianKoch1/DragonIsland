@@ -63,11 +63,12 @@ namespace MOBA
 
 
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 
             ToggleRangeIndicator(false);
+            SetupSkills();
 
             if (!PhotonNetwork.IsMasterClient) return;
             OnAttackedByChamp += RequestTowerAssist;
@@ -82,7 +83,6 @@ namespace MOBA
 
             OnUnitTick += () => Gold += GOLDPERSEC;
 
-            SetupSkills();
         }
 
         private void SetupSkills()
@@ -95,34 +95,40 @@ namespace MOBA
 
 
         //TODO cast fail feedback
-        [PunRPC]
-        public bool CastQ(int hoveredID, Vector3 mousePos)
+        public bool CastQ(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count == 0) return false;
-            return Skills[0].TryCast(hoveredID.GetUnitByID(), mousePos);
+            return Skills[0].TryCast(hovered, mousePos);
         }
 
-        [PunRPC]
-        public bool CastW(int hoveredID, Vector3 mousePos)
+        public bool CastW(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 1) return false;
-            return Skills[1].TryCast(hoveredID.GetUnitByID(), mousePos);
+            return Skills[1].TryCast(hovered, mousePos);
         }
 
-        [PunRPC]
-        public bool CastE(int hoveredID, Vector3 mousePos)
+        public bool CastE(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 2) return false;
-            return Skills[2].TryCast(hoveredID.GetUnitByID(), mousePos);
+            return Skills[2].TryCast(hovered, mousePos);
+        }
+
+        public bool CastR(Unit hovered, Vector3 mousePos)
+        {
+            if (Skills.Count <= 3) return false;
+            return Skills[3].TryCast(hovered, mousePos);
+        }
+
+        protected override void Start()
+        {
         }
 
         [PunRPC]
-        public bool CastR(int hoveredID, Vector3 mousePos)
+        public void SetTeamID(short _teamID)
         {
-            if (Skills.Count <= 3) return false;
-            return Skills[3].TryCast(hoveredID.GetUnitByID(), mousePos);
+            teamID = (TeamID)_teamID;
+            Initialize();
         }
-
 
         protected override void OnDeath()
         {

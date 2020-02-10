@@ -8,7 +8,7 @@ using GameLogger = MOBA.Logging.GameLogger;
 
 namespace MOBA
 {
-    public enum TeamID
+    public enum TeamID : short
     {
         invalid = -1,
         blue = 0,
@@ -28,7 +28,7 @@ namespace MOBA
         public const float TICKINTERVAL = 0.5f;
 
         [SerializeField]
-        private TeamID teamID = TeamID.invalid;
+        protected TeamID teamID = TeamID.invalid;
 
         public TeamID TeamID => teamID;
 
@@ -235,9 +235,12 @@ namespace MOBA
         /// <param name="instigator"></param>
         /// <param name="amount"></param>
         /// <param name="type"></param>
-        public virtual void ReceiveDamage(Unit instigator, float amount, DamageType type)
+        [PunRPC]
+        public virtual void ReceiveDamage(int instigatorViewID, int amount, short damageType)
         {
             if (!damageable) return;
+            var instigator = instigatorViewID.GetUnitByID();
+            var type = (DamageType)damageType;
             OnReceiveDamage?.Invoke(instigator, amount, type);
             stats.HP -= amount;
             if (instigator)
@@ -302,18 +305,17 @@ namespace MOBA
             Initialize();
         }
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
             SetupBars();
 
             stats.Initialize(this);
+            IsDead = false;
+
+
             if (PhotonNetwork.IsMasterClient)
             {
-
                 statusEffects = new BuffFlags();
-
-                IsDead = false;
-
 
                 timeSinceLastRegTick = 0;
 
@@ -324,8 +326,6 @@ namespace MOBA
                 {
                     stats.OnMoveSpeedChanged += movement.SetSpeed;
                 }
-
-
 
                 OnUnitTick += ApplyRegeneration;
             }

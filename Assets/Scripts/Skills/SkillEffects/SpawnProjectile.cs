@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace MOBA
 {
+
     public class SpawnProjectile : SkillEffect
     {
 
@@ -28,45 +29,64 @@ namespace MOBA
         [SerializeField, Tooltip("If skill is mousePos targeted toggle, use current mouse pos or cast at original cast position?")]
         private bool rememberCastMousePos = false;
 
-        public override void Activate(Vector3 targetPos, UnitStats ownerStats)
+
+        [PunRPC]
+        public void SpawnSkillshotNetworked(Vector3 targetPos)
         {
-            base.Activate(targetPos, ownerStats);
-            projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStats);
+            projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+
         }
 
-        public override void Activate(Unit target, UnitStats ownerStats)
+        [PunRPC]
+        public void SpawnHomingNetworked(int targetViewID)
         {
-            base.Activate(target, ownerStats);
-            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStats);
+            projectilePrefab.Spawn(owner, targetViewID.GetUnitByID(), projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
         }
 
-        public override void Activate<T>(UnitList<T> targets, UnitStats ownerStats)
+        public override void Activate(Vector3 targetPos)
+        {
+            base.Activate(targetPos);
+            projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+
+            photonView?.RPC(nameof(SpawnSkillshotNetworked), RpcTarget.Others, targetPos);
+        }
+
+        public override void Activate(Unit target)
+        {
+            base.Activate(target);
+            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+
+            photonView?.RPC(nameof(SpawnHomingNetworked), RpcTarget.Others, target.GetViewID());
+        }
+
+        public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
             {
-                Activate(target, ownerStats);
+                Activate(target);
             }
             target = null;
         }
 
-        public override void Tick(UnitStats ownerStats)
+        public override void Tick()
         {
             if (!spawnEachToggleTick) return;
             if (target)
             {
-                Activate(target, ownerStats);
+                Activate(target);
             }
             else if (rememberCastDirection)
             {
-                Activate(owner.GetGroundPos() + 5 * castTargetDir, ownerStats);
+                Activate(owner.GetGroundPos() + 5 * castTargetDir);
             }
             else if (rememberCastMousePos)
             {
-                Activate(castTargetPos, ownerStats);
+                Activate(castTargetPos);
             }
             else if (owner is Champ)
             {
-                Activate(PlayerController.Instance.GetPlayerMousePos(owner.GetViewID()), ownerStats);
+                PlayerController.Instance.GetMouseWorldPos(out var mousePos);
+                Activate(mousePos);
             }
         }
 

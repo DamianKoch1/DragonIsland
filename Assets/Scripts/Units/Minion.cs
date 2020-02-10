@@ -170,7 +170,7 @@ namespace MOBA
             if (attacking.IsAttacking()) attacking.Stop();
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             base.Initialize();
 
@@ -198,6 +198,8 @@ namespace MOBA
 
         protected void OnAttacked(Unit attacker)
         {
+            if (!attacker) return;
+            if (attacker.IsDead) return;
             if (attacking.IsAttacking()) return;
             if (this.IsAlly(attacker)) return;
             attacking.StartAttacking(attacker);

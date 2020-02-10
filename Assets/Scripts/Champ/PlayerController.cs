@@ -49,12 +49,6 @@ namespace MOBA
         private PhotonView playerView;
 
         [SerializeField]
-        private Champ player1;
-
-        [SerializeField]
-        private Champ player2;
-
-        [SerializeField]
         private Interface ui;
 
         public Interface UI => ui;
@@ -84,21 +78,6 @@ namespace MOBA
         [SerializeField]
         private KeyCode attackMove;
 
-        private Dictionary<int, int> players;
-
-     
-
-        [PunRPC]
-        public void AddPlayer(int playerViewID, int playerID)
-        {
-            players.Add(playerViewID, playerID);
-        }
-
-        public Vector3 GetPlayerMousePos(int playerViewID)
-        {
-            var retVal = (Vector3)PhotonNetwork.LocalPlayer.Get(players[playerViewID]).CustomProperties["mousePos"];
-            return retVal;
-        }
 
         private void Start()
         {
@@ -109,17 +88,21 @@ namespace MOBA
         {
             if (PhotonNetwork.IsConnected)
             {
-                if (PhotonNetwork.IsMasterClient)
+                if (PhotonNetwork.LocalPlayer.ActorNumber % 2 == 0)
                 {
-                    player = player1;
+                    player = PhotonNetwork.Instantiate("TestChamp", Base.InstanceRed.Spawnpoint.position, Quaternion.identity).GetComponent<Champ>();
+                    playerView = PhotonView.Get(player);
+                    playerView.RPC(nameof(player.SetTeamID), RpcTarget.All, (short)TeamID.red);
                 }
-                else player = player2;
+                else
+                {
+                    player = PhotonNetwork.Instantiate("TestChamp", Base.InstanceBlue.Spawnpoint.position, Quaternion.identity).GetComponent<Champ>();
+                    playerView = PhotonView.Get(player);
+                    playerView.RPC(nameof(player.SetTeamID), RpcTarget.All, (short)TeamID.blue);
+                }
             }
             cam.Initialize(player, camOffset, Quaternion.Euler(camRotation));
             ui?.Initialize(player);
-            playerView = PhotonView.Get(player);
-            players = new Dictionary<int, int>();
-            PhotonView.Get(this).RPC(nameof(AddPlayer), RpcTarget.MasterClient, player.GetViewID(), PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
         public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
@@ -142,12 +125,12 @@ namespace MOBA
         {
             if (hovered)
             {
-                playerView.RPC(nameof(player.OnAttackCommand), RpcTarget.MasterClient, hovered.GetViewID());
+                player.OnAttackCommand(hovered.GetViewID());
                 GameLogger.Log(player, LogActionType.attack, mousePos, hovered);
             }
             else if (GetMouseWorldPos(out mousePos))
             {
-                playerView.RPC(nameof(player.OnMoveCommand), RpcTarget.MasterClient, mousePos);
+                player.OnMoveCommand(mousePos);
                 GameLogger.Log(player, LogActionType.move, mousePos);
             }
         }
@@ -156,12 +139,12 @@ namespace MOBA
         {
             if (hovered)
             {
-                playerView.RPC(nameof(player.OnAttackCommand), RpcTarget.MasterClient, hovered.GetViewID());
+                player.OnAttackCommand(hovered.GetViewID());
                 GameLogger.Log(player, LogActionType.attack, mousePos, hovered);
             }
-            else if(GetMouseWorldPos(out mousePos))
+            else if (GetMouseWorldPos(out mousePos))
             {
-                playerView.RPC(nameof(player.OnMoveCommand), RpcTarget.MasterClient, mousePos);
+                player.OnMoveCommand(mousePos);
                 GameLogger.Log(player, LogActionType.move, mousePos);
             }
         }
@@ -172,7 +155,7 @@ namespace MOBA
             {
                 if (hovered.Targetable)
                 {
-                    playerView.RPC(nameof(player.OnAttackCommand), RpcTarget.MasterClient, hovered.GetViewID());
+                    player.OnAttackCommand(hovered.GetViewID());
                     GameLogger.Log(player, LogActionType.attack, mousePos, hovered);
                 }
                 return;
@@ -183,41 +166,21 @@ namespace MOBA
             switch (targets.Count())
             {
                 case 0:
-                    playerView.RPC(nameof(player.OnMoveCommand), RpcTarget.MasterClient, mousePos);
+                    player.OnMoveCommand(mousePos);
                     GameLogger.Log(player, LogActionType.move, mousePos);
                     break;
                 case 1:
                     var target = targets[0];
-                    playerView.RPC(nameof(player.OnAttackCommand), RpcTarget.MasterClient, targets[0].GetViewID());
+                    player.OnAttackCommand(targets[0].GetViewID());
                     GameLogger.Log(player, LogActionType.attack, mousePos, target);
                     break;
                 default:
                     var closestTarget = targets.GetClosestUnitFrom<Unit>(mousePos);
-                    playerView.RPC(nameof(player.OnAttackCommand), RpcTarget.MasterClient, closestTarget.GetViewID());
+                    player.OnAttackCommand(closestTarget.GetViewID());
                     GameLogger.Log(player, LogActionType.attack, mousePos, closestTarget);
                     break;
             }
         }
-
-       
-
-        [PunRPC]
-        private void MoveChampTo(int ownerID, Vector3 targetPos)
-        {
-            var champ = (Champ)(ownerID.GetUnitByID());
-            if (champ.IsAttacking())
-            {
-                champ.StopAttacking();
-            }
-            champ.MoveTo(targetPos);
-        }
-
-        [PunRPC]
-        private void Attack(int ownerID, int targetID)
-        {
-            ((Champ)(ownerID.GetUnitByID())).StartAttacking(targetID.GetUnitByID());
-        }
-
 
         private void ProcessPlayerInput()
         {
@@ -251,7 +214,7 @@ namespace MOBA
             {
                 if (GetMouseWorldPos(out mousePos))
                 {
-                    playerView.RPC(nameof(player.CastQ), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
+                    player.CastQ(hovered, mousePos);
                     GameLogger.Log(player, LogActionType.Q, mousePos, hovered);
                 }
             }
@@ -259,7 +222,7 @@ namespace MOBA
             {
                 if (GetMouseWorldPos(out mousePos))
                 {
-                    playerView.RPC(nameof(player.CastW), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
+                    player.CastW(hovered, mousePos);
                     GameLogger.Log(player, LogActionType.W, mousePos, hovered);
                 }
             }
@@ -267,7 +230,7 @@ namespace MOBA
             {
                 if (GetMouseWorldPos(out mousePos))
                 {
-                    playerView.RPC(nameof(player.CastE), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
+                    player.CastE(hovered, mousePos);
                     GameLogger.Log(player, LogActionType.E, mousePos, hovered);
                 }
             }
@@ -275,7 +238,7 @@ namespace MOBA
             {
                 if (GetMouseWorldPos(out mousePos))
                 {
-                    playerView.RPC(nameof(player.CastR), RpcTarget.MasterClient, hovered.GetViewID(), mousePos);
+                    player.CastR(hovered, mousePos);
                     GameLogger.Log(player, LogActionType.R, mousePos, hovered);
                 }
             }
@@ -323,9 +286,6 @@ namespace MOBA
         public void UpdateMousePos()
         {
             GetMouseWorldPos(out mousePos);
-            var properties = new ExitGames.Client.Photon.Hashtable();
-            properties.Add("mousePos", mousePos);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
         }
 
         private void Update()
@@ -339,7 +299,7 @@ namespace MOBA
         private void OnValidate()
         {
             if (!cam) return;
-            cam.transform.position = player.transform.position + camOffset;
+            cam.transform.position = camOffset;
             cam.transform.rotation = Quaternion.Euler(camRotation);
         }
     }
