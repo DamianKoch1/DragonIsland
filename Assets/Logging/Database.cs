@@ -26,7 +26,7 @@ namespace MOBA.Logging
 
             settings.MaxConnectionLifeTime = new TimeSpan(2, 0, 0);
 
-            var timeout = new TimeSpan(0, 0, 0, 0, 500);
+            var timeout = new TimeSpan(0, 0, 0, 0, 250);
             settings.ConnectTimeout = timeout;
             settings.HeartbeatTimeout = timeout;
             settings.ServerSelectionTimeout = timeout;

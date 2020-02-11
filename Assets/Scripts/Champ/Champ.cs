@@ -30,6 +30,9 @@ namespace MOBA
 
         public Action<float> OnGoldChanged;
 
+
+        public bool isDummy;
+
         protected UnitList<Tower> nearbyAlliedTowers;
 
 
@@ -121,6 +124,7 @@ namespace MOBA
 
         protected override void Start()
         {
+            if (isDummy) Initialize();
         }
 
         [PunRPC]

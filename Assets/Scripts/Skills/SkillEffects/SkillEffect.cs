@@ -37,6 +37,12 @@ namespace MOBA
 
         protected PhotonView photonView;
 
+
+        public void SetStatsAtActivation(UnitStats stats)
+        {
+            ownerStatsAtActivation = new UnitStats(stats);
+        }
+
         public virtual void Initialize(Unit _owner, int _rank)
         {
             owner = _owner;

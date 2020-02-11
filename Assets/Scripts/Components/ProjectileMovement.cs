@@ -45,7 +45,15 @@ namespace MOBA
 
             if (Vector3.Distance(lastPos, transform.position) < 0.1f * Time.deltaTime)
             {
-                Destroy(gameObject);
+                if (GetComponent<Projectile>()?.waitForDestroyRPC == true)
+                {
+                    gameObject.SetActive(false);
+                }
+                else
+                {
+                    PhotonView.Get(this)?.RPC("DestroyRPC", RpcTarget.Others);
+                    Destroy(gameObject);
+                }
             }
             lastPos = transform.position;
         }

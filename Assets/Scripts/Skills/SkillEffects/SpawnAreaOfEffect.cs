@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,80 +47,91 @@ namespace MOBA
         [SerializeField, Tooltip("If skill is mousePos targeted toggle, use current mouse pos or cast at original cast position?")]
         private bool rememberCastMousePos;
 
-       
+
 
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
-            if (delay == 0)
-            {
-                SpawnAOE(targetPos);
-                return;
-            }
-            OnDelayFinished = () => SpawnAOE(targetPos);
-            StartCoroutine(WaitForDelay());
+            SpawnAOE(targetPos);
         }
 
         public override void Activate(Unit target)
         {
             base.Activate(target);
-            if (delay == 0)
+            SpawnAOE(target, ownerStatsAtActivation);
+        }
+
+
+        private void SpawnAOEatPosNetworked(Vector3 targetPos, int viewID)
+        {
+            if (!photonView)
             {
-                SpawnAOE(target, ownerStatsAtActivation);
-                return;
+                photonView = PhotonView.Get(this);
             }
-            OnDelayFinished = () => SpawnAOE(target, ownerStatsAtActivation);
-            StartCoroutine(WaitForDelay());
+            photonView.RPC(nameof(SpawnAOEatPosRPC), RpcTarget.Others, targetPos, viewID);
+            
+        }
+
+        private void SpawnAOEonUnitNetworked(int _parentViewID, Vector3 targetPos, int viewID)
+        {
+            if (!photonView)
+            {
+                photonView = PhotonView.Get(this);
+            }
+            photonView.RPC(nameof(SpawnAOEonUnitRPC), RpcTarget.Others, _parentViewID, targetPos, viewID);
+            
         }
 
         [PunRPC]
-        public void SpawnAOEatPosNetworked(Vector3 targetPos)
+        public void SpawnAOEatPosRPC(Vector3 targetPos, int viewID)
         {
-            Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity);
+            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
+            currentAOEInstance.Initialize(owner, null, ownerTeamID, null, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
+            currentAOEInstance.gameObject.AddComponent<PhotonView>().ViewID = viewID;
         }
 
         [PunRPC]
-        public void SpawnAOEonUnitNetworked(int parentViewID, Vector3 targetPos)
+        public void SpawnAOEonUnitRPC(int parentViewID, Vector3 targetPos, int viewID)
         {
-            Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity, parentViewID.GetUnitByID().transform);
+            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity, parentViewID.GetUnitByID().transform).GetComponent<AreaOfEffect>();
+            currentAOEInstance.Initialize(owner, null, ownerTeamID, target, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
+            currentAOEInstance.gameObject.AddComponent<PhotonView>().ViewID = viewID;
+
         }
 
         private void SpawnAOE(Vector3 targetPos)
         {
             currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
+            var view = currentAOEInstance.gameObject.AddComponent<PhotonView>();
+            PhotonNetwork.AllocateViewID(view);
+            
             if (attachToTarget)
             {
                 currentAOEInstance.transform.SetParent(owner.transform, true);
-
-                photonView?.RPC(nameof(SpawnAOEonUnitNetworked), RpcTarget.Others, owner.GetViewID(), targetPos);
+                SpawnAOEonUnitNetworked(owner.GetViewID(), targetPos, view.ViewID);
             }
-            else photonView?.RPC(nameof(SpawnAOEatPosNetworked), RpcTarget.Others, targetPos);
-            currentAOEInstance.Initialize(owner, ownerStatsAtActivation, ownerTeamID, null, lifespan, size, tickInterval, hitMode, canHitStructures, scaling);
+            else SpawnAOEatPosNetworked(targetPos, view.ViewID);
+
+            currentAOEInstance.Initialize(owner, ownerStatsAtActivation, ownerTeamID, null, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
         }
 
         private void SpawnAOE(Unit target, UnitStats ownerStats)
         {
             currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, target.GetGroundPos(), Quaternion.identity).GetComponent<AreaOfEffect>();
+            var view = currentAOEInstance.gameObject.AddComponent<PhotonView>();
+            PhotonNetwork.AllocateViewID(view);
+
             if (attachToTarget)
             {
                 currentAOEInstance.transform.SetParent(target.transform, true);
-                photonView?.RPC(nameof(SpawnAOEonUnitNetworked), RpcTarget.Others, target.GetViewID(), target.GetGroundPos());
+                SpawnAOEonUnitNetworked(target.GetViewID(), target.GetGroundPos(), view.ViewID);
             }
-            else photonView?.RPC(nameof(SpawnAOEatPosNetworked), RpcTarget.Others, target.GetGroundPos());
-            currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, target, lifespan, size, tickInterval, hitMode, canHitStructures, scaling);
+            else SpawnAOEatPosNetworked(target.GetGroundPos(), view.ViewID);
+
+            currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, target, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
         }
 
-        private IEnumerator WaitForDelay()
-        {
-            if (delay > 0)
-            {
-                yield return new WaitForSeconds(delay);
-            }
-            OnDelayFinished?.Invoke();
-        }
-
-        private Action OnDelayFinished;
-
+      
         public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
@@ -151,6 +164,12 @@ namespace MOBA
         }
 
         protected override void OnDeactivated()
+        {
+            photonView.RPC(nameof(DestroyLastSpawned), RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void DestroyLastSpawned()
         {
             if (!currentAOEInstance) return;
             Destroy(currentAOEInstance.gameObject);

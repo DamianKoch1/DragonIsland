@@ -12,6 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8fcc9598f925364ab58c89486daabf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
   scaling:
     ad: 0
     md: 0
@@ -26,7 +52,7 @@ MonoBehaviour:
     targetMissingHP: 0
   preferApplyToPosition: 0
   baseDamage: 0
-  dmgType: 0
+  dmgType: 1
 --- !u!1 &8797784325516640905
 GameObject:
   m_ObjectHideFlags: 0
@@ -4791,6 +4817,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AOEDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365846715258072694, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: overrideScalings
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6365846715258072648, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}

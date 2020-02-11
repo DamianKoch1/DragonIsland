@@ -53,5 +53,11 @@ MonoBehaviour:
   - SpawnHomingNetworked
   - SpawnSkillshotNetworked
   - SetTeamID
+  - DestroyLastSpawned
+  - SpawnAOEatPosRPC
+  - SpawnAOEonUnitRPC
+  - SpawnHomingRPC
+  - SpawnSkillshotRPC
+  - DestroyRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1

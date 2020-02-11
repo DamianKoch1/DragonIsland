@@ -249,7 +249,7 @@ MonoBehaviour:
     missingHP: 0
     targetMaxHP: 0
     targetCurrentHP: 0
-    targetMissingHP: 0.2
+    targetMissingHP: 0.08
   preferApplyToPosition: 0
   baseDamage: 50
   dmgType: 0
@@ -672,9 +672,9 @@ MonoBehaviour:
     percentMagicPen: 0
     moveSpeed: 0
   scaling:
-    ad: 0
-    md: 0
-    level: 0
+    ad: 0.1
+    md: 0.3
+    level: 20
     armor: 0
     magicRes: 0
     maxHP: 0
@@ -690,7 +690,7 @@ MonoBehaviour:
     size: 2
     hitMode: 2
     dmgType: 2
-    baseDamage: 150
+    baseDamage: 20
     lifespan: 1.5
     hitUntargetables: 0
     destroyOnNonTargetHit: 1
@@ -734,11 +734,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestChamp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Radius
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
@@ -805,6 +800,16 @@ PrefabInstance:
       propertyPath: attacking
       value: 
       objectReference: {fileID: 6035923426967473156}
+    - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: stats.baseHP
+      value: 700
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267630054517515285, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Radius
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3477399007884807156, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalScale.x

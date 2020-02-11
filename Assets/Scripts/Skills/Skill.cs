@@ -46,6 +46,7 @@ namespace MOBA
 
         protected List<SkillEffect> effects;
 
+        protected bool isInCastTime;
 
         [Space]
         [SerializeField, Range(0, 50)]
@@ -241,13 +242,18 @@ namespace MOBA
             }
         }
 
-        protected IEnumerator StartCastTime()
+        public void SetStatsAtActivation(UnitStats stats)
         {
-            ownerStatsAtCast = new UnitStats(owner.Stats);
+            ownerStatsAtCast = new UnitStats(stats);
             foreach (var effect in effects)
             {
                 effect.ownerStatsAtActivation = ownerStatsAtCast;
             }
+        }
+
+        protected IEnumerator StartCastTime()
+        {
+            SetStatsAtActivation(owner.Stats);
 
             if (castTime > 0)
             {
@@ -270,6 +276,7 @@ namespace MOBA
         private void StartCastTimeLock()
         {
             prevAttackTarget = null;
+            isInCastTime = true;
 
             if (owner.IsAttacking())
             {
@@ -286,6 +293,7 @@ namespace MOBA
 
         protected void StopCastTimeLock()
         {
+            isInCastTime = false;
             owner.canAttack = true;
             owner.canCast = true;
             if (!canMoveWhileCasting)

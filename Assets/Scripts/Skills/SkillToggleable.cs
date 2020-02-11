@@ -116,6 +116,7 @@ namespace MOBA
 
         protected virtual bool TryToggleOff()
         {
+            if (isInCastTime) return false;
             ToggleOff();
             return true;
         }

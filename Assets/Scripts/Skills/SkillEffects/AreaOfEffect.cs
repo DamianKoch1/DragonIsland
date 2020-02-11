@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace MOBA
 {
+
     [RequireComponent(typeof(CapsuleCollider))]
     public class AreaOfEffect : MonoBehaviour
     {
@@ -34,7 +35,12 @@ namespace MOBA
 
         private PhotonView ownerView;
 
-        public void Initialize(Unit _owner, UnitStats ownerStats, TeamID _ownerTeamID, Unit _target, float _lifespan, float size, float _tickInterval, HitMode _hitMode, bool _canHitStructures, Scalings scaling)
+        [Tooltip("Let child effects use their scaling or override with own?")]
+        public bool overrideScalings;
+
+        private bool active = true;
+
+        public void Initialize(Unit _owner, UnitStats ownerStats, TeamID _ownerTeamID, Unit _target, float _lifespan, float size, float _tickInterval, HitMode _hitMode, bool _canHitStructures, Scalings scaling, float delay = 0)
         {
             target = _target;
             ownerTeamID = _ownerTeamID;
@@ -52,6 +58,10 @@ namespace MOBA
             timeActive = 0;
             timeSinceLastTick = 0;
             ownerStatsAtSpawn = ownerStats;
+            if (delay > 0)
+            {
+                StartCoroutine(WaitForDelay(delay));
+            }
             if (_owner)
             {
                 owner = _owner;
@@ -64,7 +74,11 @@ namespace MOBA
                         foreach (var effect in onHitEffects)
                         {
                             effect.Initialize(owner, 0);
-                            effect.SetScaling(scaling);
+                            if (overrideScalings)
+                            {
+                                effect.SetScaling(scaling);
+                            }
+                            effect.SetStatsAtActivation(ownerStatsAtSpawn);
                         }
                         hitables = new UnitList<Unit>();
                         Tick();
@@ -73,8 +87,24 @@ namespace MOBA
             }
         }
 
+        private IEnumerator WaitForDelay(float delay)
+        {
+            active = false;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+            yield return new WaitForSeconds(delay);
+            active = true;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
+
         private void Update()
         {
+            if (!active) return;
             timeSinceLastTick += Time.deltaTime;
             while (timeSinceLastTick >= tickInterval)
             {
@@ -92,6 +122,7 @@ namespace MOBA
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!ownerView) return;
             if (!ownerView.IsMine) return;
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
@@ -158,6 +189,7 @@ namespace MOBA
 
         private void OnTriggerExit(Collider other)
         {
+            if (!ownerView) return;
             if (!ownerView.IsMine) return;
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
@@ -170,6 +202,8 @@ namespace MOBA
 
         private void Tick()
         {
+            if (!active) return;
+            if (!ownerView) return;
             if (!ownerView.IsMine) return;
             if (hitables.Count() > 0)
             {

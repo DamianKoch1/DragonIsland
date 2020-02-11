@@ -12,10 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf260950d4150f14a88c098cb8ff95d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
   scaling:
-    ad: 0.17
+    ad: 0.3
     md: 0
-    level: 0
+    level: 10
     armor: 0
     magicRes: 0
     maxHP: 0
@@ -27,7 +53,7 @@ MonoBehaviour:
   preferApplyToPosition: 1
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
-  delay: 0
+  delay: 0.2
   attachToTarget: 0
   lifespan: 3
   size: 5
@@ -48,6 +74,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpawnAOEProjectileBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+        type: 3}
+      propertyPath: overrideScalings
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7509579932543003387, guid: 45e83463a1662284899c2f9004b28e8a,
         type: 3}

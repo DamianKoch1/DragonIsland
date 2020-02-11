@@ -36,6 +36,7 @@ namespace MOBA
             target = null;
         }
 
+
         public override void Tick()
         {
             Debug.LogError("A DealDamage effect shouldn't tick, consider applying a DamageOverTime buff for better visibility instead!");

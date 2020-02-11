@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,33 +32,60 @@ namespace MOBA
         private bool rememberCastMousePos = false;
 
 
-        [PunRPC]
-        public void SpawnSkillshotNetworked(Vector3 targetPos)
-        {
-            projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
 
+        private void SpawnSkillshotNetworked(Vector3 _targetPos, int viewID)
+        {
+            if (!photonView)
+            {
+                photonView = PhotonView.Get(this);
+            }
+            photonView.RPC(nameof(SpawnSkillshotRPC), RpcTarget.Others, _targetPos, viewID);
+        }
+
+        private void SpawnHomingNetworked(int targetViewID, int viewID)
+        {
+            if (!photonView)
+            {
+                photonView = PhotonView.Get(this);
+            }
+            photonView.RPC(nameof(SpawnHomingRPC), RpcTarget.Others, target.GetViewID(), viewID);
+        }
+
+
+        [PunRPC]
+        public void SpawnSkillshotRPC(Vector3 targetPos, int viewID)
+        {
+            var projectile = projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, null);
+            projectile.gameObject.AddComponent<PhotonView>().ViewID = viewID;
+            projectile.waitForDestroyRPC = true;
         }
 
         [PunRPC]
-        public void SpawnHomingNetworked(int targetViewID)
+        public void SpawnHomingRPC(int targetViewID, int viewID)
         {
-            projectilePrefab.Spawn(owner, targetViewID.GetUnitByID(), projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+            var projectile = projectilePrefab.Spawn(owner, targetViewID.GetUnitByID(), projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, null);
+            projectile.gameObject.AddComponent<PhotonView>().ViewID = viewID;
+            projectile.waitForDestroyRPC = true;
         }
 
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
-            projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+            var projectile = projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+            var view = projectile.gameObject.AddComponent<PhotonView>();
+            PhotonNetwork.AllocateViewID(view);
 
-            photonView?.RPC(nameof(SpawnSkillshotNetworked), RpcTarget.Others, targetPos);
+            SpawnSkillshotNetworked(targetPos, view.ViewID);
         }
 
         public override void Activate(Unit target)
         {
             base.Activate(target);
-            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+            var projectile = projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+            var view = projectile.gameObject.AddComponent<PhotonView>();
+            PhotonNetwork.AllocateViewID(view);
 
-            photonView?.RPC(nameof(SpawnHomingNetworked), RpcTarget.Others, target.GetViewID());
+            SpawnHomingNetworked(target.GetViewID(), view.ViewID);
         }
 
         public override void Activate<T>(UnitList<T> targets)

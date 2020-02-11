@@ -312,6 +312,8 @@ namespace MOBA
             stats.Initialize(this);
             IsDead = false;
 
+            amplifiers = new Amplifiers();
+            amplifiers.Reset();
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -319,8 +321,6 @@ namespace MOBA
 
                 timeSinceLastRegTick = 0;
 
-                amplifiers = new Amplifiers();
-                amplifiers.Reset();
 
                 if (movement)
                 {

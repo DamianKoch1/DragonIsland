@@ -20,6 +20,7 @@ namespace MOBA
         ownerOnly = 7
     }
 
+
     [Serializable]
     public class ProjectileProperties
     {
@@ -57,6 +58,9 @@ namespace MOBA
 
         private Unit owner;
 
+        [HideInInspector]
+        public bool waitForDestroyRPC;
+
         /// <summary>
         /// Used to store team id of owner in case owner is destroyed on hit.
         /// </summary>
@@ -78,6 +82,9 @@ namespace MOBA
 
         private PhotonView ownerView;
 
+
+        [Tooltip("Let child effects use their scaling or override with own?")]
+        public bool overrideScalings;
 
         [SerializeField, Tooltip("Activate effects when projectile dies (not only on hit)?")]
         private bool activateEffectsOnDestroy;
@@ -178,8 +185,22 @@ namespace MOBA
             }
             else if (properties.destroyOnNonTargetHit)
             {
-                Destroy(gameObject);
+                if (waitForDestroyRPC)
+                {
+                    gameObject.SetActive(false);
+                }
+                else
+                {
+                    PhotonView.Get(this)?.RPC(nameof(DestroyRPC), RpcTarget.Others);
+                    Destroy(gameObject);
+                }
             }
+        }
+
+        [PunRPC]
+        public void DestroyRPC()
+        {
+            Destroy(gameObject);
         }
 
         protected virtual void OnHitMonster(Monster monster)
@@ -189,10 +210,18 @@ namespace MOBA
 
         private void OnHitTarget()
         {
-            Destroy(gameObject);
+            if (waitForDestroyRPC)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                PhotonView.Get(this)?.RPC(nameof(DestroyRPC), RpcTarget.Others);
+                Destroy(gameObject);
+            }
         }
 
-        private void Initialize(Unit _owner, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
+        public void Initialize(Unit _owner, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
             properties = _properties;
             if (properties.lifespan > 0)
@@ -201,6 +230,7 @@ namespace MOBA
             }
             movement.SetSpeed(properties.speed);
             transform.localScale *= properties.size;
+            ownerStatsAtSpawn = ownerStats;
             if (_owner)
             {
                 owner = _owner;
@@ -210,10 +240,14 @@ namespace MOBA
                     if (ownerView.IsMine)
                     {
                         onHitEffects = new List<SkillEffect>(GetComponents<SkillEffect>());
-                        ownerStatsAtSpawn = ownerStats;
                         foreach (var effect in onHitEffects)
                         {
                             effect.Initialize(owner, 0);
+                            if (overrideScalings)
+                            {
+                                effect.SetScaling(scaling);
+                            }
+                            effect.SetStatsAtActivation(ownerStatsAtSpawn);
                         }
                     }
                 }
