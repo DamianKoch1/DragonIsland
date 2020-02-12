@@ -51,6 +51,8 @@ namespace MOBA
         [HideInInspector]
         public BuffFlags statusEffects;
 
+        protected PhotonView photonView;
+
         [Space]
         private bool canMove = true;
 
@@ -263,7 +265,12 @@ namespace MOBA
 
         protected virtual void Die(Unit killer)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
+            if (!photonView.IsMine)
+            {
+                IsDead = true;
+                OnDeath();
+                return;
+            };
             var xpEligibleChamps = this.GetEnemiesInRange<Champ>(xpRewardRange);
             if (killer is Champ)
             {
@@ -275,14 +282,17 @@ namespace MOBA
                 }
                 GameLogger.Log(killer, Logging.LogActionType.kill, transform.position, this);
             }
-            foreach (var champ in xpEligibleChamps)
+            foreach (Champ champ in xpEligibleChamps)
             {
-                champ.stats.XP += GetXPReward() / xpEligibleChamps.Count();
+                champ.photonView.RPC(nameof(champ.ReceiveXP), RpcTarget.All, GetXPReward() / xpEligibleChamps.Count());
             }
             OnBeforeDeath?.Invoke();
             IsDead = true;
             OnDeath();
         }
+
+
+
 
         /// <summary>
         /// Is called just before OnDeath(), which destroys this game object by default.
@@ -315,7 +325,9 @@ namespace MOBA
             amplifiers = new Amplifiers();
             amplifiers.Reset();
 
-            if (PhotonNetwork.IsMasterClient)
+            photonView = PhotonView.Get(this);
+
+            if (photonView.IsMine)
             {
                 statusEffects = new BuffFlags();
 
@@ -430,7 +442,7 @@ namespace MOBA
 
         protected virtual void Update()
         {
-            if (!PhotonNetwork.IsMasterClient) return;
+            if (!photonView.IsMine) return;
 
             while (timeSinceLastRegTick >= TICKINTERVAL)
             {
@@ -445,10 +457,15 @@ namespace MOBA
         protected virtual void ApplyRegeneration()
         {
             if (IsDead) return;
+            photonView.RPC(nameof(ApplyRegenerationRPC), RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void ApplyRegenerationRPC()
+        {
             stats.ApplyHPReg();
             stats.ApplyResourceReg();
         }
-
 
         public virtual float GetXPReward()
         {

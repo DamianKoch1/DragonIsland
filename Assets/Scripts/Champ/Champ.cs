@@ -73,7 +73,7 @@ namespace MOBA
             ToggleRangeIndicator(false);
             SetupSkills();
 
-            if (!PhotonNetwork.IsMasterClient) return;
+            if (!photonView.IsMine) return;
             OnAttackedByChamp += RequestTowerAssist;
 
             nearbyAlliedTowers = new UnitList<Tower>();
@@ -134,12 +134,39 @@ namespace MOBA
             Initialize();
         }
 
+        [PunRPC]
+        public void ReceiveXP(float amount)
+        {
+            stats.XP += amount;
+        }
+
         protected override void OnDeath()
         {
             movement.DisableCollision();
             mesh.SetActive(false);
             attacking?.Stop();
-            StartCoroutine(Respawn());
+            if (photonView.IsMine)
+            {
+                StartCoroutine(Respawn());
+            }
+            else
+            {
+                OnBeforeDeath?.Invoke();
+            }
+        }
+
+        [PunRPC]
+        public void OnRespawnRPC()
+        {
+            OnRespawn?.Invoke();
+            IsDead = false;
+            mesh.SetActive(true);
+            transform.position = spawnpoint;
+            mesh.SetActive(true);
+            IsDead = false;
+            stats.HP = stats.MaxHP;
+            stats.Resource = stats.MaxResource;
+            OnRespawn?.Invoke();
         }
 
 
@@ -153,12 +180,8 @@ namespace MOBA
         {
             float remainingTime = GetRespawnTime();
 
-            BarTextTimer respawnHUD = null;
-            if (this == PlayerController.Player)
-            {
-                respawnHUD = Instantiate(respawnHUDPrefab.gameObject).GetComponent<BarTextTimer>();
-                respawnHUD.Initialize(remainingTime);
-            }
+            BarTextTimer respawnHUD = respawnHUD = Instantiate(respawnHUDPrefab.gameObject).GetComponent<BarTextTimer>();
+            respawnHUD.Initialize(remainingTime);
 
             while (remainingTime > 0)
             {
@@ -180,6 +203,7 @@ namespace MOBA
             stats.HP = stats.MaxHP;
             stats.Resource = stats.MaxResource;
             OnRespawn?.Invoke();
+            photonView.RPC(nameof(OnRespawnRPC), RpcTarget.Others);
         }
 
         public Action OnRespawn;
@@ -195,6 +219,7 @@ namespace MOBA
 
         public void AddNearbyAlliedTower(Tower tower)
         {
+            if (!photonView.IsMine) return;
             if (!nearbyAlliedTowers.Contains(tower))
             {
                 nearbyAlliedTowers.Add(tower);
@@ -203,6 +228,7 @@ namespace MOBA
 
         public void RemoveNearbyTower(Tower tower)
         {
+            if (!photonView.IsMine) return;
             if (nearbyAlliedTowers.Contains(tower))
             {
                 nearbyAlliedTowers.Remove(tower);

@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace MOBA
 {
+
+    //TODO end game on destroy
     public class Base : Structure
     {
         [Space]
@@ -101,6 +103,11 @@ namespace MOBA
                 }
                 return instanceRed;
             }
+        }
+
+        protected override void OnDeath()
+        {
+            PhotonNetwork.LoadLevel("Lobby");
         }
 
         public static Base GetAllied(Unit unit)

@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace MOBA
 {
-    //TODO scaling, networking
+    //TODO scaling, buff networking
     public class ApplyBuff : SkillEffect
     {
         [Space]

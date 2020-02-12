@@ -20,8 +20,16 @@ public class Launcher : MonoBehaviourPunCallbacks
             GameLogger.enabled = false;
             Destroy(logViewBtn.gameObject);
         }
+        //TODO rewrite this, using this when loaded from finished game
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
+            return;
+        }
         if (autoJoin) Connect();
     }
+
+
 
     [SerializeField]
     private Text roomDisplay;

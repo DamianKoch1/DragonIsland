@@ -46,7 +46,7 @@ namespace MOBA
         public Unit instigator;
     }
 
-    //TODO add stackable
+    //TODO add stackable, implement networking
     public abstract class Buff : MonoBehaviour
     {
         [SerializeField]

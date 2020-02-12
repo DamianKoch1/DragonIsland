@@ -29,6 +29,8 @@ namespace MOBA
 
         protected float timeSinceAttack;
 
+
+        //TODO to be used for autoattackMove, automatically attacks entering units
         [SerializeField]
         private SphereCollider atkTrigger;
 

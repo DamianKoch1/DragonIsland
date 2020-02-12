@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,15 +65,13 @@ namespace MOBA
                     {
                         if (!structure.isDestroyed) return;
                     }
-                    Targetable = true;
-                    damageable = true;
+                    photonView.RPC(nameof(SetTargetable), RpcTarget.All);
                     return;
                 case UntargetableUntilMode.anyDestroyed:
                     foreach (var structure in isUntargetableUntilDestroyed)
                     {
                         if (!structure.isDestroyed) continue;
-                        Targetable = true;
-                        damageable = true;
+                        photonView.RPC(nameof(SetTargetable), RpcTarget.All);
                         return;
                     }
                     return;
@@ -80,7 +79,13 @@ namespace MOBA
                     Debug.LogWarning("encountered invalid TargetableUntilMode!");
                     return;
             }
+        }
 
+        [PunRPC]
+        public void SetTargetable()
+        {
+            Targetable = true;
+            damageable = true;
         }
 
         protected override void SetupBars()

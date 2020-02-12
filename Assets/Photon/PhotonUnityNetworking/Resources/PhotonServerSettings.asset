@@ -59,5 +59,12 @@ MonoBehaviour:
   - SpawnHomingRPC
   - SpawnSkillshotRPC
   - DestroyRPC
+  - ApplyRegenerationRPC
+  - ReceiveXP
+  - StartRespawn
+  - RespawnRPC
+  - SetTargetable
+  - OnDeathRPC
+  - OnRespawnRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
