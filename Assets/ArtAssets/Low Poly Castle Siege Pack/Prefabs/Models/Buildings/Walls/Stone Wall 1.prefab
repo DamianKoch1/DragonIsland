@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 445786}
   - component: {fileID: 3381006}
   - component: {fileID: 2398026}
-  - component: {fileID: 4081176360335868518}
   m_Layer: 0
   m_Name: Stone Wall 1
   m_TagString: Untagged
@@ -79,19 +78,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!208 &4081176360335868518
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165638}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.771, y: 1.567, z: 0.43800002}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: -0.11800001, z: -0.009000001}
-  m_TimeToStationary: 0.5

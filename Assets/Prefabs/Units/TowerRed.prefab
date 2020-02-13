@@ -12,6 +12,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRed
       objectReference: {fileID: 0}
+    - target: {fileID: 7806814150520721578, guid: eebbc8f0bfe18b64c820a35939892b99,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7806814150520721578, guid: eebbc8f0bfe18b64c820a35939892b99,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605459939236322469, guid: eebbc8f0bfe18b64c820a35939892b99,
+        type: 3}
+      propertyPath: m_Radius
+      value: 9.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2041258200233514256, guid: eebbc8f0bfe18b64c820a35939892b99,
         type: 3}
       propertyPath: teamID
@@ -31,6 +46,11 @@ PrefabInstance:
     - target: {fileID: 8201051200548674466, guid: eebbc8f0bfe18b64c820a35939892b99,
         type: 3}
       propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201051200548674466, guid: eebbc8f0bfe18b64c820a35939892b99,
+        type: 3}
+      propertyPath: m_Color.g
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224553, guid: eebbc8f0bfe18b64c820a35939892b99,

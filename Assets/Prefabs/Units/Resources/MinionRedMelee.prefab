@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bc80a1c6db24b489ea83f11ce7d87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkTrigger: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
-    type: 3}
+  atkTrigger: {fileID: 1694140507238372693}
   rangeIndicator: {fileID: 0}
   lookAtTarget: 1
-  mesh: {fileID: 5176387310780495296, guid: 6a4641d7a3c331c41ab7e837eba47b8a, type: 3}
+  mesh: {fileID: 7425203773086808938}
   attackAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -151,6 +150,11 @@ PrefabInstance:
       propertyPath: mesh
       value: 
       objectReference: {fileID: 7425203773086808938}
+    - target: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5444308396147945840, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -226,6 +230,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b557431d7b3cbb244a8184436f35e2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &1694140507238372693 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
+    type: 3}
+  m_PrefabInstance: {fileID: 3722215489152888539}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7425203773086808938 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6101366191749633457, guid: ec51df9eeeb936e47af425389c86ca78,

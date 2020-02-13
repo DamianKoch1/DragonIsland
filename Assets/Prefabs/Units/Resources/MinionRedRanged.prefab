@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkTrigger: {fileID: 7911271975206671891, guid: 81e8a89a624ca7b469fe9874c9bba0dc,
-    type: 3}
+  atkTrigger: {fileID: 1809177489810081704}
   rangeIndicator: {fileID: 0}
   lookAtTarget: 1
   projectilePrefab: {fileID: 7099415486780098135, guid: abf0d1880c70d2c46b0da5f29b19955c,
@@ -114,6 +113,11 @@ PrefabInstance:
       propertyPath: mesh
       value: 
       objectReference: {fileID: 7607188876145387927}
+    - target: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: m_Radius
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5444308396147945840, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -189,6 +193,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b557431d7b3cbb244a8184436f35e2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &1809177489810081704 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
+    type: 3}
+  m_PrefabInstance: {fileID: 4413036994840656934}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7607188876145387927 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6101366191749633457, guid: ec51df9eeeb936e47af425389c86ca78,

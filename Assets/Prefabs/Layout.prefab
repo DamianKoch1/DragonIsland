@@ -2230,6 +2230,11 @@ PrefabInstance:
       propertyPath: botSpawn
       value: 
       objectReference: {fileID: 2985127055103056600}
+    - target: {fileID: 839976239669254598, guid: 88c15a5356f0e664390665bcb4810c5a,
+        type: 3}
+      propertyPath: waveSpawnDeltaTime
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88c15a5356f0e664390665bcb4810c5a, type: 3}
 --- !u!4 &9101036876706432383 stripped
