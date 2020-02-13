@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: teamID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 639188481538664380, guid: bfb57788cb3fe7447bf9828dae2a9fe8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1577499548847211146, guid: bfb57788cb3fe7447bf9828dae2a9fe8,
         type: 3}
       propertyPath: m_Name
