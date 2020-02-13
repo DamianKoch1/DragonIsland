@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace MOBA
 {
@@ -176,7 +177,10 @@ namespace MOBA
 
             enemyUnitsInRange = new UnitList<Unit>();
             enemyChampsInRange = new UnitList<Champ>();
-            OnReceiveDamage += (Unit attacker, float _, DamageType __) => OnAttacked(attacker);
+            if (photonView.IsMine)
+            {
+                OnReceiveDamage += (Unit attacker, float _, DamageType __) => OnAttacked(attacker);
+            }
         }
 
         public override float GetXPReward()
