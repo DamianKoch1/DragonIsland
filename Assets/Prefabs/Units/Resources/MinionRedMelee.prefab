@@ -27,7 +27,7 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
-  atkAnimCount: 1
+  atkAnimCount: 2
 --- !u!1001 &2160049092654174725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,8 +95,44 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2453095390291986237, guid: ff3dd417bb566b849b752ce57810bbf5,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453095390291986237, guid: ff3dd417bb566b849b752ce57810bbf5,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453095390291986237, guid: ff3dd417bb566b849b752ce57810bbf5,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453095390291986237, guid: ff3dd417bb566b849b752ce57810bbf5,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -2678496464695235846}
+    - target: {fileID: 2453095390291986237, guid: ff3dd417bb566b849b752ce57810bbf5,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAtkAnimNotify
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453095390291986237, guid: ff3dd417bb566b849b752ce57810bbf5,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+--- !u!95 &5500933588237015541 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5885418289880845296, guid: ff3dd417bb566b849b752ce57810bbf5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2160049092654174725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3722215489152888539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,6 +165,11 @@ PrefabInstance:
       propertyPath: mesh
       value: 
       objectReference: {fileID: 7425203773086808938}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5500933588237015541}
     - target: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_Radius
