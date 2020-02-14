@@ -413,7 +413,7 @@ TerrainCollider:
   m_Material: {fileID: 0}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: c0a5b998b496f0f438db68bed8329d7f, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!1 &1984856982
 GameObject:
   m_ObjectHideFlags: 0
@@ -4244,6 +4244,46 @@ PrefabInstance:
         type: 3}
       propertyPath: viewIdField
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128156495809, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128156495809, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: NaN
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128156495809, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128156495809, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1e-45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 2.47e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.05e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 18.61167
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 4e-45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faeec65d85f301f48a036715ac76b8b0, type: 3}
