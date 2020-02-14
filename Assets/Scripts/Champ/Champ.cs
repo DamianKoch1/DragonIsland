@@ -143,7 +143,11 @@ namespace MOBA
         protected override void OnDeath()
         {
             movement.DisableCollision();
-            mesh.SetActive(false);
+            if (Animator)
+            {
+                Animator.SetTrigger("Death");
+            }
+            else mesh.SetActive(false);
             attacking?.Stop();
             if (photonView.IsMine)
             {
@@ -159,10 +163,12 @@ namespace MOBA
         public void OnRespawnRPC()
         {
             OnRespawn?.Invoke();
-            IsDead = false;
-            mesh.SetActive(true);
             transform.position = spawnpoint;
-            mesh.SetActive(true);
+            if (Animator)
+            {
+                Animator.SetTrigger("Respawn");
+            }
+            else mesh.SetActive(true);
             IsDead = false;
             stats.HP = stats.MaxHP;
             stats.Resource = stats.MaxResource;

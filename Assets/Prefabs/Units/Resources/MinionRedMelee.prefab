@@ -15,40 +15,19 @@ MonoBehaviour:
   atkTrigger: {fileID: 1694140507238372693}
   rangeIndicator: {fileID: 0}
   lookAtTarget: 1
-  mesh: {fileID: 7425203773086808938}
-  attackAnimCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.083296806
-      outSlope: 0.083296806
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.19166668
-    - serializedVersion: 3
-      time: 0.13691218
-      value: 0.104968525
-      inSlope: -0.32994398
-      outSlope: -0.32994398
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.3
-      value: 0
-      inSlope: -0.35870805
-      outSlope: -0.35870805
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.36023527
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 1
 --- !u!1001 &2160049092654174725
 PrefabInstance:
   m_ObjectHideFlags: 0

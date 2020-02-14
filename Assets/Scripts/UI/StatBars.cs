@@ -122,18 +122,25 @@ namespace MOBA
 
             SetResource(targetStats.Resource, targetStats.MaxResource);
 
-            if (HUD && !target.IsDead)
+            if (HUD)
             {
-                if (IsVisible)
+                if (target.IsDead)
                 {
-                    if (!target.Targetable)
-                    {
-                        Toggle(false);
-                    }
+                    Toggle(false);
                 }
-                else if (target.Targetable)
+                else
                 {
-                    Toggle(true);
+                    if (IsVisible)
+                    {
+                        if (!target.Targetable)
+                        {
+                            Toggle(false);
+                        }
+                    }
+                    else if (target.Targetable)
+                    {
+                        Toggle(true);
+                    }
                 }
             }
 

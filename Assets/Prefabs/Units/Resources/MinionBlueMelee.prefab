@@ -15,40 +15,19 @@ MonoBehaviour:
   atkTrigger: {fileID: 3990027059083123711}
   rangeIndicator: {fileID: 0}
   lookAtTarget: 1
-  mesh: {fileID: 5176387310780495296}
-  attackAnimCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.083296806
-      outSlope: 0.083296806
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.19166668
-    - serializedVersion: 3
-      time: 0.13691218
-      value: 0.104968525
-      inSlope: -0.32994398
-      outSlope: -0.32994398
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.3
-      value: 0
-      inSlope: -0.35870805
-      outSlope: -0.35870805
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.36023527
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 2
 --- !u!1001 &1403523211797831793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71,6 +50,11 @@ PrefabInstance:
       propertyPath: stats.atkRange
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2657647519171415662}
     - target: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_Radius
@@ -160,12 +144,6 @@ SphereCollider:
     type: 3}
   m_PrefabInstance: {fileID: 1403523211797831793}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5176387310780495296 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6101366191749633457, guid: ec51df9eeeb936e47af425389c86ca78,
-    type: 3}
-  m_PrefabInstance: {fileID: 1403523211797831793}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5217523691464147670 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6562323874587763367, guid: ec51df9eeeb936e47af425389c86ca78,
@@ -243,5 +221,41 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.85936
       objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7285463381393966235}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAtkAnimNotify
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 272ec112bddec644a8af6599107e74f7, type: 3}
+--- !u!95 &2657647519171415662 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 272ec112bddec644a8af6599107e74f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 2657647519180913422}
+  m_PrefabAsset: {fileID: 0}

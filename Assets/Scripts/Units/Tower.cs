@@ -68,7 +68,7 @@ namespace MOBA
             if (enemyUnitsInRange.Contains(unit))
             {
                 enemyUnitsInRange.Remove(unit);
-                if (unit == attacking.CurrentTarget)
+                if (unit == attacking.target)
                 {
                     CheckForNewTarget();
                 }
@@ -100,7 +100,7 @@ namespace MOBA
             else if (enemyChampsInRange.Contains(champ))
             {
                 enemyChampsInRange.Remove(champ);
-                if (champ == attacking.CurrentTarget)
+                if (champ == attacking.target)
                 {
                     CheckForNewTarget();
                 }
@@ -125,7 +125,7 @@ namespace MOBA
             else
             {
                 lr.enabled = true;
-                lr.SetPosition(1, attacking.CurrentTarget.transform.position);
+                lr.SetPosition(1, attacking.target.transform.position);
             }
         }
 
@@ -173,7 +173,7 @@ namespace MOBA
             if (!this.IsEnemy(target)) return;
             if (attacking.IsAttacking())
             {
-                if (attacking.CurrentTarget?.GetComponent<Champ>()) return;
+                if (attacking.target?.GetComponent<Champ>()) return;
             }
             if (!enemyChampsInRange.Contains(target)) return;
             attacking.StartAttacking(target);

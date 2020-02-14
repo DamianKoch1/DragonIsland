@@ -141,7 +141,7 @@ namespace MOBA
             {
                 attacking.Stop();
             }
-            else if (Vector3.Distance(transform.position, attacking.CurrentTarget.transform.position) > maxChaseDistance)
+            else if (Vector3.Distance(transform.position, attacking.target.transform.position) > maxChaseDistance)
             {
                 CheckForNewTarget();
             }
@@ -207,14 +207,6 @@ namespace MOBA
             if (attacking.IsAttacking()) return;
             if (this.IsAlly(attacker)) return;
             attacking.StartAttacking(attacker);
-        }
-
-        protected override void OnDeath()
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.Destroy(gameObject);
-            }
         }
     }
 }

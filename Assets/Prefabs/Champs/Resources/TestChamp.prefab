@@ -441,6 +441,19 @@ MonoBehaviour:
   atkTrigger: {fileID: 4118471921292742882}
   rangeIndicator: {fileID: 7907824628354924291}
   lookAtTarget: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 1
   projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
   projectileProperties:
@@ -454,18 +467,6 @@ MonoBehaviour:
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 1
-  attackScaling:
-    ad: 1
-    md: 0
-    level: 0
-    armor: 0
-    magicRes: 0
-    maxHP: 0
-    currentHP: 0
-    missingHP: 0
-    targetMaxHP: 0
-    targetCurrentHP: 0
-    targetMissingHP: 0
   projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1 &5511781662580891295
 GameObject:

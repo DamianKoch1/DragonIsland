@@ -15,6 +15,19 @@ MonoBehaviour:
   atkTrigger: {fileID: 2679217957457062372}
   rangeIndicator: {fileID: 0}
   lookAtTarget: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 2
   projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
     type: 3}
   projectileProperties:
@@ -28,18 +41,6 @@ MonoBehaviour:
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 1
-  attackScaling:
-    ad: 1
-    md: 0
-    level: 0
-    armor: 0
-    magicRes: 0
-    maxHP: 0
-    currentHP: 0
-    missingHP: 0
-    targetMaxHP: 0
-    targetCurrentHP: 0
-    targetMissingHP: 0
   projectileSpawnpoint: {fileID: 6646130109710545558}
 --- !u!1001 &75226511437877866
 PrefabInstance:
@@ -108,6 +109,11 @@ PrefabInstance:
       propertyPath: attacking
       value: 
       objectReference: {fileID: 8969386785092543363}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 6646130109718060398}
     - target: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_Radius
@@ -277,8 +283,44 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.85936
       objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8969386785092543363}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAtkAnimNotify
+      objectReference: {fileID: 0}
+    - target: {fileID: 8257096651263085110, guid: 272ec112bddec644a8af6599107e74f7,
+        type: 3}
+      propertyPath: OnNotify.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 272ec112bddec644a8af6599107e74f7, type: 3}
+--- !u!95 &6646130109718060398 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 272ec112bddec644a8af6599107e74f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6646130109710673934}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6646130109710545558 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400024, guid: 272ec112bddec644a8af6599107e74f7,

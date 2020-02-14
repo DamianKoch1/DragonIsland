@@ -4090,6 +4090,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4579732128157051823, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4579732128109808648, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -4108,6 +4113,11 @@ PrefabInstance:
     - target: {fileID: 4579732128366879816, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128394691350, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4579732128296675521, guid: faeec65d85f301f48a036715ac76b8b0,
@@ -4253,37 +4263,72 @@ PrefabInstance:
     - target: {fileID: 4579732128156495809, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: NaN
+      value: 0.19600487
       objectReference: {fileID: 0}
     - target: {fileID: 4579732128156495809, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: -1
+      value: 7.09e-43
       objectReference: {fileID: 0}
-    - target: {fileID: 4579732128156495809, guid: faeec65d85f301f48a036715ac76b8b0,
+    - target: {fileID: 4579732128386378266, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
-      propertyPath: m_BoundingSphereOverride.w
-      value: 1e-45
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128386378266, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128386272938, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128386272938, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128386265816, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128386265816, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 2.47e-43
+      value: 0.03125
       objectReference: {fileID: 0}
     - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.05e-43
+      value: 0.11328125
       objectReference: {fileID: 0}
     - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 18.61167
+      value: 0.02734375
       objectReference: {fileID: 0}
     - target: {fileID: 4579732128394165068, guid: faeec65d85f301f48a036715ac76b8b0,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 4e-45
+      value: -0.03125
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128148627333, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579732128148627333, guid: faeec65d85f301f48a036715ac76b8b0,
+        type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faeec65d85f301f48a036715ac76b8b0, type: 3}

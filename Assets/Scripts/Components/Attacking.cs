@@ -15,6 +15,11 @@ namespace MOBA
             protected set;
         }
 
+        /// <summary>
+        /// The view id of the unit the current attack will hit, doesnt change with target after attack anim started
+        /// </summary>
+        protected int currTargetViewID;
+
         protected Unit owner;
 
         protected Animator animator;
@@ -44,20 +49,18 @@ namespace MOBA
         [SerializeField]
         protected bool lookAtTarget = true;
 
-        public Unit CurrentTarget
-        {
-            protected set
-            {
-                target = value;
-            }
-            get => target;
-        }
 
         protected PhotonView photonView;
 
+        [SerializeField]
+        protected Scalings attackScaling = new Scalings() { ad = 1 };
+
+        [SerializeField]
+        private int atkAnimCount = 1;
+
         public void StartAttacking(Unit _target)
         {
-            if (CurrentTarget == _target) return;
+            if (target == _target) return;
             if (!owner.canAttack) return;
             if (!_target)
             {
@@ -88,6 +91,11 @@ namespace MOBA
                     break;
                 }
                 if (target.IsDead)
+                {
+                    Stop();
+                    break;
+                }
+                if (owner.IsDead)
                 {
                     Stop();
                     break;
@@ -131,7 +139,27 @@ namespace MOBA
             owner.CanMove = true;
         }
 
-        public abstract void Attack(int targetViewID);
+        [PunRPC]
+        protected void Attack(int targetViewID)
+        {
+            currTargetViewID = targetViewID;
+            if (!owner.Animator)
+            {
+                OnAtkAnimNotify();
+                return;
+            }
+            if (atkAnimCount == 1)
+            {
+                owner.Animator.SetTrigger("Atk");
+            }
+            else
+            {
+                owner.Animator.SetTrigger("Atk" + Random.Range(1, atkAnimCount+1));
+            }
+        }
+
+        public abstract void OnAtkAnimNotify();
+
 
         public virtual void Initialize(Unit _owner)
         {
@@ -139,10 +167,6 @@ namespace MOBA
             photonView = owner.GetComponent<PhotonView>();
             timeSinceAttack = 1 / owner.Stats.AtkSpeed;
             animator = GetComponent<Animator>();
-        }
-
-        protected void AttackAnimFinished()
-        {
         }
 
         private void Update()

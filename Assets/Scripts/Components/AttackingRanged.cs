@@ -22,25 +22,17 @@ namespace MOBA
             dmgType = DamageType.physical,
         };
 
-        [Space]
-        [SerializeField]
-        private Scalings attackScaling = new Scalings() { ad = 1 };
 
         [Space]
         public Transform projectileSpawnpoint;
 
 
-        [PunRPC]
-        public override void Attack(int targetViewID)
+        public override void OnAtkAnimNotify()
         {
-            if (animator)
-            {
-                animator.SetTrigger("attack");
-            }
-            projectilePrefab.Spawn(owner, targetViewID.GetUnitByID(), projectileSpawnpoint.position, projectileProperties, attackScaling, owner.TeamID, new UnitStats(owner.Stats));
-            AttackAnimFinished();
+            var target = currTargetViewID.GetUnitByID();
+            if (!target) return;
+            if (target.IsDead) return;
+            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, attackScaling, owner.TeamID, new UnitStats(owner.Stats));
         }
-
-
     }
 }

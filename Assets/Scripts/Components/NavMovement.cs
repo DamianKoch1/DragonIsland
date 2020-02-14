@@ -15,11 +15,11 @@ namespace MOBA
 
         private NavMeshObstacle obstacle;
 
-        public override void Initialize(float moveSpeed)
+        public override void Initialize(float moveSpeed, Unit _owner)
         {
             agent = GetComponent<NavMeshAgent>();
             obstacle = GetComponent<NavMeshObstacle>();
-            base.Initialize(moveSpeed);
+            base.Initialize(moveSpeed, _owner);
         }
 
         public override void MoveTo(Vector3 destination)

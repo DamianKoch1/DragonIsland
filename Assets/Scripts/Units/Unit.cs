@@ -166,6 +166,11 @@ namespace MOBA
         [SerializeField]
         protected GameObject mesh;
 
+        [SerializeField]
+        private Animator animator;
+
+        public Animator Animator => animator;
+
         public bool IsDead { protected set; get; }
 
 
@@ -215,7 +220,7 @@ namespace MOBA
         }
 
 
-        public Unit CurrentAttackTarget => attacking.CurrentTarget;
+        public Unit CurrentAttackTarget => attacking.target;
 
         public T AddBuff<T>() where T : Buff
         {
@@ -304,6 +309,18 @@ namespace MOBA
         /// </summary>
         protected virtual void OnDeath()
         {
+            if (Animator)
+            {
+                StartCoroutine(DeathAnim());
+                return;
+            }
+            Destroy(gameObject);
+        }
+
+        protected virtual IEnumerator DeathAnim()
+        {
+            Animator.SetTrigger("Death");
+            yield return new WaitForSeconds(3);
             Destroy(gameObject);
         }
 
@@ -341,7 +358,7 @@ namespace MOBA
 
                 OnUnitTick += ApplyRegeneration;
             }
-            movement?.Initialize(stats.MoveSpeed);
+            movement?.Initialize(stats.MoveSpeed, this);
             attacking?.Initialize(this);
 
             SetupMaterials();

@@ -41,8 +41,6 @@ namespace MOBA
 
         protected override void Update()
         {
-            base.Update();
-
             if (Vector3.Distance(lastPos, transform.position) < 0.1f * Time.deltaTime)
             {
                 if (GetComponent<Projectile>()?.waitForDestroyRPC == true)
