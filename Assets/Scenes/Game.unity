@@ -460,42 +460,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 709624628, guid: c5ba6ad371d8f05498c30337c6808ef8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033682231, guid: c5ba6ad371d8f05498c30337c6808ef8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1984856982, guid: c5ba6ad371d8f05498c30337c6808ef8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2006912004, guid: c5ba6ad371d8f05498c30337c6808ef8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011778765223206, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011778840072583, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779076037918, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779202199662, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 8040117423717990836, guid: c5ba6ad371d8f05498c30337c6808ef8,
         type: 3}
       propertyPath: viewIdField
