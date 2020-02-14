@@ -10,6 +10,8 @@ namespace MOBA
         private Vector3 offset;
         private Quaternion rotation;
 
+        private Camera cam;
+
         private float distanceFactor = 1;
         private float targetDistanceFactor = 1;
 
@@ -21,6 +23,25 @@ namespace MOBA
 
         Plane groundPlane;
 
+        [SerializeField]
+        private KeyCode unlockKey;
+
+        [SerializeField]
+        private float unlockedMoveSpeed;
+
+        private bool unlocked;
+
+        private Vector3 targetPos;
+
+        [SerializeField, Tooltip("How close to screen edge in % of screen size the cursor has to be to move the camera when unlocked")]
+        private float screenEdgeDistanceToMove = 0.1f;
+
+        [SerializeField]
+        private Vector3 blueSideLimit;
+
+        [SerializeField]
+        private Vector3 redSideLimit;
+
         public void Initialize(Champ _target, Vector3 _offset, Quaternion _rotation)
         {
             distanceFactor = 1;
@@ -29,12 +50,51 @@ namespace MOBA
             offset = _offset;
             rotation = _rotation;
             groundPlane = new Plane(Vector3.up, Vector3.zero);
+            cam = GetComponent<Camera>();
         }
 
         void Update()
         {
-            transform.position = target.transform.position + offset * distanceFactor;
+
+            if (Input.GetKeyDown(unlockKey))
+            {
+                ToggleLocked();
+            }
+
+            if (unlocked)
+            {
+                var mouseVPPos = cam.ScreenToViewportPoint(Input.mousePosition);
+                if (mouseVPPos.x > 1 - screenEdgeDistanceToMove)
+                {
+                    targetPos += Vector3.right * unlockedMoveSpeed;
+                }
+                else if (mouseVPPos.x < screenEdgeDistanceToMove)
+                {
+                    targetPos += -Vector3.right * unlockedMoveSpeed;
+                }
+
+                if (mouseVPPos.y > 1 - screenEdgeDistanceToMove)
+                {
+                    targetPos += Vector3.forward * unlockedMoveSpeed;
+                }
+                else if (mouseVPPos.y < screenEdgeDistanceToMove)
+                {
+                    targetPos += -Vector3.forward * unlockedMoveSpeed;
+                }
+            }
+            else
+            {
+                targetPos = target.transform.position;
+            }
+            targetPos.x = Mathf.Clamp(targetPos.x, blueSideLimit.x, redSideLimit.x);
+            targetPos.z = Mathf.Clamp(targetPos.z, blueSideLimit.z, redSideLimit.z);
             distanceFactor = Mathf.Lerp(distanceFactor, targetDistanceFactor, 0.1f);
+            transform.position = targetPos + offset * distanceFactor;
+        }
+
+        private void ToggleLocked()
+        {
+            unlocked = !unlocked;
         }
 
         public void AddDistanceFactor(float amount)
@@ -46,7 +106,7 @@ namespace MOBA
 
         public bool GetCursorToWorldPoint(out Vector3 result)
         {
-            Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             if (groundPlane.Raycast(ray, out var hit))
             {
                 result = ray.GetPoint(hit);

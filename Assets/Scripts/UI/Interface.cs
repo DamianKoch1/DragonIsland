@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
+    //TODO stop instantiating enemy displays, initialize with target
     public class Interface : ChampStatBars
     {
         [Space]

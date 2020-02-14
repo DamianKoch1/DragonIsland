@@ -98,3 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxZoom: 0.25
   minZoom: 4
+  unlockKey: 122
+  unlockedMoveSpeed: 0.6
+  screenEdgeDistanceToMove: 0.1
+  blueSideLimit: {x: -68, y: 0, z: -68}
+  redSideLimit: {x: 68, y: 0, z: 68}

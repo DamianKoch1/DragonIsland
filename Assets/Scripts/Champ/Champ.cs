@@ -140,6 +140,7 @@ namespace MOBA
             stats.XP += amount;
         }
 
+
         protected override void OnDeath()
         {
             movement.DisableCollision();
@@ -317,6 +318,7 @@ namespace MOBA
 
         protected override void Die(Unit killer)
         {
+            if (isDummy) return;
             GameLogger.Log(this, LogActionType.die, transform.position, killer);
             base.Die(killer);
         }

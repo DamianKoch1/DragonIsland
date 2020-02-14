@@ -46,6 +46,7 @@ namespace MOBA
         public bool destroyOnNonTargetHit = false;
 
         public bool canHitStructures = false;
+
     }
 
     [RequireComponent(typeof(Collider))]
@@ -81,6 +82,9 @@ namespace MOBA
         private UnitStats ownerStatsAtSpawn;
 
         private PhotonView ownerView;
+
+        [SerializeField]
+        private ParticleSystem onHitVFX;
 
 
         [Tooltip("Let child effects use their scaling or override with own?")]
@@ -178,6 +182,8 @@ namespace MOBA
                     }
                 }
             }
+
+            Instantiate(onHitVFX.gameObject, Vector3.Lerp(transform.position, unit.transform.position, 0.5f), Quaternion.identity);
 
             if (unit == target)
             {

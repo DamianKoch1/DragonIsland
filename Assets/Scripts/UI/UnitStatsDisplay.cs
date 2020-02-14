@@ -93,7 +93,7 @@ namespace MOBA
             SetValueText(moveSpeed, targetStats.MoveSpeed);
             SetValueText(level, targetStats.Lvl);
 
-            if (!Target) Destroy(gameObject);
+            if (!Target || Target.IsDead) Destroy(gameObject);
         }
 
         private void SetHPText(float current, float max)
