@@ -55,8 +55,6 @@ namespace MOBA
 
         public static Champ Player => Instance.player;
 
-        private Vector3 mousePos;
-
         [Space]
         public DefaultColors defaultColors;
 
@@ -107,7 +105,7 @@ namespace MOBA
 
         public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
         {
-            return cam.GetCursorToWorldPoint(out mouseWorldPos);
+            return cam.GetCursorToGroundPoint(out mouseWorldPos);
         }
 
 
@@ -123,61 +121,69 @@ namespace MOBA
 
         private void OnMovePressed()
         {
-            if (hovered)
+            AttackOrMove(true);
+        }
+        private void OnMoveHeld()
+        {
+            AttackOrMove();
+        }
+
+        private void AttackOrMove(bool spawnClickVFX = false)
+        {
+            if (!GetMouseWorldPos(out var targetPos)) return;
+
+            if (Minimap.Instance.IsCursorOnMinimap(out var mouseWorldPos))
+            {
+                targetPos = mouseWorldPos;
+            }
+            else if (hovered)
             {
                 player.OnAttackCommand(hovered.GetViewID());
-                GameLogger.Log(player, LogActionType.attack, mousePos, hovered);
+                GameLogger.Log(player, LogActionType.attack, targetPos, hovered);
+                return;
             }
-            else if (GetMouseWorldPos(out mousePos))
+            player.OnMoveCommand(targetPos);
+            GameLogger.Log(player, LogActionType.move, targetPos);
+            if (spawnClickVFX)
             {
-                player.OnMoveCommand(mousePos);
-                GameLogger.Log(player, LogActionType.move, mousePos);
+                Instantiate(moveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
             }
         }
 
-        private void OnMoveHeld()
-        {
-            if (hovered)
-            {
-                player.OnAttackCommand(hovered.GetViewID());
-                GameLogger.Log(player, LogActionType.attack, mousePos, hovered);
-            }
-            else if (GetMouseWorldPos(out mousePos))
-            {
-                player.OnMoveCommand(mousePos);
-                GameLogger.Log(player, LogActionType.move, mousePos);
-            }
-        }
 
         private void OnAttackMovePressed()
         {
-            if (hovered)
+            if (!GetMouseWorldPos(out var targetPos)) return;
+            if (Minimap.Instance.IsCursorOnMinimap(out var mouseWorldPos))
+            {
+                targetPos = mouseWorldPos;
+            }
+            else if (hovered)
             {
                 if (hovered.Targetable)
                 {
                     player.OnAttackCommand(hovered.GetViewID());
-                    GameLogger.Log(player, LogActionType.attack, mousePos, hovered);
+                    GameLogger.Log(player, LogActionType.attack, targetPos, hovered);
                 }
                 return;
             }
-            if (!GetMouseWorldPos(out mousePos)) return;
-            Instantiate(atkMoveClickVfx, mousePos + Vector3.up * 0.2f, Quaternion.identity);
-            var targets = player.GetTargetableEnemiesInAtkRange<Unit>(mousePos);
+            Instantiate(atkMoveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
+            var targets = player.GetTargetableEnemiesInRange<Unit>(targetPos, 5);
             switch (targets.Count())
             {
                 case 0:
-                    player.OnMoveCommand(mousePos);
-                    GameLogger.Log(player, LogActionType.move, mousePos);
+                    player.OnMoveCommand(targetPos);
+                    GameLogger.Log(player, LogActionType.move, targetPos);
                     break;
                 case 1:
                     var target = targets[0];
                     player.OnAttackCommand(targets[0].GetViewID());
-                    GameLogger.Log(player, LogActionType.attack, mousePos, target);
+                    GameLogger.Log(player, LogActionType.attack, targetPos, target);
                     break;
                 default:
-                    var closestTarget = targets.GetClosestUnitFrom<Unit>(mousePos);
+                    var closestTarget = targets.GetClosestUnitFrom<Unit>(targetPos);
                     player.OnAttackCommand(closestTarget.GetViewID());
-                    GameLogger.Log(player, LogActionType.attack, mousePos, closestTarget);
+                    GameLogger.Log(player, LogActionType.attack, targetPos, closestTarget);
                     break;
             }
         }
@@ -188,7 +194,6 @@ namespace MOBA
             if (Input.GetMouseButtonDown(1))
             {
                 OnMovePressed();
-                Instantiate(moveClickVfx, mousePos + Vector3.up * 0.2f, Quaternion.identity);
             }
             else if (Input.GetMouseButton(1))
             {
@@ -212,34 +217,34 @@ namespace MOBA
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                if (GetMouseWorldPos(out mousePos))
+                if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastQ(hovered, mousePos);
-                    GameLogger.Log(player, LogActionType.Q, mousePos, hovered);
+                    player.CastQ(hovered, targetPos);
+                    GameLogger.Log(player, LogActionType.Q, targetPos, hovered);
                 }
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
-                if (GetMouseWorldPos(out mousePos))
+                if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastW(hovered, mousePos);
-                    GameLogger.Log(player, LogActionType.W, mousePos, hovered);
+                    player.CastW(hovered, targetPos);
+                    GameLogger.Log(player, LogActionType.W, targetPos, hovered);
                 }
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (GetMouseWorldPos(out mousePos))
+                if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastE(hovered, mousePos);
-                    GameLogger.Log(player, LogActionType.E, mousePos, hovered);
+                    player.CastE(hovered, targetPos);
+                    GameLogger.Log(player, LogActionType.E, targetPos, hovered);
                 }
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                if (GetMouseWorldPos(out mousePos))
+                if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastR(hovered, mousePos);
-                    GameLogger.Log(player, LogActionType.R, mousePos, hovered);
+                    player.CastR(hovered, targetPos);
+                    GameLogger.Log(player, LogActionType.R, targetPos, hovered);
                 }
             }
         }
@@ -283,14 +288,8 @@ namespace MOBA
             }
         }
 
-        public void UpdateMousePos()
-        {
-            GetMouseWorldPos(out mousePos);
-        }
-
         private void Update()
         {
-            UpdateMousePos();
             ProcessPlayerInput();
             ProcessCamInput();
             ProcessDebugInput();

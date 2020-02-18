@@ -59,10 +59,12 @@ namespace MOBA
             if (enemyDisplayInstance)
             {
                 if (enemyDisplayInstance.Target == _target) return;
-                Destroy(enemyDisplayInstance.gameObject);
+            }
+            else
+            {
+                enemyDisplayInstance = Instantiate(enemyDisplayPrefab.gameObject).GetComponent<UnitStatsDisplay>();
             }
 
-            enemyDisplayInstance = Instantiate(enemyDisplayPrefab.gameObject).GetComponent<UnitStatsDisplay>();
             enemyDisplayInstance.Initialize(_target);
             enemyDisplayInstance?.GetComponent<UnitStatBars>().Initialize(_target);
         }

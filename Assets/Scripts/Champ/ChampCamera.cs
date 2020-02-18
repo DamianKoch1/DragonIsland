@@ -21,7 +21,7 @@ namespace MOBA
         [SerializeField, Range(1, 10), Tooltip("The higher the value, the further away the camera can get.")]
         private float minZoom = 2f;
 
-        Plane groundPlane;
+        public static Plane GroundPlane = new Plane(Vector3.up, Vector3.zero);
 
         [SerializeField]
         private KeyCode unlockKey;
@@ -42,6 +42,8 @@ namespace MOBA
         [SerializeField]
         private Vector3 redSideLimit;
 
+        private LineRenderer lr;
+
         public void Initialize(Champ _target, Vector3 _offset, Quaternion _rotation)
         {
             distanceFactor = 1;
@@ -49,8 +51,8 @@ namespace MOBA
             target = _target;
             offset = _offset;
             rotation = _rotation;
-            groundPlane = new Plane(Vector3.up, Vector3.zero);
             cam = GetComponent<Camera>();
+            lr = GetComponent<LineRenderer>();
         }
 
         void Update()
@@ -90,6 +92,18 @@ namespace MOBA
             targetPos.z = Mathf.Clamp(targetPos.z, blueSideLimit.z, redSideLimit.z);
             distanceFactor = Mathf.Lerp(distanceFactor, targetDistanceFactor, 0.1f);
             transform.position = targetPos + offset * distanceFactor;
+
+            ScreenToGroundPoint(Vector3.zero, out var result);
+            lr.SetPosition(0, result + Vector3.up * 10);
+
+            ScreenToGroundPoint(new Vector3(Screen.width, 0, 0), out result);
+            lr.SetPosition(1, result + Vector3.up * 10);
+
+            ScreenToGroundPoint(new Vector3(Screen.width, Screen.height, 0), out result);
+            lr.SetPosition(2, result + Vector3.up * 10);
+
+            ScreenToGroundPoint(new Vector3(0, Screen.height, 0), out result);
+            lr.SetPosition(3, result + Vector3.up * 10);
         }
 
         private void ToggleLocked()
@@ -104,16 +118,21 @@ namespace MOBA
             else if (targetDistanceFactor < maxZoom) targetDistanceFactor = maxZoom;
         }
 
-        public bool GetCursorToWorldPoint(out Vector3 result)
+        private bool ScreenToGroundPoint(Vector3 screenPoint, out Vector3 result)
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (groundPlane.Raycast(ray, out var hit))
+            Ray ray = cam.ScreenPointToRay(screenPoint);
+            if (GroundPlane.Raycast(ray, out var hit))
             {
                 result = ray.GetPoint(hit);
                 return true;
             }
             result = Vector3.zero;
             return false;
+        }
+
+        public bool GetCursorToGroundPoint(out Vector3 result)
+        {
+            return ScreenToGroundPoint(Input.mousePosition, out result);
         }
     }
 }

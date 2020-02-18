@@ -24,10 +24,10 @@ namespace MOBA
             return new Vector3(v.x, 0, v.z);
         }
 
-        public static UnitList<T> GetTargetableEnemiesInAtkRange<T>(this Unit unit, Vector3 fromPosition) where T : Unit
+        public static UnitList<T> GetTargetableEnemiesInRange<T>(this Unit unit, Vector3 fromPosition, float range) where T : Unit
         {
             UnitList<T> result = new UnitList<T>();
-            foreach (var collider in Physics.OverlapSphere(fromPosition, unit.Stats.AtkRange))
+            foreach (var collider in Physics.OverlapSphere(fromPosition, range))
             {
                 if (collider.isTrigger) continue;
                 var enemy = collider.GetComponent<T>();
