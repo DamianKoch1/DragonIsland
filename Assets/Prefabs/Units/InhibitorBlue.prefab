@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InhibitorBlue
       objectReference: {fileID: 0}
+    - target: {fileID: 2370482166804299916, guid: 52cb1c1be26605c4c92d2ce8cdea1de6,
+        type: 3}
+      propertyPath: outlineWidth
+      value: 0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 4831881777837522910, guid: 52cb1c1be26605c4c92d2ce8cdea1de6,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -39,12 +39,6 @@ namespace MOBA
         public UnitStats Stats => stats;
 
 
-
-        private List<Material> defaultMaterials;
-        private List<Material> outlineMaterials;
-        private List<Renderer> renderers;
-
-
         [HideInInspector]
         public Amplifiers amplifiers;
 
@@ -165,6 +159,13 @@ namespace MOBA
 
         [SerializeField]
         protected GameObject mesh;
+
+        private List<Material> defaultMaterials;
+        private List<Material> outlineMaterials;
+        private List<Renderer> renderers;
+
+        [SerializeField, Range(0, 2)]
+        private float outlineWidth = 0.1f;
 
         [SerializeField]
         private Animator animator;
@@ -386,7 +387,7 @@ namespace MOBA
                 var outlineMaterial = new Material(renderer.material);
                 outlineMaterial.shader = PlayerController.Instance.outline;
                 outlineMaterial.SetColor("_OutlineColor", GetOutlineColor());
-                outlineMaterial.SetFloat("_Outline", 0.25f);
+                outlineMaterial.SetFloat("_OutlineWidth", outlineWidth);
                 outlineMaterials.Add(outlineMaterial);
             }
         }

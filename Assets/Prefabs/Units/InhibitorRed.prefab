@@ -102,6 +102,11 @@ PrefabInstance:
       propertyPath: teamID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2370482166804299916, guid: 52cb1c1be26605c4c92d2ce8cdea1de6,
+        type: 3}
+      propertyPath: outlineWidth
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 7692697332126755061, guid: 52cb1c1be26605c4c92d2ce8cdea1de6,
         type: 3}
       propertyPath: m_Name
