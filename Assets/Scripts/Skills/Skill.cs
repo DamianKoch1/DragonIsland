@@ -68,7 +68,7 @@ namespace MOBA
 
         public float Cost => cost;
 
-        [SerializeField, Range(-1, 100)]
+        [SerializeField, Range(-1, 200)]
         protected float castRange = -1;
 
         [SerializeField]
@@ -96,8 +96,8 @@ namespace MOBA
             isReady = true;
             Rank = 1;
             effects = new List<SkillEffect>(GetComponents<SkillEffect>());
-            OnCastTimeFinished += ActivateEffects;
             OnCastTimeFinished += StopCastTimeLock;
+            OnCastTimeFinished += ActivateEffects;
             OnCastTimeFinished += () => castTimeCoroutine = null;
             castTimeCoroutine = null;
             SetOwner(_owner);

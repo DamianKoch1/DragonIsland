@@ -1,8 +1,45 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Teleport : MonoBehaviour
+namespace MOBA
 {
-    //TODO
+    public class Teleport : SkillEffect
+    {
+        [SerializeField, Tooltip("If true, will teleport to mouse position each tick, only works on Champs")]
+        private bool canTick = false;
+
+        public override void Activate<T>(UnitList<T> targets)
+        {
+            Debug.LogError("Cannot teleport to multiple targets! (Source: " + owner.name + ")");
+        }
+
+        public override void Activate(Unit _target)
+        {
+            base.Activate(_target);
+            var targetPos = _target.GetGroundPos();
+            targetPos -= (targetPos - owner.GetGroundPos()).normalized;
+            owner.Teleport(targetPos);
+        }
+
+        public override void Activate(Vector3 targetPos)
+        {
+            base.Activate(targetPos);
+            owner.Teleport(targetPos);
+        }
+
+        public override void Tick()
+        {
+            if (!(owner is Champ)) return;
+            if (!canTick) return;
+            PlayerController.Instance.GetMouseWorldPos(out var mousePos);
+            Activate(mousePos);
+        }
+
+
+        protected override void OnDeactivated()
+        {
+        }
+    }
 }

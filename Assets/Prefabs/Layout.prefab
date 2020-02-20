@@ -818,6 +818,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseBlue
       objectReference: {fileID: 0}
+    - target: {fileID: 8521579910971254476, guid: 52a9fb080d6e95c43aa04b725f9da865,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1577499548847211141, guid: 52a9fb080d6e95c43aa04b725f9da865,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -878,11 +883,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 14
       objectReference: {fileID: 0}
-    - target: {fileID: 8521579910971254476, guid: 52a9fb080d6e95c43aa04b725f9da865,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6885806197964608257, guid: 52a9fb080d6e95c43aa04b725f9da865,
         type: 3}
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
@@ -938,6 +938,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InhibitorBlueBot
       objectReference: {fileID: 0}
+    - target: {fileID: 1124975452546564088, guid: 41195959cde098b418bb8f325134b711,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7692697332126755066, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -991,11 +996,6 @@ PrefabInstance:
     - target: {fileID: 7692697332126755066, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1124975452546564088, guid: 41195959cde098b418bb8f325134b711,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 660372660231231400, guid: 41195959cde098b418bb8f325134b711,
@@ -1229,6 +1229,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedBase1
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1309,11 +1314,6 @@ PrefabInstance:
       propertyPath: targetableUntilMode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &3535872561504763592 stripped
@@ -1345,6 +1345,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerBlueBotT1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
@@ -1399,11 +1404,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1540,6 +1540,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InhibitorBlueTop
       objectReference: {fileID: 0}
+    - target: {fileID: 1124975452546564088, guid: 41195959cde098b418bb8f325134b711,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7692697332126755066, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1595,11 +1600,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1124975452546564088, guid: 41195959cde098b418bb8f325134b711,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 660372660231231400, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
       propertyPath: isUntargetableUntilDestroyed.Array.size
@@ -1641,6 +1641,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerRedTopT2
+      objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
@@ -1707,11 +1712,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872560424625939}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!4 &3535872561297319811 stripped
@@ -1836,7 +1836,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.38268343
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -1846,7 +1846,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238796
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -1861,7 +1861,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 45.000004
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2123,6 +2123,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseRed
       objectReference: {fileID: 0}
+    - target: {fileID: 2478605380886195211, guid: 88c15a5356f0e664390665bcb4810c5a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109099296593290107, guid: 88c15a5356f0e664390665bcb4810c5a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 4738660692087572546, guid: 88c15a5356f0e664390665bcb4810c5a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2176,16 +2186,6 @@ PrefabInstance:
     - target: {fileID: 4738660692087572546, guid: 88c15a5356f0e664390665bcb4810c5a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109099296593290107, guid: 88c15a5356f0e664390665bcb4810c5a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2478605380886195211, guid: 88c15a5356f0e664390665bcb4810c5a,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 839976239669254598, guid: 88c15a5356f0e664390665bcb4810c5a,
@@ -2418,6 +2418,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InhibitorBlueMid
       objectReference: {fileID: 0}
+    - target: {fileID: 1124975452546564088, guid: 41195959cde098b418bb8f325134b711,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7692697332126755066, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2473,11 +2478,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1124975452546564088, guid: 41195959cde098b418bb8f325134b711,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 660372660231231400, guid: 41195959cde098b418bb8f325134b711,
         type: 3}
       propertyPath: isUntargetableUntilDestroyed.Array.size
@@ -2524,6 +2524,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerRedTopInhib
+      objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
@@ -2590,11 +2595,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872561297319812}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!4 &3535872561101866114 stripped
@@ -2834,7 +2834,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.3826837
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2844,7 +2844,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9238795
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2859,7 +2859,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -45.000004
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -2897,6 +2897,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerBlueBase1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
@@ -2951,11 +2956,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
@@ -3457,6 +3457,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedBotInhib
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3522,11 +3527,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872560557017053}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &3535872561967073493 stripped
@@ -3557,6 +3557,18 @@ PrefabInstance:
     - target: {fileID: 102354, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
       propertyPath: m_Name
       value: Blacksmith Area
+      objectReference: {fileID: 0}
+    - target: {fileID: 10895502, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: NaN
+      objectReference: {fileID: 0}
+    - target: {fileID: 10895502, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.05e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 10895502, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 427414, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3613,18 +3625,6 @@ PrefabInstance:
     - target: {fileID: 427414, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.6425
-      objectReference: {fileID: 0}
-    - target: {fileID: 10895502, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
-      propertyPath: m_BoundingSphereOverride.x
-      value: NaN
-      objectReference: {fileID: 0}
-    - target: {fileID: 10895502, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
-      propertyPath: m_BoundingSphereOverride.y
-      value: 1.05e-43
-      objectReference: {fileID: 0}
-    - target: {fileID: 10895502, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
-      propertyPath: m_BoundingSphereOverride.z
-      value: NaN
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6ec9fa16bc3f3047ae2227e7dfa36fd, type: 3}
@@ -4094,6 +4094,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerBlueBotInhib
       objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4147,11 +4152,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
@@ -4655,6 +4655,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Campfire 1
       objectReference: {fileID: 0}
+    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 6.82e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: -0.000032508833
+      objectReference: {fileID: 0}
+    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 6.82e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 6e-44
+      objectReference: {fileID: 0}
     - target: {fileID: 428966, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
       propertyPath: m_LocalPosition.x
       value: -53.120003
@@ -4698,22 +4714,6 @@ PrefabInstance:
     - target: {fileID: 428966, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
-      propertyPath: m_BoundingSphereOverride.x
-      value: 6.82e-43
-      objectReference: {fileID: 0}
-    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
-      propertyPath: m_BoundingSphereOverride.y
-      value: -0.000032508833
-      objectReference: {fileID: 0}
-    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
-      propertyPath: m_BoundingSphereOverride.z
-      value: 6.82e-43
-      objectReference: {fileID: 0}
-    - target: {fileID: 10888064, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
-      propertyPath: m_BoundingSphereOverride.w
-      value: 6e-44
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 310ca6c7edf191243823453be6a1b967, type: 3}
@@ -5051,6 +5051,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerBlueBase
       objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5104,11 +5109,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
@@ -5231,6 +5231,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedMidT1
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5284,11 +5289,6 @@ PrefabInstance:
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5457,6 +5457,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedTopT1
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5510,11 +5515,6 @@ PrefabInstance:
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5679,6 +5679,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InhibitorRedTop
       objectReference: {fileID: 0}
+    - target: {fileID: 615501898914001989, guid: 38a4848c866603241a19234be3915243,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7915067509203018567, guid: 38a4848c866603241a19234be3915243,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5744,11 +5749,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872561101866117}
-    - target: {fileID: 615501898914001989, guid: 38a4848c866603241a19234be3915243,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38a4848c866603241a19234be3915243, type: 3}
 --- !u!4 &5933930037360408908 stripped
@@ -5976,6 +5976,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerBlueBotT2
       objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6031,11 +6036,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: isUntargetableUntilDestroyed.Array.size
@@ -6077,6 +6077,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerRedBotT1
+      objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
@@ -6131,11 +6136,6 @@ PrefabInstance:
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6388,6 +6388,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedMidT2
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6453,11 +6458,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872561563121808}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &3535872560052109635 stripped
@@ -6561,6 +6561,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InhibitorRedMid
       objectReference: {fileID: 0}
+    - target: {fileID: 615501898914001989, guid: 38a4848c866603241a19234be3915243,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7915067509203018567, guid: 38a4848c866603241a19234be3915243,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6626,11 +6631,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872559917389441}
-    - target: {fileID: 615501898914001989, guid: 38a4848c866603241a19234be3915243,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38a4848c866603241a19234be3915243, type: 3}
 --- !u!114 &3581034558204330878 stripped
@@ -6726,6 +6726,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedMidInhib
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6791,11 +6796,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872560052109635}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &3535872559917389441 stripped
@@ -6827,6 +6827,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: InhibitorRedBot
+      objectReference: {fileID: 0}
+    - target: {fileID: 615501898914001989, guid: 38a4848c866603241a19234be3915243,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7915067509203018567, guid: 38a4848c866603241a19234be3915243,
         type: 3}
@@ -6893,11 +6898,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872561967073493}
-    - target: {fileID: 615501898914001989, guid: 38a4848c866603241a19234be3915243,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38a4848c866603241a19234be3915243, type: 3}
 --- !u!114 &3581034558304248791 stripped
@@ -6929,6 +6929,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerBlueTopT2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
@@ -6983,11 +6988,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
@@ -7124,6 +7124,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerBlueMidT2
       objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7177,11 +7182,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
@@ -7289,6 +7289,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerBlueMidInhib
       objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7342,11 +7347,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
@@ -7569,7 +7569,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.70710635
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -7579,7 +7579,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071073
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -7594,7 +7594,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90.00001
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -7851,6 +7851,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerBlueTopInhib
       objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7904,11 +7909,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224559, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
@@ -8079,6 +8079,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerBlueTopT1
       objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8132,11 +8137,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8328,7 +8328,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7070598
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -8338,7 +8338,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071538
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -8353,7 +8353,7 @@ PrefabInstance:
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -89.992004
       objectReference: {fileID: 0}
     - target: {fileID: 1649222528186341621, guid: c7734db407d7ce34a9f85b3ee1157f0b,
         type: 3}
@@ -8391,6 +8391,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TowerBlueMidT1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
@@ -8445,11 +8450,6 @@ PrefabInstance:
     - target: {fileID: 5881307047872224552, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6650186491123310610, guid: a87acb7a40a177c4eb7f154e5beb8b2e,
-        type: 3}
-      propertyPath: viewIdField
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8702,6 +8702,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedBotT2
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8767,11 +8772,6 @@ PrefabInstance:
       propertyPath: isUntargetableUntilDestroyed.Array.data[0]
       value: 
       objectReference: {fileID: 3535872560201784944}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}
 --- !u!114 &3535872560557017053 stripped
@@ -8930,6 +8930,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerRedBase
       objectReference: {fileID: 0}
+    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1053713976444344279, guid: df0c11339ba83484faa2f44286f84b2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9009,11 +9014,6 @@ PrefabInstance:
         type: 3}
       propertyPath: targetableUntilMode
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 237327106696620781, guid: df0c11339ba83484faa2f44286f84b2a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0c11339ba83484faa2f44286f84b2a, type: 3}

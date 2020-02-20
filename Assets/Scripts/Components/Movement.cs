@@ -74,7 +74,8 @@ namespace MOBA
             else if (GetVelocity() <= 0)
             {
                 OnStopMoving?.Invoke();
-                if (Vector3.Distance(transform.position, TargetPos) <= 1.2f)
+                //TODO stop hardcoding, calculate with stopping distance?
+                if (Vector3.Distance(transform.position, TargetPos) <= 1.4f)
                 {
                     OnReachedDestination?.Invoke();
                 }

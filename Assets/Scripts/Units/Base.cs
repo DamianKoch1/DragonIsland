@@ -159,13 +159,13 @@ namespace MOBA
             if (!PhotonNetwork.IsMasterClient) return;
 
             MinionWave wave;
-            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, topSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, topSpawn.transform.position, topSpawn.transform.rotation).GetComponent<MinionWave>();
             wave.Initialize(LaneID.top, spawnParent);
 
-            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, midSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, midSpawn.transform.position, midSpawn.transform.rotation).GetComponent<MinionWave>();
             wave.Initialize(LaneID.mid, spawnParent);
 
-            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, botSpawn.transform.position, Quaternion.identity).GetComponent<MinionWave>();
+            wave = PhotonNetwork.Instantiate(defaultWave.gameObject.name, botSpawn.transform.position, botSpawn.transform.rotation).GetComponent<MinionWave>();
             wave.Initialize(LaneID.bot, spawnParent);
         }
 

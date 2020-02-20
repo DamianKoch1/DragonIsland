@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 2208006085676354290}
   - component: {fileID: 61637304205041448}
   - component: {fileID: 3594137419949795960}
+  - component: {fileID: 8086501671418995854}
   m_Layer: 0
   m_Name: Q
   m_TagString: Untagged
@@ -193,11 +194,11 @@ MonoBehaviour:
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   skillName: Q
   castTime: 0.5
-  canMoveWhileCasting: 1
-  cooldown: 2
+  canMoveWhileCasting: 0
+  cooldown: 4
   cooldownReductionPerRank: 0
   cost: 50
-  castRange: 7
+  castRange: 10
   targetingMode: 2
   canCastOnStructures: 0
 --- !u!114 &61637304205041448
@@ -275,6 +276,58 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &8086501671418995854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713575772536214249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6edebe1f2f834428d4294ed6aab02a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
+  scaling:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  preferApplyToPosition: 1
+  canTick: 0
 --- !u!1 &2595568225189140903
 GameObject:
   m_ObjectHideFlags: 0

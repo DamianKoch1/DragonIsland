@@ -51,6 +51,14 @@ namespace Photon.Pun
             m_firstTake = true;
         }
 
+        public void SetNetworkPosition(Vector3 newPos)
+        {
+            m_StoredPosition = newPos;
+            m_NetworkPosition = newPos;
+            m_Distance = 0;
+        }
+
+
         public void Update()
         {
             if (!this.m_PhotonView.IsMine)

@@ -503,6 +503,41 @@ namespace MOBA
             Gizmos.DrawWireSphere(transform.position, radius);
         }
 
+        public void Teleport(Vector3 targetPos)
+        {
+            var destination = GetDestination();
+            bool continueMove;
+            if (destination == Vector3.zero)
+            {
+                continueMove = false;
+            }
+            else
+            {
+                continueMove = Vector3.Distance(this.GetGroundPos(), destination) > 1f;
+            }
+
+            movement.DisableCollision();
+            photonView.RPC(nameof(NetworkTeleport), RpcTarget.All, targetPos);
+            movement.EnableCollision();
+
+            //prevent running back to source if not previously moving
+            if (continueMove)
+            {
+                MoveTo(destination);
+            }
+            else
+            {
+                MoveTo(targetPos);
+            }
+
+        }
+
+        [PunRPC]
+        public void NetworkTeleport(Vector3 targetPos)
+        {
+            transform.position = targetPos;
+            GetComponent<PhotonTransformView>().SetNetworkPosition(targetPos);
+        }
 
         protected virtual void OnValidate()
         {
