@@ -22,6 +22,8 @@ namespace MOBA
             }
         }
 
+        private Transform canvasTransform;
+
         private RectTransform rTransform;
 
         [SerializeField, Tooltip("(0, 0, 0) should be map middle, this is the distance from middle to any corner")]
@@ -30,23 +32,29 @@ namespace MOBA
         private void Initialize()
         {
             rTransform = GetComponent<RectTransform>();
+            canvasTransform = GetComponentInParent<Canvas>().transform;
         }
 
         public bool IsCursorOnMinimap(out Vector3 minimapToWorldPos)
         {
             minimapToWorldPos = Vector3.zero;
-            float width = rTransform.rect.width;
-            float height = rTransform.rect.height;
+
+            //account for canvas scale (window size)
+            float width = rTransform.rect.width * canvasTransform.localScale.x;
+            float height = rTransform.rect.height * canvasTransform.localScale.y;
+
+            //check if mouse pos is closer to minimap corner than minimap size (is on minimap)
             float mouseMinimapPosX = Input.mousePosition.x + width - Screen.width;
             float mouseMinimapPosY = -Input.mousePosition.y + height;
+            if (mouseMinimapPosX < 0) return false;
+            if (mouseMinimapPosY < 0) return false;
 
-            if (mouseMinimapPosX < -width) return false;
-            if (mouseMinimapPosY < -height) return false;
+            //get corresponding position on minimap from -1 (bottom left) to 1 (top right);
+            float minimapScreenPosX = mouseMinimapPosX / width * 2 - 1;
+            float minimapScreenPosY = -mouseMinimapPosY / height * 2 + 1;
+            print(minimapScreenPosX + ", " + minimapScreenPosY);
 
-            float minimapScreenPosX = mouseMinimapPosX / width;
-            float minimapScreenPosY = -mouseMinimapPosY / height;
-            print(mouseMinimapPosX);
-
+            //get corresponding world position
             minimapToWorldPos.x = 75 * minimapScreenPosX;
             minimapToWorldPos.z = 75 * minimapScreenPosY;
             return true;

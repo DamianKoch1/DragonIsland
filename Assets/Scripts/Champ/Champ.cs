@@ -38,6 +38,9 @@ namespace MOBA
 
         private Vector3 spawnpoint;
 
+        private NavMeshAgent agent;
+
+        private LineRenderer lr;
 
 
         private List<Skill> skills;
@@ -73,7 +76,14 @@ namespace MOBA
             ToggleRangeIndicator(false);
             SetupSkills();
 
-            if (!photonView.IsMine) return;
+            agent = GetComponent<NavMeshAgent>();
+            lr = GetComponentInChildren<LineRenderer>();
+
+            if (!photonView.IsMine)
+            {
+                lr.enabled = false;
+                return;
+            }
             OnAttackedByChamp += RequestTowerAssist;
 
             nearbyAlliedTowers = new UnitList<Tower>();
@@ -85,7 +95,33 @@ namespace MOBA
 
 
             OnUnitTick += () => Gold += GOLDPERSEC;
+        }
 
+        protected override void Update()
+        {
+            base.Update();
+
+            UpdateMinimapPath();
+        }
+
+        private void UpdateMinimapPath()
+        {
+            if (!photonView.IsMine) return;
+            if (!CanMove && lr.enabled)
+            {
+                lr.enabled = false;
+                return;
+            }
+            else if (CanMove && !lr.enabled)
+            {
+                lr.enabled = true;
+            }
+            var pathPoints = agent.path.corners;
+            lr.positionCount = pathPoints.Length;
+            for (int i = 0; i < pathPoints.Length; i++)
+            {
+                lr.SetPosition(i, pathPoints[i] += Vector3.up * 10);
+            }
         }
 
         private void SetupSkills()
