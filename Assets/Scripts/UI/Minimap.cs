@@ -52,7 +52,6 @@ namespace MOBA
             //get corresponding position on minimap from -1 (bottom left) to 1 (top right);
             float minimapScreenPosX = mouseMinimapPosX / width * 2 - 1;
             float minimapScreenPosY = -mouseMinimapPosY / height * 2 + 1;
-            print(minimapScreenPosX + ", " + minimapScreenPosY);
 
             //get corresponding world position
             minimapToWorldPos.x = 75 * minimapScreenPosX;

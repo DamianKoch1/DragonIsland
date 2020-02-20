@@ -23,9 +23,6 @@ namespace MOBA
         private UnitList<Unit> enemyUnitsInRange;
         private UnitList<Champ> enemyChampsInRange;
 
-
-
-
         public LaneID TargetLane
         {
             set

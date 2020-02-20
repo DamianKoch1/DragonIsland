@@ -506,10 +506,6 @@ namespace MOBA
 
         protected virtual void OnValidate()
         {
-            if (attacking?.AtkTrigger)
-            {
-                attacking.AtkTrigger.radius = stats.AtkRange;
-            }
             if (attacking?.RangeIndicator)
             {
                 attacking.RangeIndicator.localScale = new Vector3(stats.AtkRange, 1, stats.AtkRange);
