@@ -71,5 +71,10 @@ namespace MOBA
                 collider.enabled = true;
             }
         }
+
+        public override void Stop()
+        {
+            stopped = true;
+        }
     }
 }

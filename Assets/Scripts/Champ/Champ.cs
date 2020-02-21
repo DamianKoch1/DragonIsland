@@ -66,14 +66,13 @@ namespace MOBA
         [SerializeField]
         private BarTextTimer respawnHUDPrefab;
 
-
+        private RangeIndicator rangeIndicator;
 
 
         public override void Initialize()
         {
             base.Initialize();
 
-            ToggleRangeIndicator(false);
             SetupSkills();
 
             agent = GetComponent<NavMeshAgent>();
@@ -95,6 +94,8 @@ namespace MOBA
 
 
             OnUnitTick += () => Gold += GOLDPERSEC;
+            rangeIndicator = GetComponentInChildren<RangeIndicator>();
+            rangeIndicator.Initialize(this, stats.AtkRange);
         }
 
         protected override void Update()
@@ -330,10 +331,16 @@ namespace MOBA
         }
 
 
-        public void ToggleRangeIndicator(bool show)
+        public void ToggleRangeIndicator(bool on, float range = -1)
         {
-            if (!attacking?.RangeIndicator) return;
-            attacking.RangeIndicator.gameObject.SetActive(show);
+            if (on)
+            {
+                rangeIndicator.ToggleOn(range);
+            }
+            else
+            {
+                rangeIndicator.ToggleOff(range);
+            }
         }
 
         [PunRPC]

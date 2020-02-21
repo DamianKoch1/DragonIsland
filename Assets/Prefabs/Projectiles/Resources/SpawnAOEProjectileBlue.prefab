@@ -51,12 +51,13 @@ MonoBehaviour:
     targetCurrentHP: 0
     targetMissingHP: 0
   preferApplyToPosition: 1
+  targetingMode: 0
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
   delay: 0.2
   attachToTarget: 0
   lifespan: 3
-  size: 5
+  size: 2.5
   tickInterval: 0.5
   hitMode: 2
   canHitStructures: 0

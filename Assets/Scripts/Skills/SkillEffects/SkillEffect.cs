@@ -10,6 +10,17 @@ using UnityEngine;
 
 namespace MOBA
 {
+    public enum EffectTargetingMode
+    {
+        inherit = 0,
+        closestUnit = 1,
+        closestAlly = 2,
+        closestEnemy = 3,
+        closestAllyChamp = 4,
+        closestEnemyChamp = 5,
+        self = 6
+    }
+
     /// <summary>
     /// Each effect has to implement their own networking, this gameObject has a PhotonView for RPCs.
     /// </summary>
@@ -36,6 +47,11 @@ namespace MOBA
         private bool preferApplyToPosition;
 
         protected PhotonView photonView;
+
+        [SerializeField]
+        private EffectTargetingMode targetingMode = EffectTargetingMode.inherit;
+
+        public EffectTargetingMode TargetingMode => targetingMode;
 
 
         public void SetStatsAtActivation(UnitStats stats)

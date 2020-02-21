@@ -107,5 +107,15 @@ namespace MOBA
             cdText.gameObject.SetActive(false);
             button.interactable = true;
         }
+
+        public void OnMouseEnter()
+        {
+            sourceSkill.OnMouseEnter();
+        }
+
+        public void OnMouseExit()
+        {
+            sourceSkill.OnMouseExit();
+        }
     }
 }

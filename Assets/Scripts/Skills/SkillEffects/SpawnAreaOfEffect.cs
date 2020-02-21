@@ -86,15 +86,15 @@ namespace MOBA
         public void SpawnAOEatPosRPC(Vector3 targetPos, int viewID)
         {
             currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
-            currentAOEInstance.Initialize(owner, null, ownerTeamID, null, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
+            currentAOEInstance.Initialize(owner, null, ownerTeamID, null, lifespan, size * 2, tickInterval, hitMode, canHitStructures, scaling, delay);
             currentAOEInstance.gameObject.AddComponent<PhotonView>().ViewID = viewID;
         }
 
         [PunRPC]
         public void SpawnAOEonUnitRPC(int parentViewID, Vector3 targetPos, int viewID)
         {
-            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity, parentViewID.GetUnitByID().transform).GetComponent<AreaOfEffect>();
-            currentAOEInstance.Initialize(owner, null, ownerTeamID, target, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
+            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, parentViewID.GetUnitByID().transform.rotation, parentViewID.GetUnitByID().transform).GetComponent<AreaOfEffect>();
+            currentAOEInstance.Initialize(owner, null, ownerTeamID, target, lifespan, size * 2, tickInterval, hitMode, canHitStructures, scaling, delay);
             currentAOEInstance.gameObject.AddComponent<PhotonView>().ViewID = viewID;
 
         }
@@ -112,12 +112,12 @@ namespace MOBA
             }
             else SpawnAOEatPosNetworked(targetPos, view.ViewID);
 
-            currentAOEInstance.Initialize(owner, ownerStatsAtActivation, ownerTeamID, null, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
+            currentAOEInstance.Initialize(owner, ownerStatsAtActivation, ownerTeamID, null, lifespan, size * 2, tickInterval, hitMode, canHitStructures, scaling, delay);
         }
 
         private void SpawnAOE(Unit target, UnitStats ownerStats)
         {
-            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, target.GetGroundPos(), Quaternion.identity).GetComponent<AreaOfEffect>();
+            currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, target.GetGroundPos(), target.transform.rotation).GetComponent<AreaOfEffect>();
             var view = currentAOEInstance.gameObject.AddComponent<PhotonView>();
             PhotonNetwork.AllocateViewID(view);
 
@@ -128,7 +128,7 @@ namespace MOBA
             }
             else SpawnAOEatPosNetworked(target.GetGroundPos(), view.ViewID);
 
-            currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, target, lifespan, size, tickInterval, hitMode, canHitStructures, scaling, delay);
+            currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, target, lifespan, size * 2, tickInterval, hitMode, canHitStructures, scaling, delay);
         }
 
       
@@ -178,7 +178,7 @@ namespace MOBA
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, size / 2);
+            Gizmos.DrawWireSphere(transform.position, size);
         }
 
     }

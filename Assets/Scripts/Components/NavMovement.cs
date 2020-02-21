@@ -97,5 +97,10 @@ namespace MOBA
             obstacle.enabled = false;
             agent.enabled = true;
         }
+
+        public override void Stop()
+        {
+            MoveTo(transform.position);
+        }
     }
 }

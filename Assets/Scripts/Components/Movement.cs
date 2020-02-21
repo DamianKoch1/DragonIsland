@@ -28,6 +28,8 @@ namespace MOBA
             TargetPos = destination;
         }
 
+        public abstract void Stop();
+
         public abstract void SetSpeed(float newSpeed);
 
         public abstract void Disable();

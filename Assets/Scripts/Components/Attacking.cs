@@ -41,10 +41,6 @@ namespace MOBA
 
         public SphereCollider AtkTrigger => atkTrigger;
 
-        [SerializeField]
-        protected Transform rangeIndicator;
-
-        public Transform RangeIndicator => rangeIndicator;
 
         [SerializeField]
         protected bool lookAtTarget = true;
@@ -112,7 +108,7 @@ namespace MOBA
                 if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > owner.Stats.AtkRange + target.Radius)
                 {
                     owner.CanMove = true;
-                    owner.MoveTo(target.transform.position);
+                    owner.MoveTo(target.GetGroundPos());
                     yield return null;
                     continue;
                 }
@@ -137,6 +133,7 @@ namespace MOBA
             }
             target = null;
             owner.CanMove = true;
+            owner.Stop();
         }
 
         [PunRPC]

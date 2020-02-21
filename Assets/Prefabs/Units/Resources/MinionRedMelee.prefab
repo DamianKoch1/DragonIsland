@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atkTrigger: {fileID: 1694140507238372693}
-  rangeIndicator: {fileID: 0}
   lookAtTarget: 1
   attackScaling:
     ad: 1
@@ -145,6 +144,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinionRedMelee
       objectReference: {fileID: 0}
+    - target: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: attacking
@@ -170,11 +174,6 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 5500933588237015541}
-    - target: {fileID: 2604554568371092366, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3200649003787323332, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_Center.y

@@ -19,6 +19,17 @@ namespace MOBA
             list = new List<T>(_list);
         }
 
+        public UnitList<T> FindAllies(Unit source)
+        {
+            return new UnitList<T>(list.FindAll(x => source.IsAlly(x) && x is T));
+        }
+
+        public UnitList<T> FindEnemies(Unit source)
+        {
+            return new UnitList<T>(list.FindAll(x => source.IsEnemy(x) && x is T));
+        }
+
+
         public T this[int idx] => list[idx];
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -70,14 +81,14 @@ namespace MOBA
             return list.Contains(unit);
         }
 
-        public T1 GetClosestUnitFrom<T1>(Vector3 fromPosition) where T1 : T
+        public T1 GetClosestUnitFrom<T1>(Vector3 source) where T1 : T
         {
             if (Count() == 0) return null;
             float lowestDistance = Mathf.Infinity;
             T1 closestUnit = null;
             foreach (T1 unit in this)
             {
-                float distance = Vector3.Distance(fromPosition, unit.transform.position);
+                float distance = Vector3.Distance(source, unit.transform.position);
                 if (distance < lowestDistance)
                 {
                     lowestDistance = distance;

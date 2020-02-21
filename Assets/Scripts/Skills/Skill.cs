@@ -20,7 +20,7 @@ namespace MOBA
     }
 
 
-    //TODO silence, chase until in castrange
+    //TODO silence
     [DisallowMultipleComponent]
     [RequireComponent(typeof(PhotonView))]
 
@@ -57,24 +57,36 @@ namespace MOBA
 
         public float CastTime => castTime;
 
+        [Space]
+        [SerializeField, Range(-1, 200), Tooltip("-1 = global")]
+        protected float castRange = -1;
+
+        public float CastRange => castRange;
+
+        [SerializeField, Tooltip("This should usually be false, set to true for SpawnProjectile skills that should always be cast towards cursor (only works for mousePos targeting, castRange still relevant for range indicator)")]
+        private bool ignoreCastRange = false;
+
+        [Space]
         [SerializeField, Range(0.1f, 300)]
         private float cooldown = 5;
 
-        [SerializeField, Range(0, 300)]
+        [SerializeField, Range(0, 100)]
         private float cooldownReductionPerRank;
 
-        [SerializeField, Min(0)]
+        [SerializeField, Range(0, 1000)]
         protected float cost = 50;
 
         public float Cost => cost;
 
-        [SerializeField, Range(-1, 200)]
-        protected float castRange = -1;
 
+        [Space]
         [SerializeField]
         private TargetingMode targetingMode;
 
         private Unit prevAttackTarget;
+
+        [SerializeField, Tooltip("Ignore this if targeting mode is inherit, find range for closest units to be targeted instead")]
+        private float getClosestUnitRange = 5;
 
         [SerializeField]
         private bool canCastOnStructures;
@@ -90,6 +102,7 @@ namespace MOBA
             protected set;
             get;
         }
+
 
         public virtual void Initialize(Unit _owner)
         {
@@ -114,9 +127,14 @@ namespace MOBA
 
 
         //TODO target selection
-        public virtual void OnButtonHovered()
+        public virtual void OnMouseEnter()
         {
+            ((Champ)owner).ToggleRangeIndicator(true, CastRange);
+        }
 
+        public virtual void OnMouseExit()
+        {
+            ((Champ)owner).ToggleRangeIndicator(false);
         }
 
         public virtual void OnButtonClicked()
@@ -143,6 +161,8 @@ namespace MOBA
         public Action<float, float> OnRemainingCDChanged;
         public Action OnCDFinished;
 
+        private Coroutine moveIntoCastRange;
+
         public virtual bool TryCast(Unit hovered, Vector3 mousePos)
         {
             if (!isReady) return false;
@@ -160,18 +180,108 @@ namespace MOBA
             }
             else if (target)
             {
-                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) <= castRange)
+                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > castRange)
+                {
+                    if (moveIntoCastRange != null)
+                    {
+                        StopCoroutine(moveIntoCastRange);
+                    }
+                    StartCoroutine(ChaseOutOfRangeTarget());
+                    return false;
+                }
+                else
                 {
                     Cast();
                     return true;
                 }
             }
-            else if (Vector3.Distance(owner.GetGroundPos(), mousePosAtCast) <= castRange)
+            else if (Vector3.Distance(owner.GetGroundPos(), mousePosAtCast) > castRange)
+            {
+                if (ignoreCastRange)
+                {
+                    Cast();
+                    return true;
+                }
+                else if (moveIntoCastRange != null)
+                {
+                    StopCoroutine(moveIntoCastRange);
+                }
+                StartCoroutine(MoveToOutOfRangePosition());
+                return false;
+            }
+            else
             {
                 Cast();
                 return true;
             }
-            return false;
+        }
+
+        private IEnumerator ChaseOutOfRangeTarget()
+        {
+            while (true)
+            {
+                if (!target)
+                {
+                    owner.Stop();
+                    break;
+                }
+                if (target.IsDead)
+                {
+                    owner.Stop();
+                    break;
+                }
+                if (owner.IsDead)
+                {
+                    owner.Stop();
+                    break;
+                }
+                if (!owner.canCast)
+                {
+                    owner.Stop();
+                    break;
+                }
+                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > CastRange)
+                {
+                    owner.CanMove = true;
+                    owner.MoveTo(target.GetGroundPos());
+                    yield return null;
+                    continue;
+                }
+                else
+                {
+                    Cast();
+                    break;
+                }
+            }
+        }
+
+        private IEnumerator MoveToOutOfRangePosition()
+        {
+            while (true)
+            {
+                if (owner.IsDead)
+                {
+                    owner.Stop();
+                    break;
+                }
+                if (!owner.canCast)
+                {
+                    owner.Stop();
+                    break;
+                }
+                if (Vector3.Distance(owner.GetGroundPos(), mousePosAtCast) > CastRange)
+                {
+                    owner.CanMove = true;
+                    owner.MoveTo(mousePosAtCast);
+                    yield return null;
+                    continue;
+                }
+                else
+                {
+                    Cast();
+                    break;
+                }
+            }
         }
 
         private void Cast()
@@ -314,18 +424,53 @@ namespace MOBA
 
         protected void ActivateEffects()
         {
-            if (target)
+            foreach (var effect in effects)
             {
-                foreach (var effect in effects)
+                switch (effect.TargetingMode)
                 {
-                    effect.Activate(target);
-                }
-            }
-            else
-            {
-                foreach (var effect in effects)
-                {
-                    effect.Activate(mousePosAtCast);
+                    case EffectTargetingMode.inherit:
+                        if (target)
+                        {
+                            effect.Activate(target);
+                        }
+                        else
+                        {
+                            effect.Activate(mousePosAtCast);
+                        }
+                        break;
+                    case EffectTargetingMode.closestUnit:
+                        var targets = owner.GetUnitsInRange<Unit>(getClosestUnitRange, canCastOnStructures);
+                        if (targets.Count() == 0) continue;
+                        var closest = owner.GetClosestUnit(targets);
+                        effect.Activate(closest);
+                        break;
+                    case EffectTargetingMode.closestAlly:
+                        targets = owner.GetUnitsInRange<Unit>(getClosestUnitRange, canCastOnStructures).FindAllies(owner);
+                        if (targets.Count() == 0) continue;
+                        closest = owner.GetClosestUnit(targets);
+                        effect.Activate(closest);
+                        break;
+                    case EffectTargetingMode.closestEnemy:
+                        targets = owner.GetUnitsInRange<Unit>(getClosestUnitRange, canCastOnStructures).FindEnemies(owner);
+                        if (targets.Count() == 0) continue;
+                        closest = owner.GetClosestUnit(targets);
+                        effect.Activate(closest);
+                        break;
+                    case EffectTargetingMode.closestAllyChamp:
+                        var targets1 = owner.GetUnitsInRange<Champ>(getClosestUnitRange, canCastOnStructures).FindAllies(owner);
+                        if (targets1.Count() == 0) continue;
+                        closest = owner.GetClosestUnit(targets1);
+                        effect.Activate(closest);
+                        break;
+                    case EffectTargetingMode.closestEnemyChamp:
+                        targets1 = owner.GetUnitsInRange<Champ>(getClosestUnitRange, canCastOnStructures).FindEnemies(owner);
+                        if (targets1.Count() == 0) continue;
+                        closest = owner.GetClosestUnit(targets1);
+                        effect.Activate(closest);
+                        break;
+                    case EffectTargetingMode.self:
+                        effect.Activate(owner);
+                        break;
                 }
             }
         }

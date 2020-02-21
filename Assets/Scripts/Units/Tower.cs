@@ -17,6 +17,8 @@ namespace MOBA
         [SerializeField, Range(0, 1)]
         private float noMinionsDamageMultiplier = 0.5f;
 
+        private RangeIndicator rangeIndicator;
+
         private void OnTriggerEnter(Collider other)
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -87,6 +89,7 @@ namespace MOBA
                 if (!attacking.IsAttacking())
                 {
                     attacking.StartAttacking(champ);
+                    rangeIndicator.ToggleOn(stats.AtkRange);
                 }
             }
         }
@@ -142,6 +145,9 @@ namespace MOBA
             }
             else lr.SetPosition(0, transform.position);
             lr.enabled = false;
+
+            rangeIndicator = GetComponentInChildren<RangeIndicator>();
+            rangeIndicator.Initialize(this, stats.AtkRange);
         }
 
         //TODO: shared code with minion, move to ai targeting component
@@ -153,6 +159,7 @@ namespace MOBA
                 if (minionTargets.Count() > 0)
                 {
                     attacking.StartAttacking(this.GetClosestUnit(minionTargets));
+                    rangeIndicator.ToggleOff();
                     return;
                 }
             }
@@ -162,10 +169,15 @@ namespace MOBA
                 if (champTargets.Count() > 0)
                 {
                     attacking.StartAttacking(this.GetClosestUnit(champTargets));
+                    rangeIndicator.ToggleOn(stats.AtkRange);
                     return;
                 }
             }
-            if (attacking.IsAttacking()) attacking.Stop();
+            if (attacking.IsAttacking())
+            {
+                attacking.Stop();
+                rangeIndicator.ToggleOff();
+            }
         }
 
         public void TryAttack(Champ target)
@@ -177,6 +189,7 @@ namespace MOBA
             }
             if (!enemyChampsInRange.Contains(target)) return;
             attacking.StartAttacking(target);
+            rangeIndicator.ToggleOn(stats.AtkRange);
         }
 
         public override float GetXPReward()

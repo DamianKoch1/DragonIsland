@@ -168,7 +168,7 @@ namespace MOBA
                 return;
             }
             Instantiate(atkMoveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
-            var targets = player.GetTargetableEnemiesInRange<Unit>(targetPos, 5);
+            var targets = player.GetTargetableEnemiesInRange<Unit>(targetPos, 5, true);
             switch (targets.Count())
             {
                 case 0:
@@ -191,6 +191,14 @@ namespace MOBA
         private void ProcessPlayerInput()
         {
             if (player.IsDead) return;
+
+            ProcessMovementInput();
+
+            ProcessSkillInput();
+        }
+
+        private void ProcessMovementInput()
+        {
             if (Input.GetMouseButtonDown(1))
             {
                 OnMovePressed();
@@ -208,44 +216,90 @@ namespace MOBA
             if (Input.GetKeyDown(attackMove))
             {
                 OnAttackMovePressed();
-                player.ToggleRangeIndicator(true);
+                player.ToggleRangeIndicator(true, player.Stats.AtkRange);
             }
             else if (Input.GetKeyUp(attackMove))
             {
-                player.ToggleRangeIndicator(false);
+                player.ToggleRangeIndicator(false, player.Stats.AtkRange);
             }
+        }
 
+        private void ProcessSkillInput()
+        {
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastQ(hovered, targetPos);
-                    GameLogger.Log(player, LogActionType.Q, targetPos, hovered);
+                    if (!player.CastQ(hovered, targetPos))
+                    {
+                        player.ToggleRangeIndicator(true, player.Skills[0].CastRange);
+                    }
+                    else
+                    {
+                        GameLogger.Log(player, LogActionType.Q, targetPos, hovered);
+                    }
                 }
             }
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                player.ToggleRangeIndicator(false, player.Skills[0].CastRange);
+            }
+
             if (Input.GetKeyDown(KeyCode.W))
             {
                 if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastW(hovered, targetPos);
-                    GameLogger.Log(player, LogActionType.W, targetPos, hovered);
+                    if (!player.CastW(hovered, targetPos))
+                    {
+                        player.ToggleRangeIndicator(true, player.Skills[1].CastRange);
+                    }
+                    else
+                    {
+                        GameLogger.Log(player, LogActionType.W, targetPos, hovered);
+                    }
                 }
             }
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                player.ToggleRangeIndicator(false, player.Skills[1].CastRange);
+            }
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastE(hovered, targetPos);
-                    GameLogger.Log(player, LogActionType.E, targetPos, hovered);
+                    if (!player.CastE(hovered, targetPos))
+                    {
+                        player.ToggleRangeIndicator(true, player.Skills[2].CastRange);
+                    }
+                    else
+                    {
+                        GameLogger.Log(player, LogActionType.E, targetPos, hovered);
+                    }
                 }
             }
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                player.ToggleRangeIndicator(false, player.Skills[2].CastRange);
+            }
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 if (GetMouseWorldPos(out var targetPos))
                 {
-                    player.CastR(hovered, targetPos);
-                    GameLogger.Log(player, LogActionType.R, targetPos, hovered);
+                    if (!player.CastR(hovered, targetPos))
+                    {
+                        player.ToggleRangeIndicator(true, player.Skills[3].CastRange);
+                    }
+                    else
+                    {
+                        GameLogger.Log(player, LogActionType.R, targetPos, hovered);
+                    }
                 }
+            }
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                player.ToggleRangeIndicator(false, player.Skills[3].CastRange);
             }
         }
 

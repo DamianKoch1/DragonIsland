@@ -24,10 +24,10 @@ namespace MOBA
             return new Vector3(v.x, 0, v.z);
         }
 
-        public static UnitList<T> GetTargetableEnemiesInRange<T>(this Unit unit, Vector3 fromPosition, float range) where T : Unit
+        public static UnitList<T> GetTargetableEnemiesInRange<T>(this Unit unit, Vector3 source, float range, bool includeStructures = false) where T : Unit
         {
             UnitList<T> result = new UnitList<T>();
-            foreach (var collider in Physics.OverlapSphere(fromPosition, range))
+            foreach (var collider in Physics.OverlapSphere(source, range))
             {
                 if (collider.isTrigger) continue;
                 var enemy = collider.GetComponent<T>();
@@ -39,26 +39,26 @@ namespace MOBA
             return result;
         }
 
-        public static UnitList<T> GetEnemiesInRange<T>(this Unit unit, float range) where T : Unit
+        public static UnitList<T> GetUnitsInRange<T>(this Unit unit, float range, bool includeStructures = false) where T : Unit
         {
             UnitList<T> result = new UnitList<T>();
             foreach (var collider in Physics.OverlapSphere(unit.GetGroundPos(), range))
             {
                 if (collider.isTrigger) continue;
-                var enemy = collider.GetComponent<T>();
-                if (!enemy) continue;
-                if (!unit.IsEnemy(enemy)) continue;
-                result.Add(enemy);
+                var other = collider.GetComponent<T>();
+                if (!other) continue;
+                if (other == unit) continue;
+                result.Add(other);
             }
             return result;
         }
 
-        public static Unit GetClosestUnit<T>(this Unit unit, UnitList<T> fromList) where T : Unit
+        public static Unit GetClosestUnit<T>(this Unit unit, UnitList<T> source) where T : Unit
         {
-            if (fromList.Count() == 0) return null;
+            if (source.Count() == 0) return null;
             float lowestDistance = Mathf.Infinity;
             Unit closestUnit = null;
-            foreach (var other in fromList)
+            foreach (var other in source)
             {
                 float distance = Vector3.Distance(unit.GetGroundPos(), other.GetGroundPos());
                 if (distance < lowestDistance)

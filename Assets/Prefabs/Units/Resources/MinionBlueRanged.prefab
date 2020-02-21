@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atkTrigger: {fileID: 2679217957457062372}
-  rangeIndicator: {fileID: 0}
   lookAtTarget: 1
   attackScaling:
     ad: 1

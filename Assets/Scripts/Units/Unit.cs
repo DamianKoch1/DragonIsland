@@ -277,7 +277,7 @@ namespace MOBA
                 OnDeath();
                 return;
             };
-            var xpEligibleChamps = this.GetEnemiesInRange<Champ>(xpRewardRange);
+            var xpEligibleChamps = this.GetUnitsInRange<Champ>(xpRewardRange).FindAllies(this);
             if (killer is Champ)
             {
                 var champ = (Champ)killer;
@@ -457,6 +457,11 @@ namespace MOBA
             movement.MoveTo(destination);
         }
 
+        public void Stop()
+        {
+            movement.Stop();
+        }
+
 
         protected virtual void Update()
         {
@@ -527,7 +532,7 @@ namespace MOBA
             }
             else
             {
-                MoveTo(targetPos);
+                Stop();
             }
 
         }
@@ -541,10 +546,7 @@ namespace MOBA
 
         protected virtual void OnValidate()
         {
-            if (attacking?.RangeIndicator)
-            {
-                attacking.RangeIndicator.localScale = new Vector3(stats.AtkRange, 1, stats.AtkRange);
-            }
+            GetComponentInChildren<RangeIndicator>()?.SetRange(stats.AtkRange);
         }
     }
 }

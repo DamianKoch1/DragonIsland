@@ -34,7 +34,7 @@ namespace MOBA
 
 
 
-        protected void ToggleOn()
+        protected virtual void ToggleOn()
         {
             owner.Stats.Resource -= cost;
             isToggledOn = true;

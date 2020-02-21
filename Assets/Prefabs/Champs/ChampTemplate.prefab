@@ -621,7 +621,7 @@ PrefabInstance:
     - target: {fileID: 3364623558810345848, guid: 6af23e95078d7d441bc17a8bb487bacd,
         type: 3}
       propertyPath: m_Name
-      value: AtkRangeIndicator
+      value: RangeIndicator
       objectReference: {fileID: 0}
     - target: {fileID: 3364623558810345848, guid: 6af23e95078d7d441bc17a8bb487bacd,
         type: 3}
