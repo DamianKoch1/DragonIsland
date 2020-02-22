@@ -343,21 +343,8 @@ namespace MOBA
             }
         }
 
-        [PunRPC]
-        public void OnMoveCommand(Vector3 mousePos)
-        {
-            if (IsAttacking())
-            {
-                StopAttacking();
-            }
-            MoveTo(mousePos);
-        }
-
-        [PunRPC]
-        public void OnAttackCommand(int targetViewID)
-        {
-            StartAttacking(targetViewID.GetUnitByID());
-        }
+      
+       
 
         protected override void Die(Unit killer)
         {

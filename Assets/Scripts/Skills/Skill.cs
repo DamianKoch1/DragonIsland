@@ -114,6 +114,7 @@ namespace MOBA
             OnCastTimeFinished += () => castTimeCoroutine = null;
             castTimeCoroutine = null;
             SetOwner(_owner);
+            owner.OnMovementCommand += CancelMoveIntoCastRange;
         }
 
         private void SetOwner(Unit _owner)
@@ -163,6 +164,14 @@ namespace MOBA
 
         private Coroutine moveIntoCastRange;
 
+        private void CancelMoveIntoCastRange()
+        {
+            if (moveIntoCastRange != null)
+            {
+                StopCoroutine(moveIntoCastRange);
+            }
+        }
+
         public virtual bool TryCast(Unit hovered, Vector3 mousePos)
         {
             if (!isReady) return false;
@@ -186,7 +195,8 @@ namespace MOBA
                     {
                         StopCoroutine(moveIntoCastRange);
                     }
-                    StartCoroutine(ChaseOutOfRangeTarget());
+                    owner.OnMovementCommand?.Invoke();
+                    moveIntoCastRange = StartCoroutine(ChaseOutOfRangeTarget());
                     return false;
                 }
                 else
@@ -206,7 +216,8 @@ namespace MOBA
                 {
                     StopCoroutine(moveIntoCastRange);
                 }
-                StartCoroutine(MoveToOutOfRangePosition());
+                owner.OnMovementCommand?.Invoke();
+                moveIntoCastRange = StartCoroutine(MoveToOutOfRangePosition());
                 return false;
             }
             else

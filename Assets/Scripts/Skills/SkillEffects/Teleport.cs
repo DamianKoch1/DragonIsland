@@ -20,12 +20,14 @@ namespace MOBA
             base.Activate(_target);
             var targetPos = _target.GetGroundPos();
             targetPos -= (targetPos - owner.GetGroundPos()).normalized;
+            targetPos.y = owner.transform.position.y;
             owner.Teleport(targetPos);
         }
 
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
+            targetPos.y = owner.transform.position.y;
             owner.Teleport(targetPos);
         }
 

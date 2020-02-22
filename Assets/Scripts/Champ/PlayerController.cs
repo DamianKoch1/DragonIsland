@@ -123,6 +123,7 @@ namespace MOBA
         {
             AttackOrMove(true);
         }
+
         private void OnMoveHeld()
         {
             AttackOrMove();
@@ -138,11 +139,11 @@ namespace MOBA
             }
             else if (hovered)
             {
-                player.OnAttackCommand(hovered.GetViewID());
+                player.StartAttacking(hovered);
                 GameLogger.Log(player, LogActionType.attack, targetPos, hovered);
                 return;
             }
-            player.OnMoveCommand(targetPos);
+            player.MoveTo(targetPos);
             GameLogger.Log(player, LogActionType.move, targetPos);
             if (spawnClickVFX)
             {
@@ -162,7 +163,7 @@ namespace MOBA
             {
                 if (hovered.Targetable)
                 {
-                    player.OnAttackCommand(hovered.GetViewID());
+                    player.StartAttacking(hovered);
                     GameLogger.Log(player, LogActionType.attack, targetPos, hovered);
                 }
                 return;
@@ -172,17 +173,17 @@ namespace MOBA
             switch (targets.Count())
             {
                 case 0:
-                    player.OnMoveCommand(targetPos);
+                    player.MoveTo(targetPos);
                     GameLogger.Log(player, LogActionType.move, targetPos);
                     break;
                 case 1:
                     var target = targets[0];
-                    player.OnAttackCommand(targets[0].GetViewID());
+                    player.StartAttacking(targets[0]);
                     GameLogger.Log(player, LogActionType.attack, targetPos, target);
                     break;
                 default:
                     var closestTarget = targets.GetClosestUnitFrom<Unit>(targetPos);
-                    player.OnAttackCommand(closestTarget.GetViewID());
+                    player.StartAttacking(closestTarget);
                     GameLogger.Log(player, LogActionType.attack, targetPos, closestTarget);
                     break;
             }
@@ -201,6 +202,7 @@ namespace MOBA
         {
             if (Input.GetMouseButtonDown(1))
             {
+                player.OnMovementCommand?.Invoke();
                 OnMovePressed();
             }
             else if (Input.GetMouseButton(1))
@@ -215,6 +217,7 @@ namespace MOBA
 
             if (Input.GetKeyDown(attackMove))
             {
+                player.OnMovementCommand?.Invoke();
                 OnAttackMovePressed();
                 player.ToggleRangeIndicator(true, player.Stats.AtkRange);
             }

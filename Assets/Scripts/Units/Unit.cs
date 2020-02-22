@@ -449,11 +449,16 @@ namespace MOBA
         }
 
 
+        public Action OnMovementCommand;
 
         public void MoveTo(Vector3 destination)
         {
             if (!CanMove) return;
             if (!movement) return;
+            if (IsAttacking())
+            {
+                StopAttacking();
+            }
             movement.MoveTo(destination);
         }
 
