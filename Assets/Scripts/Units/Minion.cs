@@ -7,6 +7,7 @@ using UnityEngine.AI;
 
 namespace MOBA
 {
+    //TODO consider only syncing targetpos or lowering sendrate (massive traffic due to minion count)
     public class Minion : Unit
     {
         private Vector3 targetPosition;

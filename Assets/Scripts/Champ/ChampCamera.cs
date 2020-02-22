@@ -12,6 +12,19 @@ namespace MOBA
 
         private Camera cam;
 
+        private static ChampCamera instance;
+        public static ChampCamera Instance
+        {
+            get
+            {
+                if (!instance)
+                {
+                    instance = FindObjectOfType<ChampCamera>();
+                }
+                return instance;
+            }
+        }
+
         private float distanceFactor = 1;
         private float targetDistanceFactor = 1;
 
@@ -44,6 +57,8 @@ namespace MOBA
 
         private LineRenderer lr;
 
+        private bool controllable = true;
+
         public void Initialize(Champ _target, Vector3 _offset, Quaternion _rotation)
         {
             distanceFactor = 1;
@@ -57,7 +72,7 @@ namespace MOBA
 
         void Update()
         {
-
+            if (!controllable) return;
             if (Input.GetKeyDown(unlockKey))
             {
                 ToggleLocked();
@@ -108,12 +123,37 @@ namespace MOBA
 
         private void ToggleLocked()
         {
+            if (!controllable) return;
             unlocked = !unlocked;
         }
 
-        public void AddDistanceFactor(float amount)
+        public void Lock()
         {
+            if (!controllable) return;
+            unlocked = false;
+        }
+
+        public void Unlock()
+        {
+            if (!controllable) return;
+            unlocked = true;
+        }
+
+        public void DisableControls()
+        {
+            controllable = false;
+        }
+
+        public void EnableControls()
+        {
+            controllable = true;
+        }
+
+        public void AddDistanceFactor(float amount, bool ignoreLimits = false)
+        {
+            if (!controllable) return;
             targetDistanceFactor += amount;
+            if (ignoreLimits) return;
             if (targetDistanceFactor > minZoom) targetDistanceFactor = minZoom;
             else if (targetDistanceFactor < maxZoom) targetDistanceFactor = maxZoom;
         }

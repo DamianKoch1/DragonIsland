@@ -219,6 +219,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.57660496
+      value: 0.003483072
+      inSlope: 0.004887891
+      outSlope: 0.004887891
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.6023285
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 4.2857184
@@ -264,6 +273,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  cameraZoomChange: 0.5
 --- !u!1 &1713575772536214249
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,47 +630,6 @@ MonoBehaviour:
   spawnEachToggleTick: 0
   rememberCastDirection: 0
   rememberCastMousePos: 0
---- !u!114 &6035923426967473156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5215801311654412534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkTrigger: {fileID: 4118471921292742882}
-  lookAtTarget: 1
-  attackScaling:
-    ad: 1
-    md: 0
-    level: 0
-    armor: 0
-    magicRes: 0
-    maxHP: 0
-    currentHP: 0
-    missingHP: 0
-    targetMaxHP: 0
-    targetCurrentHP: 0
-    targetMissingHP: 0
-  atkAnimCount: 1
-  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
-    type: 3}
-  projectileProperties:
-    isHoming: 1
-    speed: 10
-    size: 0.75
-    hitMode: 0
-    dmgType: 0
-    baseDamage: 0
-    lifespan: -1
-    hitUntargetables: 0
-    destroyOnNonTargetHit: 0
-    canHitStructures: 1
-  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1 &5511781662580891295
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +892,47 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6035923426967473156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215801311654412534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkTrigger: {fileID: 4118471921292742882}
+  lookAtTarget: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 1
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+    type: 3}
+  projectileProperties:
+    isHoming: 1
+    speed: 10
+    size: 0.75
+    hitMode: 0
+    dmgType: 0
+    baseDamage: 0
+    lifespan: -1
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 1
+  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0

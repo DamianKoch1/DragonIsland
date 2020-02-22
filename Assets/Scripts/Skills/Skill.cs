@@ -170,6 +170,7 @@ namespace MOBA
             {
                 StopCoroutine(moveIntoCastRange);
             }
+            owner.CanMove = true;
         }
 
         public virtual bool TryCast(Unit hovered, Vector3 mousePos)

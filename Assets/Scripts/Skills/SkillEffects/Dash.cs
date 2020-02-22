@@ -30,6 +30,9 @@ namespace MOBA
         [SerializeField, Tooltip("Time and value should range from 0 to 1")]
         private AnimationCurve heightPerTime = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.5f, 1), new Keyframe(1, 0));
 
+        [Space]
+        [SerializeField, Range(-1, 4)]
+        private float cameraZoomChange = -1;
 
 
         private Unit prevAttackTarget;
@@ -91,6 +94,12 @@ namespace MOBA
             owner.canAttack = false;
             owner.canCast = false;
             isDashing = true;
+
+            if (cameraZoomChange > 0)
+            {
+                ChampCamera.Instance.Lock();
+                ChampCamera.Instance.AddDistanceFactor(cameraZoomChange, true);
+            }
         }
 
         private void StopDashLock()
@@ -101,6 +110,11 @@ namespace MOBA
             owner.canAttack = true;
             owner.canCast = true;
             owner.CanMove = true;
+            if (cameraZoomChange > 0)
+            {
+                ChampCamera.Instance.Lock();
+                ChampCamera.Instance.AddDistanceFactor(-cameraZoomChange, true);
+            }
             if (owner.IsDead) return;
             if (prevAttackTarget)
             {
@@ -154,6 +168,7 @@ namespace MOBA
 
             StopDashLock();
 
+            if (!isDashing) return;
             var resettedPosition = owner.transform.position;
             resettedPosition.y = 1.5f;
             owner.transform.position = resettedPosition;
