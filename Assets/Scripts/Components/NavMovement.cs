@@ -40,8 +40,15 @@ namespace MOBA
             if (agent.CalculatePath(result, new NavMeshPath())) return source;
             float currentMaxDist = 5;
             NavMeshHit hit;
-            while (!NavMesh.SamplePosition(result, out hit, currentMaxDist, NavMesh.AllAreas))
+            while (true)
             {
+                if (NavMesh.SamplePosition(result, out hit, currentMaxDist, NavMesh.AllAreas))
+                {
+                    if (Mathf.Abs(hit.position.y - source.y) <= 1)
+                    {
+                        break;
+                    }
+                }
                 currentMaxDist *= 1.3f;
             }
             result = hit.position;
