@@ -52,7 +52,7 @@ MonoBehaviour:
   canMoveWhileCasting: 0
   castRange: 7.5
   ignoreCastRange: 0
-  cooldown: 8
+  cooldown: 3
   cooldownReductionPerRank: 0
   cost: 20
   targetingMode: 0
@@ -529,7 +529,7 @@ MonoBehaviour:
   canMoveWhileCasting: 0
   castRange: 14
   ignoreCastRange: 1
-  cooldown: 5
+  cooldown: 3
   cooldownReductionPerRank: 0
   cost: 100
   targetingMode: 0

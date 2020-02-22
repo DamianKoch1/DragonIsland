@@ -39,6 +39,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinionBlueMelee
       objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: attacking
+      value: 
+      objectReference: {fileID: 7285463381393966235}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.atkRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2657647519171415662}
     - target: {fileID: 3200649003787323332, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_Center.y
@@ -104,21 +119,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: attacking
-      value: 
-      objectReference: {fileID: 7285463381393966235}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.atkRange
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 2657647519171415662}
     - target: {fileID: 5444308396147945838, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_BaseOffset

@@ -130,10 +130,10 @@ namespace MOBA
             {
                 StopCoroutine(chaseAndAttack);
                 chaseAndAttack = null;
+                target = null;
+                owner.CanMove = true;
+                owner.Stop();
             }
-            target = null;
-            owner.CanMove = true;
-            owner.Stop();
         }
 
         [PunRPC]
@@ -164,6 +164,7 @@ namespace MOBA
             photonView = owner.GetComponent<PhotonView>();
             timeSinceAttack = 1 / owner.Stats.AtkSpeed;
             animator = GetComponent<Animator>();
+            owner.OnMovementCommand += Stop;
         }
 
         private void Update()

@@ -37,7 +37,10 @@ namespace MOBA
         {
             Vector3 result = source;
             result.y = 0;
-            if (agent.CalculatePath(result, new NavMeshPath())) return source;
+            if (agent?.isOnNavMesh == true)
+            {
+                if (agent.CalculatePath(result, new NavMeshPath())) return source;
+            }
             float currentMaxDist = 5;
             NavMeshHit hit = new NavMeshHit();
             int maxIterations = 20;

@@ -169,8 +169,9 @@ namespace MOBA
             if (moveIntoCastRange != null)
             {
                 StopCoroutine(moveIntoCastRange);
+                moveIntoCastRange = null;
+                owner.CanMove = true;
             }
-            owner.CanMove = true;
         }
 
         public virtual bool TryCast(Unit hovered, Vector3 mousePos)
@@ -265,6 +266,7 @@ namespace MOBA
                     break;
                 }
             }
+            moveIntoCastRange = null;
         }
 
         private IEnumerator MoveToOutOfRangePosition()
@@ -294,6 +296,7 @@ namespace MOBA
                     break;
                 }
             }
+            moveIntoCastRange = null;
         }
 
         private void Cast()

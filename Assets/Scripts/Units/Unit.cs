@@ -468,7 +468,7 @@ namespace MOBA
 
         public void Stop()
         {
-            movement.Stop();
+            movement?.Stop();
         }
 
 

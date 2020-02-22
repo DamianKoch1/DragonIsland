@@ -55,6 +55,21 @@ MonoBehaviour:
   subEffects: []
   baseDamage: 0
   dmgType: 1
+--- !u!114 &9020062407819492350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602069456792203296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381d629394497b448b5b33538f47db9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 1
+  y: 1
+  z: 1
 --- !u!1 &8797784325516640905
 GameObject:
   m_ObjectHideFlags: 0
@@ -5003,7 +5018,7 @@ PrefabInstance:
     - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: moveWithTransform
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
@@ -5018,7 +5033,7 @@ PrefabInstance:
     - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: TrailModule.worldSpace
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}

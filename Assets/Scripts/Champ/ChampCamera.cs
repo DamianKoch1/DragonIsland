@@ -81,7 +81,10 @@ namespace MOBA
         void Update()
         {
             ProcessInput();
-                
+        }
+
+        private void LateUpdate()
+        {
             if (unlocked)
             {
                 var mouseVPPos = cam.ScreenToViewportPoint(Input.mousePosition);
