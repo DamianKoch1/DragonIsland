@@ -52,7 +52,7 @@ MonoBehaviour:
   canMoveWhileCasting: 0
   castRange: 7.5
   ignoreCastRange: 0
-  cooldown: 5
+  cooldown: 8
   cooldownReductionPerRank: 0
   cost: 20
   targetingMode: 0
@@ -204,8 +204,8 @@ MonoBehaviour:
   targetingMode: 0
   subEffects: []
   duration: 1
-  minRange: 5
-  maxRange: 10
+  minRange: 8
+  maxRange: 15
   distancePerTime:
     serializedVersion: 2
     m_Curve:
@@ -273,7 +273,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cameraZoomChange: 0.5
+  cameraZoom: 1.5
 --- !u!1 &1713575772536214249
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,6 +543,7 @@ MonoBehaviour:
   cancellable: 1
   lookAtCursor: 1
   turnRate: 20
+  cameraZoom: 1.5
 --- !u!114 &3450643367887106174
 MonoBehaviour:
   m_ObjectHideFlags: 0

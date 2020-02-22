@@ -28,6 +28,8 @@ namespace MOBA
         private float distanceFactor = 1;
         private float targetDistanceFactor = 1;
 
+        public float CurrentZoom => targetDistanceFactor;
+
         [SerializeField, Range(0.1f, 1), Tooltip("The smaller the value, the closer the camera can get.")]
         private float maxZoom = 0.5f;
 
@@ -44,6 +46,8 @@ namespace MOBA
 
         private bool unlocked;
 
+        public bool Unlocked => unlocked;
+
         private Vector3 targetPos;
 
         [SerializeField, Tooltip("How close to screen edge in % of screen size the cursor has to be to move the camera when unlocked")]
@@ -59,6 +63,10 @@ namespace MOBA
 
         private bool controllable = true;
 
+        [Space, Header("Settings")]
+        [SerializeField, Range(0.1f, 5)]
+        private float scrollSpeed = 0.4f;
+
         public void Initialize(Champ _target, Vector3 _offset, Quaternion _rotation)
         {
             distanceFactor = 1;
@@ -72,12 +80,8 @@ namespace MOBA
 
         void Update()
         {
-            if (!controllable) return;
-            if (Input.GetKeyDown(unlockKey))
-            {
-                ToggleLocked();
-            }
-
+            ProcessInput();
+                
             if (unlocked)
             {
                 var mouseVPPos = cam.ScreenToViewportPoint(Input.mousePosition);
@@ -121,6 +125,21 @@ namespace MOBA
             lr.SetPosition(3, result + Vector3.up * 10);
         }
 
+        private void ProcessInput()
+        {
+            if (!controllable) return;
+            if (Input.GetKeyDown(unlockKey))
+            {
+                ToggleLocked();
+            }
+
+            var scrollAxis = Input.GetAxis("Mouse ScrollWheel");
+            if (scrollAxis != 0)
+            {
+                AddZoom(-scrollAxis * scrollSpeed);
+            }
+        }
+
         private void ToggleLocked()
         {
             if (!controllable) return;
@@ -149,13 +168,18 @@ namespace MOBA
             controllable = true;
         }
 
-        public void AddDistanceFactor(float amount, bool ignoreLimits = false)
+        public void AddZoom(float amount)
         {
             if (!controllable) return;
             targetDistanceFactor += amount;
-            if (ignoreLimits) return;
             if (targetDistanceFactor > minZoom) targetDistanceFactor = minZoom;
             else if (targetDistanceFactor < maxZoom) targetDistanceFactor = maxZoom;
+        }
+
+        public void SetZoom(float amount)
+        {
+            if (!controllable) return;
+            targetDistanceFactor = amount;
         }
 
         private bool ScreenToGroundPoint(Vector3 screenPoint, out Vector3 result)

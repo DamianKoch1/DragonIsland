@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace MOBA
 {
-    //TODO select closest valid targetPos on navmesh
     public class Dash : SkillEffect
     {
         [Space]
@@ -32,8 +31,9 @@ namespace MOBA
 
         [Space]
         [SerializeField, Range(-1, 4)]
-        private float cameraZoomChange = -1;
-
+        private float cameraZoom = -1;
+        private float prevZoom;
+        private bool wasCamUnlocked;
 
         private Unit prevAttackTarget;
 
@@ -95,10 +95,14 @@ namespace MOBA
             owner.canCast = false;
             isDashing = true;
 
-            if (cameraZoomChange > 0)
+            if (cameraZoom > 0)
             {
-                ChampCamera.Instance.Lock();
-                ChampCamera.Instance.AddDistanceFactor(cameraZoomChange, true);
+                var cam = ChampCamera.Instance;
+                wasCamUnlocked = cam.Unlocked;
+                prevZoom = cam.CurrentZoom;
+                cam.Lock();
+                cam.SetZoom(cameraZoom);
+                cam.DisableControls();
             }
         }
 
@@ -110,10 +114,15 @@ namespace MOBA
             owner.canAttack = true;
             owner.canCast = true;
             owner.CanMove = true;
-            if (cameraZoomChange > 0)
+            if (cameraZoom > 0)
             {
-                ChampCamera.Instance.Lock();
-                ChampCamera.Instance.AddDistanceFactor(-cameraZoomChange, true);
+                var cam = ChampCamera.Instance;
+                cam.EnableControls();
+                if (wasCamUnlocked)
+                {
+                    cam.Unlock();
+                }
+                cam.SetZoom(prevZoom);
             }
             if (owner.IsDead) return;
             if (prevAttackTarget)
@@ -131,6 +140,7 @@ namespace MOBA
             base.Activate(_target);
             var targetPos = _target.GetGroundPos();
             targetPos -= (targetPos - owner.GetGroundPos()).normalized;
+            ValidateTargetPos(targetPos, out targetPos);
             targetPos.y = owner.transform.position.y;
             if (dashCoroutine != null)
             {
@@ -142,6 +152,7 @@ namespace MOBA
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
+            ValidateTargetPos(targetPos, out targetPos);
             targetPos.y = owner.transform.position.y;
             if (dashCoroutine != null)
             {
@@ -172,6 +183,14 @@ namespace MOBA
             var resettedPosition = owner.transform.position;
             resettedPosition.y = 1.5f;
             owner.transform.position = resettedPosition;
+        }
+
+        private void ValidateTargetPos(Vector3 _targetPos, out Vector3 validated)
+        {
+            validated = _targetPos;
+            var navMovement = owner.GetComponent<NavMovement>();
+            if (!navMovement) return;
+            validated = navMovement.ClosestNavigablePos(_targetPos);
         }
     }
 }

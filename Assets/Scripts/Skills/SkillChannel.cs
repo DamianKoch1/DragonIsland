@@ -17,6 +17,12 @@ namespace MOBA
         [SerializeField, Range(0, 360), Tooltip("Degrees per second")]
         private float turnRate = 20;
 
+        [Space]
+        [SerializeField, Range(-1, 4)]
+        private float cameraZoom = -1;
+        private float prevZoom;
+        private bool wasCamUnlocked;
+
         public override void Initialize(Unit _owner)
         {
             base.Initialize(_owner);
@@ -45,7 +51,31 @@ namespace MOBA
             {
                 owner.transform.LookAt(mousePosAtCast);
             }
+            if (cameraZoom > 0)
+            {
+                var cam = ChampCamera.Instance;
+                wasCamUnlocked = cam.Unlocked;
+                prevZoom = cam.CurrentZoom;
+                cam.Lock();
+                cam.SetZoom(cameraZoom);
+                cam.DisableControls();
+            }
             base.ToggleOn();
+        }
+
+        protected override void ToggleOff()
+        {
+            base.ToggleOff();
+            if (cameraZoom > 0)
+            {
+                var cam = ChampCamera.Instance;
+                cam.EnableControls();
+                if (wasCamUnlocked)
+                {
+                    cam.Unlock();
+                }
+                cam.SetZoom(prevZoom);
+            }
         }
 
         protected override bool TryToggleOff()
@@ -55,6 +85,12 @@ namespace MOBA
             {
                 StopCoroutine(castTimeCoroutine);
             }
+            //if (wasCamUnlocked)
+            //{
+            //    ChampCamera.Instance.Unlock();
+            //}
+            //ChampCamera.Instance.AddDistanceFactor(-cameraZoomChange, true);
+
             OnCastTimeFinished?.Invoke();
             return true;
         }

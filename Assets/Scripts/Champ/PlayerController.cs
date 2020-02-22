@@ -66,10 +66,6 @@ namespace MOBA
         [SerializeField]
         private ParticleSystem atkMoveClickVfx;
 
-        [Header("Settings")]
-
-        [SerializeField, Range(0.1f, 5)]
-        private float scrollSpeed = 0.4f;
 
         [Header("Keybinds")]
 
@@ -312,15 +308,6 @@ namespace MOBA
             }
         }
 
-        private void ProcessCamInput()
-        {
-            var scrollAxis = Input.GetAxis("Mouse ScrollWheel");
-            if (scrollAxis != 0)
-            {
-                cam.AddDistanceFactor(-scrollAxis * scrollSpeed);
-            }
-        }
-
         private void ProcessDebugInput()
         {
             if (PhotonNetwork.IsConnected)
@@ -354,7 +341,6 @@ namespace MOBA
         private void Update()
         {
             ProcessPlayerInput();
-            ProcessCamInput();
             ProcessDebugInput();
         }
 

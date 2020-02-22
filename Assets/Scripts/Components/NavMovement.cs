@@ -33,7 +33,7 @@ namespace MOBA
             agent.SetDestination(ClosestNavigablePos(destination));
         }
 
-        private Vector3 ClosestNavigablePos(Vector3 source)
+        public Vector3 ClosestNavigablePos(Vector3 source)
         {
             Vector3 result = source;
             result.y = 0;

@@ -34,7 +34,6 @@ namespace MOBA
         private float timeSinceLastTick;
 
 
-
         protected virtual void ToggleOn()
         {
             owner.Stats.Resource -= cost;
@@ -53,7 +52,7 @@ namespace MOBA
             OnCast?.Invoke();
         }
 
-        protected void ToggleOff()
+        protected virtual void ToggleOff()
         {
             foreach (var effect in effects)
             {
