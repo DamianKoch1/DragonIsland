@@ -28,7 +28,7 @@ namespace MOBA
         [SerializeField, Range(0.1f, 100)]
         private float size = 5;
 
-        [SerializeField, Range(0.1f, 2)]
+        [SerializeField, Range(-1, 2), Tooltip("-1 only ticks once at spawn")]
         private float tickInterval = 0.5f;
 
         [SerializeField]
@@ -52,7 +52,7 @@ namespace MOBA
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
-            SpawnAOE(targetPos);
+            SpawnAOE(targetPos, ownerStatsAtActivation);
         }
 
         public override void Activate(Unit target)
@@ -99,7 +99,7 @@ namespace MOBA
 
         }
 
-        private void SpawnAOE(Vector3 targetPos)
+        private void SpawnAOE(Vector3 targetPos, UnitStats ownerStats)
         {
             currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
             var view = currentAOEInstance.gameObject.AddComponent<PhotonView>();
@@ -112,7 +112,7 @@ namespace MOBA
             }
             else SpawnAOEatPosNetworked(targetPos, view.ViewID);
 
-            currentAOEInstance.Initialize(owner, ownerStatsAtActivation, ownerTeamID, null, lifespan, size * 2, tickInterval, hitMode, canHitStructures, scaling, delay);
+            currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, null, lifespan, size * 2, tickInterval, hitMode, canHitStructures, scaling, delay);
         }
 
         private void SpawnAOE(Unit target, UnitStats ownerStats)

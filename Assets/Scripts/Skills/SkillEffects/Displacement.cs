@@ -10,6 +10,10 @@ namespace MOBA
         [SerializeField, Range(0.1f, 10)]
         private float duration = 1;
 
+        [Space]
+        [SerializeField, Range(0, 10)]
+        private float maxDistance = 1;
+
         [SerializeField, Tooltip("Time and value should range from 0 to 1")]
         private AnimationCurve distancePerTime = AnimationCurve.Linear(0, 0, 1, 1);
 
@@ -21,9 +25,12 @@ namespace MOBA
         [SerializeField, Tooltip("Time and value should range from 0 to 1")]
         private AnimationCurve heightPerTime = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.5f, 1), new Keyframe(1, 0));
 
+        private Vector3 direction;
+
         public override void Activate(Unit _target)
         {
             base.Activate(_target);
+            StartCoroutine(DisplacementCoroutine(_target));
         }
 
         public override void Activate(Vector3 targetPos)
@@ -46,6 +53,56 @@ namespace MOBA
 
         protected override void OnDeactivated()
         {
+        }
+
+        private IEnumerator DisplacementCoroutine(Unit _target)
+        {
+            StartDisplacementLock(_target);
+
+            var startPos = _target.transform.position;
+
+            direction = (_target.GetGroundPos() - owner.GetGroundPos()).normalized;
+
+            var targetPos = startPos + direction * maxDistance;
+           
+            ValidateTargetPos(targetPos, out targetPos);
+
+            float timePassed = 0;
+            while (timePassed <= duration)
+            {
+                float normalizedTime = timePassed / duration;
+                var newPos = Vector3.Lerp(startPos, targetPos, distancePerTime.Evaluate(normalizedTime));
+                if (maxHeight > 0)
+                {
+                    newPos += Vector3.up * heightPerTime.Evaluate(normalizedTime) * maxHeight;
+                }
+
+                _target.transform.position = newPos;
+
+                timePassed += Time.deltaTime;
+                yield return null;
+            }
+            _target.transform.position = targetPos;
+
+            StopDisplacementLock(_target);
+        }
+
+        private void StartDisplacementLock(Unit _target)
+        {
+            _target.CanMove = false;
+            if (_target.IsAttacking())
+            {
+                _target.StopAttacking();
+            }
+            _target.canAttack = false;
+            _target.canCast = false;
+        }
+
+        private void StopDisplacementLock(Unit _target)
+        {
+            _target.canAttack = true;
+            _target.canCast = true;
+            _target.CanMove = true;
         }
     }
 }

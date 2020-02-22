@@ -36,7 +36,7 @@ namespace MOBA
         private PhotonView ownerView;
 
         [Tooltip("Let child effects use their scaling or override with own?")]
-        public bool overrideScalings;
+        public bool overrideChildScalings;
 
         private bool active = true;
 
@@ -74,14 +74,13 @@ namespace MOBA
                         foreach (var effect in onHitEffects)
                         {
                             effect.Initialize(owner, 0);
-                            if (overrideScalings)
+                            if (overrideChildScalings)
                             {
                                 effect.SetScaling(scaling);
                             }
                             effect.SetStatsAtActivation(ownerStatsAtSpawn);
                         }
                         hitables = new UnitList<Unit>();
-                        Tick();
                     }
                 }
             }
@@ -105,13 +104,23 @@ namespace MOBA
         private void Update()
         {
             if (!active) return;
-            timeSinceLastTick += Time.deltaTime;
-            while (timeSinceLastTick >= tickInterval)
+            if (tickInterval < 0)
             {
-                timeSinceLastTick -= tickInterval;
-                timeActive += tickInterval;
-                Tick();
+                if (timeActive == 0)
+                {
+                    Tick();
+                }
             }
+            else
+            {
+                while (timeSinceLastTick >= tickInterval)
+                {
+                    timeSinceLastTick -= tickInterval;
+                    Tick();
+                }
+                timeSinceLastTick += Time.deltaTime;
+            }
+            timeActive += Time.deltaTime;
 
             if (lifespan < 0) return;
             if (timeActive > lifespan)
@@ -127,6 +136,7 @@ namespace MOBA
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
+            if (hitables.Contains(unit)) return;
             if (unit.IsDead) return;
 
             if (unit is Structure)

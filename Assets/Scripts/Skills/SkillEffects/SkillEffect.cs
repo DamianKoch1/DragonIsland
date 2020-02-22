@@ -111,7 +111,6 @@ namespace MOBA
             rank = _rank;
             ownerTeamID = owner.TeamID;
             photonView = GetComponent<PhotonView>();
-            if (subEffects.Count == 0) return;
             foreach (var subEffect in subEffects)
             {
                 subEffect.Initialize(_owner, _rank);

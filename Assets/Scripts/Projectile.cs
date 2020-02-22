@@ -88,7 +88,7 @@ namespace MOBA
 
 
         [Tooltip("Let child effects use their scaling or override with own?")]
-        public bool overrideScalings;
+        public bool overrideChildScalings;
 
         [SerializeField, Tooltip("Activate effects when projectile dies (not only on hit)?")]
         private bool activateEffectsOnDestroy;
@@ -249,7 +249,7 @@ namespace MOBA
                         foreach (var effect in onHitEffects)
                         {
                             effect.Initialize(owner, 0);
-                            if (overrideScalings)
+                            if (overrideChildScalings)
                             {
                                 effect.SetScaling(scaling);
                             }
