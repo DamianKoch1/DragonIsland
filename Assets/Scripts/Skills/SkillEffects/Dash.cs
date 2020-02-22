@@ -8,7 +8,7 @@ namespace MOBA
     {
         [Space]
         [SerializeField, Range(0.1f, 10)]
-        private float duration = 0;
+        private float duration = 1;
 
         [Space]
         [SerializeField, Range(0, 149.9f)]
@@ -78,7 +78,7 @@ namespace MOBA
                 timePassed += Time.deltaTime;
                 yield return null;
             }
-            owner.transform.position = targetPos + 1.5f * Vector3.up;
+            owner.transform.position = targetPos + 1.35f * Vector3.up;
 
             StopDashLock();
             ActivateSubEffects(owner.GetGroundPos(), target);
@@ -181,7 +181,7 @@ namespace MOBA
 
             if (!isDashing) return;
             var resettedPosition = owner.transform.position;
-            resettedPosition.y = 1.5f;
+            resettedPosition.y = 1.35f;
             owner.transform.position = resettedPosition;
         }
 

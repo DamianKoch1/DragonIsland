@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4398526564615673358}
-  - component: {fileID: 8310842927617871448}
+  - component: {fileID: 5385621429683492864}
   - component: {fileID: 757495912}
   - component: {fileID: 1970507311821427506}
   - component: {fileID: 8735695668066043017}
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 2007135837247356119}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8310842927617871448
+--- !u!114 &5385621429683492864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 718957101806930207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf2e3a3eab55b8448c2cde4af80b9ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 4644944ba87aefe42956bc35daf8accb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
@@ -55,15 +55,10 @@ MonoBehaviour:
   ignoreCastRange: 0
   cooldown: 3
   cooldownReductionPerRank: 0
-  cost: 20
+  cost: 50
   targetingMode: 0
   getClosestUnitRange: 5
   canCastOnStructures: 0
-  isToggledOn: 0
-  costPerSec: 10
-  beginCDOnActivation: 0
-  maxDuration: 5
-  tickInterval: 2
 --- !u!114 &757495912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,6 +747,47 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6035923426967473156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215801311654412534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkTrigger: {fileID: 4118471921292742882}
+  lookAtTarget: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 1
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+    type: 3}
+  projectileProperties:
+    isHoming: 1
+    speed: 10
+    size: 0.75
+    hitMode: 0
+    dmgType: 0
+    baseDamage: 0
+    lifespan: -1
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 1
+  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1 &5511781662580891295
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,47 +1050,6 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6035923426967473156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5215801311654412534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkTrigger: {fileID: 4118471921292742882}
-  lookAtTarget: 1
-  attackScaling:
-    ad: 1
-    md: 0
-    level: 0
-    armor: 0
-    magicRes: 0
-    maxHP: 0
-    currentHP: 0
-    missingHP: 0
-    targetMaxHP: 0
-    targetCurrentHP: 0
-    targetMissingHP: 0
-  atkAnimCount: 1
-  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
-    type: 3}
-  projectileProperties:
-    isHoming: 1
-    speed: 10
-    size: 0.75
-    hitMode: 0
-    dmgType: 0
-    baseDamage: 0
-    lifespan: -1
-    hitUntargetables: 0
-    destroyOnNonTargetHit: 0
-    canHitStructures: 1
-  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0

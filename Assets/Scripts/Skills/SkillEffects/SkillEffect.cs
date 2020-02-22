@@ -54,7 +54,7 @@ namespace MOBA
         public EffectTargetingMode TargetingMode => targetingMode;
 
 
-        [SerializeField, Tooltip("Doesn't work on instant effects, attach sub effects to child gameobjects, NOT the one with the 'Skill' component! Usually trigger when this effect finished (end of Dash etc)")]
+        [SerializeField, Tooltip("Doesn't work on instant effects, attach sub effects (and a PhotonView) to child gameobjects, NOT the one with the 'Skill' component! Usually trigger when this effect finished (end of Dash etc)")]
         private List<SkillEffect> subEffects = new List<SkillEffect>();
 
         protected void ActivateSubEffects(Vector3 targetPos, Unit _target)
