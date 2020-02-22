@@ -22,7 +22,7 @@ namespace MOBA
     }
 
     /// <summary>
-    /// Each effect has to implement their own networking, this gameObject has a PhotonView for RPCs.
+    /// Each effect has to implement their own networking and subEffect triggering, this gameObject has a PhotonView for RPCs.
     /// </summary>
     public abstract class SkillEffect : MonoBehaviour
     {
@@ -54,19 +54,28 @@ namespace MOBA
         public EffectTargetingMode TargetingMode => targetingMode;
 
 
-        [SerializeField, Tooltip("Attach sub effects to child gameobjects, NOT the one with the 'Skill' component!")]
-        private List<SkillEffect> subEffects;
+        [SerializeField, Tooltip("Doesn't work on instant effects, attach sub effects to child gameobjects, NOT the one with the 'Skill' component! Usually trigger when this effect finished (end of Dash etc)")]
+        private List<SkillEffect> subEffects = new List<SkillEffect>();
 
         protected void ActivateSubEffects(Vector3 targetPos, Unit _target)
         {
-            foreach(var subEffect in subEffects)
+            if (subEffects.Count == 0) return;
+            if (_target)
             {
-                subEffect.Activate(targetPos, _target);   
+                foreach (var subEffect in subEffects)
+                {
+                    subEffect.Activate(targetPos, _target);
+                }
+            }
+            else
+            {
+                ActivateSubEffects(targetPos);
             }
         }
 
         protected void ActivateSubEffects(Vector3 targetPos)
         {
+            if (subEffects.Count == 0) return;
             foreach (var subEffect in subEffects)
             {
                 subEffect.Activate(targetPos);
@@ -75,6 +84,7 @@ namespace MOBA
 
         protected void ActivateSubEffects(Unit _target)
         {
+            if (subEffects.Count == 0) return;
             foreach (var subEffect in subEffects)
             {
                 subEffect.Activate(_target);
@@ -83,6 +93,7 @@ namespace MOBA
 
         protected void ActivateSubEffects(UnitList<Unit> targets)
         {
+            if (subEffects.Count == 0) return;
             foreach (var subEffect in subEffects)
             {
                 subEffect.Activate(targets);
@@ -100,7 +111,8 @@ namespace MOBA
             rank = _rank;
             ownerTeamID = owner.TeamID;
             photonView = GetComponent<PhotonView>();
-            foreach(var subEffect in subEffects)
+            if (subEffects.Count == 0) return;
+            foreach (var subEffect in subEffects)
             {
                 subEffect.Initialize(_owner, _rank);
             }
@@ -144,5 +156,13 @@ namespace MOBA
         }
 
         protected abstract void OnDeactivated();
+
+        protected void ValidateTargetPos(Vector3 _targetPos, out Vector3 validated)
+        {
+            validated = _targetPos;
+            var navMovement = owner.GetComponent<NavMovement>();
+            if (!navMovement) return;
+            validated = navMovement.ClosestNavigablePos(_targetPos);
+        }
     }
 }

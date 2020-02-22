@@ -30,7 +30,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2383641886906825940}
   m_Father: {fileID: 2007135837247356119}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,7 +51,7 @@ MonoBehaviour:
   skillName: W
   castTime: 0.5
   canMoveWhileCasting: 0
-  castRange: 7.5
+  castRange: 15
   ignoreCastRange: 0
   cooldown: 3
   cooldownReductionPerRank: 0
@@ -118,10 +119,10 @@ MonoBehaviour:
   subEffects: []
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
-  delay: 0.5
+  delay: 0
   attachToTarget: 1
-  lifespan: -1
-  size: 7.5
+  lifespan: 1
+  size: 5
   tickInterval: 0.25
   hitMode: 2
   canHitStructures: 0
@@ -202,7 +203,8 @@ MonoBehaviour:
     targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
-  subEffects: []
+  subEffects:
+  - {fileID: 1802966341689145208}
   duration: 1
   minRange: 8
   maxRange: 15
@@ -631,22 +633,78 @@ MonoBehaviour:
   spawnEachToggleTick: 0
   rememberCastDirection: 0
   rememberCastMousePos: 0
---- !u!114 &6035923426967473156
+--- !u!1 &2750043942914573969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2383641886906825940}
+  - component: {fileID: 1802966341689145208}
+  - component: {fileID: 2221416980965898321}
+  m_Layer: 0
+  m_Name: W OnDashFinished
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2383641886906825940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750043942914573969}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4398526564615673358}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1802966341689145208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5215801311654412534}
+  m_GameObject: {fileID: 2750043942914573969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Script: {fileID: 11500000, guid: cf260950d4150f14a88c098cb8ff95d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkTrigger: {fileID: 4118471921292742882}
-  lookAtTarget: 1
-  attackScaling:
-    ad: 1
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
+  scaling:
+    ad: 0.1
     md: 0
     level: 0
     armor: 0
@@ -657,21 +715,43 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
-  atkAnimCount: 1
-  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+  preferApplyToPosition: 0
+  targetingMode: 0
+  subEffects: []
+  areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
-  projectileProperties:
-    isHoming: 1
-    speed: 10
-    size: 0.75
-    hitMode: 0
-    dmgType: 0
-    baseDamage: 0
-    lifespan: -1
-    hitUntargetables: 0
-    destroyOnNonTargetHit: 0
-    canHitStructures: 1
-  projectileSpawnpoint: {fileID: 5215801311654412532}
+  delay: 0
+  attachToTarget: 0
+  lifespan: 3
+  size: 7.5
+  tickInterval: 0.25
+  hitMode: 2
+  canHitStructures: 0
+  spawnEachToggleTick: 0
+  rememberCastDirection: 0
+  rememberCastMousePos: 0
+--- !u!114 &2221416980965898321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750043942914573969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5511781662580891295
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,6 +1014,47 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6035923426967473156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215801311654412534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkTrigger: {fileID: 4118471921292742882}
+  lookAtTarget: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 1
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+    type: 3}
+  projectileProperties:
+    isHoming: 1
+    speed: 10
+    size: 0.75
+    hitMode: 0
+    dmgType: 0
+    baseDamage: 0
+    lifespan: -1
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 1
+  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1038,15 +1159,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e69ce5f605b2e194fbb5e38fa2b49f7e, type: 3}
---- !u!1 &5215801311654412534 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6772304858078459127}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5215801311654412532 stripped
+--- !u!4 &2007135837247356119 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+  m_CorrespondingSourceObject: {fileID: 5054947584620005408, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
     type: 3}
   m_PrefabInstance: {fileID: 6772304858078459127}
   m_PrefabAsset: {fileID: 0}
@@ -1056,9 +1171,15 @@ SphereCollider:
     type: 3}
   m_PrefabInstance: {fileID: 6772304858078459127}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2007135837247356119 stripped
+--- !u!4 &5215801311654412532 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5054947584620005408, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+  m_CorrespondingSourceObject: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6772304858078459127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5215801311654412534 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
     type: 3}
   m_PrefabInstance: {fileID: 6772304858078459127}
   m_PrefabAsset: {fileID: 0}

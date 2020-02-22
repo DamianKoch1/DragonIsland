@@ -20,6 +20,7 @@ namespace MOBA
             base.Activate(_target);
             var targetPos = _target.GetGroundPos();
             targetPos -= (targetPos - owner.GetGroundPos()).normalized;
+            ValidateTargetPos(targetPos, out targetPos);
             targetPos.y = owner.transform.position.y;
             owner.Teleport(targetPos);
         }
@@ -27,6 +28,7 @@ namespace MOBA
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
+            ValidateTargetPos(targetPos, out targetPos);
             targetPos.y = owner.transform.position.y;
             owner.Teleport(targetPos);
         }

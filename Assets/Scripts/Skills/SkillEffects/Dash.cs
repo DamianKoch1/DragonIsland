@@ -78,9 +78,10 @@ namespace MOBA
                 timePassed += Time.deltaTime;
                 yield return null;
             }
-            owner.transform.position = targetPos;
+            owner.transform.position = targetPos + 1.5f * Vector3.up;
 
             StopDashLock();
+            ActivateSubEffects(owner.GetGroundPos(), target);
         }
 
         private void StartDashLock()
@@ -184,12 +185,6 @@ namespace MOBA
             owner.transform.position = resettedPosition;
         }
 
-        private void ValidateTargetPos(Vector3 _targetPos, out Vector3 validated)
-        {
-            validated = _targetPos;
-            var navMovement = owner.GetComponent<NavMovement>();
-            if (!navMovement) return;
-            validated = navMovement.ClosestNavigablePos(_targetPos);
-        }
+       
     }
 }
