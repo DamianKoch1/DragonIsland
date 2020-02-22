@@ -61,6 +61,7 @@ namespace MOBA
             {
                 targetPos = startPos + (targetPos - startPos).normalized * maxRange;
             }
+            ValidateTargetPos(targetPos, out targetPos);
 
             float timePassed = 0;
             while (timePassed <= duration)
@@ -140,7 +141,6 @@ namespace MOBA
             base.Activate(_target);
             var targetPos = _target.GetGroundPos();
             targetPos -= (targetPos - owner.GetGroundPos()).normalized;
-            ValidateTargetPos(targetPos, out targetPos);
             targetPos.y = owner.transform.position.y;
             if (dashCoroutine != null)
             {
@@ -152,7 +152,6 @@ namespace MOBA
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
-            ValidateTargetPos(targetPos, out targetPos);
             targetPos.y = owner.transform.position.y;
             if (dashCoroutine != null)
             {

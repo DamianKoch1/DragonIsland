@@ -344,6 +344,8 @@ namespace MOBA
             amplifiers.Reset();
 
             photonView = PhotonView.Get(this);
+            movement?.Initialize(stats.MoveSpeed, this);
+            attacking?.Initialize(this);
 
             if (photonView.IsMine)
             {
@@ -359,8 +361,10 @@ namespace MOBA
 
                 OnUnitTick += ApplyRegeneration;
             }
-            movement?.Initialize(stats.MoveSpeed, this);
-            attacking?.Initialize(this);
+            else
+            {
+                movement?.Disable();
+            }
 
             SetupMaterials();
         }
