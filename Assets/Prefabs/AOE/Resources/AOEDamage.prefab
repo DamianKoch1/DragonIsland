@@ -51,6 +51,8 @@ MonoBehaviour:
     targetCurrentHP: 0
     targetMissingHP: 0
   preferApplyToPosition: 0
+  targetingMode: 0
+  subEffects: []
   baseDamage: 0
   dmgType: 1
 --- !u!1 &8797784325516640905
@@ -5072,6 +5074,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
       value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: TrailModule.dieWithParticles
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 988684e2e1182c04da5a004eecb4a26b, type: 3}

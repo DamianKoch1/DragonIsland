@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace MOBA
 {
+    //TODO run into castrange
     public class SkillToggleable : Skill
     {
         [Space]

@@ -149,31 +149,6 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: attacking
-      value: 
-      objectReference: {fileID: -2678496464695235846}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: teamID
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: movement
-      value: 
-      objectReference: {fileID: 8658705608485707700}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: mesh
-      value: 
-      objectReference: {fileID: 7425203773086808938}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 5500933588237015541}
     - target: {fileID: 3200649003787323332, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_Center.y
@@ -239,6 +214,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: attacking
+      value: 
+      objectReference: {fileID: -2678496464695235846}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: teamID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: movement
+      value: 
+      objectReference: {fileID: 8658705608485707700}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: mesh
+      value: 
+      objectReference: {fileID: 7425203773086808938}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5500933588237015541}
     - target: {fileID: 5444308396147945838, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_BaseOffset

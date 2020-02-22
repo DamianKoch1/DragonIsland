@@ -54,6 +54,41 @@ namespace MOBA
         public EffectTargetingMode TargetingMode => targetingMode;
 
 
+        [SerializeField, Tooltip("Attach sub effects to child gameobjects, NOT the one with the 'Skill' component!")]
+        private List<SkillEffect> subEffects;
+
+        protected void ActivateSubEffects(Vector3 targetPos, Unit _target)
+        {
+            foreach(var subEffect in subEffects)
+            {
+                subEffect.Activate(targetPos, _target);   
+            }
+        }
+
+        protected void ActivateSubEffects(Vector3 targetPos)
+        {
+            foreach (var subEffect in subEffects)
+            {
+                subEffect.Activate(targetPos);
+            }
+        }
+
+        protected void ActivateSubEffects(Unit _target)
+        {
+            foreach (var subEffect in subEffects)
+            {
+                subEffect.Activate(_target);
+            }
+        }
+
+        protected void ActivateSubEffects(UnitList<Unit> targets)
+        {
+            foreach (var subEffect in subEffects)
+            {
+                subEffect.Activate(targets);
+            }
+        }
+
         public void SetStatsAtActivation(UnitStats stats)
         {
             ownerStatsAtActivation = new UnitStats(stats);
@@ -65,6 +100,10 @@ namespace MOBA
             rank = _rank;
             ownerTeamID = owner.TeamID;
             photonView = GetComponent<PhotonView>();
+            foreach(var subEffect in subEffects)
+            {
+                subEffect.Initialize(_owner, _rank);
+            }
         }
 
         public void SetScaling(Scalings _scaling)

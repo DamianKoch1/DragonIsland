@@ -225,6 +225,12 @@ namespace MOBA
             {
                 player.ToggleRangeIndicator(false, player.Stats.AtkRange);
             }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                player.OnMovementCommand?.Invoke();
+                player.Stop();
+            }
         }
 
         private void ProcessSkillInput()

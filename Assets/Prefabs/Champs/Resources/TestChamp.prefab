@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8310842927617871448}
   - component: {fileID: 757495912}
   - component: {fileID: 1970507311821427506}
+  - component: {fileID: 8735695668066043017}
   m_Layer: 0
   m_Name: W
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MonoBehaviour:
   cooldown: 5
   cooldownReductionPerRank: 0
   cost: 20
-  targetingMode: 7
+  targetingMode: 0
   getClosestUnitRange: 5
   canCastOnStructures: 0
   isToggledOn: 0
@@ -113,10 +114,11 @@ MonoBehaviour:
     targetCurrentHP: 0
     targetMissingHP: 0
   preferApplyToPosition: 0
-  targetingMode: 0
+  targetingMode: 6
+  subEffects: []
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
-  delay: 0
+  delay: 0.5
   attachToTarget: 1
   lifespan: -1
   size: 7.5
@@ -148,6 +150,120 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &8735695668066043017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718957101806930207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c6e594a0f3e50d44a34bf001e8c2b46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
+  scaling:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  preferApplyToPosition: 0
+  targetingMode: 0
+  subEffects: []
+  duration: 1
+  minRange: 5
+  maxRange: 10
+  distancePerTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 4.2857184
+      outSlope: 4.2857184
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.029166639
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxHeight: 1.5
+  heightPerTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.4339623
+      outSlope: 2.4339623
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16666667
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.6037736
+      outSlope: -2.6037736
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.125
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1713575772536214249
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +396,7 @@ MonoBehaviour:
     targetMissingHP: 0
   preferApplyToPosition: 1
   targetingMode: 0
+  subEffects: []
   canTick: 0
 --- !u!114 &4788653946560217616
 MonoBehaviour:
@@ -333,6 +450,7 @@ MonoBehaviour:
     targetMissingHP: 0.03
   preferApplyToPosition: 0
   targetingMode: 3
+  subEffects: []
   projectileProperties:
     isHoming: 1
     speed: 20
@@ -489,6 +607,7 @@ MonoBehaviour:
     targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 6
+  subEffects: []
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 13c9916349ea7db46839ddb787a92182,
     type: 3}
   delay: 0.5
@@ -501,6 +620,47 @@ MonoBehaviour:
   spawnEachToggleTick: 0
   rememberCastDirection: 0
   rememberCastMousePos: 0
+--- !u!114 &6035923426967473156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5215801311654412534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkTrigger: {fileID: 4118471921292742882}
+  lookAtTarget: 1
+  attackScaling:
+    ad: 1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  atkAnimCount: 1
+  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
+    type: 3}
+  projectileProperties:
+    isHoming: 1
+    speed: 10
+    size: 0.75
+    hitMode: 0
+    dmgType: 0
+    baseDamage: 0
+    lifespan: -1
+    hitUntargetables: 0
+    destroyOnNonTargetHit: 0
+    canHitStructures: 1
+  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1 &5511781662580891295
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +712,7 @@ MonoBehaviour:
   castTime: 0.2
   canMoveWhileCasting: 0
   castRange: 15
-  ignoreCastRange: 0
+  ignoreCastRange: 1
   cooldown: 3
   cooldownReductionPerRank: 0
   cost: 40
@@ -611,6 +771,7 @@ MonoBehaviour:
     targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
+  subEffects: []
   alwaysBuffOwner: 1
   onlyBuffOwner: 0
   properties:
@@ -722,6 +883,7 @@ MonoBehaviour:
     targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
+  subEffects: []
   projectileProperties:
     isHoming: 0
     speed: 15
@@ -761,47 +923,6 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6035923426967473156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5215801311654412534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3b4978cd6286648ac825290157abde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkTrigger: {fileID: 4118471921292742882}
-  lookAtTarget: 1
-  attackScaling:
-    ad: 1
-    md: 0
-    level: 0
-    armor: 0
-    magicRes: 0
-    maxHP: 0
-    currentHP: 0
-    missingHP: 0
-    targetMaxHP: 0
-    targetCurrentHP: 0
-    targetMissingHP: 0
-  atkAnimCount: 1
-  projectilePrefab: {fileID: 7509579932543003364, guid: 45e83463a1662284899c2f9004b28e8a,
-    type: 3}
-  projectileProperties:
-    isHoming: 1
-    speed: 10
-    size: 0.75
-    hitMode: 0
-    dmgType: 0
-    baseDamage: 0
-    lifespan: -1
-    hitUntargetables: 0
-    destroyOnNonTargetHit: 0
-    canHitStructures: 1
-  projectileSpawnpoint: {fileID: 5215801311654412532}
 --- !u!1001 &6772304858078459127
 PrefabInstance:
   m_ObjectHideFlags: 0

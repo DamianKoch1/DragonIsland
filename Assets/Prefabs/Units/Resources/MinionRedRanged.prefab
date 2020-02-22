@@ -53,71 +53,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinionRedRanged
       objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: teamID
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.baseHP
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.HPPerLvl
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.baseArmor
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.armorPerLvl
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.baseMagicRes
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.magicResPerLvl
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.baseAtkDmg
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: stats.atkRange
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: movement
-      value: 
-      objectReference: {fileID: 8552424099349089609}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: attacking
-      value: 
-      objectReference: {fileID: -1330090341578025685}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: mesh
-      value: 
-      objectReference: {fileID: 7607188876145387927}
-    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
-        type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1290140074515586710}
     - target: {fileID: 3200649003787323332, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_Center.y
@@ -183,6 +118,71 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: teamID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.baseHP
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.HPPerLvl
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.baseArmor
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.armorPerLvl
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.baseMagicRes
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.magicResPerLvl
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.baseAtkDmg
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: stats.atkRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: movement
+      value: 
+      objectReference: {fileID: 8552424099349089609}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: attacking
+      value: 
+      objectReference: {fileID: -1330090341578025685}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: mesh
+      value: 
+      objectReference: {fileID: 7607188876145387927}
+    - target: {fileID: 5444308396147945837, guid: ec51df9eeeb936e47af425389c86ca78,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1290140074515586710}
     - target: {fileID: 5444308396147945838, guid: ec51df9eeeb936e47af425389c86ca78,
         type: 3}
       propertyPath: m_BaseOffset
