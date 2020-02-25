@@ -71,5 +71,6 @@ MonoBehaviour:
   - OnKilledByChamp
   - OnKillMinion
   - OnKillTower
+  - OnKilled
   DisableAutoOpenWizard: 1
   ShowSettings: 1

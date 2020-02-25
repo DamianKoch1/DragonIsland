@@ -100,6 +100,10 @@ namespace MOBA
             agent = GetComponent<NavMeshAgent>();
             lr = GetComponentInChildren<LineRenderer>();
 
+            stats.OnLevelUp += (_) => RefreshScoreBoard();
+
+            ScoreBoard.Instance.AddDisplay(this);
+
             if (!photonView.IsMine)
             {
                 lr.enabled = false;
@@ -222,6 +226,7 @@ namespace MOBA
         protected override void OnDeath()
         {
             movement.DisableCollision();
+
             if (Animator)
             {
                 Animator.SetTrigger("Death");
@@ -384,35 +389,43 @@ namespace MOBA
             }
         }
 
-      
+        private void RefreshScoreBoard()
+        {
+            ScoreBoard.Instance.Refresh();
+        }
+
         [PunRPC]
-        public void OnKilledByChamp(int killerChampID)
+        public void OnKilled(int killerID)
         {
             Deaths++;
-            ((Champ)killerChampID.GetUnitByID()).Kills++;
+            var killer = killerID.GetUnitByID();
+            if (killer is Champ)
+            {
+                ((Champ)killer).Kills++;
+            }
+            RefreshScoreBoard();
         }
 
         [PunRPC]
         public void OnKillMinion()
         {
             MinionsKilled++;
+            RefreshScoreBoard();
         }
 
         [PunRPC]
         public void OnKillTower()
         {
             TowersKilled++;
+            RefreshScoreBoard();
         }
-       
+
 
         protected override void Die(Unit killer)
         {
             if (isDummy) return;
             GameLogger.Log(this, LogActionType.die, transform.position, killer);
-            if (killer is Champ)
-            {
-                photonView.RPC(nameof(OnKilledByChamp), RpcTarget.All, killer.GetViewID());
-            }
+            photonView.RPC(nameof(OnKilled), RpcTarget.All, killer.GetViewID());
             base.Die(killer);
         }
 

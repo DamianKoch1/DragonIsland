@@ -31,13 +31,13 @@ namespace MOBA
 
     public class GameState
     {
-        TeamData blueTeamData;
+        public TeamData blueTeamData => new TeamData(blueChamps);
 
-        IEnumerable<Champ> blueChamps;
+        public IEnumerable<Champ> blueChamps;
 
-        TeamData redTeamData;
+        public TeamData redTeamData => new TeamData(redChamps);
 
-        IEnumerable<Champ> redChamps;
+        public IEnumerable<Champ> redChamps;
 
         private static GameState instance;
         public static GameState Instance

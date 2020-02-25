@@ -216,5 +216,15 @@ namespace MOBA
             }
             base.ReceiveDamage(instigatorViewID, amount, damageType);
         }
+
+        protected override void Die(Unit killer)
+        {
+            base.Die(killer);
+            if (killer is Champ)
+            {
+                var champ = (Champ)killer;
+                PhotonView.Get(champ).RPC(nameof(champ.OnKillTower), RpcTarget.All);
+            }
+        }
     }
 }
