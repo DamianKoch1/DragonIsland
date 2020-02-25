@@ -63,6 +63,9 @@ namespace MOBA
 
         public float CastRange => castRange;
 
+        [SerializeField, Range(0, 200)]
+        protected float castRangePerRank = 0;
+
         [SerializeField, Tooltip("This should usually be false, set to true for SpawnProjectile skills that should always be cast towards cursor (only works for mousePos targeting, castRange still relevant for range indicator)")]
         private bool ignoreCastRange = false;
 
@@ -78,6 +81,9 @@ namespace MOBA
 
         public float Cost => cost;
 
+        [SerializeField, Range(0, 1000)]
+        protected float costPerRank = 10;
+
 
         [Space]
         [SerializeField]
@@ -85,7 +91,7 @@ namespace MOBA
 
         private Unit prevAttackTarget;
 
-        [SerializeField, Tooltip("Ignore this if targeting mode is inherit, find range for closest units to be targeted instead")]
+        [SerializeField, Tooltip("The max range closest unit targeting effects use for finding units")]
         private float getClosestUnitRange = 5;
 
         [SerializeField]
@@ -97,6 +103,15 @@ namespace MOBA
 
         protected UnitStats ownerStatsAtCast;
 
+        [Space]
+        [SerializeField, Tooltip("Can only be leveled at 6, 11, 16?")]
+        private bool isUltimate;
+
+        [SerializeField]
+        private int maxRank = 5;
+
+        public bool IsUltimate => isUltimate;
+
         public int Rank
         {
             protected set;
@@ -107,7 +122,7 @@ namespace MOBA
         public virtual void Initialize(Unit _owner)
         {
             isReady = true;
-            Rank = 1;
+            Rank = 0;
             effects = new List<SkillEffect>(GetComponents<SkillEffect>());
             OnCastTimeFinished += StopCastTimeLock;
             OnCastTimeFinished += ActivateEffects;
@@ -126,6 +141,39 @@ namespace MOBA
             }
         }
 
+        public virtual void LevelUp()
+        {
+            Rank++;
+            if (Rank == 1) return;
+            cooldown -= cooldownReductionPerRank;
+            castRange += castRangePerRank;
+            cost += costPerRank;
+            foreach (var effect in effects)
+            {
+                effect.LevelUp();
+            }
+        }
+
+        public bool CanBeLeveled(int availableSkillPoints)
+        {
+            if (availableSkillPoints <= 0)
+            {
+                return false;
+            }
+            if (Rank >= maxRank) return false;
+            else if (IsUltimate)
+            {
+                if ((Owner.Stats.Lvl - 1) / 5 > Rank)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         //TODO target selection
         public virtual void OnMouseEnter()
@@ -146,7 +194,7 @@ namespace MOBA
         protected IEnumerator StartCooldown()
         {
             isReady = false;
-            float reducedCooldown = cooldown * 1 - (owner.Stats.CDReduction / 100);
+            float reducedCooldown = Mathf.Max(cooldown, 0.1f) * 1 - (owner.Stats.CDReduction / 100);
             float remainingTime = reducedCooldown;
             while (remainingTime > 0)
             {
@@ -372,7 +420,7 @@ namespace MOBA
             ownerStatsAtCast = new UnitStats(stats);
             foreach (var effect in effects)
             {
-                effect.ownerStatsAtActivation = ownerStatsAtCast;
+                effect.SetStatsAtActivation(ownerStatsAtCast);
             }
         }
 

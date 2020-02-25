@@ -135,9 +135,17 @@ namespace MOBA
             }
             else if (hovered)
             {
-                player.StartAttacking(hovered);
-                GameLogger.Log(player, LogActionType.attack, targetPos, hovered);
-                return;
+                if (hovered.Targetable)
+                {
+                    if (player.CurrentAttackTarget == hovered) return;
+                    player.StartAttacking(hovered);
+                    GameLogger.Log(player, LogActionType.attack, targetPos, hovered);
+                    return;
+                }
+                else
+                {
+                    targetPos = hovered.GetGroundPos();
+                }
             }
             player.MoveTo(targetPos);
             GameLogger.Log(player, LogActionType.move, targetPos);
@@ -165,7 +173,7 @@ namespace MOBA
                 return;
             }
             Instantiate(atkMoveClickVfx, targetPos + Vector3.up * 0.2f, Quaternion.identity);
-            var targets = player.GetTargetableEnemiesInRange<Unit>(targetPos, 5, true);
+            var targets = player.GetTargetableEnemiesInRange<Unit>(targetPos, 10, true);
             switch (targets.Count())
             {
                 case 0:

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MOBA
 {
+    //TODO stop using 1 indicator for everything
     public class RangeIndicator : MonoBehaviour
     {
         [SerializeField]

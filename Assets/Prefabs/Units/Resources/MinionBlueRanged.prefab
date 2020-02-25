@@ -33,10 +33,13 @@ MonoBehaviour:
     isHoming: 1
     speed: 10
     size: 0.5
+    sizePerRank: 0
     hitMode: 0
     dmgType: 0
     baseDamage: 0
+    damagePerRank: 0
     lifespan: -1
+    lifespanPerRank: 0
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 1

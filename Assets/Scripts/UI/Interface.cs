@@ -26,6 +26,7 @@ namespace MOBA
         [SerializeField]
         private Text goldText;
 
+
         public override void Initialize(Champ _target)
         {
             base.Initialize(_target);
@@ -38,6 +39,8 @@ namespace MOBA
             {
                 var skill = target.Skills[i];
                 skillDisplays[i].Initialize(skill);
+                _target.OnSkillPointsChanged += skillDisplays[i].OnSkillPointsChanged;
+                skillDisplays[i].OnSkillPointsChanged(1);
 
                 if (skill.CastTime > 0)
                 {

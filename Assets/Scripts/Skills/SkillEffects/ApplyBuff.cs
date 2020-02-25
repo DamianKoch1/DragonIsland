@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace MOBA
 {
-    //TODO scaling, buff networking
+    //WIP, doesn't really work yet
     public class ApplyBuff : SkillEffect
     {
         [Space]
@@ -54,7 +54,7 @@ namespace MOBA
         /// Format: ClassName,arg1,arg2,... (Class must derive from CustomBuff and be in MOBA namespace, no spaces after comma)
         /// </summary>
         [Space]
-        [SerializeField, Tooltip("Format: ClassName,BuffNameSuffix,arg1,... (Class must derive from CustomBuff and be in MOBA namespace, no spaces after comma)")]
+        [SerializeField, Tooltip("Format: ClassName,DisplayName,arg1,... (Class must derive from CustomBuff and be in MOBA namespace, no spaces after comma)")]
         private List<string> customBuffs;
 
         public override void Initialize(Unit _owner, int _rank)
@@ -88,9 +88,16 @@ namespace MOBA
             AddBuffs(target);
         }
 
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            properties.maxDuration += properties.maxDurationPerRank;
+        }
+
         private void AddBuffs(Unit target)
         {
             if (!target) return;
+            properties.rank = rank;
             if (addStatBuff)
             {
                 if (target.HasBuff(properties.buffBaseName + StatBuff.NAMESUFFIX, out var existing))
@@ -99,9 +106,9 @@ namespace MOBA
                 }
                 else
                 {
-                    var buff = target.AddBuff<StatBuff>();
-                    buff.Initialize(properties, ownerStatsAtActivation, stats);
-                    addedBuffs.Add(buff);
+                    var statBuff = target.AddBuff<StatBuff>();
+                    statBuff.Initialize(properties, ownerStatsAtActivation, stats);
+                    addedBuffs.Add(statBuff);
                 }
             }
             if (addDisable)
@@ -112,9 +119,9 @@ namespace MOBA
                 }
                 else
                 {
-                    var buff = target.AddBuff<Disable>();
-                    buff.Initialize(properties, ownerStatsAtActivation, disableFlags);
-                    addedBuffs.Add(buff);
+                    var disable = target.AddBuff<Disable>();
+                    disable.Initialize(properties, ownerStatsAtActivation, disableFlags);
+                    addedBuffs.Add(disable);
                 }
             }
             if (addDamageOverTime)
@@ -125,9 +132,9 @@ namespace MOBA
                 }
                 else
                 {
-                    var buff = target.AddBuff<DamageOverTime>();
-                    buff.Initialize(properties, ownerStatsAtActivation, target);
-                    addedBuffs.Add(buff);
+                    var DOT = target.AddBuff<DamageOverTime>();
+                    DOT.Initialize(properties, ownerStatsAtActivation, target);
+                    addedBuffs.Add(DOT);
                 }
             }
             foreach (var customBuff in customBuffs)
@@ -143,7 +150,7 @@ namespace MOBA
             customBuffArgs.RemoveAt(0);
             if (customBuffArgs.Count == 0)
             {
-                Debug.LogError(owner.name + " " + gameObject.name + " tried to add custom buff with too few args! Format: ClassName,NameSuffix,arg1,...");
+                Debug.LogError(owner.name + " " + gameObject.name + " tried to add custom buff with too few args! Format: ClassName,DisplayName,arg1,...");
                 return;
             }
             if (target.HasBuff(properties.buffBaseName + " (" + customBuffArgs[0] + ")", out var existing))

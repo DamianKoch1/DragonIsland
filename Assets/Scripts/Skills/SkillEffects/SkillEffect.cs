@@ -24,6 +24,7 @@ namespace MOBA
     /// <summary>
     /// Each effect has to implement their own networking and subEffect triggering, this gameObject has a PhotonView for RPCs.
     /// </summary>
+    [RequireComponent(typeof(PhotonView))]
     public abstract class SkillEffect : MonoBehaviour
     {
         protected Unit owner;
@@ -43,6 +44,9 @@ namespace MOBA
         [SerializeField]
         protected Scalings scaling;
 
+        [SerializeField]
+        protected Scalings scalingPerRank;
+
         [SerializeField, Tooltip("If given position AND target (e.g. from projectile hitting a unit), activate on position or on target?")]
         private bool preferApplyToPosition;
 
@@ -59,7 +63,6 @@ namespace MOBA
 
         protected void ActivateSubEffects(Vector3 targetPos, Unit _target)
         {
-            if (subEffects.Count == 0) return;
             if (_target)
             {
                 foreach (var subEffect in subEffects)
@@ -75,7 +78,6 @@ namespace MOBA
 
         protected void ActivateSubEffects(Vector3 targetPos)
         {
-            if (subEffects.Count == 0) return;
             foreach (var subEffect in subEffects)
             {
                 subEffect.Activate(targetPos);
@@ -84,7 +86,6 @@ namespace MOBA
 
         protected void ActivateSubEffects(Unit _target)
         {
-            if (subEffects.Count == 0) return;
             foreach (var subEffect in subEffects)
             {
                 subEffect.Activate(_target);
@@ -93,7 +94,6 @@ namespace MOBA
 
         protected void ActivateSubEffects(UnitList<Unit> targets)
         {
-            if (subEffects.Count == 0) return;
             foreach (var subEffect in subEffects)
             {
                 subEffect.Activate(targets);
@@ -103,6 +103,10 @@ namespace MOBA
         public void SetStatsAtActivation(UnitStats stats)
         {
             ownerStatsAtActivation = new UnitStats(stats);
+            foreach (var effect in subEffects)
+            {
+                effect.SetStatsAtActivation(stats);
+            }
         }
 
         public virtual void Initialize(Unit _owner, int _rank)
@@ -115,6 +119,12 @@ namespace MOBA
             {
                 subEffect.Initialize(_owner, _rank);
             }
+        }
+
+        public virtual void LevelUp()
+        {
+            rank++;
+            scaling += scalingPerRank;
         }
 
         public void SetScaling(Scalings _scaling)

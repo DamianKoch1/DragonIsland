@@ -50,10 +50,23 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
   baseDamage: 0
+  baseDamagePerRank: 0
   dmgType: 1
 --- !u!114 &9020062407819492350
 MonoBehaviour:
@@ -4838,6 +4851,11 @@ PrefabInstance:
     - target: {fileID: 6365846715258072694, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: overrideScalings
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365846715258072694, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: overrideChildScalings
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6365846715258072648, guid: 988684e2e1182c04da5a004eecb4a26b,

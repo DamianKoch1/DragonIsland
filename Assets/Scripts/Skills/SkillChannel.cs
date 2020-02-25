@@ -17,6 +17,9 @@ namespace MOBA
         [SerializeField, Range(0, 360), Tooltip("Degrees per second")]
         private float turnRate = 20;
 
+        [SerializeField, Range(0, 360)]
+        private float turnRatePerRank = 10;
+
         [Space]
         [SerializeField, Range(-1, 4)]
         private float cameraZoom = -1;
@@ -29,6 +32,13 @@ namespace MOBA
             OnCast += ActivateEffects;
             OnCastTimeFinished -= ActivateEffects;
             OnCastTimeFinished += ToggleOff;
+        }
+
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            if (Rank == 1) return;
+            turnRate += turnRatePerRank;
         }
 
         protected override void Update()

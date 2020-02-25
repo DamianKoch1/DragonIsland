@@ -34,6 +34,10 @@ namespace MOBA
                 if (!enemy) continue;
                 if (!unit.IsEnemy(enemy)) continue;
                 if (!enemy.Targetable) continue;
+                if (!includeStructures)
+                {
+                    if (enemy is Structure) continue;
+                }
                 result.Add(enemy);
             }
             return result;

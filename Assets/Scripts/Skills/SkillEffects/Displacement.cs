@@ -4,15 +4,22 @@ using UnityEngine;
 
 namespace MOBA
 {
+    //TODO account for distance to source? (modifier that makes targets in center fly further)
     public class Displacement : SkillEffect
     {
         [Space]
         [SerializeField, Range(0.1f, 10)]
         private float duration = 1;
 
+        [SerializeField, Range(0.1f, 10)]
+        private float durationPerRank = 1;
+
         [Space]
         [SerializeField, Range(0, 10)]
         private float maxDistance = 1;
+
+        [SerializeField, Range(0, 10)]
+        private float maxDistancePerRank = 1;
 
         [SerializeField, Tooltip("Time and value should range from 0 to 1")]
         private AnimationCurve distancePerTime = AnimationCurve.Linear(0, 0, 1, 1);
@@ -53,6 +60,13 @@ namespace MOBA
 
         protected override void OnDeactivated()
         {
+        }
+
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            duration += durationPerRank;
+            maxDistance += maxDistancePerRank;
         }
 
         private IEnumerator DisplacementCoroutine(Unit _target)

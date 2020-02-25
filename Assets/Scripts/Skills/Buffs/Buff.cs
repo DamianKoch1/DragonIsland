@@ -36,6 +36,9 @@ namespace MOBA
 
         public Sprite icon;
 
+        [HideInInspector]
+        public int rank = 1;
+
         [Space]
         [Range(-1, 300)]
         public float maxDuration = -1;

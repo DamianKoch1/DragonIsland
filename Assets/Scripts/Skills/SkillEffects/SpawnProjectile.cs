@@ -32,6 +32,14 @@ namespace MOBA
         private bool rememberCastMousePos = false;
 
 
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            projectileProperties.lifespan += projectileProperties.lifespanPerRank;
+            projectileProperties.size += projectileProperties.sizePerRank;
+            projectileProperties.baseDamage += projectileProperties.damagePerRank;
+        }
+
 
         private void SpawnSkillshotNetworked(Vector3 _targetPos, int viewID)
         {

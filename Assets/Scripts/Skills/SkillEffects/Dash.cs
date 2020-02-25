@@ -10,6 +10,9 @@ namespace MOBA
         [SerializeField, Range(0.1f, 10)]
         private float duration = 1;
 
+        [SerializeField, Range(-10, 10)]
+        private float durationPerRank = -0.05f;
+
         [Space]
         [SerializeField, Range(0, 149.9f)]
         private float minRange = 0;
@@ -17,6 +20,8 @@ namespace MOBA
         [SerializeField, Range(0.1f, 150)]
         private float maxRange = 20;
 
+        [SerializeField, Range(0.1f, 150)]
+        private float maxRangePerRank = 5;
 
         [SerializeField, Tooltip("Time and value should range from 0 to 1")]
         private AnimationCurve distancePerTime = AnimationCurve.Linear(0, 0, 1, 1);
@@ -41,6 +46,13 @@ namespace MOBA
 
         private Coroutine dashCoroutine;
 
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            maxRange += maxRangePerRank;
+            duration -= durationPerRank;
+        }
+
         private IEnumerator DashCoroutine(Vector3 targetPos)
         {
             StartDashLock();
@@ -62,6 +74,7 @@ namespace MOBA
                 targetPos = startPos + (targetPos - startPos).normalized * maxRange;
             }
             ValidateTargetPos(targetPos, out targetPos);
+            targetPos += owner.transform.position.y * Vector3.up;
 
             float timePassed = 0;
             while (timePassed <= duration)
@@ -78,7 +91,7 @@ namespace MOBA
                 timePassed += Time.deltaTime;
                 yield return null;
             }
-            owner.transform.position = targetPos + 1.35f * Vector3.up;
+            owner.transform.position = targetPos;
 
             StopDashLock();
             ActivateSubEffects(owner.GetGroundPos(), target);

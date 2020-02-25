@@ -83,6 +83,7 @@ namespace MOBA
                 }
             }
             lastVelocity = GetVelocity();
+            //TODO increase animation speed if running really fast
             if (owner.Animator)
             {
                 owner.Animator.SetFloat("Speed", GetVelocity() / speed);

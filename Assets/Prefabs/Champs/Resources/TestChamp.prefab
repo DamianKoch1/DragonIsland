@@ -53,13 +53,17 @@ MonoBehaviour:
   castTime: 0.5
   canMoveWhileCasting: 0
   castRange: 15
+  castRangePerRank: 2
   ignoreCastRange: 0
   cooldown: 3
   cooldownReductionPerRank: 0
   cost: 50
+  costPerRank: 10
   targetingMode: 0
   getClosestUnitRange: 5
   canCastOnStructures: 0
+  isUltimate: 0
+  maxRank: 5
 --- !u!114 &757495912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +114,18 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 6
   subEffects: []
@@ -118,7 +134,9 @@ MonoBehaviour:
   delay: 0
   attachToTarget: 1
   lifespan: 1
+  lifespanPerRank: 0
   size: 5
+  sizePerRank: 0
   tickInterval: 0.25
   hitMode: 2
   canHitStructures: 0
@@ -197,14 +215,28 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects:
   - {fileID: 1802966341689145208}
   - {fileID: 961867777992193716}
   duration: 1
+  durationPerRank: -0.05
   minRange: 8
   maxRange: 15
+  maxRangePerRank: 5
   distancePerTime:
     serializedVersion: 2
     m_Curve:
@@ -355,6 +387,18 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
@@ -363,7 +407,9 @@ MonoBehaviour:
   delay: 0
   attachToTarget: 0
   lifespan: 2
+  lifespanPerRank: 0
   size: 7.5
+  sizePerRank: 0
   tickInterval: -1
   hitMode: 2
   canHitStructures: 0
@@ -443,13 +489,17 @@ MonoBehaviour:
   castTime: 0.5
   canMoveWhileCasting: 0
   castRange: 6
+  castRangePerRank: 1
   ignoreCastRange: 0
   cooldown: 4
-  cooldownReductionPerRank: 0
+  cooldownReductionPerRank: 1
   cost: 50
+  costPerRank: 10
   targetingMode: 0
   getClosestUnitRange: 7
   canCastOnStructures: 0
+  isUltimate: 0
+  maxRank: 5
 --- !u!114 &3594137419949795960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +572,18 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 1
   targetingMode: 0
   subEffects: []
@@ -565,7 +627,7 @@ MonoBehaviour:
     percentMagicPen: 0
     moveSpeed: 0
   scaling:
-    ad: 0.4
+    ad: 0.1
     md: 0
     level: 0
     armor: 0
@@ -576,6 +638,18 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0.03
+  scalingPerRank:
+    ad: 0.1
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 3
   subEffects: []
@@ -583,10 +657,13 @@ MonoBehaviour:
     isHoming: 1
     speed: 20
     size: 1
+    sizePerRank: 0
     hitMode: 0
     dmgType: 1
     baseDamage: 10
+    damagePerRank: 0
     lifespan: -1
+    lifespanPerRank: 0
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 0
@@ -646,21 +723,28 @@ MonoBehaviour:
   castTime: 4
   canMoveWhileCasting: 0
   castRange: 14
+  castRangePerRank: 0
   ignoreCastRange: 1
   cooldown: 3
   cooldownReductionPerRank: 0
   cost: 100
+  costPerRank: 10
   targetingMode: 0
   getClosestUnitRange: 5
   canCastOnStructures: 0
+  isUltimate: 1
+  maxRank: 3
   isToggledOn: 0
   costPerSec: 20
+  costPerSecPerRank: 2
   beginCDOnActivation: 0
   maxDuration: -1
+  maxDurationPerRank: 0
   tickInterval: 0.5
   cancellable: 1
   lookAtCursor: 1
   turnRate: 20
+  turnRatePerRank: 10
   cameraZoom: 1.5
 --- !u!114 &3450643367887106174
 MonoBehaviour:
@@ -734,6 +818,18 @@ MonoBehaviour:
     targetMaxHP: 0.005
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 6
   subEffects: []
@@ -742,7 +838,9 @@ MonoBehaviour:
   delay: 0.5
   attachToTarget: 1
   lifespan: -1
+  lifespanPerRank: 0
   size: 1
+  sizePerRank: 0
   tickInterval: 0.25
   hitMode: 2
   canHitStructures: 0
@@ -831,6 +929,18 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
@@ -839,7 +949,9 @@ MonoBehaviour:
   delay: 0
   attachToTarget: 0
   lifespan: 3
+  lifespanPerRank: 0
   size: 7.5
+  sizePerRank: 0
   tickInterval: 0.25
   hitMode: 2
   canHitStructures: 0
@@ -901,10 +1013,13 @@ MonoBehaviour:
     isHoming: 1
     speed: 10
     size: 0.75
+    sizePerRank: 0
     hitMode: 0
     dmgType: 0
     baseDamage: 0
+    damagePerRank: 0
     lifespan: -1
+    lifespanPerRank: 0
     hitUntargetables: 0
     destroyOnNonTargetHit: 0
     canHitStructures: 1
@@ -960,13 +1075,17 @@ MonoBehaviour:
   castTime: 0.2
   canMoveWhileCasting: 0
   castRange: 15
+  castRangePerRank: 0
   ignoreCastRange: 1
   cooldown: 3
   cooldownReductionPerRank: 0
   cost: 40
+  costPerRank: 10
   targetingMode: 0
   getClosestUnitRange: 5
   canCastOnStructures: 0
+  isUltimate: 0
+  maxRank: 5
 --- !u!114 &839568809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1017,6 +1136,18 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
@@ -1026,6 +1157,7 @@ MonoBehaviour:
     isHidden: 0
     buffBaseName: 
     icon: {fileID: 0}
+    rank: 1
     maxDuration: 8
     maxDurationPerRank: 0
     instigator: {fileID: 0}
@@ -1129,6 +1261,18 @@ MonoBehaviour:
     targetMaxHP: 0
     targetCurrentHP: 0
     targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
@@ -1136,10 +1280,13 @@ MonoBehaviour:
     isHoming: 0
     speed: 15
     size: 2
+    sizePerRank: 0
     hitMode: 2
     dmgType: 2
     baseDamage: 20
+    damagePerRank: 0
     lifespan: 1
+    lifespanPerRank: 0
     hitUntargetables: 0
     destroyOnNonTargetHit: 1
     canHitStructures: 0

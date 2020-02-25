@@ -22,11 +22,17 @@ namespace MOBA
 
         private AreaOfEffect currentAOEInstance;
 
-        [SerializeField, Range(-1, 60), Tooltip("Leave at -1 for infinite.")]
+        [SerializeField, Range(-1, 60), Tooltip("Leave at -1 for infinite or until toggle is toggled off.")]
         private float lifespan = -1;
+
+        [SerializeField, Range(0, 60), Tooltip("Leave at -1 for infinite.")]
+        private float lifespanPerRank = 0;
 
         [SerializeField, Range(0.1f, 100)]
         private float size = 5;
+
+        [SerializeField, Range(0, 100)]
+        private float sizePerRank = 0;
 
         [SerializeField, Range(-1, 2), Tooltip("-1 only ticks once at spawn")]
         private float tickInterval = 0.5f;
@@ -48,6 +54,12 @@ namespace MOBA
         private bool rememberCastMousePos;
 
 
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            lifespan += lifespanPerRank;
+            size += sizePerRank;
+        }
 
         public override void Activate(Vector3 targetPos)
         {

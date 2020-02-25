@@ -517,7 +517,7 @@ namespace MOBA
         public float md;
 
         [Range(0, 100), Tooltip("Damage per level")]
-        public int level;
+        public float level;
 
         [Range(0, 5), Tooltip("Damage per armor")]
         public float armor;
@@ -550,16 +550,52 @@ namespace MOBA
             return scaling * owner.Stats;
         }
 
+        public static Scalings operator +(Scalings scaling, Scalings other)
+        {
+            return new Scalings()
+            {
+                ad              = scaling.ad                + other.ad,
+                md              = scaling.md                + other.md,
+                level           = scaling.level             + other.level,
+                armor           = scaling.armor             + other.armor,
+                magicRes        = scaling.magicRes          + other.magicRes,
+                maxHP           = scaling.maxHP             + other.maxHP,
+                currentHP       = scaling.currentHP         + other.currentHP,
+                missingHP       = scaling.missingHP         + other.missingHP,
+                targetMaxHP     = scaling.targetMaxHP       + other.targetMaxHP,
+                targetCurrentHP = scaling.targetCurrentHP   + other.targetCurrentHP,
+                targetMissingHP = scaling.targetMissingHP   + other.targetMissingHP
+            };
+        }
+
+        public static Scalings operator *(Scalings scaling, float multiplier)
+        {
+             return new Scalings()
+             {
+                ad              = scaling.ad                * multiplier,
+                md              = scaling.md                * multiplier,
+                level           = scaling.level             * multiplier,
+                armor           = scaling.armor             * multiplier,
+                magicRes        = scaling.magicRes          * multiplier,
+                maxHP           = scaling.maxHP             * multiplier,
+                currentHP       = scaling.currentHP         * multiplier,
+                missingHP       = scaling.missingHP         * multiplier,
+                targetMaxHP     = scaling.targetMaxHP       * multiplier,
+                targetCurrentHP = scaling.targetCurrentHP   * multiplier,
+                targetMissingHP = scaling.targetMissingHP   * multiplier,
+             };
+        }
+
         public static float operator *(Scalings scaling, UnitStats ownerStats)
         {
             return scaling.ad * ownerStats.AtkDmg
-                + scaling.md * ownerStats.MagicDmg
-                + scaling.level * ownerStats.Lvl
-                + scaling.armor * ownerStats.Armor
-                + scaling.magicRes * ownerStats.MagicRes
-                + scaling.maxHP * ownerStats.MaxHP
-                + scaling.currentHP * ownerStats.HP
-                + scaling.missingHP * (ownerStats.MaxHP - ownerStats.HP);
+                 + scaling.md * ownerStats.MagicDmg
+                 + scaling.level * ownerStats.Lvl
+                 + scaling.armor * ownerStats.Armor
+                 + scaling.magicRes * ownerStats.MagicRes
+                 + scaling.maxHP * ownerStats.MaxHP
+                 + scaling.currentHP * ownerStats.HP
+                 + scaling.missingHP * (ownerStats.MaxHP - ownerStats.HP);
         }
 
         public float GetScalingDamageBonusOnTarget(UnitStats ownerStats, Unit target)

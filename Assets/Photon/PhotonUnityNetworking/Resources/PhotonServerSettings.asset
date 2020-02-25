@@ -68,5 +68,8 @@ MonoBehaviour:
   - OnRespawnRPC
   - OnAtkAnimNotifyRPC
   - NetworkTeleport
+  - OnKilledByChamp
+  - OnKillMinion
+  - OnKillTower
   DisableAutoOpenWizard: 1
   ShowSettings: 1

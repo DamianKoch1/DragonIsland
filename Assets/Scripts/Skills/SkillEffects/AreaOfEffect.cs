@@ -40,6 +40,7 @@ namespace MOBA
 
         private bool active = true;
 
+
         public void Initialize(Unit _owner, UnitStats ownerStats, TeamID _ownerTeamID, Unit _target, float _lifespan, float size, float _tickInterval, HitMode _hitMode, bool _canHitStructures, Scalings scaling, float delay = 0)
         {
             target = _target;
@@ -57,7 +58,7 @@ namespace MOBA
             canHitStructures = _canHitStructures;
             timeActive = 0;
             timeSinceLastTick = 0;
-            ownerStatsAtSpawn = ownerStats;
+            ownerStatsAtSpawn = new UnitStats(ownerStats);
             if (delay > 0)
             {
                 StartCoroutine(WaitForDelay(delay));

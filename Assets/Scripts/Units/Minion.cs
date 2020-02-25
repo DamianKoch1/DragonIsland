@@ -206,5 +206,15 @@ namespace MOBA
             if (this.IsAlly(attacker)) return;
             attacking.StartAttacking(attacker);
         }
+
+        protected override void Die(Unit killer)
+        {
+            if (killer is Champ)
+            {
+                var champ = (Champ)killer;
+                PhotonView.Get(champ).RPC(nameof(champ.OnKillMinion), RpcTarget.All);
+            }
+            base.Die(killer);
+        }
     }
 }

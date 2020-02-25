@@ -10,8 +10,17 @@ namespace MOBA
         private float baseDamage;
 
         [SerializeField]
+        private float baseDamagePerRank;
+
+        [SerializeField]
         private DamageType dmgType;
 
+
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            baseDamage += baseDamagePerRank;
+        }
 
         public override void Activate(Vector3 targetPos)
         {

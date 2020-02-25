@@ -20,11 +20,17 @@ namespace MOBA
 
         public float CostPerSec => costPerSec;
 
+        [SerializeField, Range(0, 1000)]
+        protected float costPerSecPerRank;
+
         [SerializeField]
         protected bool beginCDOnActivation;
 
         [SerializeField, Range(-1, 300), Tooltip("Max duration the skill can be toggled on, unlimited if -1, for channel skills use cast time instead of this")]
         protected float maxDuration = -1;
+
+        [SerializeField, Range(0, 300)]
+        protected float maxDurationPerRank;
 
         protected float timeActive;
 
@@ -100,6 +106,14 @@ namespace MOBA
                     }
                 }
             }
+        }
+
+        public override void LevelUp()
+        {
+            base.LevelUp();
+            if (Rank == 1) return;
+            costPerSec += costPerSecPerRank;
+            maxDuration += maxDurationPerRank;
         }
 
         public override bool TryCast(Unit hovered, Vector3 mousePos)

@@ -22,8 +22,15 @@ namespace MOBA
         [SerializeField]
         private Text costText;
 
+        [SerializeField]
+        private Text rankText;
+
         private Skill sourceSkill;
 
+        [SerializeField]
+        private Button skillPointButton;
+
+        Animation animations;
 
         public void Initialize(Skill skill)
         {
@@ -34,8 +41,11 @@ namespace MOBA
 
             icon.sprite = skill.Icon;
 
+            animations = GetComponent<Animation>();
+
             skill.OnCDFinished += OnSkillCDFinished;
 
+            button.interactable = false;
             button.onClick.AddListener(skill.OnButtonClicked);
 
             if (skill is SkillToggleable)
@@ -44,9 +54,67 @@ namespace MOBA
                 return;
             }
             costText.text = skill.Cost + "";
+            rankText.text = skill.Rank + "";
 
             skill.OnCast += OnSkillCast;
             skill.OnRemainingCDChanged += OnRemainingCDUpdated;
+        }
+
+        private void RefreshTexts()
+        {
+            if (costText.text != sourceSkill.Cost + "")
+            {
+                costText.text = sourceSkill.Cost + "";
+            }
+            if (rankText.text != sourceSkill.Rank + "")
+            {
+                rankText.text = sourceSkill.Rank + "";
+            }
+        }
+
+        public void OnSkillPointsChanged(int newAmount)
+        {
+            if (sourceSkill.CanBeLeveled(newAmount))
+            {
+                ShowSkillPointButton();
+            }
+            else
+            {
+                HideSkillPointButton();
+            }
+        }
+
+        private void ShowSkillPointButton()
+        {
+            if (skillPointButton.interactable) return;
+            skillPointButton.interactable = true;
+            animations.Play("SkillPointAppear");
+        }
+
+        private void HideSkillPointButton()
+        {
+            if (!skillPointButton.interactable) return;
+            skillPointButton.interactable = false;
+            if (!animations.IsPlaying("SkillPointClicked"))
+            {
+                animations.Play("SkillPointHide");
+            }
+        }
+
+
+        public void OnSkillPointButtonClicked()
+        {
+            var owner = (Champ)sourceSkill.Owner;
+            if (sourceSkill.Rank == 0)
+            {
+                button.interactable = true;
+            }
+            owner.SpendSkillPoint(sourceSkill);
+            if (!sourceSkill.CanBeLeveled(owner.AvailableSkillPoints))
+            {
+                animations.Play("SkillPointClicked");
+            }
+            RefreshTexts();
         }
 
         private void Initialize(SkillToggleable skill)

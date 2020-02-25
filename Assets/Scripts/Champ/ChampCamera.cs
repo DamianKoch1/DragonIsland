@@ -116,16 +116,16 @@ namespace MOBA
             transform.position = targetPos + offset * distanceFactor;
 
             ScreenToGroundPoint(Vector3.zero, out var result);
-            lr.SetPosition(0, result + Vector3.up * 10);
+            lr.SetPosition(0, result + Vector3.up * 25);
 
             ScreenToGroundPoint(new Vector3(Screen.width, 0, 0), out result);
-            lr.SetPosition(1, result + Vector3.up * 10);
+            lr.SetPosition(1, result + Vector3.up * 25);
 
             ScreenToGroundPoint(new Vector3(Screen.width, Screen.height, 0), out result);
-            lr.SetPosition(2, result + Vector3.up * 10);
+            lr.SetPosition(2, result + Vector3.up * 25);
 
             ScreenToGroundPoint(new Vector3(0, Screen.height, 0), out result);
-            lr.SetPosition(3, result + Vector3.up * 10);
+            lr.SetPosition(3, result + Vector3.up * 25);
         }
 
         private void ProcessInput()

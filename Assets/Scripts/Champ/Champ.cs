@@ -61,7 +61,29 @@ namespace MOBA
             }
         }
 
-        //move to interface, shouldnt be in every champ
+        public int MinionsKilled { get; private set; }
+        public int TowersKilled { get; private set; }
+        public int Kills { get; private set; }
+
+        //wip
+        public int Assists { get; private set; }
+        public int Deaths { get; private set; }
+
+        private int availableSkillPoints;
+        public int AvailableSkillPoints
+        {
+            get => availableSkillPoints;
+            private set
+            {
+                availableSkillPoints = value;
+                OnSkillPointsChanged?.Invoke(availableSkillPoints);
+            }
+        }
+
+        public Action<int> OnSkillPointsChanged;
+
+        public bool CanLevelUltimate { get; private set; }
+
         [Space]
         [SerializeField]
         private BarTextTimer respawnHUDPrefab;
@@ -87,6 +109,8 @@ namespace MOBA
 
             nearbyAlliedTowers = new UnitList<Tower>();
 
+            AvailableSkillPoints = 1;
+            stats.OnLevelUp += AddAvailableSkillPoint;
 
             spawnpoint = Base.GetAllied(this).Spawnpoint.position;
 
@@ -97,6 +121,23 @@ namespace MOBA
             rangeIndicator = GetComponentInChildren<RangeIndicator>();
             rangeIndicator.Initialize(this, stats.AtkRange);
         }
+
+        private void AddAvailableSkillPoint(int levelReached)
+        {
+            if (levelReached == 6 || levelReached == 11 || levelReached == 16)
+            {
+                CanLevelUltimate = true;
+            }
+            AvailableSkillPoints++;
+        }
+
+        public void SpendSkillPoint(Skill skill)
+        {
+            if (!skills.Contains(skill)) return;
+            skill.LevelUp();
+            AvailableSkillPoints--;
+        }
+
 
         protected override void Update()
         {
@@ -344,12 +385,34 @@ namespace MOBA
         }
 
       
+        [PunRPC]
+        public void OnKilledByChamp(int killerChampID)
+        {
+            Deaths++;
+            ((Champ)killerChampID.GetUnitByID()).Kills++;
+        }
+
+        [PunRPC]
+        public void OnKillMinion()
+        {
+            MinionsKilled++;
+        }
+
+        [PunRPC]
+        public void OnKillTower()
+        {
+            TowersKilled++;
+        }
        
 
         protected override void Die(Unit killer)
         {
             if (isDummy) return;
             GameLogger.Log(this, LogActionType.die, transform.position, killer);
+            if (killer is Champ)
+            {
+                photonView.RPC(nameof(OnKilledByChamp), RpcTarget.All, killer.GetViewID());
+            }
             base.Die(killer);
         }
 

@@ -30,6 +30,8 @@ namespace MOBA
 
         public float size;
 
+        public float sizePerRank;
+
         public HitMode hitMode;
 
         public DamageType dmgType;
@@ -37,8 +39,12 @@ namespace MOBA
         [Tooltip("For regular ranged autoattacks scaling 1:1 with AD, this should be 0.")]
         public float baseDamage;
 
+        public float damagePerRank;
+
         [Range(-1, 60), Tooltip("Leave at -1 for infinite.")]
         public float lifespan = -1;
+
+        public float lifespanPerRank;
 
         [Space]
         public bool hitUntargetables = false;
@@ -49,6 +55,7 @@ namespace MOBA
 
     }
 
+    //TODO separate instantiating / initializing
     [RequireComponent(typeof(Collider))]
     public class Projectile : MonoBehaviour
     {
@@ -85,7 +92,6 @@ namespace MOBA
 
         [SerializeField]
         private ParticleSystem onHitVFX;
-
 
         [Tooltip("Let child effects use their scaling or override with own?")]
         public bool overrideChildScalings;
