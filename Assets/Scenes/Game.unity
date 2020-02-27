@@ -259,7 +259,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 4e-45}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -619,6 +619,46 @@ PrefabInstance:
         type: 3}
       propertyPath: viewIdField
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 5.91e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: -4.0605057e-25
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 5.91e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 9.1837e-41
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: NaN
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 1.02e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5ba6ad371d8f05498c30337c6808ef8, type: 3}
@@ -1200,10 +1240,30 @@ PrefabInstance:
       propertyPath: minimapCam
       value: 
       objectReference: {fileID: 879011779876508134}
+    - target: {fileID: 4808977208377333548, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 8829435748034451124}
+    - target: {fileID: 4808977208377333548, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: m_PlaneDistance
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4470648647769344371, guid: 096a82ac6abbd9e428b638859eded951,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -7.980011
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730503802936729502, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730503802936729502, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: ShapeModule.m_Scale.y
+      value: 7.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 096a82ac6abbd9e428b638859eded951, type: 3}
@@ -1276,3 +1336,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1347383c31f1cc24d8acbee16f3d4364, type: 3}
+--- !u!20 &8829435748034451124 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8829435747689780365, guid: 1347383c31f1cc24d8acbee16f3d4364,
+    type: 3}
+  m_PrefabInstance: {fileID: 8829435748034451123}
+  m_PrefabAsset: {fileID: 0}
