@@ -20,6 +20,9 @@ namespace MOBA.Logging
             get;
         }
 
+        /// <summary>
+        /// Tries to create a MongoClient to localhost and retrieve all names of existing logs, disables logging on failure
+        /// </summary>
         public Database()
         {
             var settings = MongoClientSettings.FromConnectionString("mongodb://127.0.0.1:27017");
@@ -52,6 +55,9 @@ namespace MOBA.Logging
 
         }
 
+        /// <summary>
+        /// Create a collection for the current game using a GUID as name
+        /// </summary>
         private void SetupLogging()
         {
             if (!GameLogger.enabled) return;
@@ -61,6 +67,10 @@ namespace MOBA.Logging
             LogNames.Add(gameID);
         }
 
+        /// <summary>
+        /// Saves a LogData to the current collection
+        /// </summary>
+        /// <param name="data"></param>
         public void Save(ref LogData data)
         {
             if (!GameLogger.enabled) return;
@@ -73,6 +83,11 @@ namespace MOBA.Logging
             collection.ReplaceOne(Builders<LogData>.Filter.Eq("id", data.id), data, new UpdateOptions() { IsUpsert = true });
         }
 
+        /// <summary>
+        /// Loads all LogData from collection with given name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public IEnumerable<LogData> Load(string name)
         {
             if (!GameLogger.enabled) return null;
@@ -81,6 +96,9 @@ namespace MOBA.Logging
             return collection.Find(Builders<LogData>.Filter.Empty).ToEnumerable();
         }
 
+        /// <summary>
+        /// Removes last saved collection
+        /// </summary>
         public void RemoveLast()
         {
             if (!GameLogger.enabled) return;
@@ -90,6 +108,9 @@ namespace MOBA.Logging
             database.DropCollection(lastName);
         }
 
+        /// <summary>
+        /// Removes all collections
+        /// </summary>
         public void Clear()
         {
             if (!GameLogger.enabled) return;

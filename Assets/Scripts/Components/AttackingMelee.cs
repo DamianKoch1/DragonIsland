@@ -5,10 +5,15 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Melee attacking, instantly deals damage on animation event
+    /// </summary>
     public class AttackingMelee : Attacking
     {
 
-        /// No need for RPC here as dmg.Inflict() will do that
+        /// <summary>
+        /// Inflicts physical scaling dependent damage on current target if it is alive
+        /// </summary>
         public override void OnAtkAnimNotify()
         {
             var target = currTargetViewID.GetUnitByID();

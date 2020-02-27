@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to display timers on a bar and text
+    /// </summary>
     public class BarTextTimer : MonoBehaviour
     {
         [SerializeField]
@@ -18,12 +21,20 @@ namespace MOBA
         [SerializeField]
         private bool reversed = false;
 
+        /// <summary>
+        /// Saves start time
+        /// </summary>
+        /// <param name="_startTime">max time of timer</param>
         public void Initialize(float _startTime)
         {
             startTime = _startTime;
             SetRemainingTime(_startTime);
         }
 
+        /// <summary>
+        /// Sets current time, adjusts bar fill amount / text accordingly
+        /// </summary>
+        /// <param name="time">new time</param>
         public void SetRemainingTime(float time)
         {
             var value = time / startTime;

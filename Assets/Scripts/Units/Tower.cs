@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Structure that attacks enemy units nearby
+    /// </summary>
     public class Tower : Structure
     {
         private UnitList<Unit> enemyUnitsInRange;
@@ -19,10 +22,12 @@ namespace MOBA
 
         private RangeIndicator rangeIndicator;
 
+        /// <summary>
+        /// If other is enemy unit, adds it to respective list of enemy champs / units in range
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
-
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -36,10 +41,12 @@ namespace MOBA
             return;
         }
 
+        /// <summary>
+        /// If other is enemy unit, removes it from respective list of enemy champs / units in range
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerExit(Collider other)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
-
             if (other.isTrigger) return;
             var unit = other.GetComponent<Unit>();
             if (!unit) return;
@@ -53,11 +60,16 @@ namespace MOBA
             return;
         }
 
+        /// <summary>
+        /// Adds given unit to enemyUnitsInRange, attacks it if no previous target
+        /// </summary>
+        /// <param name="unit"></param>
         protected void OnEnemyUnitEnteredRange(Unit unit)
         {
             if (!enemyUnitsInRange.Contains(unit))
             {
                 enemyUnitsInRange.Add(unit);
+                if (!PhotonNetwork.IsMasterClient) return;
                 if (!attacking.IsAttacking())
                 {
                     attacking.StartAttacking(unit);
@@ -65,11 +77,16 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Removes given unit from enemyUnitsInRange, if it was attacking target, check for new one
+        /// </summary>
+        /// <param name="unit"></param>
         protected void OnEnemyUnitExitedRange(Unit unit)
         {
             if (enemyUnitsInRange.Contains(unit))
             {
                 enemyUnitsInRange.Remove(unit);
+                if (!PhotonNetwork.IsMasterClient) return;
                 if (unit == attacking.target)
                 {
                     CheckForNewTarget();
@@ -77,15 +94,21 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If given champ is ally, adds this to its nearby towers, else adds it to enemyChampsInRange, attacks it if no previous targets
+        /// </summary>
+        /// <param name="champ"></param>
         protected void OnChampEnteredRange(Champ champ)
         {
             if (this.IsAlly(champ))
             {
+                if (!PhotonNetwork.IsMasterClient) return;
                 champ.AddNearbyAlliedTower(this);
             }
             else if (!enemyChampsInRange.Contains(champ))
             {
                 enemyChampsInRange.Add(champ);
+                if (!PhotonNetwork.IsMasterClient) return;
                 if (!attacking.IsAttacking())
                 {
                     attacking.StartAttacking(champ);
@@ -94,15 +117,21 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If given champ is ally, remove this from its nearby towers, else removes it from enemyChampsInRange, if it was attacking target, check for new one
+        /// </summary>
+        /// <param name="enemy"></param>
         protected void OnChampExitedRange(Champ champ)
         {
             if (this.IsAlly(champ))
             {
-                champ.RemoveNearbyTower(this);
+                if (!PhotonNetwork.IsMasterClient) return;
+                champ.RemoveNearbyAlliedTower(this);
             }
             else if (enemyChampsInRange.Contains(champ))
             {
                 enemyChampsInRange.Remove(champ);
+                if (!PhotonNetwork.IsMasterClient) return;
                 if (champ == attacking.target)
                 {
                     CheckForNewTarget();
@@ -113,7 +142,9 @@ namespace MOBA
 
 
 
-
+        /// <summary>
+        /// If master client, do attacking logic, render line to attack target
+        /// </summary>
         protected override void Update()
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -150,7 +181,10 @@ namespace MOBA
             rangeIndicator.Initialize(this, stats.AtkRange);
         }
 
-        //TODO: shared code with minion, move to ai targeting component
+        //TODO shared code with minion, move to ai targeting component
+        /// <summary>
+        /// Attacks the closest enemy unit in range, considers non-champs first, stops attacking if no targets
+        /// </summary>
         protected void CheckForNewTarget()
         {
             if (enemyUnitsInRange.Count() > 0)
@@ -180,6 +214,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If given champ is an enemy, attack it unless not already attacking any champ
+        /// </summary>
+        /// <param name="target"></param>
         public void TryAttack(Champ target)
         {
             if (!this.IsEnemy(target)) return;
@@ -202,6 +240,13 @@ namespace MOBA
             return 200;
         }
 
+        //TODO move reduced damage calculation to masterclient, prevents discrepancies
+        /// <summary>
+        /// Reduces non-piercing damage taken if no enemy minions are nearby
+        /// </summary>
+        /// <param name="instigatorViewID"></param>
+        /// <param name="amount"></param>
+        /// <param name="damageType"></param>
         [PunRPC]
         public override void ReceiveDamage(int instigatorViewID, int amount, short damageType)
         {
@@ -217,14 +262,17 @@ namespace MOBA
             base.ReceiveDamage(instigatorViewID, amount, damageType);
         }
 
+        /// <summary>
+        /// If killer is champ, increase its towers killed
+        /// </summary>
+        /// <param name="killer"></param>
         protected override void Die(Unit killer)
         {
-            base.Die(killer);
             if (killer is Champ)
             {
-                var champ = (Champ)killer;
-                PhotonView.Get(champ).RPC(nameof(champ.OnKillTower), RpcTarget.All);
+                ((Champ)killer).OnKillTower();
             }
+            base.Die(killer);
         }
     }
 }

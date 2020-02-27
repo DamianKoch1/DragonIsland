@@ -17,6 +17,9 @@ namespace MOBA
         passive = 3,
     }
 
+    /// <summary>
+    /// Base class for all units
+    /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CapsuleCollider))]
     [RequireComponent(typeof(SphereCollider))]
@@ -50,6 +53,9 @@ namespace MOBA
         [Space]
         private bool canMove = true;
 
+        /// <summary>
+        /// Setting this enables / disables movement
+        /// </summary>
         public bool CanMove
         {
             set
@@ -74,6 +80,9 @@ namespace MOBA
         [SerializeField]
         private bool targetable = true;
 
+        /// <summary>
+        /// Setting this calls OnBecome(Un)Targetable, setting to false hides outlines if this was hovered
+        /// </summary>
         public bool Targetable
         {
             set
@@ -167,7 +176,7 @@ namespace MOBA
         [SerializeField, Range(0, 2)]
         private float outlineWidth = 0.1f;
 
-        [SerializeField]
+        [SerializeField, Tooltip("Parameters: Speed (float, 0-1), Triggers: Death, Win, Atk (if only one atk animation, else: Atk1, Atk2, ...)")]
         private Animator animator;
 
         public Animator Animator => animator;
@@ -175,29 +184,45 @@ namespace MOBA
         public bool IsDead { protected set; get; }
 
 
+        /// <summary>
+        /// Calculates xp needed for next level, scales with level (default: (level-1)^2 * 100))
+        /// </summary>
+        /// <param name="level">level to calculate needed xp for</param>
+        /// <returns></returns>
         public virtual float GetXPNeededForLevel(int level)
         {
             return (level - 1) * (level - 1) * 100;
         }
 
+        /// <summary>
+        /// Levels up stats
+        /// </summary>
         public void LevelUp()
         {
             stats.LevelUp();
         }
 
 
-        //TODO
+        //TODO WIP
         public void UpdateStats()
         {
             //items + buffs + base + perLvl * (lvl-1)
         }
 
+        /// <summary>
+        /// Returns movement component destination
+        /// </summary>
+        /// <returns></returns>
         public Vector3 GetDestination()
         {
             if (!movement) return Vector3.zero;
             return movement.TargetPos;
         }
 
+        /// <summary>
+        /// If can attack and target is valid and enemy, attack it
+        /// </summary>
+        /// <param name="target"></param>
         public void StartAttacking(Unit target)
         {
             if (!canAttack) return;
@@ -208,13 +233,19 @@ namespace MOBA
         }
 
 
-
+        /// <summary>
+        /// Returns attacking components attacking status
+        /// </summary>
+        /// <returns></returns>
         public bool IsAttacking()
         {
             if (!attacking) return false;
             return attacking.IsAttacking();
         }
 
+        /// <summary>
+        /// Stops attacking
+        /// </summary>
         public void StopAttacking()
         {
             attacking.Stop();
@@ -223,11 +254,21 @@ namespace MOBA
 
         public Unit CurrentAttackTarget => attacking.target;
 
+        /// <summary>
+        /// Adds buff component to buffs slot
+        /// </summary>
+        /// <typeparam name="T">type of buff to add</typeparam>
+        /// <returns></returns>
         public T AddBuff<T>() where T : Buff
         {
             return BuffsSlot.gameObject.AddComponent<T>();
         }
 
+        /// <summary>
+        /// Try to add custom buff to buffs slot
+        /// </summary>
+        /// <param name="buffType">type of buff to add, must derive from CustomBuff</param>
+        /// <returns></returns>
         public CustomBuff AddCustomBuff(Type buffType)
         {
             if (!buffType.IsSubclassOf(typeof(CustomBuff))) return null;
@@ -238,7 +279,7 @@ namespace MOBA
 
 
         /// <summary>
-        /// Avoid calling this directly, create a new Damage() and use Inflict() on it.
+        /// Avoid calling this directly, create a new Damage() and use Inflict() on it. Reduces hp by amount, calls OnReceiveDamage and OnDealDamage (for instigator), if hp are empty now calls Die
         /// </summary>
         /// <param name="instigator"></param>
         /// <param name="amount"></param>
@@ -269,6 +310,10 @@ namespace MOBA
 
         public Action<Champ> OnAttackedByChamp;
 
+        /// <summary>
+        /// If controlled by local client, distributes xp reward to nearby enemy champs, grants gold reward to killer champ, calls OnDeath / OnDeathEvent
+        /// </summary>
+        /// <param name="killer"></param>
         protected virtual void Die(Unit killer)
         {
             if (!photonView.IsMine)
@@ -292,7 +337,7 @@ namespace MOBA
             {
                 champ.photonView.RPC(nameof(champ.ReceiveXP), RpcTarget.All, GetXPReward() / xpEligibleChamps.Count());
             }
-            OnBeforeDeath?.Invoke();
+            OnDeathEvent?.Invoke();
             IsDead = true;
             OnDeath();
         }
@@ -301,9 +346,9 @@ namespace MOBA
 
 
         /// <summary>
-        /// Is called just before OnDeath(), which destroys this game object by default.
+        /// Is called when this unit dies
         /// </summary>
-        public Action OnBeforeDeath;
+        public Action OnDeathEvent;
 
         /// <summary>
         /// Destroys this gameObject unless overridden.
@@ -318,6 +363,10 @@ namespace MOBA
             Destroy(gameObject);
         }
 
+        /// <summary>
+        /// Plays death animation and waits for 3 seconds, then destroys this object unless overridden
+        /// </summary>
+        /// <returns></returns>
         protected virtual IEnumerator DeathAnim()
         {
             Animator.SetTrigger("Death");
@@ -327,12 +376,17 @@ namespace MOBA
 
         public Action<Unit, float, DamageType> OnDealDamage;
 
-
+        /// <summary>
+        /// Initializes
+        /// </summary>
         protected virtual void Start()
         {
             Initialize();
         }
 
+        /// <summary>
+        /// Sets up bars / stats / components / outline materials
+        /// </summary>
         public virtual void Initialize()
         {
             SetupBars();
@@ -369,6 +423,9 @@ namespace MOBA
             SetupMaterials();
         }
 
+        /// <summary>
+        /// Instantiates stat bars for this unit and saves / initializes them
+        /// </summary>
         protected virtual void SetupBars()
         {
             var statBarsGO = Resources.Load<GameObject>("StatBars");
@@ -376,6 +433,9 @@ namespace MOBA
             statBarsInstance.GetComponent<UnitStatBars>()?.Initialize(this);
         }
 
+        /// <summary>
+        /// For each material on the mesh, create a variant with the outline shader in PlayerController and store it and the original material
+        /// </summary>
         protected void SetupMaterials()
         {
             defaultMaterials = new List<Material>();
@@ -397,7 +457,10 @@ namespace MOBA
         }
 
 
-
+        /// <summary>
+        /// Retrieve the outline color for this unit from a scriptable object in PlayerController depending on team relation to local player
+        /// </summary>
+        /// <returns></returns>
         protected virtual Color GetOutlineColor()
         {
             if (this.IsAlly(PlayerController.Player))
@@ -407,6 +470,10 @@ namespace MOBA
             return PlayerController.Instance.defaultColors.enemyOutline;
         }
 
+        /// <summary>
+        /// Retrieve the hp bar color for this unit from a scriptable object in PlayerController depending on team relation to local player
+        /// </summary>
+        /// <returns></returns>
         public virtual Color GetHPColor()
         {
             if (this.IsAlly(PlayerController.Player))
@@ -416,6 +483,9 @@ namespace MOBA
             return PlayerController.Instance.defaultColors.enemyMinionHP;
         }
 
+        /// <summary>
+        /// Sets this as the hovered unit, shows outlines unless untargetable and enemy of local player
+        /// </summary>
         private void OnMouseEnter()
         {
             PlayerController.Instance.hovered = this;
@@ -426,6 +496,9 @@ namespace MOBA
             ShowOutlines();
         }
 
+        /// <summary>
+        /// Swaps each renderer material to its stored outlined version
+        /// </summary>
         protected virtual void ShowOutlines()
         {
             for (int i = 0; i < renderers.Count; i++)
@@ -434,6 +507,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Reverts each rendered material to its stored original one
+        /// </summary>
         protected virtual void HideOutlines()
         {
             for (int i = 0; i < renderers.Count; i++)
@@ -442,7 +518,9 @@ namespace MOBA
             }
         }
 
-
+        /// <summary>
+        /// Hides outlines, if this was the hovered unit, clear hovered unit
+        /// </summary>
         private void OnMouseExit()
         {
             if (PlayerController.Instance.hovered == this)
@@ -455,6 +533,10 @@ namespace MOBA
 
         public Action OnMovementCommand;
 
+        /// <summary>
+        /// Moves to destination if possible, stops attacking if neccessary
+        /// </summary>
+        /// <param name="destination"></param>
         public void MoveTo(Vector3 destination)
         {
             if (!CanMove) return;
@@ -466,12 +548,17 @@ namespace MOBA
             movement.MoveTo(destination);
         }
 
+        /// <summary>
+        /// Stops movement if possible
+        /// </summary>
         public void Stop()
         {
             movement?.Stop();
         }
 
-
+        /// <summary>
+        /// If local unit, apply regeneration ticks depending on times
+        /// </summary>
         protected virtual void Update()
         {
             if (!photonView.IsMine) return;
@@ -486,12 +573,25 @@ namespace MOBA
 
         public Action OnUnitTick;
 
+        /// <summary>
+        /// If missing hp or resource, send ApplyRegenerationRPC to everyone
+        /// </summary>
         protected virtual void ApplyRegeneration()
         {
             if (IsDead) return;
+            if (stats.HP >= stats.MaxHP)
+            {
+                if (stats.Resource >= stats.MaxResource)
+                {
+                    return;
+                }
+            }
             photonView.RPC(nameof(ApplyRegenerationRPC), RpcTarget.All);
         }
 
+        /// <summary>
+        /// Applies respective hp / resource regeneration
+        /// </summary>
         [PunRPC]
         public void ApplyRegenerationRPC()
         {
@@ -499,16 +599,27 @@ namespace MOBA
             stats.ApplyResourceReg();
         }
 
+        /// <summary>
+        /// Overrride this to set the amount of xp distributed to nearby enemy champs on death
+        /// </summary>
+        /// <returns></returns>
         public virtual float GetXPReward()
         {
             return 0;
         }
 
+        /// <summary>
+        /// Override this to set the amount of gold a champ receives upon killing this
+        /// </summary>
+        /// <returns></returns>
         public virtual int GetGoldReward()
         {
             return 0;
         }
 
+        /// <summary>
+        /// Shows attack range (red), radius (yellow)
+        /// </summary>
         protected virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
@@ -517,6 +628,10 @@ namespace MOBA
             Gizmos.DrawWireSphere(transform.position, radius);
         }
 
+        /// <summary>
+        /// Sends a NetworkTeleport rpc to targetPos for everyone, tries to resume movement afterwards
+        /// </summary>
+        /// <param name="targetPos"></param>
         public void Teleport(Vector3 targetPos)
         {
             var destination = GetDestination();
@@ -527,6 +642,7 @@ namespace MOBA
             }
             else
             {
+                //prevent running back to source if not previously moving
                 continueMove = Vector3.Distance(this.GetGroundPos(), destination) > 1f;
             }
 
@@ -534,7 +650,6 @@ namespace MOBA
             photonView.RPC(nameof(NetworkTeleport), RpcTarget.All, targetPos);
             movement.EnableCollision();
 
-            //prevent running back to source if not previously moving
             if (continueMove)
             {
                 MoveTo(destination);
@@ -546,6 +661,10 @@ namespace MOBA
 
         }
 
+        /// <summary>
+        /// Instantly moves to target position, overwrites network position to prevent unwanted interpolation
+        /// </summary>
+        /// <param name="targetPos"></param>
         [PunRPC]
         public void NetworkTeleport(Vector3 targetPos)
         {
@@ -553,6 +672,9 @@ namespace MOBA
             GetComponent<PhotonTransformView>().SetNetworkPosition(targetPos);
         }
 
+        /// <summary>
+        /// Match rangeIndicator range with attack range
+        /// </summary>
         protected virtual void OnValidate()
         {
             GetComponentInChildren<RangeIndicator>()?.SetRange(stats.AtkRange);

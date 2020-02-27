@@ -620,46 +620,6 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.w
-      value: 1e-45
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779846963044, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 879011779483528169, guid: c5ba6ad371d8f05498c30337c6808ef8,
-        type: 3}
-      propertyPath: m_BoundingSphereOverride.w
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5ba6ad371d8f05498c30337c6808ef8, type: 3}
 --- !u!20 &879011779876508134 stripped
@@ -1240,6 +1200,11 @@ PrefabInstance:
       propertyPath: minimapCam
       value: 
       objectReference: {fileID: 879011779876508134}
+    - target: {fileID: 4470648647769344371, guid: 096a82ac6abbd9e428b638859eded951,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -7.980011
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 096a82ac6abbd9e428b638859eded951, type: 3}
 --- !u!1001 &8829435748034451123

@@ -13,18 +13,24 @@ namespace MOBA
         anyDestroyed = 1,
     }
 
+    /// <summary>
+    /// Base class for buildings
+    /// </summary>
     public abstract class Structure : Unit
     {
         [Space]
 
-        [SerializeField]
+        [SerializeField, Tooltip("Structures that either all or any of have to be destroyed before this becomes targetable")]
         protected List<Structure> isUntargetableUntilDestroyed;
 
-        [SerializeField]
+        [SerializeField, Tooltip("How does this react to an assigned previous structure being destroyed?")]
         private UntargetableUntilMode targetableUntilMode;
 
         protected bool isDestroyed;
 
+        /// <summary>
+        /// Goes untargetable if condition structures aren't destroyed
+        /// </summary>
         public override void Initialize()
         {
             base.Initialize();
@@ -35,7 +41,7 @@ namespace MOBA
                 damageable = false;
                 foreach (var structure in isUntargetableUntilDestroyed)
                 {
-                    structure.OnBeforeDeath += CheckTargetableRequirements;
+                    structure.OnDeathEvent += CheckTargetableRequirements;
                 }
             }
             CanMove = false;
@@ -56,6 +62,9 @@ namespace MOBA
             return PlayerController.Instance.defaultColors.enemyStructureHP;
         }
 
+        /// <summary>
+        /// Checks if this should become targetable depending on targetableUntilMode, sends SetTargetable rpc to all if yes
+        /// </summary>
         private void CheckTargetableRequirements()
         {
             switch (targetableUntilMode)
@@ -81,6 +90,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Sets this to targetable and damageable
+        /// </summary>
         [PunRPC]
         public void SetTargetable()
         {

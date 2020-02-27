@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
-    //TODO stop instantiating enemy displays, initialize with target
+    /// <summary>
+    /// Displays player ChampStatBars on HUD (not world to screen position), can display selected unit stats, also displays owner skills
+    /// </summary>
     public class Interface : ChampStatBars
     {
         [Space]
@@ -26,7 +28,10 @@ namespace MOBA
         [SerializeField]
         private Text goldText;
 
-
+        /// <summary>
+        /// Initializes skill displays / gold text
+        /// </summary>
+        /// <param name="_target">local player</param>
         public override void Initialize(Champ _target)
         {
             base.Initialize(_target);
@@ -51,11 +56,19 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Updates gold text
+        /// </summary>
+        /// <param name="value">new gold amount</param>
         private void SetGold(float value)
         {
             goldText.text = value + "";
         }
 
+        /// <summary>
+        /// Shows target stats on enemyDisplay, creates one if necessary
+        /// </summary>
+        /// <param name="_target"></param>
         public void ShowTargetStats(Unit _target)
         {
             if (_target == PlayerController.Player) return;
@@ -72,6 +85,9 @@ namespace MOBA
             enemyDisplayInstance?.GetComponent<UnitStatBars>().Initialize(_target);
         }
 
+        /// <summary>
+        /// Hides enemy stats display
+        /// </summary>
         public void HideTargetStats()
         {
             if (enemyDisplayInstance)

@@ -20,7 +20,9 @@ namespace MOBA
         ownerOnly = 7
     }
 
-
+    /// <summary>
+    /// Properties that define a projectile and its behaviour
+    /// </summary>
     [Serializable]
     public class ProjectileProperties
     {
@@ -56,6 +58,9 @@ namespace MOBA
     }
 
     //TODO separate instantiating / initializing
+    /// <summary>
+    /// Used to deal damage onHit or activate skill effects
+    /// </summary>
     [RequireComponent(typeof(Collider))]
     public class Projectile : MonoBehaviour
     {
@@ -99,6 +104,10 @@ namespace MOBA
         [SerializeField, Tooltip("Activate effects when projectile dies (not only on hit)?")]
         private bool activateEffectsOnDestroy;
 
+        /// <summary>
+        /// If other is unit matching HitMode, calls OnHit
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
             if (other.isTrigger) return;
@@ -171,6 +180,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If owner is controlled locally, inflict damage and activate effects on hit unit / current position, can destroy / disable this depending on settings
+        /// </summary>
+        /// <param name="unit">unit that was hit</param>
         protected virtual void OnHit(Unit unit)
         {
             if (ownerView)
@@ -209,17 +222,24 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Destroys this projectile
+        /// </summary>
         [PunRPC]
         public void DestroyRPC()
         {
             Destroy(gameObject);
         }
 
+        //TODO Monsters aren't implemented yet
         protected virtual void OnHitMonster(Monster monster)
         {
             OnHit(monster);
         }
 
+        /// <summary>
+        /// When hitting target unit, destroy or disable this depending on settings
+        /// </summary>
         private void OnHitTarget()
         {
             if (waitForDestroyRPC)
@@ -233,6 +253,14 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Initialize owner / scaling / other variables
+        /// </summary>
+        /// <param name="_owner">unit that spawned this projectile</param>
+        /// <param name="_properties">properties of spawned projectile</param>
+        /// <param name="_scaling">scaling to use for damage / skill effects</param>
+        /// <param name="teamID">TeamID of owner</param>
+        /// <param name="ownerStats">stats to use for damage / skill effects</param>
         public void Initialize(Unit _owner, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
             properties = _properties;
@@ -271,7 +299,7 @@ namespace MOBA
         /// <summary>
         /// Spawns a stillstanding but initialized projectile.
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">position to spawn at</param>
         /// <param name="_properties"></param>
         /// <returns></returns>
         private Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
@@ -284,9 +312,9 @@ namespace MOBA
         /// <summary>
         /// Spawns a projectile flying after a unit or to its position at spawn time with given properties, _properties determine whether it is homing.
         /// </summary>
-        /// <param name="_owner"></param>
-        /// <param name="_target"></param>
-        /// <param name="position"></param>
+        /// <param name="_owner">unit that spawned this projectile</param>
+        /// <param name="_target">target unit to fly to</param>
+        /// <param name="position">position to spawn at</param>
         /// <param name="_properties"></param>
         /// <returns></returns>
         public Projectile Spawn(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
@@ -302,9 +330,9 @@ namespace MOBA
         /// <summary>
         /// Spawns a projectile flying to a position with given properties, cannot be homing.
         /// </summary>
-        /// <param name="_owner"></param>
-        /// <param name="_targetPos"></param>
-        /// <param name="position"></param>
+        /// <param name="_owner">unit that spawned this projectile</param>
+        /// <param name="_targetPos">position to fly to</param>
+        /// <param name="position">position to spawn at</param>
         /// <param name="_properties"></param>
         /// <returns></returns>
         public Projectile SpawnSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, Scalings _scalings, TeamID teamID, UnitStats ownerStats)
@@ -321,7 +349,9 @@ namespace MOBA
             return instance;
         }
 
-
+        /// <summary>
+        /// Moves projectile, destroys it (and activates effects if activateEffectsOnDestroy is enabled) when older than lifespan
+        /// </summary>
         private void Update()
         {
             Move();
@@ -347,6 +377,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Moves towards target direction / target unit, destroys self if target is no longer alive / targetable
+        /// </summary>
         private void Move()
         {
             if (properties.isHoming)

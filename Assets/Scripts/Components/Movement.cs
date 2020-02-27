@@ -8,7 +8,9 @@ namespace MOBA
 {
 
 
-
+    /// <summary>
+    /// Base class for movement behaviour
+    /// </summary>
     [DisallowMultipleComponent]
     public abstract class Movement : MonoBehaviour
     {
@@ -22,18 +24,30 @@ namespace MOBA
 
         public Vector3 TargetPos { protected set; get; }
 
-
+        /// <summary>
+        /// Moves to destination (needs implementation by child classes)
+        /// </summary>
+        /// <param name="destination">Target position</param>
         public virtual void MoveTo(Vector3 destination)
         {
             TargetPos = destination;
         }
 
+        /// <summary>
+        /// Stops movement
+        /// </summary>
         public abstract void Stop();
 
         public abstract void SetSpeed(float newSpeed);
 
+        /// <summary>
+        /// Disable movement
+        /// </summary>
         public abstract void Disable();
 
+        /// <summary>
+        /// Enable movement
+        /// </summary>
         public abstract void Enable();
 
         public abstract float GetVelocity();
@@ -90,11 +104,19 @@ namespace MOBA
             }
         }
 
-
+        /// <summary>
+        /// Disables movement and all collision
+        /// </summary>
         public abstract void DisableCollision();
 
+        /// <summary>
+        /// Enables movement and all collision
+        /// </summary>
         public abstract void EnableCollision();
 
+        /// <summary>
+        /// Draws yellow line from self to targetPos
+        /// </summary>
         protected void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;

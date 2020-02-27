@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Ranged attacking, spawns homing projectile on animation event
+    /// </summary>
     public class AttackingRanged : Attacking
     {
         [Space]
@@ -27,6 +30,9 @@ namespace MOBA
         public Transform projectileSpawnpoint;
 
 
+        /// <summary>
+        /// Spawns a homing projectile at projectileSpawnpoint following currentTarget
+        /// </summary>
         public override void OnAtkAnimNotify()
         {
             var target = currTargetViewID.GetUnitByID();

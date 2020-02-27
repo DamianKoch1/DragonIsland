@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Contains all stats of a unit
+    /// </summary>
     [Serializable]
     public class UnitStats
     {
@@ -30,6 +33,9 @@ namespace MOBA
 
         private float xp = -1;
 
+        /// <summary>
+        /// Setting this checks if a new level was reached, Calls LevelUpStats and OnLevelUp if yes, calls OnXPChanged
+        /// </summary>
         public float XP
         {
             set
@@ -44,13 +50,11 @@ namespace MOBA
                     OnLevelUp?.Invoke(Lvl);
                 }
 
-                //TODO remove this
                 if (Lvl >= maxLvl)
                 {
                     OnXPChanged?.Invoke(1, 1);
                     return;
                 }
-                //
 
                 OnXPChanged?.Invoke(xp - Owner.GetXPNeededForLevel(Lvl), Owner.GetXPNeededForLevel(Lvl + 1) - Owner.GetXPNeededForLevel(Lvl));
             }
@@ -59,6 +63,9 @@ namespace MOBA
 
         public Action<float, float> OnXPChanged;
 
+        /// <summary>
+        /// Debug function, sets xp to value needed for next level +1
+        /// </summary>
         public void LevelUp()
         {
             if (Lvl >= maxLvl) return;
@@ -67,6 +74,9 @@ namespace MOBA
 
         public Action<int> OnLevelUp;
 
+        /// <summary>
+        /// Increases all stats by their respective value per level
+        /// </summary>
         private void LevelUpStats()
         {
             GameLogger.Log(Owner, LogActionType.levelUp, Owner.transform.position);
@@ -92,6 +102,10 @@ namespace MOBA
         private float baseHP;
 
         private float maxHP = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnHPChanged
+        /// </summary>
         public float MaxHP
         {
             set
@@ -105,6 +119,10 @@ namespace MOBA
             get => maxHP;
         }
         private float hp = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnHPChanged
+        /// </summary>
         public float HP
         {
             set
@@ -124,6 +142,10 @@ namespace MOBA
         private float baseHPReg;
 
         private float hpReg = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnHPRegChanged
+        /// </summary>
         public float HPReg
         {
             set
@@ -147,6 +169,10 @@ namespace MOBA
         private float baseResource;
 
         private float maxResource = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnResourceChanged
+        /// </summary>
         public float MaxResource
         {
             set
@@ -160,6 +186,10 @@ namespace MOBA
             get => maxResource;
         }
         private float resource = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnResourceChanged
+        /// </summary>
         public float Resource
         {
             set
@@ -178,6 +208,10 @@ namespace MOBA
         private float baseResourceReg;
 
         private float resourceReg = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnResourceRegChanged
+        /// </summary>
         public float ResourceReg
         {
             set
@@ -198,6 +232,10 @@ namespace MOBA
 
 
         private float cdr = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma and limited to MAXCDR, changing this calls OnCDRChanged
+        /// </summary>
         public float CDReduction
         {
             set
@@ -219,6 +257,10 @@ namespace MOBA
         private float baseArmor;
 
         private float armor = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnArmorChanged
+        /// </summary>
         public float Armor
         {
             set
@@ -242,6 +284,10 @@ namespace MOBA
         private float baseMagicRes;
 
         private float magicRes = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnMagicResChanged
+        /// </summary>
         public float MagicRes
         {
             set
@@ -265,6 +311,10 @@ namespace MOBA
         private float baseAtkDmg;
 
         private float atkDmg = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnADChanged
+        /// </summary>
         public float AtkDmg
         {
             set
@@ -290,6 +340,10 @@ namespace MOBA
         
 
         private float atkSpeed = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma and limited to MAXATKSPEED, changing this calls OnAtkSpeedChanged
+        /// </summary>
         public float AtkSpeed
         {
             set
@@ -309,6 +363,10 @@ namespace MOBA
 
 
         private float critChance = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnCritChanceChanged
+        /// </summary>
         public float CritChance
         {
             set
@@ -342,6 +400,10 @@ namespace MOBA
 
 
         private float magicDmg = -1;
+
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnMagicDmgChanged
+        /// </summary>
         public float MagicDmg
         {
             set
@@ -367,6 +429,9 @@ namespace MOBA
         [SerializeField]
         private float moveSpeed;
 
+        /// <summary>
+        /// Rounded to 1 digit after comma, changing this calls OnMoveSpeedChanged
+        /// </summary>
         public float MoveSpeed
         {
             protected set
@@ -380,6 +445,7 @@ namespace MOBA
             get => moveSpeed;
         }
         public Action<float> OnMoveSpeedChanged;
+
 
         /// <summary>
         /// Used to save stats at skill cast time incase unit dies while e.g. projectile flies.
@@ -407,7 +473,10 @@ namespace MOBA
             moveSpeed = ownerStats.MoveSpeed;
         }
 
-
+        /// <summary>
+        /// Saves owner, resets all stats to base
+        /// </summary>
+        /// <param name="_owner"></param>
         public void Initialize(Unit _owner)
         {
             Owner = _owner;
@@ -442,19 +511,27 @@ namespace MOBA
             OnMoveSpeedChanged?.Invoke(moveSpeed);
         }
 
+        /// <summary>
+        /// Increases HP by HPReg (limited to MaxHP)
+        /// </summary>
         public void ApplyHPReg()
         {
             if (HP >= MaxHP) return;
             HP = Mathf.Min(MaxHP, HP + HPReg);
         }
 
+        /// <summary>
+        /// Increases Resource by ResourceReg (limited to MaxResource)
+        /// </summary>
         public void ApplyResourceReg()
         {
             if (Resource >= MaxResource) return;
             Resource = Mathf.Min(MaxResource, Resource + ResourceReg);
         }
 
-
+        /// <summary>
+        /// Sets most stats to really high values, levels to max
+        /// </summary>
         public void DebugMode()
         {
             AtkSpeed = 5;
@@ -469,7 +546,9 @@ namespace MOBA
 
     }
 
-
+    /// <summary>
+    /// Used by stat buffs to change stats of their target (wip)
+    /// </summary>
     [Serializable]
     public class Stats
     {
@@ -506,7 +585,9 @@ namespace MOBA
     }
 
 
-
+    /// <summary>
+    /// Scalings that skill effects use (wip, only DealDamage so far)
+    /// </summary>
     [Serializable]
     public class Scalings
     {
@@ -545,11 +626,24 @@ namespace MOBA
         [Range(0, 2), Tooltip("Damage per target missing HP")]
         public float targetMissingHP;
 
+        /// <summary>
+        /// Multiplies all Scalings values with the respective stat of owner and returns the resulting float
+        /// </summary>
+        /// <param name="scaling"></param>
+        /// <param name="owner"></param>
+        /// <returns></returns>
         public static float operator *(Scalings scaling, Unit owner)
         {
             return scaling * owner.Stats;
         }
 
+       
+        /// <summary>
+        /// Adds every value of 2 Scalings together and returns the resulting Scalings
+        /// </summary>
+        /// <param name="scaling"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public static Scalings operator +(Scalings scaling, Scalings other)
         {
             return new Scalings()
@@ -568,6 +662,12 @@ namespace MOBA
             };
         }
 
+        /// <summary>
+        /// Multiplies every value of a Scalings and returns the resulting Scalings
+        /// </summary>
+        /// <param name="scaling"></param>
+        /// <param name="multiplier"></param>
+        /// <returns></returns>
         public static Scalings operator *(Scalings scaling, float multiplier)
         {
              return new Scalings()
@@ -586,6 +686,12 @@ namespace MOBA
              };
         }
 
+        /// <summary>
+        /// Multiplies all Scalings values except target current / missing / max hp with the respective stat of ownerStats and returns the resulting float
+        /// </summary>
+        /// <param name="scaling"></param>
+        /// <param name="ownerStats"></param>
+        /// <returns></returns>
         public static float operator *(Scalings scaling, UnitStats ownerStats)
         {
             return scaling.ad * ownerStats.AtkDmg
@@ -598,6 +704,12 @@ namespace MOBA
                  + scaling.missingHP * (ownerStats.MaxHP - ownerStats.HP);
         }
 
+        /// <summary>
+        /// Multiplies all Scalings values with the respective stat of ownerStats together with current / missing / max hp scalings and returns the resulting float
+        /// </summary>
+        /// <param name="ownerStats"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public float GetScalingDamageBonusOnTarget(UnitStats ownerStats, Unit target)
         {
             var targetStats = target.Stats;
@@ -607,6 +719,12 @@ namespace MOBA
                  + targetMissingHP * (targetStats.MaxHP - targetStats.HP);
         }
 
+        /// <summary>
+        /// Multiplies all Scalings values with the respective stat of owner together with current / missing / max hp scalings and returns the resulting float
+        /// </summary>
+        /// <param name="ownerStats"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public float GetScalingDamageBonusOnTarget(Unit owner, Unit target)
         {
             return GetScalingDamageBonusOnTarget(owner.Stats, target);
@@ -615,6 +733,9 @@ namespace MOBA
 
     }
 
+    /// <summary>
+    /// Amplifiers used by stat buffs to amplify stats of their target (wip)
+    /// </summary>
     [Serializable]
     public class Amplifiers
     {
@@ -669,6 +790,9 @@ namespace MOBA
         [Range(0, 1)]
         public float disables;
 
+        /// <summary>
+        /// Resets all values to base
+        /// </summary>
         public void Reset()
         {
             hp = 1;

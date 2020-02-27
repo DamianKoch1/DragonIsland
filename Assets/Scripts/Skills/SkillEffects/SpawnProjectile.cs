@@ -8,7 +8,9 @@ using UnityEngine;
 
 namespace MOBA
 {
-
+    /// <summary>
+    /// Used to spawn (homing) projectiles towards units / position
+    /// </summary>
     public class SpawnProjectile : SkillEffect
     {
 
@@ -31,7 +33,9 @@ namespace MOBA
         [SerializeField, Tooltip("If skill is mousePos targeted toggle, use current mouse pos or cast at original cast position?")]
         private bool rememberCastMousePos = false;
 
-
+        /// <summary>
+        /// Increases projectile lifespan / size / base damage
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
@@ -40,7 +44,11 @@ namespace MOBA
             projectileProperties.baseDamage += projectileProperties.damagePerRank;
         }
 
-
+        /// <summary>
+        /// Calls SpawnSkillshotRPC for other clients
+        /// </summary>
+        /// <param name="_targetPos"></param>
+        /// <param name="viewID">view id of the spawned projectile</param>
         private void SpawnSkillshotNetworked(Vector3 _targetPos, int viewID)
         {
             if (!photonView)
@@ -50,6 +58,11 @@ namespace MOBA
             photonView.RPC(nameof(SpawnSkillshotRPC), RpcTarget.Others, _targetPos, viewID);
         }
 
+        /// <summary>
+        /// Calls SpawnHomingRPC for other clients
+        /// </summary>
+        /// <param name="targetViewID">view id of target unit</param>
+        /// <param name="viewID">view id of the spawned projectile</param>
         private void SpawnHomingNetworked(int targetViewID, int viewID)
         {
             if (!photonView)
@@ -60,6 +73,11 @@ namespace MOBA
         }
 
 
+        /// <summary>
+        /// Spawns a skillshot projectile at targetPos (only visuals, has no scaling and doesn't know owner stats), adds a photonView with given viewID to it
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <param name="viewID">view id of the spawned projectile</param>
         [PunRPC]
         public void SpawnSkillshotRPC(Vector3 targetPos, int viewID)
         {
@@ -68,6 +86,11 @@ namespace MOBA
             projectile.waitForDestroyRPC = true;
         }
 
+        /// <summary>
+        /// Spawns a homing projectile towards owner of targetViewID (only visuals, has no scaling and doesn't know owner stats), adds a photonView with given viewID to it
+        /// </summary>
+        /// <param name="targetViewID">view id of target unit</param>
+        /// <param name="viewID">view id of the spawned projectile</param>
         [PunRPC]
         public void SpawnHomingRPC(int targetViewID, int viewID)
         {
@@ -76,6 +99,10 @@ namespace MOBA
             projectile.waitForDestroyRPC = true;
         }
 
+        /// <summary>
+        /// Spawns a skillshot projectile towards position with scaling / saved stats locally, visuals only for other clients, adds PhotonView and allocates unique viewID
+        /// </summary>
+        /// <param name="targetPos"></param>
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
@@ -86,6 +113,10 @@ namespace MOBA
             SpawnSkillshotNetworked(targetPos, view.ViewID);
         }
 
+        /// <summary>
+        /// Spawns a homing projectile towards target with scaling / saved stats locally, visuals only for other clients, adds PhotonView and allocates unique viewID
+        /// </summary>
+        /// <param name="target"></param>
         public override void Activate(Unit target)
         {
             base.Activate(target);
@@ -96,6 +127,10 @@ namespace MOBA
             SpawnHomingNetworked(target.GetViewID(), view.ViewID);
         }
 
+        /// <summary>
+        /// Spawns homing projectiles towards each target with scaling / saved stats locally, visuals only for other clients, adds PhotonView and allocates unique viewID
+        /// </summary>
+        /// <param name="targets"></param>
         public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
@@ -105,6 +140,9 @@ namespace MOBA
             target = null;
         }
 
+        /// <summary>
+        /// If activated, can spawn projectiles each tick towards a position depending on settings
+        /// </summary>
         public override void Tick()
         {
             if (!spawnEachToggleTick) return;

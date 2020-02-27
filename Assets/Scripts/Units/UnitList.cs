@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Custom list for units that automatically removes any dead / destroyed units, contains functions to find allies / enemies / targetables / closest unit
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class UnitList<T> : IEnumerable where T : Unit
     {
         private List<T> list;
@@ -19,11 +23,21 @@ namespace MOBA
             list = new List<T>(_list);
         }
 
+        /// <summary>
+        /// Returns a UnitList containing all allies of source of type T in this
+        /// </summary>
+        /// <param name="source">unit to filter allies for</param>
+        /// <returns></returns>
         public UnitList<T> FindAllies(Unit source)
         {
             return new UnitList<T>(list.FindAll(x => source.IsAlly(x) && x is T));
         }
 
+        /// <summary>
+        /// Returns a UnitList containing all enemies of source of type T in this
+        /// </summary>
+        /// <param name="source">unit to tilfer enemies for</param>
+        /// <returns></returns>
         public UnitList<T> FindEnemies(Unit source)
         {
             return new UnitList<T>(list.FindAll(x => source.IsEnemy(x) && x is T));
@@ -37,6 +51,10 @@ namespace MOBA
             return (IEnumerator)GetEnumerator();
         }
 
+        /// <summary>
+        /// Validates units before returning the enumerator
+        /// </summary>
+        /// <returns></returns>
         public UnitEnumerator<T> GetEnumerator()
         {
             Validate();
@@ -53,12 +71,19 @@ namespace MOBA
             list.Remove(unit);
         }
 
+        /// <summary>
+        /// Validates units before returning count
+        /// </summary>
+        /// <returns></returns>
         public int Count()
         {
             Validate();
             return list.Count;
         }
 
+        /// <summary>
+        /// Removes all dead / destroyed units inside
+        /// </summary>
         private void Validate()
         {
             int n = 0;
@@ -81,6 +106,12 @@ namespace MOBA
             return list.Contains(unit);
         }
 
+        /// <summary>
+        /// Gets the closest unit of type T1 around source
+        /// </summary>
+        /// <typeparam name="T1">type of unit to look for</typeparam>
+        /// <param name="source">position to calculate distance for</param>
+        /// <returns></returns>
         public T1 GetClosestUnitFrom<T1>(Vector3 source) where T1 : T
         {
             if (Count() == 0) return null;
@@ -98,6 +129,11 @@ namespace MOBA
             return closestUnit;
         }
 
+        /// <summary>
+        /// Returns a UnitList with all targetable units of type T1 in this
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <returns></returns>
         public UnitList<T1> GetTargetables<T1>() where T1 : T
         {
             UnitList<T1> result = new UnitList<T1>();
@@ -112,6 +148,10 @@ namespace MOBA
 
     }
 
+    /// <summary>
+    /// Enumerator for Units
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class UnitEnumerator<T> : IEnumerator where T : Unit
     {
         public List<T> units;

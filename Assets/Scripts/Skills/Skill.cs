@@ -21,6 +21,9 @@ namespace MOBA
 
 
     //TODO silence
+    /// <summary>
+    /// Base class for skills, can simply be activated and goes on cooldown
+    /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(PhotonView))]
 
@@ -66,7 +69,7 @@ namespace MOBA
         [SerializeField, Range(0, 200)]
         protected float castRangePerRank = 0;
 
-        [SerializeField, Tooltip("This should usually be false, set to true for SpawnProjectile skills that should always be cast towards cursor (only works for mousePos targeting, castRange still relevant for range indicator)")]
+        [SerializeField, Tooltip("This should usually be false, set to true for SpawnProjectile skills that should always be cast towards cursor regardless of distance (only works for mousePos targeting, castRange still relevant for range indicator)")]
         private bool ignoreCastRange = false;
 
         [Space]
@@ -118,7 +121,10 @@ namespace MOBA
             get;
         }
 
-
+        /// <summary>
+        /// Gathers attached effects, setup actions / owner
+        /// </summary>
+        /// <param name="_owner">owner of this skill</param>
         public virtual void Initialize(Unit _owner)
         {
             isReady = true;
@@ -132,6 +138,10 @@ namespace MOBA
             owner.OnMovementCommand += CancelMoveIntoCastRange;
         }
 
+        /// <summary>
+        /// Sets owner for this and initializes all effects
+        /// </summary>
+        /// <param name="_owner"></param>
         private void SetOwner(Unit _owner)
         {
             owner = _owner;
@@ -141,6 +151,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Increases / decreases castRange, cost, cooldown, levels up effects
+        /// </summary>
         public virtual void LevelUp()
         {
             Rank++;
@@ -154,6 +167,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Returns false if no more skill points, already at max rank, if isUltimate returns false if necessary level isn't reached, otherwise returns true
+        /// </summary>
+        /// <param name="availableSkillPoints">number of currently available skill points to check for</param>
+        /// <returns></returns>
         public bool CanBeLeveled(int availableSkillPoints)
         {
             if (availableSkillPoints <= 0)
@@ -175,22 +193,32 @@ namespace MOBA
             return true;
         }
 
-        //TODO target selection
+        /// <summary>
+        /// Shows range indicator displaying castRange
+        /// </summary>
         public virtual void OnMouseEnter()
         {
             ((Champ)owner).ToggleRangeIndicator(true, CastRange);
         }
 
+        /// <summary>
+        /// Hides range indicator
+        /// </summary>
         public virtual void OnMouseExit()
         {
             ((Champ)owner).ToggleRangeIndicator(false);
         }
 
+        //TODO target selection
         public virtual void OnButtonClicked()
         {
 
         }
 
+        /// <summary>
+        /// Uses owner CDR to calculate actual cooldown, blocks casting again until cooldown has passed
+        /// </summary>
+        /// <returns></returns>
         protected IEnumerator StartCooldown()
         {
             isReady = false;
@@ -212,6 +240,10 @@ namespace MOBA
 
         private Coroutine moveIntoCastRange;
 
+
+        /// <summary>
+        /// Stops trying to move into cast range
+        /// </summary>
         private void CancelMoveIntoCastRange()
         {
             if (moveIntoCastRange != null)
@@ -222,6 +254,12 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Tries to cast this skill
+        /// </summary>
+        /// <param name="hovered"></param>
+        /// <param name="mousePos"></param>
+        /// <returns>returns false if: currently cooling down / in cast time / not yet learned (rank is 0) / owner can't currently cast / not enough resource / no valid target hovered, otherwise true</returns>
         public virtual bool TryCast(Unit hovered, Vector3 mousePos)
         {
             if (!isReady) return false;
@@ -277,6 +315,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Moves owner to target until in cast range, then tries to cast this
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator ChaseOutOfRangeTarget()
         {
             while (true)
@@ -310,13 +352,17 @@ namespace MOBA
                 }
                 else
                 {
-                    Cast();
+                    TryCast(target, mousePosAtCast);
                     break;
                 }
             }
             moveIntoCastRange = null;
         }
 
+        /// <summary>
+        /// Moves owner to position until in cast range, then tries to cast this
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator MoveToOutOfRangePosition()
         {
             while (true)
@@ -340,13 +386,16 @@ namespace MOBA
                 }
                 else
                 {
-                    Cast();
+                    TryCast(null, mousePosAtCast);
                     break;
                 }
             }
             moveIntoCastRange = null;
         }
 
+        /// <summary>
+        /// Decreases owner resource by cost, starts cooldown and cast time
+        /// </summary>
         private void Cast()
         {
             owner.Stats.Resource -= cost;
@@ -359,6 +408,11 @@ namespace MOBA
             OnCast?.Invoke();
         }
 
+        /// <summary>
+        /// Checks if the given unit matches the assigned TargetingMode
+        /// </summary>
+        /// <param name="hovered">hovered unit</param>
+        /// <returns></returns>
         protected bool IsValidTargetSelected(Unit hovered)
         {
             wasCastOnUnit = true;
@@ -415,6 +469,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Saves stats at activation (in case e.g. minions can ever cast skills and get destroyed while a projectile flies, also prevents suddenly buying lots of damage), 
+        /// does the same for all effects
+        /// </summary>
+        /// <param name="stats">Stats to save</param>
         public void SetStatsAtActivation(UnitStats stats)
         {
             ownerStatsAtCast = new UnitStats(stats);
@@ -424,6 +483,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Saves stats, starts cast time lock, on finished stops cast time lock and activates effects
+        /// </summary>
+        /// <returns></returns>
         protected IEnumerator StartCastTime()
         {
             SetStatsAtActivation(owner.Stats);
@@ -443,9 +506,15 @@ namespace MOBA
             OnCastTimeFinished?.Invoke();
         }
 
+        /// <summary>
+        /// Used to visualize cast time
+        /// </summary>
         public Action<float> OnRemainingCastTimeChanged;
         public Action OnCastTimeFinished;
 
+        /// <summary>
+        /// Disables casting this / owner attacking / casting (/ movement)
+        /// </summary>
         private void StartCastTimeLock()
         {
             prevAttackTarget = null;
@@ -464,6 +533,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Enables owner attacking / casting (/ movement), resumes attacking previous target / moves to previous destination
+        /// </summary>
         protected void StopCastTimeLock()
         {
             isInCastTime = false;
@@ -484,11 +556,14 @@ namespace MOBA
             }
         }
 
-
+        /// <summary>
+        /// Activates each effect considering its own EffectTargetingMode
+        /// </summary>
         protected void ActivateEffects()
         {
             foreach (var effect in effects)
             {
+                if (Rank < effect.MinRank) continue;
                 switch (effect.TargetingMode)
                 {
                     case EffectTargetingMode.inherit:

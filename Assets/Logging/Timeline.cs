@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace MOBA.Logging
 {
+    /// <summary>
+    /// Used for displaying a given Log on a timeline
+    /// </summary>
     public class Timeline : MonoBehaviour
     {
         [SerializeField]
@@ -28,9 +31,12 @@ namespace MOBA.Logging
 
         private void Update()
         {
-            //UpdateTime();           
+            //TODO live updating?
         }
 
+        /// <summary>
+        /// Used for live logging (not yet implemented), changes end time and moves events accordingly
+        /// </summary>
         private void UpdateTime()
         {
             float newLastTime = lastTime + Time.deltaTime;
@@ -46,6 +52,10 @@ namespace MOBA.Logging
             lastTime = newLastTime;
         }
 
+        /// <summary>
+        /// Displays log with given name on a timeline, tries to compress events into one if too close to each other
+        /// </summary>
+        /// <param name="name"></param>
         public void ShowLog(string name)
         {
             width = GetComponent<RectTransform>().rect.width;
@@ -99,6 +109,9 @@ namespace MOBA.Logging
             }
         }
 
+        /// <summary>
+        /// Clears all event texts of the timeline
+        /// </summary>
         public void Clear()
         {
             foreach (var instance in evtTextInstances)

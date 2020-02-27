@@ -5,6 +5,9 @@ using UnityEngine;
 namespace MOBA
 {
     //TODO cancellable by moving
+    /// <summary>
+    /// Similar to a toggle, activates effects immediately and each tick during castTime, doesn't use maxDuration
+    /// </summary>
     public class SkillChannel : SkillToggleable
     {
         [Space]
@@ -26,6 +29,10 @@ namespace MOBA
         private float prevZoom;
         private bool wasCamUnlocked;
 
+        /// <summary>
+        /// Sets up events
+        /// </summary>
+        /// <param name="_owner"></param>
         public override void Initialize(Unit _owner)
         {
             base.Initialize(_owner);
@@ -34,6 +41,9 @@ namespace MOBA
             OnCastTimeFinished += ToggleOff;
         }
 
+        /// <summary>
+        /// Increases turnRate
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
@@ -41,6 +51,9 @@ namespace MOBA
             turnRate += turnRatePerRank;
         }
 
+        /// <summary>
+        /// Turn towards mouse ground position using turnRate if lookAtCursor is enabled
+        /// </summary>
         protected override void Update()
         {
             base.Update();
@@ -55,6 +68,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Zooms camera out if cameraZoom is positive, starts channel
+        /// </summary>
         protected override void ToggleOn()
         {
             if (lookAtCursor)
@@ -73,6 +89,9 @@ namespace MOBA
             base.ToggleOn();
         }
 
+        /// <summary>
+        /// Stops channel, resets camera
+        /// </summary>
         protected override void ToggleOff()
         {
             base.ToggleOff();
@@ -88,6 +107,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Doesn't work if not cancellable
+        /// </summary>
+        /// <returns></returns>
         protected override bool TryToggleOff()
         {
             if (!cancellable) return false;
@@ -95,11 +118,6 @@ namespace MOBA
             {
                 StopCoroutine(castTimeCoroutine);
             }
-            //if (wasCamUnlocked)
-            //{
-            //    ChampCamera.Instance.Unlock();
-            //}
-            //ChampCamera.Instance.AddDistanceFactor(-cameraZoomChange, true);
 
             OnCastTimeFinished?.Invoke();
             return true;

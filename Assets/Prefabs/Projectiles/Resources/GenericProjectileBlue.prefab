@@ -251,9 +251,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
-      minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0.05882353, b: 1, a: 1}
+      minMaxState: 2
+      minColor: {r: 0, g: 0.15949917, b: 1, a: 0.5529412}
+      maxColor: {r: 0.5330188, g: 0.56048834, b: 1, a: 0.5372549}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4740,7 +4740,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 2100000, guid: dc1a05fba9a6af241a25a35b4caf5e27, type: 2}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4914,7 +4914,7 @@ MonoBehaviour:
   waitForDestroyRPC: 0
   onHitVFX: {fileID: 1281300312241156905, guid: 69369c3a0b65d4b4fb598edc07fdb0f2,
     type: 3}
-  overrideScalings: 0
+  overrideChildScalings: 0
   activateEffectsOnDestroy: 0
 --- !u!114 &7509579932543003365
 MonoBehaviour:

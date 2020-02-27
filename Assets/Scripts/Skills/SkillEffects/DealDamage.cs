@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to deal damage to units
+    /// </summary>
     public class DealDamage : SkillEffect
     {
         [SerializeField]
@@ -15,7 +18,9 @@ namespace MOBA
         [SerializeField]
         private DamageType dmgType;
 
-
+        /// <summary>
+        /// Increases damage
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
@@ -28,6 +33,10 @@ namespace MOBA
             Debug.LogError("Can't use DealDamage effect on a mousePos targeted skill, use SpawnAreaOfEffect instead! (Source: " + owner.name + ")");
         }
 
+        /// <summary>
+        /// Damages target
+        /// </summary>
+        /// <param name="target"></param>
         public override void Activate(Unit target)
         {
             base.Activate(target);
@@ -35,6 +44,11 @@ namespace MOBA
             damage.Inflict();
         }
 
+        /// <summary>
+        /// Damages all targets
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="targets"></param>
         public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)

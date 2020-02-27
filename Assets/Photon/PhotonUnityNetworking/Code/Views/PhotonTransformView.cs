@@ -51,6 +51,10 @@ namespace Photon.Pun
             m_firstTake = true;
         }
 
+        /// <summary>
+        /// Overrides stored / network position, resets distance to prevent interpolation for teleporting
+        /// </summary>
+        /// <param name="newPos"></param>
         public void SetNetworkPosition(Vector3 newPos)
         {
             m_StoredPosition = newPos;

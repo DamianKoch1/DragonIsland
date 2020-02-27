@@ -13,6 +13,9 @@ namespace MOBA
         piercing = 2,
     }
 
+    /// <summary>
+    /// Use instances of this to apply damage to units, damage is calculated with defenses of target before being inflicted 
+    /// </summary>
     public class Damage
     {
         private float baseDmg;
@@ -23,6 +26,11 @@ namespace MOBA
 
         private List<Unit> targets;
 
+        /// <summary>
+        /// Calculate the actual damage to a target using its armor and magic resistance
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
         private int GetDamageTo(Unit target)
         {
             float dmg = baseDmg * instigator.amplifiers.dealtDmg;
@@ -49,6 +57,9 @@ namespace MOBA
             return (int)(dmg * (100 / 100 + defense));
         }
 
+        /// <summary>
+        /// Inflict this damage to each target, sends ReceiveDamage rpcs for everyone
+        /// </summary>
         public void Inflict()
         {
             foreach (var target in targets)
@@ -57,6 +68,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Inflict this to a given target, sends ReceiveDamage rpc for everyone
+        /// </summary>
+        /// <param name="target"></param>
         private void InflictTo(Unit target)
         {
             target.GetComponent<PhotonView>().RPC(nameof(target.ReceiveDamage), RpcTarget.All, 

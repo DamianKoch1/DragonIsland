@@ -11,7 +11,10 @@ namespace MOBA
         mid = 1,
         bot = 2,
     }
-
+    //TODO WIP
+    /// <summary>
+    /// Used to spawn empowered waves for the enemy in own lane while destroyed
+    /// </summary>
     public class Inhibitor : Structure
     {
         private Base alliedBase;

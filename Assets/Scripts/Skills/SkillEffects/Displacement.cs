@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace MOBA
 {
+    //TODO not networked yet, coroutine runs locally (overwritten by transform sync)
     //TODO account for distance to source? (modifier that makes targets in center fly further)
+    /// <summary>
+    /// Used to stun units and move them
+    /// </summary>
     public class Displacement : SkillEffect
     {
         [Space]
@@ -34,6 +38,10 @@ namespace MOBA
 
         private Vector3 direction;
 
+        /// <summary>
+        /// Displaces target
+        /// </summary>
+        /// <param name="_target"></param>
         public override void Activate(Unit _target)
         {
             base.Activate(_target);
@@ -45,6 +53,11 @@ namespace MOBA
             Debug.LogError("Cannot displace a position! (Source: " + owner.name + ")");
         }
 
+        /// <summary>
+        /// Displaces targets
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="targets"></param>
         public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
@@ -62,6 +75,9 @@ namespace MOBA
         {
         }
 
+        /// <summary>
+        /// Increases duration / maxDistance
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
@@ -69,6 +85,11 @@ namespace MOBA
             maxDistance += maxDistancePerRank;
         }
 
+        /// <summary>
+        /// Calculates target positon, moves target to nearest valid position
+        /// </summary>
+        /// <param name="_target"></param>
+        /// <returns></returns>
         private IEnumerator DisplacementCoroutine(Unit _target)
         {
             StartDisplacementLock(_target);
@@ -101,6 +122,10 @@ namespace MOBA
             StopDisplacementLock(_target);
         }
 
+        /// <summary>
+        /// Disables targets attacking / movement / casting
+        /// </summary>
+        /// <param name="_target"></param>
         private void StartDisplacementLock(Unit _target)
         {
             _target.CanMove = false;
@@ -112,6 +137,10 @@ namespace MOBA
             _target.canCast = false;
         }
 
+        /// <summary>
+        /// Reenables targets attacking / movement / casting
+        /// </summary>
+        /// <param name="_target"></param>
         private void StopDisplacementLock(Unit _target)
         {
             _target.canAttack = true;

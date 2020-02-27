@@ -7,7 +7,10 @@ using UnityEngine.Events;
 
 namespace MOBA
 {
-    //WIP, doesn't really work yet
+    //TODO WIP
+    /// <summary>
+    /// Used to add buffs to units
+    /// </summary>
     public class ApplyBuff : SkillEffect
     {
         [Space]
@@ -50,9 +53,6 @@ namespace MOBA
 
         private List<Buff> addedBuffs;
 
-        /// <summary>
-        /// Format: ClassName,arg1,arg2,... (Class must derive from CustomBuff and be in MOBA namespace, no spaces after comma)
-        /// </summary>
         [Space]
         [SerializeField, Tooltip("Format: ClassName,DisplayName,arg1,... (Class must derive from CustomBuff and be in MOBA namespace, no spaces after comma)")]
         private List<string> customBuffs;
@@ -64,12 +64,20 @@ namespace MOBA
             properties.instigator = owner;
         }
 
+        /// <summary>
+        /// Buff owner if cast on position
+        /// </summary>
+        /// <param name="targetPos"></param>
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
             Activate(owner);
         }
 
+        /// <summary>
+        /// Buffs target and/or owner
+        /// </summary>
+        /// <param name="target"></param>
         public override void Activate(Unit target)
         {
             base.Activate(target);
@@ -88,12 +96,19 @@ namespace MOBA
             AddBuffs(target);
         }
 
+        /// <summary>
+        /// Increases maxDuration
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
             properties.maxDuration += properties.maxDurationPerRank;
         }
 
+        /// <summary>
+        /// Add each buff to target
+        /// </summary>
+        /// <param name="target"></param>
         private void AddBuffs(Unit target)
         {
             if (!target) return;
@@ -143,6 +158,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Try to add customBuff to target
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="customBuff">Custom args</param>
         private void TryAddCustomBuff(Unit target, string customBuff)
         {
             var customBuffArgs = new List<string>(customBuff.Split(','));
@@ -179,6 +199,9 @@ namespace MOBA
         {
         }
 
+        /// <summary>
+        /// Destroy all added buffs
+        /// </summary>
         protected override void OnDeactivated()
         {
             foreach (Buff buff in addedBuffs)
@@ -187,6 +210,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Buff each target
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="targets"></param>
         public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)

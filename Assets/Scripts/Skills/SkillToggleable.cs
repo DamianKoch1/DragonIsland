@@ -5,7 +5,10 @@ using UnityEngine;
 
 namespace MOBA
 {
-    //TODO run into castrange
+    //TODO run into castrange doesn't work for this
+    /// <summary>
+    /// Can be toggled on and off, consumes resource each tick, activates effects immediately and each tick
+    /// </summary>
     public class SkillToggleable : Skill
     {
         [Space]
@@ -39,7 +42,9 @@ namespace MOBA
 
         private float timeSinceLastTick;
 
-
+        /// <summary>
+        /// Toggles this skill on, activates effects, starts cooldown here if beginCDOnActivation is enabled
+        /// </summary>
         protected virtual void ToggleOn()
         {
             owner.Stats.Resource -= cost;
@@ -58,6 +63,9 @@ namespace MOBA
             OnCast?.Invoke();
         }
 
+        /// <summary>
+        /// Deactivates all effects, starts cooldown if beginCDOnActivation is disabled
+        /// </summary>
         protected virtual void ToggleOff()
         {
             foreach (var effect in effects)
@@ -72,7 +80,9 @@ namespace MOBA
             }
         }
 
-
+        /// <summary>
+        /// Toggles off if toggled on
+        /// </summary>
         public override void OnButtonClicked()
         {
             if (!isToggledOn) return;
@@ -81,7 +91,9 @@ namespace MOBA
 
         public Action OnToggledOff;
 
-
+        /// <summary>
+        /// Toggles off if owner dies, ticks depending on time
+        /// </summary>
         protected virtual void Update()
         {
             if (!IsToggledOn) return;
@@ -108,6 +120,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Increases / decreases costPerSec, maxDuration
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
@@ -116,6 +131,12 @@ namespace MOBA
             maxDuration += maxDurationPerRank;
         }
 
+        /// <summary>
+        /// Tries to toggle on / off instead
+        /// </summary>
+        /// <param name="hovered">hovered unit</param>
+        /// <param name="mousePos">mouse ground position</param>
+        /// <returns></returns>
         public override bool TryCast(Unit hovered, Vector3 mousePos)
         {
             if (isToggledOn)
@@ -128,6 +149,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If not in cast time, toggles off
+        /// </summary>
+        /// <returns></returns>
         protected virtual bool TryToggleOff()
         {
             if (isInCastTime) return false;
@@ -135,6 +160,12 @@ namespace MOBA
             return true;
         }
 
+        /// <summary>
+        /// If toggled off, toggles on unless owner can't cast / has too few resource / no valid target
+        /// </summary>
+        /// <param name="hovered"></param>
+        /// <param name="mousePos"></param>
+        /// <returns></returns>
         protected virtual bool TryToggleOn(Unit hovered, Vector3 mousePos)
         {
             if (Rank < 1) return false;
@@ -147,6 +178,9 @@ namespace MOBA
             return true;
         }
 
+        /// <summary>
+        /// Ticks all effects, decreases owner cost, toggles off if no valid target / owner / not enough resource
+        /// </summary>
         public virtual void Tick()
         {
             if (!isToggledOn) return;

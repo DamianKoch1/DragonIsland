@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to spawn each assigned minion after a delay, then destroys self
+    /// </summary>
     public class MinionWave : MonoBehaviour
     {
         [SerializeField]
@@ -16,6 +19,11 @@ namespace MOBA
 
         private LaneID targetLane;
 
+        /// <summary>
+        /// If master client, saves target lane and parent to spawn minions to
+        /// </summary>
+        /// <param name="lane">lane to spawn minions in</param>
+        /// <param name="spawnParent">parent for spawned minions</param>
         public void Initialize(LaneID lane, Transform spawnParent)
         {
             if (!PhotonNetwork.IsMasterClient)
@@ -31,6 +39,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Spawns each assigned minion with spawnDeltaTime delay, then network destroys self if master client
+        /// </summary>
+        /// <param name="spawnParent"></param>
+        /// <returns></returns>
         private IEnumerator BeginSpawning(Transform spawnParent)
         {
             float time = 0;
@@ -53,6 +66,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If master client, spawns the assigned minion with index as a child of parent
+        /// </summary>
+        /// <param name="index">index of minion to spawn</param>
+        /// <param name="parent">parent for spawned minion</param>
         private void SpawnMinion(int index, Transform parent)
         {
             if (!PhotonNetwork.IsMasterClient) return;

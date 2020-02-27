@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to spawn an area of effect at position / on a unit
+    /// </summary>
     public class SpawnAreaOfEffect : SkillEffect
     {
         [Space]
@@ -53,7 +56,9 @@ namespace MOBA
         [SerializeField, Tooltip("If skill is mousePos targeted toggle, use current mouse pos or cast at original cast position?")]
         private bool rememberCastMousePos;
 
-
+        /// <summary>
+        /// Increases AOE lifespan / size
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
@@ -61,19 +66,31 @@ namespace MOBA
             size += sizePerRank;
         }
 
+        /// <summary>
+        /// Spawns AOE at targetPos
+        /// </summary>
+        /// <param name="targetPos"></param>
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
             SpawnAOE(targetPos, ownerStatsAtActivation);
         }
 
+        /// <summary>
+        /// Spawns AOE on target
+        /// </summary>
+        /// <param name="target"></param>
         public override void Activate(Unit target)
         {
             base.Activate(target);
             SpawnAOE(target, ownerStatsAtActivation);
         }
 
-
+        /// <summary>
+        /// Calls SpawnAOEatPosRPC for other clients
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <param name="viewID">view id of the spawned area of effect</param>
         private void SpawnAOEatPosNetworked(Vector3 targetPos, int viewID)
         {
             if (!photonView)
@@ -84,6 +101,12 @@ namespace MOBA
             
         }
 
+        /// <summary>
+        /// Calls SpawnAOEonUnitRPC for other clients
+        /// </summary>
+        /// <param name="_parentViewID">view id of target unit to attach to</param>
+        /// <param name="targetPos"></param>
+        /// <param name="viewID">view id of the spawned area of effect</param>
         private void SpawnAOEonUnitNetworked(int _parentViewID, Vector3 targetPos, int viewID)
         {
             if (!photonView)
@@ -94,6 +117,11 @@ namespace MOBA
             
         }
 
+        /// <summary>
+        /// Spawns an AOE at targetPos (only visuals, has no scaling and doesn't know owner stats), adds a photonView with given viewID to it
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <param name="viewID">view id of the spawned area of effect</param>
         [PunRPC]
         public void SpawnAOEatPosRPC(Vector3 targetPos, int viewID)
         {
@@ -102,6 +130,11 @@ namespace MOBA
             currentAOEInstance.gameObject.AddComponent<PhotonView>().ViewID = viewID;
         }
 
+        /// <summary>
+        /// Spawns an AOE on target (only visuals, has no scaling and doesn't know owner stats), adds a photonView with given viewID to it
+        /// </summary>
+        /// <param name="parentViewID">view id of target unit to attach to</param>
+        /// <param name="viewID">view id of the spawned area of effect</param>
         [PunRPC]
         public void SpawnAOEonUnitRPC(int parentViewID, Vector3 targetPos, int viewID)
         {
@@ -111,6 +144,11 @@ namespace MOBA
 
         }
 
+        /// <summary>
+        /// Spawns an AOE at position with scaling / saved stats locally, visuals only for other clients, adds PhotonView and allocates unique viewID
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <param name="ownerStats"></param>
         private void SpawnAOE(Vector3 targetPos, UnitStats ownerStats)
         {
             currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, targetPos, Quaternion.identity).GetComponent<AreaOfEffect>();
@@ -127,6 +165,12 @@ namespace MOBA
             currentAOEInstance.Initialize(owner, ownerStats, ownerTeamID, null, lifespan, size * 2, tickInterval, hitMode, canHitStructures, scaling, delay);
         }
 
+
+        /// <summary>
+        /// Spawns an AOE on target with scaling / saved stats locally, visuals only for other clients, adds PhotonView and allocates unique viewID
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="ownerStats"></param>
         private void SpawnAOE(Unit target, UnitStats ownerStats)
         {
             currentAOEInstance = Instantiate(areaOfEffectPrefab.gameObject, target.GetGroundPos(), target.transform.rotation).GetComponent<AreaOfEffect>();
@@ -144,6 +188,11 @@ namespace MOBA
         }
 
       
+        /// <summary>
+        /// Spawns AOE on each target
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="targets"></param>
         public override void Activate<T>(UnitList<T> targets)
         {
             foreach (var target in targets)
@@ -175,11 +224,17 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Destroys last spawned area of effect on every client
+        /// </summary>
         protected override void OnDeactivated()
         {
             photonView.RPC(nameof(DestroyLastSpawned), RpcTarget.All);
         }
 
+        /// <summary>
+        /// Destroys last spawned area of effect
+        /// </summary>
         [PunRPC]
         public void DestroyLastSpawned()
         {

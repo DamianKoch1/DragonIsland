@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to (partly) freeze rotation of objects (like AOE vfx attached to a unit which it shouldn't spin with)
+    /// </summary>
     public class FreezeRotation : MonoBehaviour
     {
         [SerializeField]
@@ -17,12 +20,17 @@ namespace MOBA
 
         private Vector3 baseRotation;
 
+        /// <summary>
+        /// Save start rotation
+        /// </summary>
         void Start()
         {
             baseRotation = transform.eulerAngles;
         }
 
-        // Update is called once per frame
+        /// <summary>
+        /// Reset assigned parts of the rotation each frame
+        /// </summary>
         void Update()
         {
             var resettedRotation = transform.eulerAngles;

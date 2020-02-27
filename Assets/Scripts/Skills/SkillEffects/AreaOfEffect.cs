@@ -5,7 +5,9 @@ using UnityEngine;
 
 namespace MOBA
 {
-
+    /// <summary>
+    /// Used to activate SkillEffects to valid targets inside
+    /// </summary>
     [RequireComponent(typeof(CapsuleCollider))]
     public class AreaOfEffect : MonoBehaviour
     {
@@ -40,7 +42,20 @@ namespace MOBA
 
         private bool active = true;
 
-
+        /// <summary>
+        /// Initialize owner / scaling / other variables
+        /// </summary>
+        /// <param name="_owner">unit that spawned this</param>
+        /// <param name="ownerStats">Stats to use for skillEffects</param>
+        /// <param name="_ownerTeamID">TeamID of owner</param>
+        /// <param name="_target">Target unit to spawn on (can be null)</param>
+        /// <param name="_lifespan">lifespan in seconds</param>
+        /// <param name="size"></param>
+        /// <param name="_tickInterval">time in seconds between ticks</param>
+        /// <param name="_hitMode"></param>
+        /// <param name="_canHitStructures">can this AOE hit structures?</param>
+        /// <param name="scaling">scaling to use for own skill effects</param>
+        /// <param name="delay">delay to wait for before activating</param>
         public void Initialize(Unit _owner, UnitStats ownerStats, TeamID _ownerTeamID, Unit _target, float _lifespan, float size, float _tickInterval, HitMode _hitMode, bool _canHitStructures, Scalings scaling, float delay = 0)
         {
             target = _target;
@@ -87,6 +102,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If spawned with delay, wait for delay to finish before activating
+        /// </summary>
+        /// <param name="delay"></param>
+        /// <returns></returns>
         private IEnumerator WaitForDelay(float delay)
         {
             active = false;
@@ -130,6 +150,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If valid unit, add it to hitables
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
             if (!ownerView) return;
@@ -198,6 +222,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If unit was in hitables, remove it
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerExit(Collider other)
         {
             if (!ownerView) return;
@@ -211,6 +239,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Apply effects to hitables
+        /// </summary>
         private void Tick()
         {
             if (!active) return;

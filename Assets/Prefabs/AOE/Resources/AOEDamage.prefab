@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8fcc9598f925364ab58c89486daabf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minRank: 0
   ownerStatsAtActivation:
     maxLvl: 0
     Lvl: 0
@@ -303,9 +304,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.5738088, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.6258417, b: 0.15566039, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4792,7 +4793,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 2100000, guid: dc1a05fba9a6af241a25a35b4caf5e27, type: 2}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4942,7 +4943,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: dc1a05fba9a6af241a25a35b4caf5e27, type: 2}
+      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: m_Mesh
@@ -4971,7 +4972,7 @@ PrefabInstance:
     - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.5738088
+      value: 0.4122849
       objectReference: {fileID: 0}
     - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
@@ -5112,6 +5113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: TrailModule.dieWithParticles
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: InitialModule.startColor.minMaxState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 988684e2e1182c04da5a004eecb4a26b, type: 3}

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to move owner to target position
+    /// </summary>
     public class Dash : SkillEffect
     {
         [Space]
@@ -35,7 +38,7 @@ namespace MOBA
         private AnimationCurve heightPerTime = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.5f, 1), new Keyframe(1, 0));
 
         [Space]
-        [SerializeField, Range(-1, 4)]
+        [SerializeField, Range(-1, 4), Tooltip("Camera zoom out (-1 for none)")]
         private float cameraZoom = -1;
         private float prevZoom;
         private bool wasCamUnlocked;
@@ -46,6 +49,9 @@ namespace MOBA
 
         private Coroutine dashCoroutine;
 
+        /// <summary>
+        /// Increase maxRange / decrease duration (faster dash)
+        /// </summary>
         public override void LevelUp()
         {
             base.LevelUp();
@@ -53,6 +59,11 @@ namespace MOBA
             duration -= durationPerRank;
         }
 
+        /// <summary>
+        /// Calculates target position, clamps it to limits and moves owner to closest valid position
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <returns></returns>
         private IEnumerator DashCoroutine(Vector3 targetPos)
         {
             StartDashLock();
@@ -97,6 +108,9 @@ namespace MOBA
             ActivateSubEffects(owner.GetGroundPos(), target);
         }
 
+        /// <summary>
+        /// Disables movement / attacking / casting, changes camera zoom if > 0 and locks it
+        /// </summary>
         private void StartDashLock()
         {
             owner.CanMove = false;
@@ -121,6 +135,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Reenables movement / attacking / casting, resets camera zoom / lock state
+        /// </summary>
         private void StopDashLock()
         {
             if (!isDashing) return;
@@ -150,6 +167,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Dashes to target position at activation
+        /// </summary>
+        /// <param name="_target"></param>
         public override void Activate(Unit _target)
         {
             base.Activate(_target);
@@ -163,6 +184,10 @@ namespace MOBA
             dashCoroutine = StartCoroutine(DashCoroutine(targetPos));
         }
 
+        /// <summary>
+        /// Dashes to targetPos
+        /// </summary>
+        /// <param name="targetPos"></param>
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
@@ -183,6 +208,9 @@ namespace MOBA
         {
         }
 
+        /// <summary>
+        /// Stops dash immediately and resets owner height
+        /// </summary>
         protected override void OnDeactivated()
         {
             if (dashCoroutine != null)

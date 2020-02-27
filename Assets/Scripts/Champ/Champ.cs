@@ -9,6 +9,9 @@ using UnityEngine.AI;
 
 namespace MOBA
 {
+    /// <summary>
+    /// A player controllable character
+    /// </summary>
     public class Champ : Unit
     {
         public const float GOLDPERSEC = 1;
@@ -30,9 +33,14 @@ namespace MOBA
 
         public Action<float> OnGoldChanged;
 
-
+        /// <summary>
+        /// Dummies can't die, aren't player controlled and ignored by ScoreBoard
+        /// </summary>
         public bool isDummy;
 
+        /// <summary>
+        /// If attacked, requests assist from these towers
+        /// </summary>
         protected UnitList<Tower> nearbyAlliedTowers;
 
 
@@ -40,6 +48,9 @@ namespace MOBA
 
         private NavMeshAgent agent;
 
+        /// <summary>
+        /// Shows the current path on minimap
+        /// </summary>
         private LineRenderer lr;
 
 
@@ -65,8 +76,9 @@ namespace MOBA
         public int TowersKilled { get; private set; }
         public int Kills { get; private set; }
 
-        //wip
+        //TODO WIP
         public int Assists { get; private set; }
+
         public int Deaths { get; private set; }
 
         private int availableSkillPoints;
@@ -82,15 +94,16 @@ namespace MOBA
 
         public Action<int> OnSkillPointsChanged;
 
-        public bool CanLevelUltimate { get; private set; }
 
         [Space]
-        [SerializeField]
+        [SerializeField, Tooltip("Shows remaining respawn time on a bar and text")]
         private BarTextTimer respawnHUDPrefab;
 
         private RangeIndicator rangeIndicator;
 
-
+        /// <summary>
+        /// Sets up variables / skills, event subscriptions if local player
+        /// </summary>
         public override void Initialize()
         {
             base.Initialize();
@@ -126,15 +139,19 @@ namespace MOBA
             rangeIndicator.Initialize(this, stats.AtkRange);
         }
 
+        /// <summary>
+        /// Called every levelUp, Increments AvailableSkillPoints which calls an action that the Interface listens to if local player
+        /// </summary>
+        /// <param name="levelReached">The level that was reached</param>
         private void AddAvailableSkillPoint(int levelReached)
         {
-            if (levelReached == 6 || levelReached == 11 || levelReached == 16)
-            {
-                CanLevelUltimate = true;
-            }
             AvailableSkillPoints++;
         }
 
+        /// <summary>
+        /// Levels up the given skill, called by SkillDisplay buttons from interface
+        /// </summary>
+        /// <param name="skill"></param>
         public void SpendSkillPoint(Skill skill)
         {
             if (!skills.Contains(skill)) return;
@@ -150,6 +167,9 @@ namespace MOBA
             UpdateMinimapPath();
         }
 
+        /// <summary>
+        /// Sets the lineRenderer points to the corners of NavmeshAgents path
+        /// </summary>
         private void UpdateMinimapPath()
         {
             if (!photonView.IsMine) return;
@@ -170,6 +190,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Initializes all skills
+        /// </summary>
         private void SetupSkills()
         {
             foreach (var skill in Skills)
@@ -180,35 +203,66 @@ namespace MOBA
 
 
         //TODO cast fail feedback
+        /// <summary>
+        /// Tries to cast the first ability on hovered unit / mouse position
+        /// </summary>
+        /// <param name="hovered">Currently hovered unit (can be null)</param>
+        /// <param name="mousePos">Current mouse position</param>
+        /// <returns></returns>
         public bool CastQ(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count == 0) return false;
             return Skills[0].TryCast(hovered, mousePos);
         }
 
+        /// <summary>
+        /// Tries to cast the second ability on hovered unit / mouse position
+        /// </summary>
+        /// <param name="hovered">Currently hovered unit (can be null)</param>
+        /// <param name="mousePos">Current mouse position</param>
+        /// <returns></returns>
         public bool CastW(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 1) return false;
             return Skills[1].TryCast(hovered, mousePos);
         }
 
+        /// <summary>
+        /// Tries to cast the third ability on hovered unit / mouse position
+        /// </summary>
+        /// <param name="hovered">Currently hovered unit (can be null)</param>
+        /// <param name="mousePos">Current mouse position</param>
+        /// <returns></returns>
         public bool CastE(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 2) return false;
             return Skills[2].TryCast(hovered, mousePos);
         }
 
+        /// <summary>
+        /// Tries to cast the fourth ability on hovered unit / mouse position
+        /// </summary>
+        /// <param name="hovered">Currently hovered unit (can be null)</param>
+        /// <param name="mousePos">Current mouse position</param>
+        /// <returns></returns>
         public bool CastR(Unit hovered, Vector3 mousePos)
         {
             if (Skills.Count <= 3) return false;
             return Skills[3].TryCast(hovered, mousePos);
         }
 
+        /// <summary>
+        /// Only initializes if this is a dummy (PlayerController usually initializes champs)
+        /// </summary>
         protected override void Start()
         {
             if (isDummy) Initialize();
         }
 
+        /// <summary>
+        /// Called by PlayerController (which distrubutes players to teams), sets own TeamID to given value and initializes afterwards
+        /// </summary>
+        /// <param name="_teamID">New TeamID</param>
         [PunRPC]
         public void SetTeamID(short _teamID)
         {
@@ -216,13 +270,19 @@ namespace MOBA
             Initialize();
         }
 
+        /// <summary>
+        /// Increases xp by given value, can trigger levelUp
+        /// </summary>
+        /// <param name="amount"></param>
         [PunRPC]
         public void ReceiveXP(float amount)
         {
             stats.XP += amount;
         }
 
-
+        /// <summary>
+        /// Disables collision, sets animation trigger or hides mesh, stops attacking, starts respawn process
+        /// </summary>
         protected override void OnDeath()
         {
             movement.DisableCollision();
@@ -239,14 +299,16 @@ namespace MOBA
             }
             else
             {
-                OnBeforeDeath?.Invoke();
+                OnDeathEvent?.Invoke();
             }
         }
 
+        /// <summary>
+        /// Moves to spawnpoint, sets animation trigger or shows mesh, refills hp / resource
+        /// </summary>
         [PunRPC]
         public void OnRespawnRPC()
         {
-            OnRespawn?.Invoke();
             transform.position = spawnpoint;
             if (Animator)
             {
@@ -259,13 +321,20 @@ namespace MOBA
             OnRespawn?.Invoke();
         }
 
-
+        /// <summary>
+        /// Get the currently needed time to respawn (usually scales with level)
+        /// </summary>
+        /// <returns></returns>
         protected float GetRespawnTime()
         {
             return 5 + 3 * stats.Lvl - 1;
         }
 
-        //add to inhib, make IRespawning
+        //TODO fix sometimes remaining untargetable after respawning for others?
+        /// <summary>
+        /// Creates a BarTextTimer showing remaining time, waits for current GetRespawnTime(), then reenables collision for this client and calls OnRespawnRPC() for everyone
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator Respawn()
         {
             float remainingTime = GetRespawnTime();
@@ -286,18 +355,17 @@ namespace MOBA
                 Destroy(respawnHUD.gameObject);
             }
 
-            transform.position = spawnpoint;
             movement.EnableCollision();
-            mesh.SetActive(true);
-            IsDead = false;
-            stats.HP = stats.MaxHP;
-            stats.Resource = stats.MaxResource;
-            OnRespawn?.Invoke();
-            photonView.RPC(nameof(OnRespawnRPC), RpcTarget.Others);
+
+            photonView.RPC(nameof(OnRespawnRPC), RpcTarget.All);
         }
 
         public Action OnRespawn;
 
+        /// <summary>
+        /// Requests all nearby towers to attack given champ
+        /// </summary>
+        /// <param name="attacker">Champ for towers to attack</param>
         protected void RequestTowerAssist(Champ attacker)
         {
             if (nearbyAlliedTowers.Count() == 0) return;
@@ -316,7 +384,7 @@ namespace MOBA
             }
         }
 
-        public void RemoveNearbyTower(Tower tower)
+        public void RemoveNearbyAlliedTower(Tower tower)
         {
             if (!photonView.IsMine) return;
             if (nearbyAlliedTowers.Contains(tower))
@@ -376,7 +444,11 @@ namespace MOBA
             statBarsInstance.GetComponent<ChampStatBars>()?.Initialize(this, 0.5f, 1.2f, true);
         }
 
-
+        /// <summary>
+        /// Toggles range indicator on/off if its range matches given float
+        /// </summary>
+        /// <param name="on">Toggle on or off?</param>
+        /// <param name="range">The range of the indicator to toggle off</param>
         public void ToggleRangeIndicator(bool on, float range = -1)
         {
             if (on)
@@ -389,16 +461,21 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Makes ScoreBoard recalculate all values
+        /// </summary>
         private void RefreshScoreBoard()
         {
             ScoreBoard.Instance.Refresh();
         }
 
-        [PunRPC]
-        public void OnKilled(int killerID)
+        /// <summary>
+        /// Changes respective score values (own deaths and killer kills if it is a champ)
+        /// </summary>
+        /// <param name="killer">The unit that dealt lethal damage</param>
+        public void OnKilled(Unit killer)
         {
             Deaths++;
-            var killer = killerID.GetUnitByID();
             if (killer is Champ)
             {
                 ((Champ)killer).Kills++;
@@ -406,14 +483,18 @@ namespace MOBA
             RefreshScoreBoard();
         }
 
-        [PunRPC]
+        /// <summary>
+        /// Increments minions killed count
+        /// </summary>
         public void OnKillMinion()
         {
             MinionsKilled++;
             RefreshScoreBoard();
         }
 
-        [PunRPC]
+        /// <summary>
+        /// Increments towers killed count
+        /// </summary>
         public void OnKillTower()
         {
             TowersKilled++;
@@ -424,8 +505,9 @@ namespace MOBA
         protected override void Die(Unit killer)
         {
             if (isDummy) return;
+            if (IsDead) return;
             GameLogger.Log(this, LogActionType.die, transform.position, killer);
-            photonView.RPC(nameof(OnKilled), RpcTarget.All, killer.GetViewID());
+            OnKilled(killer);
             base.Die(killer);
         }
 

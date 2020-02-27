@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to instantly teleport owner unit somewhere
+    /// </summary>
     public class Teleport : SkillEffect
     {
         [SerializeField, Tooltip("If true, will teleport to mouse position each tick, only works on Champs")]
@@ -15,6 +18,10 @@ namespace MOBA
             Debug.LogError("Cannot teleport to multiple targets! (Source: " + owner.name + ")");
         }
 
+        /// <summary>
+        /// Teleports close to target unit
+        /// </summary>
+        /// <param name="_target"></param>
         public override void Activate(Unit _target)
         {
             base.Activate(_target);
@@ -25,6 +32,10 @@ namespace MOBA
             owner.Teleport(targetPos);
         }
 
+        /// <summary>
+        /// Teleports directly to targetPos
+        /// </summary>
+        /// <param name="targetPos"></param>
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
@@ -33,6 +44,9 @@ namespace MOBA
             owner.Teleport(targetPos);
         }
 
+        /// <summary>
+        /// Teleports to mouse ground position if canTick
+        /// </summary>
         public override void Tick()
         {
             if (!(owner is Champ)) return;

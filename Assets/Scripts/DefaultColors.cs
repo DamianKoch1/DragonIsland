@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Stores colors units use for their hp bar / outline colors
+/// </summary>
 [CreateAssetMenu(fileName = "DefaultColors", menuName = "ScriptableObjects/DefaultColorsScriptableObject", order = 1)]
 public class DefaultColors : ScriptableObject
 {

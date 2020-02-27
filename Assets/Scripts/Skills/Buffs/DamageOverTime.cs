@@ -23,6 +23,9 @@ namespace MOBA
             target = _target;
         }
 
+        /// <summary>
+        /// Ticks immediately when added
+        /// </summary>
         protected override void OnActivated()
         {
             OnTick();
@@ -32,6 +35,9 @@ namespace MOBA
         {
         }
 
+        /// <summary>
+        /// Apply damage resulting from scaling each tick
+        /// </summary>
         protected override void OnTick()
         {
             var damage = new Damage(baseDamage + scaling.GetScalingDamageBonusOnTarget(ownerStatsAtApply, target), dmgType, Instigator, target);

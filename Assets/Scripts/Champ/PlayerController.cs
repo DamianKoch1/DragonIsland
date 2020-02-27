@@ -10,7 +10,9 @@ using MOBA.Logging;
 
 namespace MOBA
 {
-
+    /// <summary>
+    /// Controls the local player
+    /// </summary>
     public class PlayerController : MonoBehaviour
     {
         private static PlayerController instance;
@@ -55,7 +57,7 @@ namespace MOBA
 
         public static Champ Player => Instance.player;
 
-        [Space]
+        [Space, Tooltip("Default colors for ally / enemy / own / ... hp bar / outline")]
         public DefaultColors defaultColors;
 
         public Shader outline;
@@ -78,6 +80,9 @@ namespace MOBA
             if (Instance && Instance != this) Destroy(gameObject);
         }
 
+        /// <summary>
+        /// Spawns a player, assigns it to a team depending on if client actor number is even, initializes it, the camera and ui
+        /// </summary>
         public void Initialize()
         {
             if (PhotonNetwork.IsConnected)
@@ -99,12 +104,19 @@ namespace MOBA
             ui?.Initialize(player);
         }
 
+        /// <summary>
+        /// Raycasts mouse position onto ground plane
+        /// </summary>
+        /// <param name="result">Resulting position on ground plane</param>
+        /// <returns></returns>
         public bool GetMouseWorldPos(out Vector3 mouseWorldPos)
         {
             return cam.GetCursorToGroundPoint(out mouseWorldPos);
         }
 
-
+        /// <summary>
+        /// Shows stats of hovered unit
+        /// </summary>
         private void OnSelectPressed()
         {
             if (!hovered)
@@ -125,6 +137,10 @@ namespace MOBA
             AttackOrMove();
         }
 
+        /// <summary>
+        /// Player moves to mouse ground position or attacks hovered unit if it is a valid target
+        /// </summary>
+        /// <param name="spawnClickVFX">Spawn a click vfx at mouse ground position?</param>
         private void AttackOrMove(bool spawnClickVFX = false)
         {
             if (!GetMouseWorldPos(out var targetPos)) return;
@@ -156,6 +172,9 @@ namespace MOBA
         }
 
 
+        /// <summary>
+        /// If there are valid targets near mouse ground position, player attacks the closest, if not player moves there
+        /// </summary>
         private void OnAttackMovePressed()
         {
             if (!GetMouseWorldPos(out var targetPos)) return;
@@ -352,6 +371,9 @@ namespace MOBA
             ProcessDebugInput();
         }
 
+        /// <summary>
+        /// Previews camera position / rotation using assigned offset / rotation values
+        /// </summary>
         private void OnValidate()
         {
             if (!cam) return;

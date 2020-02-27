@@ -6,13 +6,18 @@ using UnityEngine.AI;
 
 namespace MOBA
 {
-
+    /// <summary>
+    /// Movement using a NavmeshAgent
+    /// </summary>
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(NavMeshObstacle))]
     public class NavMovement : Movement
     {
         private NavMeshAgent agent;
 
+        /// <summary>
+        /// Disabling this turns agent off and obstacle on
+        /// </summary>
         private NavMeshObstacle obstacle;
 
         public override void Initialize(float moveSpeed, Unit _owner)
@@ -22,6 +27,10 @@ namespace MOBA
             base.Initialize(moveSpeed, _owner);
         }
 
+        /// <summary>
+        /// Moves agent to destination if not already moving there
+        /// </summary>
+        /// <param name="destination">Target position</param>
         public override void MoveTo(Vector3 destination)
         {
             if (!agent.enabled) return;
@@ -33,6 +42,11 @@ namespace MOBA
             agent.SetDestination(ClosestNavigablePos(destination));
         }
 
+        /// <summary>
+        /// If source is not on NavMesh, tries to find closest position on NavMesh within an increasing range until one is found or until maxIterations is reached
+        /// </summary>
+        /// <param name="source">Position to look for a navigable position around</param>
+        /// <returns>Returns closest navigable position if found, otherwise source</returns>
         public Vector3 ClosestNavigablePos(Vector3 source)
         {
             Vector3 result = source;
@@ -72,6 +86,9 @@ namespace MOBA
         }
 
 
+        /// <summary>
+        /// Disables agent, enables obstacle
+        /// </summary>
         public override void Disable()
         {
             agent.enabled = false;
@@ -84,17 +101,28 @@ namespace MOBA
             if (!agent.enabled) return;
             base.Update();
         }
+
+        /// <summary>
+        /// Returns agent velocity
+        /// </summary>
+        /// <returns></returns>
         public override float GetVelocity()
         {
             return agent.velocity.magnitude;
         }
 
+        /// <summary>
+        /// Disables obstacle, enables agent
+        /// </summary>
         public override void Enable()
         {
             obstacle.enabled = false;
             agent.enabled = true;
         }
 
+        /// <summary>
+        /// Disables collision, agent and obstacle
+        /// </summary>
         public override void DisableCollision()
         {
             foreach (var collider in GetComponents<Collider>())
@@ -105,6 +133,9 @@ namespace MOBA
             obstacle.enabled = false;
         }
 
+        /// <summary>
+        /// Enables collision, agent, disables obstacle
+        /// </summary>
         public override void EnableCollision()
         {
             foreach (var collider in GetComponents<Collider>())
@@ -115,6 +146,9 @@ namespace MOBA
             agent.enabled = true;
         }
 
+        /// <summary>
+        /// Stops agent (moves it to own position)
+        /// </summary>
         public override void Stop()
         {
             MoveTo(transform.position);

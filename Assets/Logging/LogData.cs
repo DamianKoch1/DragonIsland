@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace MOBA.Logging
 {
+    /// <summary>
+    /// Contains source (/ target) unit name, event position, time and type
+    /// </summary>
     public class LogData
     {
         [BsonId]
@@ -38,11 +41,21 @@ namespace MOBA.Logging
             else otherName = "";
         }
 
+        /// <summary>
+        /// Returns a chain of most of its members as strings
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return new TimeSpan(0, 0, (int)timeStamp) + " " + sourceName + " " + type + " " + new Vector2(eventPosX, eventPosZ) + " " + otherName;
         }
 
+        /// <summary>
+        /// Like ToString(), but adds given arguments inbetween (used in LogView to reduce amount of texts with near identical timestamp)
+        /// </summary>
+        /// <param name="extraActions"></param>
+        /// <param name="extraOtherNames"></param>
+        /// <returns></returns>
         public string ToString(string extraActions, string extraOtherNames)
         {
             return new TimeSpan(0, 0, (int)timeStamp) + " " + sourceName + " " + type + extraActions + " " + new Vector2(eventPosX, eventPosZ) + " " + otherName + extraOtherNames;

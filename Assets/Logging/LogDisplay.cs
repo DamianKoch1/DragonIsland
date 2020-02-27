@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace MOBA.Logging
 {
+    /// <summary>
+    /// Used to view all available logs or show one detailed
+    /// </summary>
     public class LogDisplay : MonoBehaviour
     {
         [SerializeField]
@@ -32,11 +35,17 @@ namespace MOBA.Logging
             GameLogger.Clear();
         }
 
+        /// <summary>
+        /// Returns to lobby 
+        /// </summary>
         public void LoadLobby()
         {
             SceneManager.LoadScene("Lobby");
         }
 
+        /// <summary>
+        /// Instantiates a button for each existing log
+        /// </summary>
         private void Start()
         {
             if (!GameLogger.enabled) return;
@@ -51,6 +60,10 @@ namespace MOBA.Logging
             }
         }
 
+        /// <summary>
+        /// Shows the log with given name on a timeline
+        /// </summary>
+        /// <param name="name"></param>
         public void ShowLogOnTimeline(string name)
         {
             logButtonParent.gameObject.SetActive(false);
@@ -58,6 +71,9 @@ namespace MOBA.Logging
             timeline.ShowLog(name);
         }
 
+        /// <summary>
+        /// Hides the timeline, shows the log buttons again
+        /// </summary>
         public void HideTimeline()
         {
             logButtonParent.gameObject.SetActive(true);

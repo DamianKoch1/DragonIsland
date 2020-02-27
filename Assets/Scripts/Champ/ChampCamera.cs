@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MOBA
 {
+    /// <summary>
+    /// A camera that follows the local player
+    /// </summary>
     public class ChampCamera : MonoBehaviour
     {
         private Champ target;
@@ -26,9 +29,8 @@ namespace MOBA
         }
 
         private float distanceFactor = 1;
-        private float targetDistanceFactor = 1;
 
-        public float CurrentZoom => targetDistanceFactor;
+        public float CurrentZoom { get; private set; } = 1;
 
         [SerializeField, Range(0.1f, 1), Tooltip("The smaller the value, the closer the camera can get.")]
         private float maxZoom = 0.5f;
@@ -36,6 +38,9 @@ namespace MOBA
         [SerializeField, Range(1, 10), Tooltip("The higher the value, the further away the camera can get.")]
         private float minZoom = 2f;
 
+        /// <summary>
+        /// Cursor position will be raycasted from this camera onto this plane
+        /// </summary>
         public static Plane GroundPlane = new Plane(Vector3.up, Vector3.zero);
 
         [SerializeField]
@@ -44,9 +49,7 @@ namespace MOBA
         [SerializeField]
         private float unlockedMoveSpeed;
 
-        private bool unlocked;
-
-        public bool Unlocked => unlocked;
+        public bool Unlocked { get; private set; }
 
         private Vector3 targetPos;
 
@@ -59,6 +62,9 @@ namespace MOBA
         [SerializeField]
         private Vector3 redSideLimit;
 
+        /// <summary>
+        /// Shows camera sight area on minimap
+        /// </summary>
         private LineRenderer lr;
 
         private bool controllable = true;
@@ -67,10 +73,16 @@ namespace MOBA
         [SerializeField, Range(0.1f, 5)]
         private float scrollSpeed = 0.4f;
 
+        /// <summary>
+        /// Initializes variables
+        /// </summary>
+        /// <param name="_target">The champ to follow</param>
+        /// <param name="_offset">The offset to keep from its position</param>
+        /// <param name="_rotation">The rotation to keep</param>
         public void Initialize(Champ _target, Vector3 _offset, Quaternion _rotation)
         {
             distanceFactor = 1;
-            targetDistanceFactor = 1;
+            CurrentZoom = 1;
             target = _target;
             offset = _offset;
             rotation = _rotation;
@@ -85,47 +97,18 @@ namespace MOBA
 
         private void LateUpdate()
         {
-            if (unlocked)
+            if (Unlocked)
             {
-                var mouseVPPos = cam.ScreenToViewportPoint(Input.mousePosition);
-                if (mouseVPPos.x > 1 - screenEdgeDistanceToMove)
-                {
-                    targetPos += Vector3.right * unlockedMoveSpeed;
-                }
-                else if (mouseVPPos.x < screenEdgeDistanceToMove)
-                {
-                    targetPos += -Vector3.right * unlockedMoveSpeed;
-                }
-
-                if (mouseVPPos.y > 1 - screenEdgeDistanceToMove)
-                {
-                    targetPos += Vector3.forward * unlockedMoveSpeed;
-                }
-                else if (mouseVPPos.y < screenEdgeDistanceToMove)
-                {
-                    targetPos += -Vector3.forward * unlockedMoveSpeed;
-                }
+                UnlockedMovement();
             }
             else
             {
                 targetPos = target.transform.position;
             }
-            targetPos.x = Mathf.Clamp(targetPos.x, blueSideLimit.x, redSideLimit.x);
-            targetPos.z = Mathf.Clamp(targetPos.z, blueSideLimit.z, redSideLimit.z);
-            distanceFactor = Mathf.Lerp(distanceFactor, targetDistanceFactor, 0.1f);
-            transform.position = targetPos + offset * distanceFactor;
 
-            ScreenToGroundPoint(Vector3.zero, out var result);
-            lr.SetPosition(0, result + Vector3.up * 25);
+            FollowTargetPos();
 
-            ScreenToGroundPoint(new Vector3(Screen.width, 0, 0), out result);
-            lr.SetPosition(1, result + Vector3.up * 25);
-
-            ScreenToGroundPoint(new Vector3(Screen.width, Screen.height, 0), out result);
-            lr.SetPosition(2, result + Vector3.up * 25);
-
-            ScreenToGroundPoint(new Vector3(0, Screen.height, 0), out result);
-            lr.SetPosition(3, result + Vector3.up * 25);
+            VisualizeOnMinimap();
         }
 
         private void ProcessInput()
@@ -143,22 +126,77 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Moves camera if cursor is close to screen edges
+        /// </summary>
+        private void UnlockedMovement()
+        {
+            var mouseVPPos = cam.ScreenToViewportPoint(Input.mousePosition);
+            if (mouseVPPos.x > 1 - screenEdgeDistanceToMove)
+            {
+                targetPos += Vector3.right * unlockedMoveSpeed;
+            }
+            else if (mouseVPPos.x < screenEdgeDistanceToMove)
+            {
+                targetPos += -Vector3.right * unlockedMoveSpeed;
+            }
+
+            if (mouseVPPos.y > 1 - screenEdgeDistanceToMove)
+            {
+                targetPos += Vector3.forward * unlockedMoveSpeed;
+            }
+            else if (mouseVPPos.y < screenEdgeDistanceToMove)
+            {
+                targetPos += -Vector3.forward * unlockedMoveSpeed;
+            }
+        }
+
+        /// <summary>
+        /// Shows screen corners raycasted onto ground plane in the lineRenderer
+        /// </summary>
+        private void VisualizeOnMinimap()
+        {
+            ScreenToGroundPoint(Vector3.zero, out var result);
+            lr.SetPosition(0, result + Vector3.up * 25);
+
+            ScreenToGroundPoint(new Vector3(Screen.width, 0, 0), out result);
+            lr.SetPosition(1, result + Vector3.up * 25);
+
+            ScreenToGroundPoint(new Vector3(Screen.width, Screen.height, 0), out result);
+            lr.SetPosition(2, result + Vector3.up * 25);
+
+            ScreenToGroundPoint(new Vector3(0, Screen.height, 0), out result);
+            lr.SetPosition(3, result + Vector3.up * 25);
+        }
+
+        /// <summary>
+        /// Moves to targetPos, lerps to targeted zoom value
+        /// </summary>
+        private void FollowTargetPos()
+        {
+            targetPos.x = Mathf.Clamp(targetPos.x, blueSideLimit.x, redSideLimit.x);
+            targetPos.z = Mathf.Clamp(targetPos.z, blueSideLimit.z, redSideLimit.z);
+
+            distanceFactor = Mathf.Lerp(distanceFactor, CurrentZoom, 0.1f);
+            transform.position = targetPos + offset * distanceFactor;
+        }
+
         private void ToggleLocked()
         {
             if (!controllable) return;
-            unlocked = !unlocked;
+            Unlocked = !Unlocked;
         }
 
         public void Lock()
         {
             if (!controllable) return;
-            unlocked = false;
+            Unlocked = false;
         }
 
         public void Unlock()
         {
             if (!controllable) return;
-            unlocked = true;
+            Unlocked = true;
         }
 
         public void DisableControls()
@@ -171,20 +209,34 @@ namespace MOBA
             controllable = true;
         }
 
+        /// <summary>
+        /// Zooms in up to a maximum by the given value (zooms out if it is negative)
+        /// </summary>
+        /// <param name="amount">Zoom amount</param>
         public void AddZoom(float amount)
         {
             if (!controllable) return;
-            targetDistanceFactor += amount;
-            if (targetDistanceFactor > minZoom) targetDistanceFactor = minZoom;
-            else if (targetDistanceFactor < maxZoom) targetDistanceFactor = maxZoom;
+            CurrentZoom += amount;
+            if (CurrentZoom > minZoom) CurrentZoom = minZoom;
+            else if (CurrentZoom < maxZoom) CurrentZoom = maxZoom;
         }
 
+        /// <summary>
+        /// Sets target zoom to given value, ignoring limits
+        /// </summary>
+        /// <param name="amount">New zoom</param>
         public void SetZoom(float amount)
         {
             if (!controllable) return;
-            targetDistanceFactor = amount;
+            CurrentZoom = amount;
         }
 
+        /// <summary>
+        /// Raycasts a point on screen onto the ground plane
+        /// </summary>
+        /// <param name="screenPoint">Screen point (usually mouse position)</param>
+        /// <param name="result">Resulting point on ground plane</param>
+        /// <returns>Should never return false as the ground plane is infinite</returns>
         private bool ScreenToGroundPoint(Vector3 screenPoint, out Vector3 result)
         {
             Ray ray = cam.ScreenPointToRay(screenPoint);
@@ -197,6 +249,11 @@ namespace MOBA
             return false;
         }
 
+        /// <summary>
+        /// Raycasts mouse position onto ground plane
+        /// </summary>
+        /// <param name="result">Resulting position on ground plane</param>
+        /// <returns></returns>
         public bool GetCursorToGroundPoint(out Vector3 result)
         {
             return ScreenToGroundPoint(Input.mousePosition, out result);

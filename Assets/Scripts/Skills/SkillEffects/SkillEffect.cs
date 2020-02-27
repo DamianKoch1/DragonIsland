@@ -21,8 +21,10 @@ namespace MOBA
         self = 6
     }
 
+    //TODO set animator parameters from each effect
+
     /// <summary>
-    /// Each effect has to implement their own networking and subEffect triggering, this gameObject has a PhotonView for RPCs.
+    /// Base class for skill effects, each effect has to implement their own networking, subEffect triggering and ranking up.
     /// </summary>
     [RequireComponent(typeof(PhotonView))]
     public abstract class SkillEffect : MonoBehaviour
@@ -37,6 +39,11 @@ namespace MOBA
 
         protected Vector3 castTargetPos;
         protected Vector3 castTargetDir;
+
+        [SerializeField, Tooltip("Effect won't activate if source skill is below this rank")]
+        private int minRank = 0;
+
+        public int MinRank => minRank;
 
         [HideInInspector]
         public UnitStats ownerStatsAtActivation;
@@ -61,6 +68,11 @@ namespace MOBA
         [SerializeField, Tooltip("Doesn't work on instant effects, attach sub effects (and a PhotonView) to child gameobjects, NOT the one with the 'Skill' component! Usually trigger when this effect finished (end of Dash etc)")]
         private List<SkillEffect> subEffects = new List<SkillEffect>();
 
+        /// <summary>
+        /// Activates subEffects on target / targetPos (effects decide what to use)
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <param name="_target"></param>
         protected void ActivateSubEffects(Vector3 targetPos, Unit _target)
         {
             if (_target)
@@ -76,6 +88,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Activates subEffects on targetPos
+        /// </summary>
+        /// <param name="targetPos"></param>
         protected void ActivateSubEffects(Vector3 targetPos)
         {
             foreach (var subEffect in subEffects)
@@ -84,6 +100,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Activates subffects on single unit
+        /// </summary>
+        /// <param name="_target"></param>
         protected void ActivateSubEffects(Unit _target)
         {
             foreach (var subEffect in subEffects)
@@ -92,6 +112,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Activats subEffects on multiple units
+        /// </summary>
+        /// <param name="targets"></param>
         protected void ActivateSubEffects(UnitList<Unit> targets)
         {
             foreach (var subEffect in subEffects)
@@ -100,6 +124,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Saves stats at activation (in case e.g. minions can ever cast skills and get destroyed while a projectile flies, also prevents suddenly buying lots of damage)
+        /// </summary>
+        /// <param name="stats">Stats to save</param>
         public void SetStatsAtActivation(UnitStats stats)
         {
             ownerStatsAtActivation = new UnitStats(stats);
@@ -109,6 +137,11 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Saves owner and sets rank, initializes all subEffects
+        /// </summary>
+        /// <param name="_owner"></param>
+        /// <param name="_rank"></param>
         public virtual void Initialize(Unit _owner, int _rank)
         {
             owner = _owner;
@@ -121,6 +154,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Increases rank / scaling, (usually needs child implementation)
+        /// </summary>
         public virtual void LevelUp()
         {
             rank++;
@@ -132,6 +168,11 @@ namespace MOBA
             scaling = _scaling;
         }
 
+        /// <summary>
+        /// Activate on targetPos or on _target, depending on preferApplyToPosition
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <param name="_target"></param>
         public void Activate(Vector3 targetPos, Unit _target)
         {
             if (preferApplyToPosition)
@@ -141,6 +182,10 @@ namespace MOBA
             else Activate(_target);
         }
 
+        /// <summary>
+        /// Activate on position
+        /// </summary>
+        /// <param name="targetPos"></param>
         public virtual void Activate(Vector3 targetPos)
         {
             target = null;
@@ -149,29 +194,50 @@ namespace MOBA
             castTargetDir.Normalize();
         }
 
+        /// <summary>
+        /// Activate on single target
+        /// </summary>
+        /// <param name="_target"></param>
         public virtual void Activate(Unit _target)
         {
             target = _target;
         }
 
+        /// <summary>
+        /// Activate on multiple targets
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="targets"></param>
         public abstract void Activate<T>(UnitList<T> targets) where T : Unit;
 
         public abstract void Tick();
 
-
+        /// <summary>
+        /// Called when toggle skill is toggled off / channel skill ends
+        /// </summary>
         public void Deactivate()
         {
             OnDeactivated();
         }
 
+        /// <summary>
+        /// Called when toggle skill is toggled off / channel skill ends
+        /// </summary>
         protected abstract void OnDeactivated();
 
-        protected void ValidateTargetPos(Vector3 _targetPos, out Vector3 validated)
+        /// <summary>
+        /// Tries to find closest position to _targetPos using owner NavMovement
+        /// </summary>
+        /// <param name="_targetPos"></param>
+        /// <param name="validated"></param>
+        /// <returns>Returns false if no NavMovement on owner</returns>
+        protected bool ValidateTargetPos(Vector3 _targetPos, out Vector3 validated)
         {
             validated = _targetPos;
             var navMovement = owner.GetComponent<NavMovement>();
-            if (!navMovement) return;
+            if (!navMovement) return false;
             validated = navMovement.ClosestNavigablePos(_targetPos);
+            return true;
         }
     }
 }

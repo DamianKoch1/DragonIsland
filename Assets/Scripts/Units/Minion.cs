@@ -7,7 +7,10 @@ using UnityEngine.AI;
 
 namespace MOBA
 {
-    //TODO consider only syncing targetpos or lowering sendrate (massive traffic due to minion count)
+    //TODO consider only syncing targetpos or lowering sendrate (massive traffic due to minion / player count)
+    /// <summary>
+    /// Units spawned by bases, run down the lane they spawned in until death
+    /// </summary>
     public class Minion : Unit
     {
         private Vector3 targetPosition;
@@ -36,6 +39,10 @@ namespace MOBA
             get => targetLane;
         }
 
+        /// <summary>
+        /// If other is enemy unit, adds it to respective list of enemy champs / units in range
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -54,6 +61,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If other is enemy unit, removes it from respective list of enemy champs / units in range
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerExit(Collider other)
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -76,6 +87,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Adds given champ to enemyChampsInRange
+        /// </summary>
+        /// <param name="enemy"></param>
         private void OnEnemyChampEnteredRange(Champ enemy)
         {
             if (!enemyChampsInRange.Contains(enemy))
@@ -84,6 +99,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Removes given champ from enemyChampsInRange
+        /// </summary>
+        /// <param name="enemy"></param>
         private void OnEnemyChampExitedRange(Champ enemy)
         {
             if (enemyChampsInRange.Contains(enemy))
@@ -92,6 +111,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Adds given unit to enemyUnitsInRange
+        /// </summary>
+        /// <param name="enemy"></param>
         private void OnEnemyUnitEnteredRange(Unit enemy)
         {
             if (!enemyUnitsInRange.Contains(enemy))
@@ -100,6 +123,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Removes given unit from enemyUnitsInRange
+        /// </summary>
+        /// <param name="enemy"></param>
         private void OnEnemyUnitExitedRange(Unit enemy)
         {
             if (enemyUnitsInRange.Contains(enemy))
@@ -108,6 +135,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Move to the next / previous waypoint depending on own teamID
+        /// </summary>
+        /// <param name="waypoint"></param>
         public void OnReachedWaypoint(LaneWaypoint waypoint)
         {
             switch (TeamID)
@@ -123,6 +154,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// If master client, do moving / attacking logic
+        /// </summary>
         protected override void Update()
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -145,7 +179,10 @@ namespace MOBA
             }
         }
 
-        //TODO: shared code with tower, move to ai targeting component
+        //TODO shared code with tower, move to ai targeting component
+        /// <summary>
+        /// Attacks the closest enemy unit in range, considers non-champs first, stops attacking if no targets
+        /// </summary>
         protected void CheckForNewTarget()
         {
             if (enemyUnitsInRange.Count() > 0)
@@ -198,6 +235,10 @@ namespace MOBA
             statBarsInstance.GetComponent<UnitStatBars>()?.Initialize(this, 0.5f, 0.3f);
         }
 
+        /// <summary>
+        /// If attacked by an enemy, attacks it back if not already attacking
+        /// </summary>
+        /// <param name="attacker">attacking unit</param>
         protected void OnAttacked(Unit attacker)
         {
             if (!attacker) return;
@@ -207,12 +248,15 @@ namespace MOBA
             attacking.StartAttacking(attacker);
         }
 
+        /// <summary>
+        /// If killed by champ, increase its minion kills
+        /// </summary>
+        /// <param name="killer"></param>
         protected override void Die(Unit killer)
         {
             if (killer is Champ)
             {
-                var champ = (Champ)killer;
-                PhotonView.Get(champ).RPC(nameof(champ.OnKillMinion), RpcTarget.All);
+                ((Champ)killer).OnKillMinion();
             }
             base.Die(killer);
         }

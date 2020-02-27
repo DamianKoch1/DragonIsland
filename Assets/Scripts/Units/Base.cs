@@ -1,12 +1,16 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MOBA
 {
 
     //TODO end game on destroy
+    /// <summary>
+    /// Responsible for spawning waves, has spawnpoint for allied champs
+    /// </summary>
     public class Base : Structure
     {
         [Space]
@@ -55,21 +59,9 @@ namespace MOBA
             {
                 if (!instanceBlue)
                 {
-                    foreach (var teamBase in FindObjectsOfType<Base>())
-                    {
-                        switch (teamBase.TeamID)
-                        {
-                            case TeamID.blue:
-                                instanceBlue = teamBase;
-                                break;
-                            case TeamID.red:
-                                instanceRed = teamBase;
-                                break;
-                            default:
-                                Debug.LogWarning("Warning: " + teamBase.name + " had TeamID other than blue/red.");
-                                break;
-                        }
-                    }
+                    var bases = FindObjectsOfType<Base>().ToList();
+                    InstanceBlue = bases.Find(b => b.teamID == TeamID.blue);
+                    InstanceRed = bases.Find(b => b.teamID == TeamID.red);
                 }
                 return instanceBlue;
             }
@@ -85,31 +77,28 @@ namespace MOBA
             {
                 if (!instanceRed)
                 {
-                    foreach (var teamBase in FindObjectsOfType<Base>())
-                    {
-                        switch (teamBase.TeamID)
-                        {
-                            case TeamID.blue:
-                                instanceBlue = teamBase;
-                                break;
-                            case TeamID.red:
-                                instanceRed = teamBase;
-                                break;
-                            default:
-                                Debug.LogWarning("Warning: " + teamBase.name + " had TeamID other than blue/red.");
-                                break;
-                        }
-                    }
+                    var bases = FindObjectsOfType<Base>().ToList();
+                    InstanceBlue = bases.Find(b => b.teamID == TeamID.blue);
+                    InstanceRed = bases.Find(b => b.teamID == TeamID.red);
                 }
                 return instanceRed;
             }
         }
 
+        //TODO WIP
+        /// <summary>
+        /// Returns to lobby
+        /// </summary>
         protected override void OnDeath()
         {
             PhotonNetwork.LoadLevel("Lobby");
         }
 
+        /// <summary>
+        /// Gets the allied base for given unit
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <returns>Returns units allied base, null if unit is neither red nor blue</returns>
         public static Base GetAllied(Unit unit)
         {
             if (unit.IsAlly(InstanceBlue))
@@ -123,6 +112,9 @@ namespace MOBA
             return null;
         }
 
+        /// <summary>
+        /// Initializes wave spawning if master client
+        /// </summary>
         public override void Initialize()
         {
             base.Initialize();
@@ -153,7 +145,9 @@ namespace MOBA
         }
 
       
-
+        /// <summary>
+        /// If master client, network instantiates minion wave in each lane
+        /// </summary>
         private void SpawnWaves()
         {
             if (!PhotonNetwork.IsMasterClient) return;

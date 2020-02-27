@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace MOBA
 {
+    //TODO fix chaseAndAttack always moving to target and not attacking if in range
+
+    /// <summary>
+    /// Base class for attacking behaviour
+    /// </summary>
     [DisallowMultipleComponent]
     public abstract class Attacking : MonoBehaviour
     {
@@ -16,7 +21,7 @@ namespace MOBA
         }
 
         /// <summary>
-        /// The view id of the unit the current attack will hit, doesnt change with target after attack anim started
+        /// The view id of the unit the current attack will hit, doesn't change with target after attack anim started
         /// </summary>
         protected int currTargetViewID;
 
@@ -35,7 +40,7 @@ namespace MOBA
         protected float timeSinceAttack;
 
 
-        //TODO to be used for autoattackMove, automatically attacks entering units
+        //TODO not yet implemented, to be used for autoattackMove, automatically attacks entering units
         [SerializeField]
         private SphereCollider atkTrigger;
 
@@ -51,9 +56,13 @@ namespace MOBA
         [SerializeField]
         protected Scalings attackScaling = new Scalings() { ad = 1 };
 
-        [SerializeField]
+        [SerializeField, Tooltip("Count of different attack animations, animator triggers are 'Atk' if 1, else 'Atk1', 'Atk2' etc")]
         private int atkAnimCount = 1;
 
+        /// <summary>
+        /// If target is valid and owner can attack either attack it or chase it until in attackRange
+        /// </summary>
+        /// <param name="_target">Target unit to attack</param>
         public void StartAttacking(Unit _target)
         {
             if (target == _target) return;
@@ -77,6 +86,10 @@ namespace MOBA
             chaseAndAttack = StartCoroutine(ChaseAndAttack());
         }
 
+        /// <summary>
+        /// (Buggy right now) Attacks current target while in attack range or chases it until in attack range, stops if owner can't attack or owner / target die
+        /// </summary>
+        /// <returns></returns>
         protected IEnumerator ChaseAndAttack()
         {
             while (true)
@@ -116,7 +129,6 @@ namespace MOBA
                 if (timeSinceAttack >= 1 / owner.Stats.AtkSpeed)
                 {
                     photonView.RPC(nameof(Attack), RpcTarget.All, target.GetViewID());
-                    owner.CanMove = false;
                     timeSinceAttack = 0;
                 }
                 yield return null;
@@ -124,6 +136,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Stops attacking
+        /// </summary>
         public void Stop()
         {
             if (chaseAndAttack != null)
@@ -136,6 +151,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Sets (random) animator trigger for every client
+        /// </summary>
+        /// <param name="targetViewID">View id of target unit</param>
         [PunRPC]
         protected void Attack(int targetViewID)
         {
@@ -151,13 +170,19 @@ namespace MOBA
             }
             else
             {
-                owner.Animator.SetTrigger("Atk" + Random.Range(1, atkAnimCount+1));
+                owner.Animator.SetTrigger("Atk" + Random.Range(1, atkAnimCount + 1));
             }
         }
 
+        /// <summary>
+        /// Called directly by attack if no animator, otherwise by an event in attack animations
+        /// </summary>
         public abstract void OnAtkAnimNotify();
 
-
+        /// <summary>
+        /// Initializes variables depending on owner
+        /// </summary>
+        /// <param name="_owner">Unit owning this component</param>
         public virtual void Initialize(Unit _owner)
         {
             owner = _owner;

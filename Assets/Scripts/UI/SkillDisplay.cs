@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to display range / name / rank up button / rank / cost / cooldown / toggle state of a skill
+    /// </summary>
     public class SkillDisplay : MonoBehaviour
     {
         [SerializeField]
@@ -32,6 +35,10 @@ namespace MOBA
 
         Animation animations;
 
+        /// <summary>
+        /// Saves given skill, initializes visuals with skill values, subscribes skill events
+        /// </summary>
+        /// <param name="skill"></param>
         public void Initialize(Skill skill)
         {
             sourceSkill = skill;
@@ -60,6 +67,9 @@ namespace MOBA
             skill.OnRemainingCDChanged += OnRemainingCDUpdated;
         }
 
+        /// <summary>
+        /// Updates cost / rank texts
+        /// </summary>
         private void RefreshTexts()
         {
             if (costText.text != sourceSkill.Cost + "")
@@ -72,6 +82,10 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Shows / hides skill point button depending if source skill can still be leveled
+        /// </summary>
+        /// <param name="newAmount"></param>
         public void OnSkillPointsChanged(int newAmount)
         {
             if (sourceSkill.CanBeLeveled(newAmount))
@@ -84,6 +98,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Shows skill point button if not shown already
+        /// </summary>
         private void ShowSkillPointButton()
         {
             if (skillPointButton.interactable) return;
@@ -91,6 +108,9 @@ namespace MOBA
             animations.Play("SkillPointAppear");
         }
 
+        /// <summary>
+        /// Hides skill point button if not hiding already
+        /// </summary>
         private void HideSkillPointButton()
         {
             if (!skillPointButton.interactable) return;
@@ -101,7 +121,9 @@ namespace MOBA
             }
         }
 
-
+        /// <summary>
+        /// Decrement owner skill points, hide button if skill can't be leveled anymore, update texts
+        /// </summary>
         public void OnSkillPointButtonClicked()
         {
             var owner = (Champ)sourceSkill.Owner;
@@ -117,6 +139,10 @@ namespace MOBA
             RefreshTexts();
         }
 
+        /// <summary>
+        /// Saves given toggle skill, initializes visuals with skill values, subscribes toggle skill events
+        /// </summary>
+        /// <param name="skill"></param>
         private void Initialize(SkillToggleable skill)
         {
             sourceSkill = skill;
@@ -135,6 +161,9 @@ namespace MOBA
             };
         }
 
+        /// <summary>
+        /// Enables cooldown timer
+        /// </summary>
         private void OnSkillCast()
         {
             if (!cdBar.gameObject.activeSelf)
@@ -145,18 +174,29 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Toggles icon color, shows cost per sec instead
+        /// </summary>
         private void OnSkillToggledOn()
         {
             icon.color = Color.magenta;
             costText.text = ((SkillToggleable)sourceSkill).CostPerSec + "";
         }
 
+        /// <summary>
+        /// resets icon color, shows toggle cost again
+        /// </summary>
         private void OnSkillToggledOff()
         {
             icon.color = Color.white;
             costText.text = sourceSkill.Cost + "";
         }
 
+        /// <summary>
+        /// Updates cooldown bar
+        /// </summary>
+        /// <param name="remainingTime"></param>
+        /// <param name="fullCooldown">initial full cooldown value</param>
         private void OnRemainingCDUpdated(float remainingTime, float fullCooldown)
         {
             if (!cdBar.gameObject.activeSelf)
@@ -168,6 +208,9 @@ namespace MOBA
             cdText.text = remainingTime.Truncate(0) + "";
         }
 
+        /// <summary>
+        /// Hide cooldown timer, enable button
+        /// </summary>
         private void OnSkillCDFinished()
         {
             if (!cdBar.gameObject.activeSelf) return;
@@ -176,11 +219,17 @@ namespace MOBA
             button.interactable = true;
         }
 
+        /// <summary>
+        /// Shows range indicator displaying cast range
+        /// </summary>
         public void OnMouseEnter()
         {
             sourceSkill.OnMouseEnter();
         }
 
+        /// <summary>
+        /// Hides range indicator
+        /// </summary>
         public void OnMouseExit()
         {
             sourceSkill.OnMouseExit();

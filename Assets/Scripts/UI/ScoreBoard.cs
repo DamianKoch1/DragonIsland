@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
+    /// <summary>
+    /// Used to display team / champ stats like KDA
+    /// </summary>
     public class ScoreBoard : MonoBehaviour
     {
         [SerializeField]
@@ -54,7 +57,9 @@ namespace MOBA
             }
         }
 
-
+        /// <summary>
+        /// Toggle on / off if tab pressed / released
+        /// </summary>
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Tab))
@@ -68,25 +73,57 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Recalculates all stats and updates respective texts
+        /// </summary>
         public void Refresh()
         {
-            var blueData = GameState.Instance.blueTeamData;
-            var redData = GameState.Instance.redTeamData;
-            blueKillsText.text = blueData.kills + "";
-            redKillsText.text = redData.kills + "";
+            var blueKills = 0;
+            var redKills = 0;
 
-            blueKDAText.text = blueData.kills + " / " + blueData.deaths + " / " + blueData.assists;
-            blueKDAText.text = blueData.kills + " / " + blueData.deaths + " / " + blueData.assists;
+            var blueDeaths = 0;
+            var redDeaths = 0;
 
-            blueTowersKilledText.text = "Towers: " + blueData.towersKilled;
-            redTowersKilledText.text = "Towers: " + redData.towersKilled;
+            var blueAssists = 0;
+            var redAssists = 0;
+
+            var blueTowersKilled = 0;
+            var redTowersKilled = 0;
 
             foreach (var display in champDisplays)
             {
                 display.Refresh();
+                var target = display.Target;
+                if (target.TeamID == TeamID.blue)
+                {
+                    blueKills += target.Kills;
+                    blueDeaths += target.Deaths;
+                    blueAssists += target.Assists;
+                    blueTowersKilled += target.TowersKilled;
+                }
+                else
+                {
+                    redKills += target.Kills;
+                    redDeaths += target.Deaths;
+                    redAssists += target.Assists;
+                    redTowersKilled += target.TowersKilled;
+                }
             }
+
+            blueKillsText.text = blueKills + "";
+            redKillsText.text = redKills + "";
+
+            blueKDAText.text = blueKills + " / " + blueDeaths + " / " + blueAssists;
+            redKDAText.text = redKills + " / " + redDeaths + " / " + redAssists;
+
+            blueTowersKilledText.text = "Towers: " + blueTowersKilled;
+            redTowersKilledText.text = "Towers: " + redTowersKilled;
         }
 
+        /// <summary>
+        /// Spawns a scoreboard display for given champ
+        /// </summary>
+        /// <param name="target"></param>
         public void AddDisplay(Champ target)
         {
             if (target.isDummy) return;

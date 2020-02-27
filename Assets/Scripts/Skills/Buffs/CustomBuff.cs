@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MOBA
 {
+    //TODO WIP
     public abstract class CustomBuff : Buff
     {
         public void Initialize(BuffProperties _properties, UnitStats ownerStats, List<string> customArgs)

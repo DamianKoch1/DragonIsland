@@ -49,7 +49,7 @@ namespace MOBA
         public Unit instigator;
     }
 
-    //TODO add stackable, implement networking
+    //TODO WIP, implement networking, stackable buffs
     public abstract class Buff : MonoBehaviour
     {
         [SerializeField]
@@ -81,6 +81,9 @@ namespace MOBA
             ownerStatsAtApply = ownerStats;
         }
 
+        /// <summary>
+        /// Called when this buff is added to a unit
+        /// </summary>
         protected abstract void OnActivated();
 
         protected virtual void Update()
@@ -101,6 +104,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Resets timeActive
+        /// </summary>
         public void Refresh()
         {
             TimeActive = 0;

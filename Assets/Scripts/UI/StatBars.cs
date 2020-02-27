@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 namespace MOBA
 {
-    public class StatBars<T> : MonoBehaviour where T : Unit
+    /// <summary>
+    /// Base class for hp / resource bars, create child classes for unit types
+    /// </summary>
+    /// <typeparam name="T">type of target unit</typeparam>
+    public abstract class StatBars<T> : MonoBehaviour where T : Unit
     {
 
         protected T target;
@@ -34,6 +38,11 @@ namespace MOBA
         [SerializeField]
         private AnimationCurve HPShadowAnimCurve;
 
+        /// <summary>
+        /// Updates hp bar, shows an afterburner if animateDamage is enabled
+        /// </summary>
+        /// <param name="newAmount"></param>
+        /// <param name="max"></param>
         public void SetHP(float newAmount, float max)
         {
             float newFillAmount = newAmount / max;
@@ -47,6 +56,10 @@ namespace MOBA
             HPBar.fillAmount = newFillAmount;
         }
 
+        /// <summary>
+        /// If hp got reduced, play an afterburn animation from pre-damage to current hp
+        /// </summary>
+        /// <param name="newHPFillAmount">new fill amount of hp bar</param>
         private void UpdateHPShadow(float newHPFillAmount)
         {
             if (newHPFillAmount >= HPBar.fillAmount) return;
@@ -62,12 +75,22 @@ namespace MOBA
             HPShadowAnim = StartCoroutine(ShowHPShadow(newHPFillAmount));
         }
 
+        /// <summary>
+        /// Updates resource bar
+        /// </summary>
+        /// <param name="newAmount"></param>
+        /// <param name="max"></param>
         public void SetResource(float newAmount, float max)
         {
             if (ResourceBar.fillAmount == newAmount / max) return;
             ResourceBar.fillAmount = newAmount / max;
         }
 
+        /// <summary>
+        /// Updates hp shadow bar from current to target fill amount using HPShadowAnimCurve over 0.5s
+        /// </summary>
+        /// <param name="to">target fill amount</param>
+        /// <returns></returns>
         private IEnumerator ShowHPShadow(float to)
         {
             float from = HPShadowBar.fillAmount;
@@ -81,6 +104,13 @@ namespace MOBA
             HPShadowBar.fillAmount = HPBar.fillAmount;
         }
 
+        /// <summary>
+        /// Initialize for target, initializes WorldPosHUD component if present using offset, sets scale / animation mode
+        /// </summary>
+        /// <param name="_target"></param>
+        /// <param name="_yOffset"></param>
+        /// <param name="scale"></param>
+        /// <param name="_animateDamage"></param>
         public void Initialize(T _target, float _yOffset = 0, float scale = 1, bool _animateDamage = false)
         {
             animateDamage = _animateDamage;
@@ -92,7 +122,10 @@ namespace MOBA
         }
 
 
-
+        /// <summary>
+        /// Saves target, sets bar values
+        /// </summary>
+        /// <param name="_target"></param>
         public virtual void Initialize(T _target)
         {
             target = _target;
@@ -114,6 +147,9 @@ namespace MOBA
             }
         }
 
+        /// <summary>
+        /// Update stats if necessary, toggle on / off depending on target being dead / untargetable
+        /// </summary>
         private void Update()
         {
             if (!target) Destroy(gameObject);
@@ -146,6 +182,10 @@ namespace MOBA
 
         }
 
+        /// <summary>
+        /// If object to toggle is assigned, toggles it
+        /// </summary>
+        /// <param name="show">show (true) or hide (false)?</param>
         protected void Toggle(bool show)
         {
             if (!HUD) return;
