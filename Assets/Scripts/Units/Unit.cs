@@ -176,7 +176,7 @@ namespace MOBA
         [SerializeField, Range(0, 2)]
         private float outlineWidth = 0.1f;
 
-        [SerializeField, Tooltip("Parameters: Speed (float, 0-1), Triggers: Death, Win, Atk (if only one atk animation, else: Atk1, Atk2, ...)")]
+        [SerializeField, Tooltip("Parameters: Speed (float, 0-1), Triggers: Death, Respawn, Win, Atk (if only one atk animation, else: Atk1, Atk2, ...)")]
         private Animator animator;
 
         public Animator Animator => animator;

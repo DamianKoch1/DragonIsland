@@ -11,6 +11,9 @@ namespace MOBA
     /// </summary>
     public class SkillToggleable : Skill
     {
+        [SerializeField, Tooltip("Is true while this toggle / channel is on")]
+        private string animatorBool;
+
         [Space]
         [SerializeField]
         protected bool isToggledOn;
@@ -61,6 +64,23 @@ namespace MOBA
             }
             castTimeCoroutine = StartCoroutine(StartCastTime());
             OnCast?.Invoke();
+            if (!string.IsNullOrEmpty(animatorTrigger))
+            {
+                owner.Animator?.SetTrigger(animatorTrigger);
+            }
+            if (!string.IsNullOrEmpty(animatorBool))
+            {
+                owner.Animator?.SetBool(animatorBool, true);
+            }
+            if (lookAtTarget)
+            {
+                var lookAtPos = mousePosAtCast;
+                if (target)
+                {
+                    lookAtPos = target.transform.position;
+                }
+                owner.transform.LookAt(new Vector3(lookAtPos.x, owner.transform.position.y, lookAtPos.z));
+            }
         }
 
         /// <summary>
@@ -77,6 +97,10 @@ namespace MOBA
             if (!beginCDOnActivation)
             {
                 StartCoroutine(StartCooldown());
+            }
+            if (!string.IsNullOrEmpty(animatorBool))
+            {
+                owner.Animator?.SetBool(animatorBool, false);
             }
         }
 

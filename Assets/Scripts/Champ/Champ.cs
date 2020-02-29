@@ -94,6 +94,8 @@ namespace MOBA
 
         public Action<int> OnSkillPointsChanged;
 
+        PhotonTransformView transformView;
+
 
         [Space]
         [SerializeField, Tooltip("Shows remaining respawn time on a bar and text")]
@@ -112,6 +114,7 @@ namespace MOBA
 
             agent = GetComponent<NavMeshAgent>();
             lr = GetComponentInChildren<LineRenderer>();
+            transformView = GetComponent<PhotonTransformView>();
 
             stats.OnLevelUp += (_) => RefreshScoreBoard();
 
@@ -293,6 +296,7 @@ namespace MOBA
             }
             else mesh.SetActive(false);
             attacking?.Stop();
+
             if (photonView.IsMine)
             {
                 StartCoroutine(Respawn());
@@ -309,6 +313,7 @@ namespace MOBA
         [PunRPC]
         public void OnRespawnRPC()
         {
+            transformView.SetNetworkPosition(spawnpoint);
             transform.position = spawnpoint;
             if (Animator)
             {
@@ -355,9 +360,10 @@ namespace MOBA
                 Destroy(respawnHUD.gameObject);
             }
 
-            movement.EnableCollision();
 
             photonView.RPC(nameof(OnRespawnRPC), RpcTarget.All);
+
+            movement.EnableCollision();
         }
 
         public Action OnRespawn;

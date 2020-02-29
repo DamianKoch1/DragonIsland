@@ -21,7 +21,6 @@ namespace MOBA
         self = 6
     }
 
-    //TODO set animator parameters from each effect
 
     /// <summary>
     /// Base class for skill effects, each effect has to implement their own networking, subEffect triggering and ranking up.
@@ -67,6 +66,9 @@ namespace MOBA
 
         [SerializeField, Tooltip("Doesn't work on instant effects, attach sub effects (and a PhotonView) to child gameobjects, NOT the one with the 'Skill' component! Usually trigger when this effect finished (end of Dash etc)")]
         private List<SkillEffect> subEffects = new List<SkillEffect>();
+
+        [SerializeField, Tooltip("Is set when this effect activates, for immediate animations use the field in Skill instead")]
+        protected string animatorTrigger;
 
         /// <summary>
         /// Activates subEffects on target / targetPos (effects decide what to use)
@@ -188,6 +190,10 @@ namespace MOBA
         /// <param name="targetPos"></param>
         public virtual void Activate(Vector3 targetPos)
         {
+            if (!string.IsNullOrEmpty(animatorTrigger))
+            {
+                owner.Animator?.SetTrigger(animatorTrigger);
+            }
             target = null;
             castTargetPos = targetPos;
             castTargetDir = targetPos - owner.GetGroundPos();
@@ -200,6 +206,10 @@ namespace MOBA
         /// <param name="_target"></param>
         public virtual void Activate(Unit _target)
         {
+            if (!string.IsNullOrEmpty(animatorTrigger))
+            {
+                owner.Animator?.SetTrigger(animatorTrigger);
+            }
             target = _target;
         }
 

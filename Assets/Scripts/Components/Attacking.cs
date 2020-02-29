@@ -128,8 +128,8 @@ namespace MOBA
                 else owner.CanMove = false;
                 if (timeSinceAttack >= 1 / owner.Stats.AtkSpeed)
                 {
-                    photonView.RPC(nameof(Attack), RpcTarget.All, target.GetViewID());
                     timeSinceAttack = 0;
+                    photonView.RPC(nameof(Attack), RpcTarget.All, target.GetViewID());
                 }
                 yield return null;
                 continue;

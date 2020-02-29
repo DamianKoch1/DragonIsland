@@ -64,6 +64,8 @@ MonoBehaviour:
   canCastOnStructures: 0
   isUltimate: 0
   maxRank: 5
+  lookAtTarget: 1
+  animatorTrigger: W
 --- !u!114 &757495912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +132,7 @@ MonoBehaviour:
   preferApplyToPosition: 0
   targetingMode: 6
   subEffects: []
+  animatorTrigger: 
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
   delay: 0
@@ -234,6 +237,7 @@ MonoBehaviour:
   subEffects:
   - {fileID: 1802966341689145208}
   - {fileID: 961867777992193716}
+  animatorTrigger: 
   duration: 1
   durationPerRank: -0.05
   minRange: 8
@@ -405,6 +409,7 @@ MonoBehaviour:
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
+  animatorTrigger: 
   areaOfEffectPrefab: {fileID: 7524877173278967059, guid: 0927c0883d7a3e247a04c1d763311928,
     type: 3}
   delay: 0
@@ -503,6 +508,8 @@ MonoBehaviour:
   canCastOnStructures: 0
   isUltimate: 0
   maxRank: 5
+  lookAtTarget: 1
+  animatorTrigger: E
 --- !u!114 &3594137419949795960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,6 +598,7 @@ MonoBehaviour:
   preferApplyToPosition: 1
   targetingMode: 0
   subEffects: []
+  animatorTrigger: 
   canTick: 0
 --- !u!114 &4788653946560217616
 MonoBehaviour:
@@ -658,6 +666,7 @@ MonoBehaviour:
   preferApplyToPosition: 0
   targetingMode: 3
   subEffects: []
+  animatorTrigger: 
   projectileProperties:
     isHoming: 1
     speed: 20
@@ -739,6 +748,9 @@ MonoBehaviour:
   canCastOnStructures: 0
   isUltimate: 1
   maxRank: 3
+  lookAtTarget: 1
+  animatorTrigger: 
+  animatorBool: R
   isToggledOn: 0
   costPerSec: 20
   costPerSecPerRank: 2
@@ -839,6 +851,7 @@ MonoBehaviour:
   preferApplyToPosition: 0
   targetingMode: 6
   subEffects: []
+  animatorTrigger: 
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 13c9916349ea7db46839ddb787a92182,
     type: 3}
   delay: 0.5
@@ -951,6 +964,7 @@ MonoBehaviour:
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
+  animatorTrigger: W end
   areaOfEffectPrefab: {fileID: 5602069456792203290, guid: 69297a7a74d56be4b84c5d400d674398,
     type: 3}
   delay: 0
@@ -1093,6 +1107,8 @@ MonoBehaviour:
   canCastOnStructures: 0
   isUltimate: 0
   maxRank: 5
+  lookAtTarget: 1
+  animatorTrigger: Q
 --- !u!114 &839568809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,6 +1175,7 @@ MonoBehaviour:
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
+  animatorTrigger: 
   alwaysBuffOwner: 1
   onlyBuffOwner: 0
   properties:
@@ -1285,6 +1302,7 @@ MonoBehaviour:
   preferApplyToPosition: 0
   targetingMode: 0
   subEffects: []
+  animatorTrigger: 
   projectileProperties:
     isHoming: 0
     speed: 15
@@ -2344,11 +2362,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
-        type: 3}
-      propertyPath: m_Name
-      value: TestChamp
-      objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688259, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2403,6 +2416,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557736172510688257, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
+        type: 3}
+      propertyPath: m_Name
+      value: TestChamp
       objectReference: {fileID: 0}
     - target: {fileID: 1557736172510688256, guid: e69ce5f605b2e194fbb5e38fa2b49f7e,
         type: 3}

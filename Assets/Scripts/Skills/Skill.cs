@@ -115,6 +115,14 @@ namespace MOBA
 
         public bool IsUltimate => isUltimate;
 
+        [SerializeField, Tooltip("Turn to target unit / position on cast?")]
+        protected bool lookAtTarget = true;
+
+
+        [SerializeField, Tooltip("Is set before starting cast time")]
+        protected string animatorTrigger;
+
+
         public int Rank
         {
             protected set;
@@ -406,6 +414,19 @@ namespace MOBA
             }
             castTimeCoroutine = StartCoroutine(StartCastTime());
             OnCast?.Invoke();
+            if (!string.IsNullOrEmpty(animatorTrigger))
+            {
+                owner.Animator?.SetTrigger(animatorTrigger);
+            }
+            if (lookAtTarget)
+            {
+                var lookAtPos = mousePosAtCast;
+                if (target)
+                {
+                    lookAtPos = target.transform.position;
+                }
+                owner.transform.LookAt(new Vector3(lookAtPos.x, owner.transform.position.y, lookAtPos.z));
+            }
         }
 
         /// <summary>
