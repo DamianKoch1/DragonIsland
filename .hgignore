@@ -1,8 +1,0 @@
-syntax: glob
-.vs
-*.csproj
-Library
-Logs
-*.cache
-Temp
-obj/Debug
