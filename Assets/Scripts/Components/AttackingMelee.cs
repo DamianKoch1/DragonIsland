@@ -16,6 +16,7 @@ namespace MOBA
         /// </summary>
         public override void OnAtkAnimNotify()
         {
+            base.OnAtkAnimNotify();
             var target = currTargetViewID.GetUnitByID();
             if (!target) return;
             if (target.IsDead) return;

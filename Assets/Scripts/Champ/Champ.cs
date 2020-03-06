@@ -438,6 +438,11 @@ namespace MOBA
             return stats.Lvl * 50;
         }
 
+        public override float GetXPNeededForLevel(int level)
+        {
+            return (level - 1) * 25;
+        }
+
         public override int GetGoldReward()
         {
             return 350;

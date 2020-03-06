@@ -322,7 +322,7 @@ namespace MOBA
                 OnDeath();
                 return;
             };
-            var xpEligibleChamps = this.GetUnitsInRange<Champ>(xpRewardRange).FindAllies(this);
+            var xpEligibleChamps = this.GetUnitsInRange<Champ>(xpRewardRange).FindEnemies(this);
             if (killer is Champ)
             {
                 var champ = (Champ)killer;
@@ -534,17 +534,14 @@ namespace MOBA
         public Action OnMovementCommand;
 
         /// <summary>
-        /// Moves to destination if possible, stops attacking if neccessary
+        /// Moves to destination if possible
         /// </summary>
         /// <param name="destination"></param>
         public void MoveTo(Vector3 destination)
         {
             if (!CanMove) return;
             if (!movement) return;
-            if (IsAttacking())
-            {
-                StopAttacking();
-            }
+           
             movement.MoveTo(destination);
         }
 

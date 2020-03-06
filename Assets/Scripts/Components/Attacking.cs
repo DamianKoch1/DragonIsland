@@ -39,6 +39,8 @@ namespace MOBA
 
         protected float timeSinceAttack;
 
+        protected bool inAtkAnim;
+
 
         //TODO not yet implemented, to be used for autoattackMove, automatically attacks entering units
         [SerializeField]
@@ -83,11 +85,12 @@ namespace MOBA
             }
             target = _target;
             owner.CanMove = false;
+
             chaseAndAttack = StartCoroutine(ChaseAndAttack());
         }
 
         /// <summary>
-        /// (Buggy right now) Attacks current target while in attack range or chases it until in attack range, stops if owner can't attack or owner / target die
+        /// Attacks current target while in attack range or chases it until in attack range, stops if owner can't attack or owner / target die
         /// </summary>
         /// <returns></returns>
         protected IEnumerator ChaseAndAttack()
@@ -118,18 +121,27 @@ namespace MOBA
                     yield return null;
                     continue;
                 }
-                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > owner.Stats.AtkRange + target.Radius)
+                if (Vector3.Distance(owner.GetGroundPos(), target.GetGroundPos()) > (owner.Stats.AtkRange + target.Radius))
                 {
                     owner.CanMove = true;
                     owner.MoveTo(target.GetGroundPos());
                     yield return null;
                     continue;
                 }
-                else owner.CanMove = false;
+                else
+                {
+                    owner.CanMove = false;
+                }
                 if (timeSinceAttack >= 1 / owner.Stats.AtkSpeed)
                 {
-                    timeSinceAttack = 0;
-                    photonView.RPC(nameof(Attack), RpcTarget.All, target.GetViewID());
+                    if (!inAtkAnim)
+                    {
+                        if (owner.Animator)
+                        {
+                            inAtkAnim = true;
+                        }
+                        photonView.RPC(nameof(Attack), RpcTarget.All, target.GetViewID());
+                    }
                 }
                 yield return null;
                 continue;
@@ -158,12 +170,14 @@ namespace MOBA
         [PunRPC]
         protected void Attack(int targetViewID)
         {
+            timeSinceAttack = 0;
             currTargetViewID = targetViewID;
             if (!owner.Animator)
             {
                 OnAtkAnimNotify();
                 return;
             }
+            owner.Animator.SetFloat("Speed", 0);
             if (atkAnimCount == 1)
             {
                 owner.Animator.SetTrigger("Atk");
@@ -177,7 +191,10 @@ namespace MOBA
         /// <summary>
         /// Called directly by attack if no animator, otherwise by an event in attack animations
         /// </summary>
-        public abstract void OnAtkAnimNotify();
+        public virtual void OnAtkAnimNotify()
+        {
+            inAtkAnim = false;
+        }
 
         /// <summary>
         /// Initializes variables depending on owner
@@ -190,6 +207,17 @@ namespace MOBA
             timeSinceAttack = 1 / owner.Stats.AtkSpeed;
             animator = GetComponent<Animator>();
             owner.OnMovementCommand += Stop;
+            if (owner is Champ)
+            {
+                owner.Animator.SetFloat("AtkSpeed", owner.Stats.AtkSpeed);
+            }
+            owner.Stats.OnAtkSpeedChanged += (_) =>
+            {
+                if (owner is Champ)
+                {
+                    owner.Animator.SetFloat("AtkSpeed", owner.Stats.AtkSpeed);
+                }
+            };
         }
 
         private void Update()
