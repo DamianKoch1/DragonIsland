@@ -4780,89 +4780,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!65 &1417779675105668112
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5602069456792203296}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 10, z: 7}
-  m_Center: {x: 0, y: 0, z: 3.5}
---- !u!114 &3227088713030829977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5602069456792203296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8fcc9598f925364ab58c89486daabf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minRank: 0
-  ownerStatsAtActivation:
-    maxLvl: 0
-    Lvl: 0
-    baseHP: 0
-    HPPerLvl: 0
-    baseHPReg: 0
-    HPRegPerLvl: 0
-    baseResource: 0
-    resourcePerLvl: 0
-    baseResourceReg: 0
-    resourceRegPerLvl: 0
-    baseArmor: 0
-    armorPerLvl: 0
-    baseMagicRes: 0
-    magicResPerLvl: 0
-    baseAtkDmg: 0
-    atkDmgPerLvl: 0
-    baseAtkSpeed: 0
-    atkSpeedPerLvl: 0
-    lifesteal: 0
-    flatArmorPen: 0
-    percentArmorPen: 0
-    atkRange: 0
-    flatMagicPen: 0
-    percentMagicPen: 0
-    moveSpeed: 0
-  scaling:
-    ad: 0
-    md: 0
-    level: 0
-    armor: 0
-    magicRes: 0
-    maxHP: 0
-    currentHP: 0
-    missingHP: 0
-    targetMaxHP: 0
-    targetCurrentHP: 0
-    targetMissingHP: 0
-  scalingPerRank:
-    ad: 0
-    md: 0
-    level: 0
-    armor: 0
-    magicRes: 0
-    maxHP: 0
-    currentHP: 0
-    missingHP: 0
-    targetMaxHP: 0
-    targetCurrentHP: 0
-    targetMissingHP: 0
-  preferApplyToPosition: 0
-  targetingMode: 0
-  subEffects: []
-  animatorTrigger: 
-  baseDamage: 10
-  baseDamagePerRank: 0
-  dmgType: 1
 --- !u!1 &2917272639313651076
 GameObject:
   m_ObjectHideFlags: 0
@@ -9643,6 +9560,89 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!65 &1417779675105668112
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602069456792203296}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 10, z: 7}
+  m_Center: {x: 0, y: 0, z: 3.5}
+--- !u!114 &3227088713030829977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602069456792203296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fcc9598f925364ab58c89486daabf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRank: 0
+  ownerStatsAtActivation:
+    maxLvl: 0
+    Lvl: 0
+    baseHP: 0
+    HPPerLvl: 0
+    baseHPReg: 0
+    HPRegPerLvl: 0
+    baseResource: 0
+    resourcePerLvl: 0
+    baseResourceReg: 0
+    resourceRegPerLvl: 0
+    baseArmor: 0
+    armorPerLvl: 0
+    baseMagicRes: 0
+    magicResPerLvl: 0
+    baseAtkDmg: 0
+    atkDmgPerLvl: 0
+    baseAtkSpeed: 0
+    atkSpeedPerLvl: 0
+    lifesteal: 0
+    flatArmorPen: 0
+    percentArmorPen: 0
+    atkRange: 0
+    flatMagicPen: 0
+    percentMagicPen: 0
+    moveSpeed: 0
+  scaling:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  scalingPerRank:
+    ad: 0
+    md: 0
+    level: 0
+    armor: 0
+    magicRes: 0
+    maxHP: 0
+    currentHP: 0
+    missingHP: 0
+    targetMaxHP: 0
+    targetCurrentHP: 0
+    targetMissingHP: 0
+  preferApplyToPosition: 0
+  targetingMode: 0
+  subEffects: []
+  animatorTrigger: 
+  baseDamage: 10
+  baseDamagePerRank: 0
+  dmgType: 1
 --- !u!1001 &1578102245036220012
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9650,15 +9650,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6365846715258072652, guid: 988684e2e1182c04da5a004eecb4a26b,
-        type: 3}
-      propertyPath: m_Name
-      value: DamageRay
-      objectReference: {fileID: 0}
     - target: {fileID: 6365846715258072694, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: overrideScalings
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365846715258072694, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: overrideChildScalings
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6365846715258072652, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: m_Name
+      value: DamageRay
       objectReference: {fileID: 0}
     - target: {fileID: 6365846715258072648, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
@@ -9730,6 +9735,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6365846715258072649, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 6365846715258072650, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -9740,16 +9750,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6324676934062003554, guid: 988684e2e1182c04da5a004eecb4a26b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6365846715258072649, guid: 988684e2e1182c04da5a004eecb4a26b,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 6365846715258072651, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
       propertyPath: m_Enabled
@@ -9794,6 +9794,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 6324676934062003554, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
+        type: 3}
+      propertyPath: m_MaxParticleSize
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2556759025924463489, guid: 988684e2e1182c04da5a004eecb4a26b,
         type: 3}
@@ -10119,26 +10144,6 @@ PrefabInstance:
         type: 3}
       propertyPath: TrailModule.dieWithParticles
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 1785656095019269604, guid: 988684e2e1182c04da5a004eecb4a26b,
-        type: 3}
-      propertyPath: m_MaxParticleSize
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 988684e2e1182c04da5a004eecb4a26b, type: 3}

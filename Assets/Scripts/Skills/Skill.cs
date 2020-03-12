@@ -634,7 +634,7 @@ namespace MOBA
             }
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             if (castRange < 0) return;
             Gizmos.color = Color.white;
