@@ -189,14 +189,7 @@ namespace MOBA
             if (Rank >= maxRank) return false;
             else if (IsUltimate)
             {
-                if ((Owner.Stats.Lvl - 1) / 5 > Rank)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return (Owner.Stats.Lvl - 1) / 5 > Rank;
             }
             return true;
         }
