@@ -81,7 +81,8 @@ namespace MOBA
         [PunRPC]
         public void SpawnSkillshotRPC(Vector3 targetPos, int viewID)
         {
-            var projectile = projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, null);
+            var projectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+            projectile.InitializeSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, null);
             projectile.gameObject.AddComponent<PhotonView>().ViewID = viewID;
             projectile.waitForDestroyRPC = true;
         }
@@ -94,7 +95,8 @@ namespace MOBA
         [PunRPC]
         public void SpawnHomingRPC(int targetViewID, int viewID)
         {
-            var projectile = projectilePrefab.Spawn(owner, targetViewID.GetUnitByID(), projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, null);
+            var projectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+            projectile.Initialize(owner, targetViewID.GetUnitByID(), projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, null);
             projectile.gameObject.AddComponent<PhotonView>().ViewID = viewID;
             projectile.waitForDestroyRPC = true;
         }
@@ -106,7 +108,8 @@ namespace MOBA
         public override void Activate(Vector3 targetPos)
         {
             base.Activate(targetPos);
-            var projectile = projectilePrefab.SpawnSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+            var projectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+            projectile.InitializeSkillshot(owner, targetPos, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
             var view = projectile.gameObject.AddComponent<PhotonView>();
             PhotonNetwork.AllocateViewID(view);
 
@@ -120,7 +123,8 @@ namespace MOBA
         public override void Activate(Unit target)
         {
             base.Activate(target);
-            var projectile = projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
+            var projectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+            projectile.Initialize(owner, target, projectileSpawnpoint.position, projectileProperties, scaling, ownerTeamID, ownerStatsAtActivation);
             var view = projectile.gameObject.AddComponent<PhotonView>();
             PhotonNetwork.AllocateViewID(view);
 

@@ -39,7 +39,8 @@ namespace MOBA
             var target = currTargetViewID.GetUnitByID();
             if (!target) return;
             if (target.IsDead) return;
-            projectilePrefab.Spawn(owner, target, projectileSpawnpoint.position, projectileProperties, attackScaling, owner.TeamID, new UnitStats(owner.Stats));
+            var projectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+            projectile.Initialize(owner, target, projectileSpawnpoint.position, projectileProperties, attackScaling, owner.TeamID, new UnitStats(owner.Stats));
         }
     }
 }

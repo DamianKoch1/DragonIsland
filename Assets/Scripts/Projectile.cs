@@ -261,7 +261,7 @@ namespace MOBA
         /// <param name="_scaling">scaling to use for damage / skill effects</param>
         /// <param name="teamID">TeamID of owner</param>
         /// <param name="ownerStats">stats to use for damage / skill effects</param>
-        public void Initialize(Unit _owner, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
+        private void Initialize(Unit _owner, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
             properties = _properties;
             if (properties.lifespan > 0)
@@ -297,34 +297,20 @@ namespace MOBA
         }
 
         /// <summary>
-        /// Spawns a stillstanding but initialized projectile.
-        /// </summary>
-        /// <param name="position">position to spawn at</param>
-        /// <param name="_properties"></param>
-        /// <returns></returns>
-        private Projectile Spawn(Unit _owner, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
-        {
-            Projectile instance = Instantiate(gameObject, position, Quaternion.identity).GetComponent<Projectile>();
-            instance.Initialize(_owner, _properties, _scaling, teamID, ownerStats);
-            return instance;
-        }
-
-        /// <summary>
         /// Spawns a projectile flying after a unit or to its position at spawn time with given properties, _properties determine whether it is homing.
         /// </summary>
         /// <param name="_owner">unit that spawned this projectile</param>
         /// <param name="_target">target unit to fly to</param>
         /// <param name="position">position to spawn at</param>
         /// <param name="_properties"></param>
-        /// <returns></returns>
-        public Projectile Spawn(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
+        public void Initialize(Unit _owner, Unit _target, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
-            Projectile instance = Spawn(_owner, position, _properties, _scaling, teamID, ownerStats);
-            instance.target = _target;
-            instance.targetPos = _owner.transform.position;
-            instance.targetDir = (_target.transform.position - position).normalized;
-            instance.targetDir.y = 0;
-            return instance;
+            Initialize(_owner, _properties, _scaling, teamID, ownerStats);
+            target = _target;
+            targetPos = _owner.transform.position;
+            transform.position = position;
+            targetDir = (_target.transform.position - position).normalized;
+            targetDir.y = 0;
         }
 
         /// <summary>
@@ -334,19 +320,18 @@ namespace MOBA
         /// <param name="_targetPos">position to fly to</param>
         /// <param name="position">position to spawn at</param>
         /// <param name="_properties"></param>
-        /// <returns></returns>
-        public Projectile SpawnSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, Scalings _scalings, TeamID teamID, UnitStats ownerStats)
+        public void InitializeSkillshot(Unit _owner, Vector3 _targetPos, Vector3 position, ProjectileProperties _properties, Scalings _scaling, TeamID teamID, UnitStats ownerStats)
         {
-            Projectile instance = Spawn(_owner, position, _properties, _scalings, teamID, ownerStats);
-            instance.targetPos = _targetPos;
-            instance.targetDir = (_targetPos - position).normalized;
-            instance.targetDir.y = 0;
+            Initialize(_owner, _properties, _scaling, teamID, ownerStats);
+            targetPos = _targetPos;
+            transform.position = position;
+            targetDir = (_targetPos - position).normalized;
+            targetDir.y = 0;
             if (_properties.isHoming)
             {
-                instance.properties.isHoming = false;
+                properties.isHoming = false;
                 Debug.LogWarning(owner.name + " tried to spawn a homing projectile given only a target position instead of a target unit!");
             }
-            return instance;
         }
 
         /// <summary>
