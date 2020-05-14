@@ -1,4 +1,4 @@
-# DragonIsland
+# Dragon Island
 Modular MOBA-prototype made alone in about 5 weeks, uses Photon for multiplayer
 
 ![thumbnail](/Images/thumbnail.png)
