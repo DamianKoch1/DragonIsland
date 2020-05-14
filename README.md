@@ -1,5 +1,5 @@
 # DragonIsland
-Modular MOBA-prototype made alone in about 5 weeks, my first try at a multiplayer game
+Modular MOBA-prototype made alone in about 5 weeks, uses Photon for multiplayer
 
 ![thumbnail](/Images/thumbnail.png)
 
